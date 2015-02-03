@@ -1,0 +1,49 @@
+<div id="content">
+    <div class="blank" style="height:30px;"></div>
+    <div id="bantuan">
+        <table>
+            <tr>
+                <td>
+                    <div id="event-detail">
+                        <div id="bf-header">
+                            <div id="bf-header-wrap">
+                                PAGE NOTIFICATION PAYMENT
+                            </div>
+                        </div>
+                        <div id="bf-content">
+                            <div class="blank" style="height: 20px;"></div>
+                            <div class="bfc-wrap">
+                                <div class="bfc-title">
+							<p class="bold center"><?php //echo var_dump();?></p>
+							<?php // Use sandbox account
+								Veritrans_Config::$isProduction = false;
+								
+								// Set our server key
+								Veritrans_Config::$serverKey = 'VT-server-a-AunKPJMwirR3Woa9ndxVCK';
+								
+								// Fill transaction data
+								$transaction = array(
+									"vtweb" => array (
+									"credit_card_3d_secure" => true,
+									),
+									'transaction_details' => array(
+									'order_id' => rand(),
+									'gross_amount' => 10000,
+									)
+								);
+									
+								$vtweb_url = Veritrans_Vtweb::getRedirectionUrl($transaction);
+								
+								// Redirect 
+								header('Location: ' . $vtweb_url);
+							?>
+						  </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="blank" style="height:30px;"></div>
+</div>

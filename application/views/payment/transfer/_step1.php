@@ -1,0 +1,535 @@
+<?php
+$this->load->view('general/header-bootstrap');
+$wait = $this->input->cookie('wait', TRUE);
+if(empty($wait)) $wait = '[]';
+$wait = json_decode($wait);
+?>
+<link href="<?php echo base_url();?>/assets/css/payment-transfer.css" type="text/css" rel="stylesheet" />
+<div id="curtain"></div>
+<script type="application/javascript">
+	var cart = $.cookie('cart');
+	var wait = $.cookie('wait');
+	if(!wait) wait = [];
+</script>
+<div class="main-content">
+	<div class="row graybar bottom-30">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="class-step bold">
+				<p><span>1</span> <i>Galeri Kelas</i></p>
+				<p><span>2</span> <i>Kelas Pilihan</i></p>
+				<p><span>3</span> <em class="pinkfont"><i>Pembayaran</i></em></p>
+			</div>
+		</div>
+	</div>
+	<div class="row bg-all">
+		<div class="col-md-8 col-md-offset-2">
+			<form role="form" method="post" action="<?php echo base_url('payment/transfer/step2');?>">
+				<div class="row">
+					<div class="col-md-7">
+						<h2 class="text-18 bold pinkfont">Review Data Pemesanan</h2>
+						<div class="bg-section padding-content shadow">
+							<p class="text-16 bold">Data <span class="pinkfont">Pemesan</span></p>
+<?php 
+	if(empty($student)): 
+?>
+							<div class="row">
+								<!--<div class="col-md-3">
+									<button class="btn-blue" id="btn_signin">Sign In</button>
+								</div>-->
+							</div>
+<?php 
+	endif; 
+?>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Nama Lengkap Pemesan*</label>
+										<input type="text" name="pemesan_name" class="form-control" placeholder="Nama sesuai dengan kartu identitas" value="<?php echo !empty($student)?$student->murid_nama:'';?>" <?php echo !empty($student)?'readonly="readonly"':'';?> />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Email*</label>
+										<input type="email" name="pemesan_email" class="form-control" placeholder="Contoh: nama@email.com" value="<?php echo !empty($student)?$student->murid_email:'';?>" <?php echo !empty($student)?'readonly="readonly"':'';?> />
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Nomor Telepon/HP*</label>
+										<input type="tel" name="pemesan_phone" class="form-control" placeholder="Contoh: 08123457890" value="<?php echo !empty($student)?$student->murid_hp:'';?>" <?php echo !empty($student)?'readonly="readonly"':'';?> />
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Alamat lengkap*</label>
+								<textarea rows="5" class="form-control" name="pemesan_address" <?php echo !empty($student)?'readonly="readonly"':'';?> placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini."><?php echo !empty($student)?$student->murid_alamat:'';?> </textarea>
+							</div>
+							<br/>
+							<p class="text-16 bold">Data <span class="pinkfont">Murid</span></p>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="radio">
+										<label>
+											<input type="radio" name="whostudent" value="me" <?php echo $whostudent=='me'?'checked="checked"':'';?> />
+											Saya sendiri yang akan hadir menjadi murid di kelas ini
+										</label>
+									</div>
+									<div class="radio">
+										<label>
+											<input type="radio" name="whostudent" value="other" <?php echo $whostudent!='me'?'checked="checked"':'';?> />
+											Saya mendaftarkan untuk orang lain
+										</label>
+									</div>
+								</div>
+							</div>
+							<div id="student_other" style="display:none;">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Nama Lengkap Siswa*</label>
+											<input type="text" name="peserta_name" class="form-control" placeholder="Nama sesuai dengan kartu identitas" />
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Email</label>
+											<input type="email" name="peserta_email" class="form-control" placeholder="Contoh: nama@email.com" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Nomor Telepon/HP</label>
+											<input type="tel" name="peserta_phone" class="form-control" placeholder="Contoh: 08123457890" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--<div class="row">
+								<div class="col-md-12">
+									<input type="checkbox" name="check">&nbsp;Data pemesan, murid dan rincian pemesanan sudah sesuai.<br/>Saya menyepakati <a href="#" class="blue underline">persyaratan dan ketentuan</a> yang berlaku
+								</div>
+							</div>-->
+						</div>
+						<div class="row">
+							<div class="col-md-12 top-30 bottom-30">
+								<input type="hidden" name="frm_c" value="fex">
+								<button type="submit" class="btn-orange">Submit Pesanan</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5" id="right_belly">
+						<h2 class="text-18 bold pinkfont">Rincian Pemesanan</h2>
+						<div class="bg-section padding-content shadow top-30">
+							<p class="text-16 bold">Jadwal kelas yang ingin diikuti</p>
+<?php 
+	$total_price = 0;
+	foreach($in_cart as $cart_list):
+		$logo = base_url('images/class/'.$cart_list['class']->id.'/'.$cart_list['class']->class_image);
+?>
+							<div class="followed-class">
+								<div class="row">
+									<div class="col-md-4">
+										<img class="img-responsive" src="<?php echo $logo; ?>" />
+									</div>
+									<div class="col-md-8">
+										<h5 class="pinkfont bold"><?php echo $cart_list['class']->class_nama?></h5>
+									</div>
+								</div>
+								<hr/>
+								<div>
+									<table class="white-table">
+										<thead>
+										<tr>
+											<th>No</th>
+											<th>Sesi</th>
+											<th>Harga</th>
+										</tr>
+										</thead>
+										<tbody>
+<?php
+		$i = 0;
+		$subprice = 0;
+		$diskon = TRUE;
+		foreach($cart_list['schedule'] as $sched):
+			$i++;
+			$date = date('j M y', strtotime($sched->class_tanggal));
+			$start = $sched->class_jam_mulai.':'.$sched->class_menit_mulai;
+			$end = $sched->class_jam_selesai.':'.$sched->class_menit_selesai;
+			$followed = FALSE;
+//			$sched->available_seat = 0;
+			if(in_array($sched->jadwal_id, $cart_list['followed']) && $sched->available_seat > 0) {
+				$subprice += (int)$cart_list['class']->price_per_session;
+				$followed = TRUE;
+			} else {
+				$diskon = FALSE;
+			}
+			$text = $sched->class_jadwal_topik?'':('<span style="'.$followed?'':'text-decoration: line-through;'.'">'.$sched->class_jadwal_topik.'</span>');
+			$text .= $sched->available_seat == 0?'<span class="label label-warning">Fullbook</span>':'';
+			$text .= (!empty($text)?'<br />':'');
+?>
+										<tr>
+											<td><?php echo $i;?></td>
+											<td>
+												<?php echo $text;?>
+												<span class="bluefont" style="<?php echo $followed?'':'text-decoration: line-through;'?>"><?php echo "{$date}, {$start}-{$end}";?> WIB</span>
+											</td>
+											<td>
+												<div style="float: left;<?php echo $followed?'':'text-decoration: line-through;'?>">
+													Rp <?php echo number_format((int)$cart_list['class']->price_per_session, 0, ',',',')?>,-&nbsp;&nbsp;&nbsp;
+												</div>
+<?php 
+		if($followed):
+?>
+												<i class="fa fa-times-circle fa-lg rmv_schd" title="Remove from schedule" data-id="<?php echo $sched->class_id.'|'.$sched->jadwal_id; ?>"></i>
+<?php 
+		else:
+			if($sched->available_seat == 0):
+				if(in_array($sched->jadwal_id, $wait)):
+?>
+												<i class="fa fa-exclamation-circle fa-lg rmv_wait" title="Remove from waiting list" data-id="<?php echo $sched->class_id.'|'.$sched->jadwal_id; ?>"></i>
+<?php 
+				else:
+?>
+												<i class="fa fa-question-circle fa-lg  add_wait" title="Add to waiting list" data-id="<?php echo $sched->class_id.'|'.$sched->jadwal_id; ?>"></i>
+<?php 
+				endif;
+			else:
+?>
+												<i class="fa fa-check-circle fa-lg add_schd" title="Add to schedule" data-id="<?php echo $sched->class_id.'|'.$sched->jadwal_id; ?>"></i>
+<?php 
+			endif;
+		endif;
+?>
+											</td>
+										</tr>
+<?php
+		endforeach;
+?>
+										</tbody>
+										<tfoot>
+										<tfoot>
+										<tr>
+										<td></td>
+										<td class="pinkfont">Sub total harga</td>
+										<td>
+<?php 
+		if($diskon):
+?>
+											<span style="text-decoration: line-through">Rp <?php echo number_format($subprice, 0, ',','.')?>,-</span><br />
+<?php 
+			$subprice -= (int) $cart_list['class']->discount;
+		endif;
+?>
+											<h5 class="pinkfont"><strong>Rp <?php echo number_format($subprice, 0, ',','.')?>,-</strong></h5>
+											
+										</td>
+										</tr>
+<?php
+		$total_potongan = 0;
+		if( ! empty($potongan_diskon_persen[$cart_list['class']->id]) || ! empty($potongan_diskon_nominal[$cart_list['class']->id])):
+?>
+										<tr>
+											<td></td>
+											<td>Discount:</td>
+											<td></td>
+										</tr>
+<?php
+			if( ! empty($potongan_diskon_persen[$cart_list['class']->id])) :
+				$percent_discount = $potongan_diskon_persen[$cart_list['class']->id];
+//				$total_potongan = 0;
+				foreach($percent_discount as $percent):
+					$price_percent = $subprice * ($percent['value']/100);
+?>
+										<tr style="border: 0;">
+											<td style="border: 0;"></td>
+											<td style="border: 0;"><strong><?php echo $percent['code']?></strong> (<span><?php echo $percent['value']; ?>%</span>)</td>
+											<td style="border: 0;">
+												<h5 ><strong>Rp <?php echo number_format($price_percent, 0, ',','.')?>,-</strong></h5>
+											</td>
+										</tr>
+<?php 
+					$total_potongan += $price_percent;
+				endforeach;
+			endif; 
+			if( ! empty($potongan_diskon_nominal[$cart_list['class']->id])) :
+				$nominal_discount = $potongan_diskon_nominal[$cart_list['class']->id];
+				foreach($nominal_discount as $nominal ):
+?>
+										<tr style="border: 0;">
+											<td style="border: 0;"></td>
+											<td style="border: 0;"><strong><?php echo $nominal['code']?></strong> </td>
+											<td style="border: 0;">
+												<h5 ><strong>Rp <?php echo number_format($nominal['value'], 0, ',','.')?>,-</strong></h5>
+											</td>
+										</tr>
+<?php 
+					$total_potongan += $nominal['value'];
+				endforeach;
+			endif; 
+?>
+										<tr style="border: 0;">
+											<td style="border: 0;"></td>
+											<td style="border: 0;"><h5><strong>Total Potongan</strong></h5></td>
+											<td style="border: 0;">
+												<h5 class="pinkfont"><strong>Rp <?php echo number_format($total_potongan, 0, ',','.')?>,-</strong></h5>
+											</td>
+										</tr>
+<?php
+//		$subprice -=$total_potongan;
+?>
+
+<?php
+		endif; 
+?>
+										</tfoot>
+									</table>
+								</div>
+							</div>
+							<div class="white-segment">
+								<div>
+									<h5 class="pull-left">Subtotal Harga</h5>
+									<h5 class="pull-right pinkfont">
+										<strong>
+											Rp <?php echo number_format($subprice -= $total_potongan, 0, ',','.')?>,-
+										</strong>
+									</h5>
+								</div>
+							</div>
+<?php 
+		$total_price += $subprice;
+	endforeach;
+	
+?>
+							<div style="clear: both;height: 15px"></div>
+							<div class="form-group" style="padding: 15px;">
+								<label style="padding-left: 0;padding-right: 0; padding-top: 7px;" class="col-md-3 control-label">Kode Diskon</label>
+								<div style="padding-right: 0" class="col-md-6">
+									<input type="text" id="kode_diskon" class="form-control" placeholder="(jika ada)" value="" />
+								</div>
+								<div class="col-md-3">
+									<button class="btn-orange" id="cek_diskon" type="button">Cek!</button>
+								</div>
+							</div>
+							<div style="clear: both;height: 20px;"></div>
+							<div class="blue-segment">
+								<h5 class="pull-left">Total yang harus dibayar</h5>
+								<h5 class="pull-right">Rp <?php echo number_format($total_price, 0, ',','.')?>,-</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="margin-bottom: 20px;">
+					<div class="col-md-6 col-md-offset-3" style="text-align: center;">
+						<p style="font-weight: bold;">Pastikan data siswa dan rincian pemesanan sudah sesuai</p>
+						<input type="hidden" name="frm_c" value="fex">
+						<button type="submit" class="btn-orange" style="color: #333">Submit Pesanan</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="application/javascript">
+	$('input[type=radio][name=whostudent]').click(function(e){
+		if($(this).val() == 'other') {
+			$('#student_other').show();
+		} else {
+			$('#student_other').hide();
+		}
+	});
+	$('#btn_signin').click(function(e){
+		e.preventDefault();
+		$('#curtain').show().css({
+			'width'				: window.screen.width+200+'px',
+			'height'			: window.screen.height+200+'px',
+			'background'		: 'rgba(70,70,70,0.4)',
+			'top'				: ($('#curtain').position().top * -1)+'px',
+			'position'			: 'fixed',
+			'z-index'			: 10000000
+		});
+		
+		var $sgn_in = $('<div class="sign_form"></div>');
+		var elmDimension = {
+			width		: 500,
+			height		: 250
+		};
+		$sgn_in.css({
+			left				: Math.floor(window.screen.width/2)-(Math.floor(elmDimension.width/2))+'px',
+			top					: Math.floor(window.screen.height/2)-(Math.floor(elmDimension.height/2))+'px',
+			width				: elmDimension.width+'px',
+			height				: elmDimension.height+'px',
+			'position'			: 'absolute',
+			'backgroundColor'	: '#eee',
+			'color'				: '#333',
+			'text-align'		: 'left',
+			'border-radius'		: '10px'
+		});
+		console.log($sgn_in.css('left'));
+		console.log($sgn_in.css('top'));
+		$sgn_in.append($('#sign_in_fly').html());
+		console.log($sgn_in.html());
+		$('#curtain').append($sgn_in);
+		
+		return false;
+	});
+	$('#cek_diskon').click(function(e){
+		e.preventDefault();
+		
+		$.get(base_url+'payment/transfer/cek_diskon',{
+					'kode_diskon'	: $('#kode_diskon').val()
+				},
+				function(result) {
+					if(result.status == 'OK') {
+						alert(result.data.message);
+						window.location.reload();
+					} else if(result.status == 'NOK') {
+						alert(result.data.message);
+					}
+				},
+				'json'
+		).error(function(jqxhr){
+			console.log(jqxhr);
+		});
+		
+		var kode_diskon = $.cookie('kode_diskon');
+		var key_exists = false;
+		Object.keys(kode_diskon).reduce(
+				function(kode, nextKey) {
+					if(kode == $('#kode_diskon').val()) {
+						key_exists = true;
+					}
+					return nextKey;
+				}
+			);
+		if(!key_exists) {
+			
+		}
+
+		$.cookie('kode_diskon', $('#kode_diskon').val(), {'path':'/'});
+		window.location.reload();
+		return false;
+	});
+	$('.add_schd').click(function(e){
+		e.preventDefault();
+		var $id = $(this).data('id').split('|');
+		$id[0] = parseInt($id[0]);
+		$id[1] = parseInt($id[1]);
+		var newCart = [];
+		cart.forEach(function(d){
+			var newCartElm = {
+				id		: d.id,
+				jadwal	: []
+			};
+			var added = false;
+			d.jadwal.forEach(function(j){
+				if(d.id == $id[0] && j > $id[1] && ! added) {
+					newCartElm.jadwal.push($id[1]);
+					added = true;
+				}
+				newCartElm.jadwal.push(j);
+			});
+			if(d.id == $id[0] && ! added) {
+				newCartElm.jadwal.push($id[1]);
+			}
+			newCart.push(newCartElm);
+		});
+		$.cookie('cart', newCart, {'path': '/'});
+		window.location.reload();
+		return false;
+	});
+	$('.rmv_schd').click(function(e){
+		e.preventDefault();
+		var $id = $(this).data('id').split('|');
+		var newCart = [];
+		cart.forEach(function(d){
+			var newCartElm = {
+				id		: d.id,
+				jadwal	: []
+			};
+			console.log('CART:',d);
+			if(d.id != $id[0]) {
+				newCartElm = d;
+			} else {
+				d.jadwal.forEach(function(j){
+					if(j != $id[1]){
+						newCartElm.jadwal.push(j);
+					}
+				});
+			}
+			newCart.push(newCartElm);
+		});
+		console.log(newCart);
+		$.cookie('cart', newCart, {'path': '/'});
+		window.location.reload();
+		return false;
+	});
+	$('.add_wait').click(function(e) {
+		e.preventDefault();
+		var $id = $(this).data('id').split('|');
+		$id[1] = parseInt($id[1]);
+		var newWait = [];
+		var added = false;
+		wait.forEach(function(d) {
+			if(d == $id[1])
+				added = true;
+			newWait.push(d);
+		});
+		if(!added) newWait.push($id[1]);
+		$.cookie('wait', newWait, {path: '/'});
+		window.location.reload();
+		return false;
+	});
+	$('.rmv_wait').click(function(e) {
+		e.preventDefault();
+		var $id = $(this).data('id').split('|');
+		$id[1] = parseInt($id[1]);
+		var newWait = [];
+		var added = false;
+		wait.forEach(function(d) {
+			if(d != $id[1])
+				newWait.push(d);
+		});
+		$.cookie('wait', newWait, {path: '/'});
+		window.location.reload();
+		return false;
+	});
+</script>
+<script type="text/template" id="sign_in_fly">
+	<form action="<?php echo base_url();?>payment/user/login" method="post">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="pull-right">
+					<label>Email</label>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<input type="email" name="email"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="pull-right">
+					<label>Password</label>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<input type="password" name="password"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<button class="btn-orange" type="submit">Submit</button>
+			</div>
+		</div>
+	</form>
+</script>
+<?php
+$this->load->view('vendor/general/footer');

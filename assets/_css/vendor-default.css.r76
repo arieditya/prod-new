@@ -1,0 +1,344 @@
+/*
+	Created by: Arieditya Pr.dH
+	Date: Oct 07, 2014
+	Project: private-development
+*/
+
+/* NAVBAR /
+.navbar-inverse {
+	background-color: #222;
+	border-color: #080808;
+}
+.navbar-fixed-top {
+	top: 0;
+	z-index: 1000000;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-o-border-radius: 0;
+	position: fixed;
+	right: 0;
+	left: 0;
+	border-width: 0 0 1px;
+}
+
+.navbar {
+	border-radius: 4px;
+	position: relative;
+	z-index: 900000;
+	min-height: 50px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+}
+
+/* ADDED FONT FORM RELIC CSS */
+@font-face { 
+	font-family: Ubuntu; 
+	src: url('../fonts/Ubuntu-R.ttf'); 
+}
+/* HEADER */
+body {
+	font-family: Ubuntu !important;
+	padding-top: 120px;
+	position: relative;
+}
+
+.bs-header {
+	font-size: 21px;
+	text-align: left;
+	padding: 30px 15px 40px;
+	color: #cdbfe3;
+	background-color: #FFB838;
+	position: static;
+	text-shadow: 0 1px 0 rgba(0,0,0,.15);
+}
+
+.bs-header h1 {
+	margin-right: 380px;
+	font-size: 60px;
+	line-height: 1;
+	color: #fff;
+}
+
+.bs-header p {
+	margin-right: 380px;
+	line-height: 1.5;
+}
+.sm-header {
+	font-size: 21px;
+	text-align: left;
+	padding: 15px 15px 15px;
+	color: #cdbfe3;
+	background-color: #FFB838;
+	position: static;
+	text-shadow: 0 1px 0 rgba(0,0,0,.15);
+}
+
+.sm-header h1 {
+	margin-right: 380px;
+	font-size: 36px;
+	line-height: 1;
+	color: #fff;
+}
+
+.txt-blue1 {
+	color: #38C5E3;
+}
+.bck-blue1 {
+	background-color: #38C5E3;
+}
+.brd-blue1 {
+	border-color: #38C5E3;
+}
+.txt-blue2 {
+	color: #62CDDC;
+}
+.bck-blue2 {
+	background-color: #62CDDC;
+}
+.brd-blue2 {
+	border-color: #62CDDC;
+}
+/******* WARNA NYA RG *******/
+	/* BLUISH */
+	/* #38C5E3 */
+	/* #62CDDC */
+	/* #93D2DA */
+
+	/* GREENISH */
+	/* #97A420 */
+	/* #658339 */
+	/* #0AE1A7 */
+	/* #09C750 */
+
+	/* YELLOWISH */
+	/* #FFB838 */
+	/* #FFE08C */
+	/* #E4FB0B */
+
+	/* PINKISH */
+	/* #E10A65 */
+	/* #E4367F */
+	/* #EA5F9A */
+
+	/* GREYISH */
+	/* #7B7B7B */
+	/* #B7B7B7 */
+	/* #9E9D9D */
+	/* #DEDBDB */
+
+.navbar-blue {
+	background-image: -webkit-linear-gradient(top, #62cddd 0%, #38c5e3 100%);
+	background-image: linear-gradient(to bottom, #62cddd 0%, #38c5e3 100%);
+	background-repeat: repeat-x;
+	background-color: #38c5e3;
+	border-color: #658339;
+}
+
+.navbar-white {
+	background-repeat: repeat-x;
+	top: 50px !important;
+	height: 90px;
+	
+	background-color: #FFFFFF !important;
+	border-bottom: 10px #dedede solid !important;
+	
+}
+
+.navbar-white .container .white-navbar,
+.navbar-white .container .white-navbar ul
+{
+	height: 70px;
+	background-color: #FFFFFF !important;
+}
+.navbar-blue a, .navbar-blue button {
+		color: #000;
+}
+
+.navbar-blue li a{
+	color: #222;
+}
+
+.navbar-blue li a:hover {
+	background-color: #93D2DB !important;
+	color: #eee;
+	background-image: none;
+}
+
+.navbar-nav li a {
+	color: #000;
+}
+.navbar-blue .navbar-nav > .active > a {
+  background-image: -webkit-linear-gradient(top, #38c5e3 0%, #93D2DB 100%);
+  background-image:         linear-gradient(to bottom, #38c5e3 0%, #93D2DB 100%);
+  background-repeat: repeat-x;
+  -webkit-box-shadow: inset 0 3px 9px rgba(0,0,0, .25);
+          box-shadow: inset 0 3px 9px rgba(0,0,0, .25);
+}
+.navbar-blue .navbar-brand,
+.navbar-blue .navbar-nav > li > a {
+  text-shadow: 0 -1px 0 rgba(0,0,0, .25);
+}
+
+.navbar-nav > li > a {
+	padding-top: 35px;
+}
+.navbar-nav > li > p ,
+.navbar-nav > li > h4 ,
+.navbar-nav > li > a {
+	margin-top: 35px;
+	margin-left: 50px;
+}
+ul.menubar li {
+	padding: 20px 40px;
+	list-style: none;
+}
+
+ul.menubar li:nth-child(odd) {
+	background-color: #c3ce1e;
+}
+
+ul.menubar li:nth-child(even) {
+	background-color: #cfdb20;
+}
+ul.menubar li:hover {
+	background-color: #e0eb40;
+}
+
+body > .container {
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+
+/* Added from relic CSS */
+
+#footer, #footer * {
+	font-family: Ubuntu !important;
+}
+
+.orange{
+	color: #FCA60A !important;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+#footer{
+    background: #000;
+    width: 100%;
+}
+
+#footer-wrap{
+    width: 1100px;
+    margin:0 auto;
+}
+
+#footer-content-wrap{
+    min-height:105px;
+}
+.footer-content:first-child{
+    margin-left:0;
+}
+.footer-content{
+    text-align: left;
+    float: left;
+    width: 350px;
+    margin-left:20px;
+}
+.footer-content-right{
+    text-align: justify;
+    float: left;
+    width: 450px;
+    margin-left:20px;
+}
+.footer-content-bottom{
+    text-align: center;
+    padding-top: 20px;
+    width: 230px;
+    float: right;
+}
+.footer-contact-header{
+    line-height: 30px;
+    vertical-align: middle;
+    font-family: Ubuntu;
+    font-size: 1em;
+    width:260px;
+    color:#fff;
+    margin-bottom: 3px;
+}
+
+.footer-contact-detail{
+    font-family: Ubuntu;
+    color:#fff;
+    font-size: 0.8em;
+    line-height: 1.5em;
+}
+
+.footer-contact-detail p{
+    margin:0;
+    color:#fff;
+}
+
+.footer-contact-social{
+    margin-top: 10px;
+}
+
+.footer-about-header{
+    line-height: 30px;
+    vertical-align: middle;
+    font-family: Ubuntu;
+    font-size: 1em;
+    width:460px;
+    color:#fff;
+    margin-bottom: 8px;
+}
+
+.footer-about-detail{
+    margin-top:20px;
+    font-family: Ubuntu;
+    color:#fff;
+    font-size: 0.75em;
+    line-height: 1.5em;
+}
+
+.footer-about-detail p{
+    margin:0 0 3px 0;
+    width: 560px;
+}
+
+.footer-link a:link,
+.footer-link a:visited{
+    font-family: Ubuntu;
+    color:#fff;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.footer-copyright{
+    font-family: Ubuntu;
+    color:#fff;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    margin-left: -15px;
+}
+
+.blue-bar {
+	background-color:	#38C5E3;
+	padding: 10px;
+	text-align: left;
+	font-size: 1.3em;
+	font-weight: bolder;
+	color: #000;
+}
+
+#form-tabs .tab-content form.form-horizontal div.form-group {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#form-tabs .tab-content form.form-horizontal div.form-group textarea {
+	height: 7.7em;
+}

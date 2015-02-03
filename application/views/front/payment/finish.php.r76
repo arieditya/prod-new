@@ -1,0 +1,27 @@
+<div id="content">
+    <div class="blank" style="height:30px;"></div>
+    <div id="bantuan">
+        <table>
+            <tr>
+                <td>
+                    <div id="event-detail">
+                        <div id="bf-header">
+                            <div id="bf-header-wrap">
+                                PAGE FINISH PAYMENT
+                            </div>
+                        </div>
+                        <div id="bf-content">
+                            <div class="blank" style="height: 20px;"></div>
+                            <div class="bfc-wrap">
+                                <div class="bfc-title">
+							<p class="bold center"><?php //echo var_dump();?></p>
+						  </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="blank" style="height:30px;"></div>
+</div>
