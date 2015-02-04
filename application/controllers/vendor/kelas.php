@@ -390,7 +390,7 @@ class Kelas extends Vendor_Controller{
 				$opt = array(
 					'file_name'		=> 'main_picture',
 					'upload_path'	=> rtrim(FCPATH, '/')."/images/class/{$id}/",
-					'allowed_types'	=> 'gif|jpg|jpeg|png',
+					'allowed_types'	=> '*',
 					'is_image'		=> TRUE,
 					'overwrite'		=> TRUE
 				);
