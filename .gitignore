@@ -4,9 +4,15 @@
 !.gitignore
 # Next, Unignore Application and Assets folder and all it's content
 # First, application...
-!application/
-!application/*
-!application/**/*
+!application/controllers/
+!application/controllers/*
+!application/controllers/**/*
+!application/models/
+!application/models/*
+!application/models/**/*
+!application/views/
+!application/views/*
+!application/views/**/*
 # And then the assets...
 !assets/
 !assets/*
