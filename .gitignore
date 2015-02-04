@@ -17,3 +17,7 @@
 !assets/
 !assets/*
 !assets/**/*
+# Updated, add database folder...
+!database/
+!database/*
+!database/**/*
