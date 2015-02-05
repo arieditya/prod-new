@@ -60,6 +60,74 @@
 							<li><a href="<?php echo base_url();?>admin/matpel" <?php echo ($active==95)?'class="active"':'';?>>Matpel</a></li>
 						</ul>
 				    </li>
+				    <li>
+						<a href="<?php echo base_url();?>admin/teacher_driven" <?php echo ($active==500)
+								?'class="active"':'';?>>
+							<span>Teacher Driven</span>
+						</a>
+						<ul>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/vendor_confirm" class="<?php 
+									echo ($active==511)?'active':''?>">
+									New Vendor Confirm
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/vendor_list" class="<?php 
+									echo ($active==510)?'active':''?>">
+									Vendor List
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/class_confirm" class="<?php 
+									echo ($active==521)?'active':''?>">
+									New Class Confirm
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/class_list" class="<?php 
+									echo ($active==520)?'active':''?>">
+									Class List
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/class_mail" class="<?php 
+									echo ($active==522)?'active':''?>">
+									Class Mail Blast
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/class_discount" class="<?php 
+									echo ($active==523)?'active':''?>">
+									Class Discount
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/class_attendance" class="<?php 
+									echo ($active==531)?'active':''?>">
+									Class Attendance
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/payment_invoice" class="<?php 
+									echo ($active==541)?'active':''?>">
+									Payment Invoice
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/payment_confirm" class="<?php 
+									echo ($active==542)?'active':''?>">
+									Payment Confirmation
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/vendor_payment" class="<?php 
+									echo ($active==512)?'active':''?>">
+									Vendor Payment
+								</a>
+							</li>
+						</ul>
+					</li>
 				    <li><a href="<?php echo base_url();?>admin/blog" <?php echo ($active==94)?'class="active"':'';?>><span>Blog</span></a></li>
                         <li><a href="http://www.google.com/analytics/"><span>GA</span></a></li>
                     </ul>

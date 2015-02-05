@@ -61,6 +61,8 @@ class Auth extends MY_Controller{
 		$data['address'] = $this->input->post('vendor_address', TRUE);
 		$id = $this->vendor_model->set_profile($data);
 		if($id) {
+			$this->load->model('email_model');
+			$this->email_model->register_vendor($data['email']);
 			$data['id'] = $id;
 			$data['type'] = 'vendor';
 			$this->exec_login($data);

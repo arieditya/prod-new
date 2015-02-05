@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Kelas extends CI_Controller {
+class Kelas extends MY_Controller {
     private $id;
 
     public function __construct() {

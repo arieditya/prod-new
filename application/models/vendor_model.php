@@ -14,6 +14,43 @@ class Vendor_model extends MY_Model{
 		parent::__construct();
 	}
 	
+	public function get_new_register_vendor() {
+		return $this->db
+			->from('vendor_profile')
+			->join('vendor_info', 'vendor_profile.id=vendor_info.vendor_id', 'left')
+			->where('vendor_profile.status', 0)
+			->order_by('vendor_profile.id','desc')
+			->get();
+	}
+	
+	public function get_all_vendor() {
+		return $this->db
+			->from('vendor_profile')
+			->join('vendor_info', 'vendor_profile.id=vendor_info.vendor_id', 'left')
+			->order_by('vendor_profile.id','desc')
+			->get();
+	}
+	
+	public function get_vendor_detail($id) {
+		$vendor = $this->db
+			->from('vendor_profile')
+			->join('vendor_info', 'vendor_profile.id=vendor_info.vendor_id', 'left')
+			->where(array('vendor_profile.id'=>$id))
+			->order_by('vendor_profile.id','desc')
+			->get()->row();
+		if(!empty($vendor)) {
+			if(!empty($vendor->vendor_logo)) 
+				$vendor->vendor_logo = base_url()."images/vendor/{$id}/{$vendor->vendor_logo}";
+			$vendor->class_count = $this->db
+					->select('COUNT(*) as cnt')
+					->from('vendor_class')
+					->where('vendor_id', $id)
+					->get()->row()->cnt;
+			return $vendor;
+		}
+		return FALSE;
+	}
+	
 	public function get_profile($var) {
 		if(empty($var) || !is_array($var)) return FALSE;
 		$this->db->where($var);
