@@ -83,7 +83,8 @@ class Kelas extends Vendor_Controller{
 	public function submit_new(){
 		$fields = array(
 			'class_uri', 'class_nama', 'class_deskripsi', 'class_lokasi', 
-			'class_peserta', 'class_harga', 'class_paket','class_peta',
+			'class_peserta_max', 'class_peserta_min', 'class_harga', 
+			'class_paket','class_peta',
 		);
 		
 		$ext = array(
@@ -94,7 +95,7 @@ class Kelas extends Vendor_Controller{
 		$data_ext = array();
 		foreach($_POST as $key => $value) {
 			if(in_array($key, $fields)){
-				$dt = $this->input->post($key, TRUE);
+				$dt = $this->input->post($key, $key!=='class_deskripsi');
 				$data[$key] = $dt;
 			}
 			if(in_array($key, $ext)) {
@@ -355,13 +356,17 @@ class Kelas extends Vendor_Controller{
 		if(empty($id)) {
 			show_404();
 		}
+		$class_paket = $this->input->post('class_paket', TRUE);
+		$class_paket = $class_paket=='single'?0:($class_paket=='series'?1:($class_paket=='package'?2:NULL));
 		$data = array(
 			'id'	=> $this->input->post('id', TRUE),
 			'class_deskripsi' => $this->input->post('class_deskripsi', TRUE),
 			'class_lokasi' => $this->input->post('class_lokasi', TRUE),
-			'class_peserta' => $this->input->post('class_peserta', TRUE),
+			'class_peserta_min' => $this->input->post('class_peserta_min', TRUE),
+			'class_peserta_max' => $this->input->post('class_peserta_max', TRUE),
+			'class_perserta_target' => $this->input->post('class_perserta_target', TRUE),
 			'class_harga' => $this->input->post('class_harga', TRUE),
-			'class_paket' => $this->input->post('class_paket', TRUE) == 'ya'?1:0,
+			'class_paket' => $class_paket,
 			'class_peta' => $this->input->post('class_peta', TRUE),
 			'class_alasan' => $this->input->post('class_alasan', TRUE)
 		);
@@ -396,7 +401,7 @@ class Kelas extends Vendor_Controller{
 				);
 				$this->load->library('upload', $opt);
 				if(!$this->upload->do_upload('class_image')){
-					var_dump($this->upload->error_msg);
+//					var_dump($this->upload->error_msg);
 					$no_files = TRUE;
 				} else {
 					$files = $this->upload->data();

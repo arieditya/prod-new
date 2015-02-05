@@ -25,7 +25,7 @@ $this->load->view('vendor/general/header');
 			<li class="sub-menu-btn"><a href="<?php echo base_url().'vendor/profile/edit'?>">Profil Anda</a></li>
 			<li class="sub-menu-btn-active"><a href="<?php echo base_url().'vendor/kelas/daftar'?>">Kelas Anda</a></li>
 			<li class="sub-menu-btn"><a href="<?php echo base_url().'vendor/kelas/baru'?>">Tambah Kelas</a></li>
-			<li class="pull-right bottom-10 bold"><img src="<?php echo base_url().'images/phone-2.png';?>" width="20px"/>&nbsp;021-92000-3040</li>
+			<li class="pull-right bottom-10 bold"><img src="<?php echo base_url().'images/phone-2.png';?>" width="20px"/>&nbsp;021-9200-3040</li>
 		</ul>
 	</div>
 </div>
@@ -68,7 +68,8 @@ $this->load->view('vendor/general/header');
 								<div class="col-md-9">
 									<textarea name="class_deskripsi"
 											placeholder="Deskripsi mengenai kelas yang akan dilaksanakan sebanyak 1-2 paragraf. Kalimat disarankan bersifat persuasif dan menjelaskan mengapa kelas ini harus diikuti oleh target perserta. Anda juga bisa memaparkan secara singkat, mengapa Anda adalah 'guru' yang tepat untuk kelas ini."
-											class="form-control" rows="5"><?php echo $class->class_deskripsi;?>
+											class="form-control txtEditor" rows="5"><?php echo 
+										$class->class_deskripsi;?>
 									</textarea>
 								</div>
 							</div>
@@ -98,10 +99,9 @@ $this->load->view('vendor/general/header');
 							<div class="form-group">
 								<label class="col-md-3 control-label">Target peserta</label>
 								<div class="col-md-9">
-									<textarea name="class_peserta_target"
+									<textarea name="class_perserta_target"
 											placeholder="Siapa target kelas anda? Golongan pelajar atau pekerja atau umum? Ibu rumah tangga? Range umur, dll"
-											class="form-control" rows="5"><?php echo $class->class_peserta_target;?>
-									</textarea>
+											class="form-control" rows="5"><?php echo $class->class_perserta_target;?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -266,6 +266,57 @@ $this->load->view('vendor/general/header');
 								<tbody id="class_sched">
 <?php
 $i=0;
+	if(count($jadwal->result()) == 0 && $class->class_paket == 0):
+?>
+								<tr data-id="1">
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												1
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" class="form-control jadwal_date" id="" name="jadwal_date[]" data-date-format="YYYY-MM-DD" placeholder="YYYY-MM-DD" value="" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" class="form-control jadwal_time_start" id="" 
+													   name="jadwal_time_start[]" data-date-format="HH:mm" placeholder="mis: 17:30" value="" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" class="form-control jadwal_time_end" id="" name="jadwal_time_end[]" data-date-format="HH:mm" placeholder="mis: 17:30" value=""/>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" id="" class="form-control jadwal_topic" name="jadwal_topik[]" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<div class="col-md-12">
+												<button class="btn btn-xs btn-danger" class="delete_button">Delete</button>
+											</div>
+										</div>
+									</td>
+								</tr>
+<?php
+	else:
+?>
+<?php
 	foreach($jadwal->result() as $sched):
 		$i++;
 		if($class->class_paket == 0 && $i > 1) break;
@@ -330,6 +381,9 @@ $i=0;
 		if($class->class_paket == 0) break;
 	endforeach;
 ?>
+<?php
+	endif;
+?>
 								</tbody>
 								<tfoot>
 								<tr>
@@ -367,7 +421,10 @@ $i=0;
 							<div class="form-group">
 								<label class="col-md-offset-1 col-md-2 control-label">Harga per sesi</label>
 								<div class="col-md-8">
-									<input class="form-control" name="price_per_session" id="price_per_session" value="<?php echo empty($price->price_per_session)?'':$price->price_per_session;?>" />
+									<input class="form-control" name="price_per_session" id="price_per_session" 
+										   value="<?php echo empty($price->price_per_session)?
+												   (empty($class->class_harga)?0:$class->class_harga)
+												   :$price->price_per_session;?>" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -823,7 +880,7 @@ $i=0;
 							<div class="form-group">
 								<label class="control-label col-md-2">Message</label>
 								<div class="col-md-10">
-									<textarea id="txt_message" class="form-control" name="message" ></textarea>
+									<textarea id="txt_message" class="form-control txtEditor" name="message" ></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -835,11 +892,6 @@ $i=0;
 							<button class="col-md-offset-2 btn btn-lg btn-info">Kirim Email</button>
 						</form>
 					</div>
-<script type="application/javascript">
-	$(document).ready(function(){
-		$('#txt_message').ckeditor();
-	});
-</script>
 <?php 
 	endif;
 ?>
@@ -1099,6 +1151,7 @@ $i=0;
 	
 	var class_id = <?php echo $class->id;?>;
 	$(document).ready(function(){
+		$('.txtEditor').ckeditor();
 		$('input[type=number]').keydown(function(e){
 			if(
 					( e.keyCode < 48 || e.keyCode > 57 )
