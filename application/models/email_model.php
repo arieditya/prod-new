@@ -153,6 +153,22 @@ class Email_model extends MY_Model
 		$this->text_content("Anda telah mendaftar sebagai vendor!\n~~Selamat yaa~~\n\ntim@ruangguru");
 		$this->send();
 	}
+	public function admin_approved_vendor($email) {
+		$this->to($email);
+		
+		$this->subject('Pendaftaran Vendor telah disetujui Admin');
+		$this->text_content("Admin kami telah menyetujui anda sebagai vendor!\n~~Selamat yaa~~\n\ntim@ruangguru");
+		$this->send();
+	}
+	public function admin_rejected_vendor($email) {
+		$this->to($email);
+		
+		$this->subject('Pendaftaran Vendor telah ditolak Admin');
+		$this->text_content("Admin kami telah menolak pendaftaran anda sebagai vendor!\n
+		Kalau anda merasa kesulitan, silahkan hubungi tim ruangguru di 021 9200 3040\n
+		~~Maaf yaa~~\n\ntim@ruangguru");
+		$this->send();
+	}
 	public function vendor_publish_class($email, $class_id) {
 		$this->CI->load->model('vendor_class_model');
 		

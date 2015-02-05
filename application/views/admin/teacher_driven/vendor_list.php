@@ -25,7 +25,7 @@ if ($this->session->flashdata('f_vendor')): ?>
 	<div class="box-head">
 		<h2 class="left">Vendor Management</h2>
 		<div class="right">
-			<form action="<?php echo base_url();?>admin/teacher_driven/vendor_search" method="post">
+			<form action="<?php echo base_url();?>admin/teacher_driven/vendor_search" method="get">
 				<label>search vendor by name</label>
 				<input type="text" class="field small-field" name="vendor_name" placeholder="search all words" />
 				<input type="submit" class="button" value="search" />
@@ -40,7 +40,7 @@ if ($this->session->flashdata('f_vendor')): ?>
 			<tr>
 				<th>ID</th>
 				<th>Name (email)</th>
-				<th>Pbone</th>
+				<th>Phone</th>
 				<th>Address</th>
 				<th>Contact person (phone)</th>
 				<th>Class room address</th>

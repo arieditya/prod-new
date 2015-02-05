@@ -92,7 +92,7 @@ class Vendor_class_model extends MY_Model{
 			unset($where['level_id']);
 		}
 //		}
-		$where = array_filter($where);
+		$where = array_filter($where, 'strlen');
 //		}
 		$this->db->join('vendor_class_category', 'vendor_class.id=vendor_class_category.class_id', 'left');
 		$this->db->join('vendor_category_list', 'vendor_category_list.id=vendor_class_category.category_id AND vendor_category_list.status=1', 'left');

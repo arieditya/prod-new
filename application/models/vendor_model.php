@@ -215,6 +215,30 @@ class Vendor_model extends MY_Model{
 		$this->db->insert('vendor_rel_guru', array('guru_id'=>$guru_id, 'vendor_id'=>$vendor_id));
 		return !!$this->db->affected_rows();
 	}
+	
+	public function approve_vendor($id) {
+		$this->db->update('vendor_profile', array('status'=>1), array('id'=>$id));
+		return !! $this->db->affected_rows();
+	}
+	public function reject_vendor($id) {
+		$this->db->update('vendor_profile', array('status'=>-1), array('id'=>$id));
+		return !! $this->db->affected_rows();
+	}
+	public function deactivate_vendor($id) {
+		$this->db->update('vendor_profile', array('status'=>0), array('id'=>$id));
+		return !! $this->db->affected_rows();
+	}
+	
+	public function vendor_search($keywords) {
+		$this->db
+			->from('vendor_profile')
+			->join('vendor_info', 'vendor_profile.id=vendor_info.vendor_id', 'left')
+			->order_by('vendor_profile.id','desc');
+		foreach($keywords as $keyword)
+			$this->db->or_like('vendor_profile.name', $keyword);
+		return $this->db->get();
+
+	}
 }
 
 // END OF vendor_model.php File
