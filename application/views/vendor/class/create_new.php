@@ -9,6 +9,8 @@
  */
 $this->load->view('vendor/general/header');
 ?>
+<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js" ></script>
+<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/adapters/jquery.js" ></script>
 <div class="row list-orange">
 	<div class="col-md-offset-2 col-md-8">
 		<ul class="nav nav-pills">
@@ -50,7 +52,7 @@ $this->load->view('vendor/general/header');
 				<div class="form-group">
 					<label class="col-md-4 control-label">Tentang kelas</label>
 					<div class="col-md-8">
-						<textarea class="form-control" name="class_deskripsi" rows="5"></textarea>
+						<textarea class="form-control txtEditor" name="class_deskripsi" rows="5"></textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -163,6 +165,7 @@ $this->load->view('vendor/general/header');
 	</div>
 <script type="application/javascript" >
 	$(document).ready(function(){
+		$('.txtEditor').ckeditor();
 		$('#class_name').blur(function(){
 			$.get('<?php echo base_url();?>vendor/kelas/generate_uri', {title: $(this).val()})
 					.success(function(data){

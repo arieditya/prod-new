@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore all files AND directories
 *
 # but not this file!
@@ -18,3 +19,28 @@
 !assets/
 !assets/*
 !assets/**/*
+=======
+# Ignore all files AND directories
+*
+# but not this file!
+!.gitignore
+# Next, Unignore Application and Assets folder and all it's content
+# First, application...
+!application/controllers/
+!application/controllers/*
+!application/controllers/**/*
+!application/models/
+!application/models/*
+!application/models/**/*
+!application/views/
+!application/views/*
+!application/views/**/*
+# And then the assets...
+!assets/
+!assets/*
+!assets/**/*
+# Updated, add database folder...
+!database/
+!database/*
+!database/**/*
+>>>>>>> c288d423a603ae0a768544ba9e53cf70a0c2522f
