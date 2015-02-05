@@ -4,9 +4,16 @@
 !.gitignore
 # Next, Unignore Application and Assets folder and all it's content
 # First, application...
-!application/
-!application/*
-!application/**/*
+# oups, got 3 folder ONLY that need to be whitelisted...
+!application/controllers/
+!application/controllers/*
+!application/controllers/**/*
+!application/models/
+!application/models/*
+!application/models/**/*
+!application/views/
+!application/views/*
+!application/views/**/*
 # And then the assets...
 !assets/
 !assets/*
