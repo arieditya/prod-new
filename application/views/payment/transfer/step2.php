@@ -77,8 +77,8 @@ $this->load->view('general/header-bootstrap');
 								Data pemesan, murid dan rincian pemesanan sudah sesuai.<br/>Saya menyepakati <a href="#" class="blue underline">persyaratan dan ketentuan</a> yang berlaku
 							</label>
 						</div>
-						<?php 
-						
+<?php 
+if($total > 0):
 							$jml_sesi = count($jadwal);
 							$price_session = $subtotal/$jml_sesi;
 							
@@ -88,7 +88,17 @@ $this->load->view('general/header-bootstrap');
 				
 							// Set our server key
 							Veritrans_Config::$serverKey = 'VT-server-a-AunKPJMwirR3Woa9ndxVCK'; //---> SANDBOX KEY
-
+							$items_details = $veritrans_items;
+							if($discount > 0) {
+								$disc_items = array(
+									'id'		=> 'disc',
+									'price'		=> -($discount),
+									'quantity'	=> 1,
+									'name'		=> 'Discount'
+								);
+								$items_details[] = $disc_items;
+							}
+/*
 							// Optional
 							$item1_details = array(
 								'id' => 'a1',
@@ -107,7 +117,7 @@ $this->load->view('general/header-bootstrap');
 							}else{
 								$items_details = $item1_details;
 							}
-				
+// */
 							// Optional
 							$billing_address = array(
 								'first_name'    => $pemesan['name'],
@@ -281,6 +291,13 @@ $this->load->view('general/header-bootstrap');
 							</div>
 						</div>
 						<button class="btn-orange" id="btn_next">Lanjutkan</button>
+<?php 
+else:
+?>
+						<button class="btn-orange" id="btn_free">Ambil Tiket Gratis!</button>
+<?php 
+endif;
+?>
 					</div>
 					<div class="col-md-5" id="right_belly">
 						<h2 class="text-18 bold pinkfont">Rincian Pemesanan</h2>
@@ -354,6 +371,7 @@ $this->load->view('general/header-bootstrap');
 	</div>
 </div>
 <script type="application/javascript">
+	var code = '<?php echo $code; ?>';
 	$(document).ready(function(){
 		$('#curtain').hide();
 		$('.payment_info').hide();
@@ -374,6 +392,10 @@ $this->load->view('general/header-bootstrap');
 					break;
 			}
 		});
+<?php 
+if($total > 0):
+// 
+?>
 		$('#btn_next').click(function(e){
 			e.preventDefault();
 			$('#curtain').show().css({
@@ -396,7 +418,7 @@ $this->load->view('general/header-bootstrap');
 			var opt = {
 				'data': {
 					't':'AFEB24CEDA7E==',
-					'code': '<?php echo $code;?>'
+					'code': code
 				},
 				'type': 'post',
 				'dataType': 'json',
@@ -454,6 +476,55 @@ $this->load->view('general/header-bootstrap');
 			window.scrollTo(0,0);
 			return false;
 		});
+<?php 
+else:
+?>
+		$('#btn_free').click(function(e){
+			e.preventDefault();
+			$.post(
+					base_url+'payment/transfer/step3free',
+					{'code': code},
+					function(dt) {
+						if(dt.status == 'OK') {
+							$('#curtain').show().css({
+								'width'				: window.screen.width+200+'px',
+								'height'			: window.screen.height+200+'px',
+								'background'		: 'rgba(70,70,70,0.4)',
+								'top'				: ($('#curtain').position().top * -1)+'px',
+								'position'			: 'fixed',
+								'z-index'			: 10000000
+							});
+							var links = '';
+							$.each(dt.tiket, function(d, e){
+								links += '<a href="'+base_url+e+'">'+base_url+e+'</a><br />\n';
+							});
+							var notification = $('<div></div>');
+							notification.append('<p>Terima kasih anda telah mengikuti kelas ini.</p>' +
+									'<p>Kami telah mengirim Tiket kelas ini ke email anda.</p>' +
+									'<p>Atau anda dapat juga mendownloadnya di: <br />' + links + '</p>');
+							$(notification).css({
+								'height'			: '230px',
+								'width'				: '500px',
+								'backgroundColor'	: '#eee',
+								'color'				: '#333',
+								'text-align'		: 'left',
+								'padding'			: 0,
+								'top'				: Math.floor(window.screen.height/2-200)+'px',
+								'left'				: Math.floor(window.screen.width/2)-(233)+'px',
+								'position'			: 'absolute'
+							});
+							var notice = $(notification);
+							$('#curtain').append($(notice));
+							$.removeCookie('cart', {'path':'/'});
+						}
+					},
+					'json'
+			);
+			return false;
+		});
+<?php 
+endif;
+?>
 		$('#curtain').click(function(e){
 			e.preventDefault();
 			$('#curtain').empty().hide();

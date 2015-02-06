@@ -363,6 +363,12 @@ class Vendor_class_model extends MY_Model{
 		return !! $this->db->affected_rows();
 	}
 	
+	public function set_status_class($id, $status){
+		$status = (int) $status;
+		$this->db->update('vendor_class', array('class_status'=>$status), array('id'=>$id));
+		return !! $this->db->affected_rows();
+	}
+	
 	public function get_id_by_uri($uri) {
 		$return = $this->db->select('id')->from('vendor_class')->where('class_uri', $uri)->get()->row();
 		if(!empty($return->id)) return $return->id;
@@ -422,7 +428,7 @@ class Vendor_class_model extends MY_Model{
 			'status'			=> 1,
 			'code'				=> $code
 		));
-		return $code;
+		return !!($this->db->affected_rows())?$code:FALSE;
 	}
 	
 	public function get_class_participant($code) {
@@ -744,6 +750,8 @@ class Vendor_class_model extends MY_Model{
 			ON c.id = a.participant_id
 		WHERE 1
 			AND a.class_id = ?
+";
+		if(!empty($status)) $query .="
 			AND a.status = ?";
 		return $this->db->query($query, array($class_id, $status));
 	}
@@ -764,6 +772,8 @@ class Vendor_class_model extends MY_Model{
 			ON c.id = a.participant_id
 		WHERE 1
 			AND a.class_id = ?
+";
+		if(!empty($status)) $query .="
 			AND a.status = ?";
 		return $this->db->query($query, array($class_id, $status));
 	}
@@ -781,6 +791,8 @@ class Vendor_class_model extends MY_Model{
 			ON c.id = a.participant_id
 		WHERE 1
 			AND a.class_id = ?
+";
+		if(!empty($status)) $query .="
 			AND a.status = ?";
 		return $this->db->query($query, array($class_id, $status));
 	}
@@ -810,7 +822,10 @@ class Vendor_class_model extends MY_Model{
 			ON d.jadwal_id = a.jadwal_id
 		WHERE 1
 			AND a.class_id = ?
-			AND a.status = ?
+";
+		if(!empty($status)) $query .="
+			AND a.status = ?";
+		$query .= "
 		ORDER BY d.jadwal_id ASC";
 		return $this->db->query($query, array($class_id, $status));
 	}

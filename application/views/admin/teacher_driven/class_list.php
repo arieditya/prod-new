@@ -11,6 +11,11 @@ if ($this->session->flashdata('f_class')): ?>
 	<div class="msg msg-ok boxwidth">
 		<p><strong><?php echo $this->session->flashdata('f_class'); ?></strong></p>
 	</div>
+<?php endif; 
+if ($this->session->flashdata('f_class_error')): ?>
+	<div class="msg msg-error boxwidth">
+		<p><strong><?php echo $this->session->flashdata('f_class_error'); ?></strong></p>
+	</div>
 <?php endif; ?>
 <!-- Box -->
 <script type="application/javascript" src="<?php echo base_url();?>js/jquery.fancybox.js"></script>
@@ -60,7 +65,10 @@ if ($this->session->flashdata('f_class')): ?>
 						<?php echo $g->class_nama; ?> (<?php echo $g->class_uri;?>)
 					</td>
 					<td>
-						<?php echo $g->vendor_name." ({$g->vendor_id})"; ?>
+						<a class="ico fancybox" data-sub="vendor" 
+						   href="#detail_vendor" data-id="<?php echo $g->vendor_id;?>">
+						   <?php echo $g->vendor_name." ({$g->vendor_id})"; ?> 
+						</a>
 					</td>
 					<td><?php echo $g->class_peserta_min;?>/<?php echo $g->class_peserta_max;?></td>
 					<td>
@@ -69,26 +77,45 @@ if ($this->session->flashdata('f_class')): ?>
 					<td><?php echo $g->level_name;?></td>
 					<td><?php echo $g->session_count;?></td>
 					<td><?php if($g->class_status==1):?>
-							<span class="ok">Published</span>
+							<span class="ok">Approved</span>
 						<?php elseif($g->class_status==4):?>
 							<span class="no">Request for Unpublish</span>
+						<?php elseif($g->class_status==0):?>
+							<span class="no">Pending</span>
 						<?php else:?>
-							<span class="no">Draft</span>
+							<span class="no">REJECTED</span>
 						<?php endif;?>
 					</td>
 					<td><?php if($g->active==1):?>
-							<span class="ok">Activated</span>
+							<span class="ok">Published</span>
+							<sub>
+								<a href="<?php echo base_url();
+							?>admin/teacher_driven/force_unpublish_class/<?php
+							echo $g->id;?>"
+							onclick="return confirm('You are about to force unpublish this class\nwithout the vendor ' +
+							 'knowledge!\n Are you sure?');"
+									>[Force&nbsp;Unpublish]</a>
+							</sub>
 						<?php else:?>
-							<span class="no">Not Activated</span>
+							<span class="no">Draft</span><br />
+							<sub>
+								<a href="<?php echo base_url();
+							?>admin/teacher_driven/force_publish_class/<?php
+							echo $g->id;?>"
+							onclick="return confirm('You are about to force publish this class\nwithout the vendor ' +
+							 'knowledge!\n Are you sure?');"
+									>[Force&nbsp;Publish]</a>
+							</sub>
 						<?php endif;?>
 					</td>
 					<td class="center">
-						<a class="ico fancybox" href="#detail_class" data-id="<?php echo $g->id;?>">Detail</a> 
+						<a class="ico fancybox" data-sub="class" href="#detail_class" data-id="<?php echo $g->id;
+						?>">Detail</a> 
 <?php if($g->class_status==1):?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/deactivate_class/<?php
-							echo $g->id;?>/0">deactivate</a>
+							echo $g->id;?>">deactivate</a>
 						</span>
 <?php elseif($g->class_status==4):?>
 						<span class="ok">
@@ -106,7 +133,9 @@ if ($this->session->flashdata('f_class')): ?>
 						</span>
 						<span class="no">
 							<a class="ico delete" href="<?php echo base_url();
-							?>admin/teacher_driven/reject_class_confirm/<?php echo $g->id;?>">reject</a>
+							?>admin/teacher_driven/reject_class_confirm/<?php echo $g->id;?>"
+							   onclick="return confirm('WARNING!\nThis action CANNOT BE UNDO!\nAre you sure?');"
+									>reject</a>
 						</span>
 <?php else:?>
 						<span class="no">
@@ -138,8 +167,15 @@ if ($this->session->flashdata('f_class')): ?>
 </div>
 <!-- End Box -->
 <div id="detail_vendor" class="col-md-4" 
-	 style="width:500px;display: none;height:100%;overflow-x:hidden;">
-	<h3>Vendor Detail!</h3>
+	 style="max-width:500px;display: none;height:100%;overflow-x:hidden;">
+	<h2>Vendor Detail!</h2>
+	<hr />
+	<div id="detail_fill"></div>
+</div>
+<div id="detail_class" class="col-md-4" 
+	 style="max-width:500px;display: none;height:100%;overflow-x:hidden;">
+	<h2>Class Detail!</h2>
+	<hr />
 	<div id="detail_fill"></div>
 </div>
 <script type="application/javascript">
@@ -171,20 +207,21 @@ if ($this->session->flashdata('f_class')): ?>
 		$('.fancybox')
 				.fancybox()
 				.click(function(){
-					var c_id = $(this).data('id');
+					var section = $(this).data('sub');
+					var _id = $(this).data('id');
 					$.get(
-							base_url+'admin/teacher_driven/get_class_detail/'+c_id, 
+							base_url+'admin/teacher_driven/get_'+section+'_detail/'+_id, 
 							function(dt){
 								if(dt.status == 'OK') {
 									var fill = '';
 									$.each(dt.data,function(idx, data){
 										fill += '<strong>'+idx+'</strong>'+
-												' : '+ (idx=='class_image'?
+												' : '+ (idx=='class_image'||idx=='vendor_logo'?
 												'<img src="'+data+'" style="width: 100%;" />'
 												:data)
 												+ '<br />\n';
 									});
-									$('#detail_fill').html(fill);
+									$('#detail_'+section+' #detail_fill').html(fill);
 								}
 							}
 					);

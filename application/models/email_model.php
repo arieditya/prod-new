@@ -423,4 +423,32 @@ Tim Ruangguru.com";
 		if(!$this->send()) return FALSE;
 		return TRUE;
 	}
+	
+	public function send_ticket($email, $code) {
+		$this->CI->load->model('payment_model');
+		$tickets = $this->CI->payment_model->create_ticket($code);
+		$this->to = $email;
+		$this->subject('Tiket Kelas');
+		$links = array();
+		foreach($tickets as $ticket) {
+			$this->attach(FCPATH.$ticket);
+			$links[] = base_url().$ticket;
+		}
+		$txt = "
+Halo,
+
+Ini adalah tiket kelas anda!
+Atau anda dapat mendownloadnya juga di:
+
+";
+		$txt .= implode("\n", $links);
+		$txt .= "
+
+Terima kasih
+
+.arie.
+";
+		$this->text_content($txt);
+		$this->send();
+	}
 }

@@ -176,7 +176,7 @@ class Payment extends MY_Controller {
 	public function t_step2() {
 		$dt1 = json_decode($this->session->userdata('transaction'), TRUE);
 		if(!empty($dt1) && $this->input->post('frm_c') != 'fex') {
-			var_dump($dt1);exit;
+//			var_dump($dt1);exit;
 //			$trx = $this->vendor_class_model->get_transaction($dt1['code']);
 			$dt2 = json_decode($this->session->userdata('transaction'));
 			$dt1['jadwal'] = $dt2->jadwal;
@@ -292,6 +292,7 @@ class Payment extends MY_Controller {
 		$sched = array();
 		$code = NULL;
 		
+		$veritrans = array();
 		foreach($cart as $c) {
 			$class_total = 0;
 			$class_discount = 0;
@@ -299,17 +300,29 @@ class Payment extends MY_Controller {
 			$class = $this->vendor_class_model->get_class(array('id'=>$c->id))->row();
 			$full_session_discount = (int)$class->discount;
 			$i = 0;
+			$vt_qty = 0;
 			foreach($c->jadwal as $j_id) {
 				if(!$this->vendor_class_model->get_class_schedule_availability($j_id)) continue;
 				$i++;
 				$code = $this->vendor_class_model->add_class_participant($c->id, $j_id, $peserta_id, $pemesan_id, $code);
+				if(empty($code)) break;
 				$schedule = $this->vendor_class_model->get_class_schedule(array('jadwal_id'=>$j_id))->row();
 				$schedule->price_per_session = $class->price_per_session;
 				$sched[] = $schedule;
 				$class_total += $class->price_per_session;
 				$total_no_discount += $class->price_per_session;
+				$vt_qty++;
 			}
-			
+			if((int)$class->price_per_session > 0 && $vt_qty > 0) {
+				$veritrans_data = array(
+					'id'		=> 'CID_'.$c->id,
+					'price'		=> (int)$class->price_per_session,
+					'name'		=> 'CLASS: '.$class->class_nama,
+					'quantity' => $vt_qty
+				);
+				array_push($veritrans,$veritrans_data) ;
+			}
+//			var_dump($sched);
 			if($i == $schedules && $full_session_discount > 0) {
 				$this->discount_model->use_general_discount('FULL_SESSION', $code, $pemesan_id, $full_session_discount, 'CLASS: '.$c->id);
 				$class_total -= $full_session_discount;
@@ -347,9 +360,10 @@ class Payment extends MY_Controller {
 			'subtotal'=>$total_no_discount, 
 			'discount'=>$discount,
 			'total'=>$total,
-			'code'=>$code
+			'code'=>$code,
+			'veritrans_items' => $veritrans
 		);
-		
+//		var_dump($data);exit;
 		$this->vendor_class_model->add_new_transaction(
 			array(
 				'code'		=> $code,
@@ -366,6 +380,30 @@ class Payment extends MY_Controller {
 		$this->load->view('payment/transfer/step2', $data);
 	}
 	
+	public function t_step3free() {
+		$code = $this->input->post('code', TRUE);
+		$trx = json_decode($this->session->userdata('transaction'), TRUE);
+		if($code != $trx['code']) {
+			set_status_header(401);
+			echo json_encode(array(
+				'status'		=> 'KO',
+				'data'			=> $trx
+			));
+			return;
+		}
+		$this->load->model('payment_model');
+		$this->load->model('email_model');
+		$tikets = $this->payment_model->create_ticket($code);
+		$this->email_model->send_ticket($trx['pemesan']['email'], $code);
+		$this->session->unset_userdata('transaction');
+		set_status_header(200);
+		echo json_encode(array(
+			'status'		=> 'OK',
+			'data'			=> $trx,
+			'tiket'			=> $tikets
+		));
+		return;
+	}
 	public function t_step3() {
 		$code = $this->input->post('code', TRUE);
 		$trx = json_decode($this->session->userdata('transaction'), TRUE);

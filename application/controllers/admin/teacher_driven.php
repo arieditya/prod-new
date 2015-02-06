@@ -134,28 +134,130 @@ class Teacher_driven extends MY_Controller{
 		$this->load->view('admin/admin_v',$data);
 	}
 	
-	public function do_class_confirm() {
+	public function do_class_confirm($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status = $this->vendor_class_model->set_status_class($id, 1);
 		
+		$this->session->set_flashdata($status?
+				array('f_class'=>'Class confirmed!')
+				:array('f_class_error'=>'Class NOT confirmed!'));
+		redirect('admin/teacher_driven/'.$referer);
 	}
 	
-	public function reject_class_confirm() {
-		
+	public function deactivate_class($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status = $this->vendor_class_model->set_status_class($id, 0);
+		$this->session->set_flashdata($status?
+				array('f_class'=>'Class deactivated!')
+				:array('f_class_error'=>'Class NOT deactivated!'));
+		redirect('admin/teacher_driven/'.$referer);
 	}
 	
-	public function approve_unpublish_class() {
-		
+	public function reject_class_confirm($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status = $this->vendor_class_model->set_status_class($id, -1);
+		$this->session->set_flashdata($status?
+				array('f_class'=>'Class rejected!')
+				:array('f_class_error'=>'Class NOT rejected!'));
+		redirect('admin/teacher_driven/'.$referer);
 	}
 	
-	public function reject_unpublish_class() {
-		
+	public function approve_unpublish_class($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status1 = $this->vendor_class_model->set_published_class($id, 0);
+		if($status1) {
+			$status2 = $this->vendor_class_model->set_status_class($id, 1);
+			if($status2) $status = array('f_class'	=> 'Class is unpublished!');
+			else $status = array('f_class_error'	=> 'Class unpublished but failed to change status!');
+		} else $status = array('f_class_error'	=> 'Class STILL Published!');
+		$this->session->set_flashdata($status);
+		redirect('admin/teacher_driven/'.$referer);
+	}
+	
+	public function reject_unpublish_class($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status = $this->vendor_class_model->set_status_class($id, 1);
+		if($status) $status = array('f_class'	=> 'Class Unpublished Rejected!');
+		else $status = array('f_class_error'	=> 'Class Unpublished FAILED to be rejected!');
+		$this->session->set_flashdata($status);
+		redirect('admin/teacher_driven/'.$referer);
+	}
+	
+	public function force_publish_class($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status = $this->vendor_class_model->set_published_class($id, 1);
+		if($status) $status = array('f_class'	=> 'Class Published!');
+		else $status = array('f_class_error'	=> 'Class FAILED to be published!');
+		$this->session->set_flashdata($status);
+		redirect('admin/teacher_driven/'.$referer);
+	}
+	
+	public function force_unpublish_class($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status = $this->vendor_class_model->set_published_class($id, 0);
+		if($status) $status = array('f_class'	=> 'Class Unpublished!');
+		else $status = array('f_class_error'	=> 'Class FAILED to be unpublished!');
+		$this->session->set_flashdata($status);
+		redirect('admin/teacher_driven/'.$referer);
 	}
 	
 	public function class_list() {
+		$data['active'] = 521;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Class'=>'teacher_driven/class_list'
+		));
+		$class = $this->vendor_class_model->get_class(array(
+				'class_status >='	=> NULL,
+				'active'		=> NULL
+		))->result();
 		
+		foreach($class as &$cls) {
+			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
+			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
+					->category_name;
+			$cls->level_name = $this->vendor_class_model->get_level(array('id'=>$cls->level_id))->row()
+					->name;
+			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
+					->num_rows();
+//			var_dump($cls);exit;
+		}
+		$data['class'] = $class;
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/class_list',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
 	}
 	
-	public function get_class_detail() {
-		
+	public function get_class_detail($id) {
+		$class = $this->vendor_class_model->get_class(array(
+				'class_status >='	=> NULL,
+				'active'			=> NULL,
+				'id'				=> $id
+		))->row();
+		if($class) {
+			header('HTTP/1.1 200 OK');
+			header('Content-type: application/json');
+			echo json_encode(array(
+				'status'	=> 'OK',
+				'data'		=> $class,
+				'message'	=> 'Class found!'
+			));
+		} else {
+			header('HTTP/1.1 404 Not Found');
+			header('Content-type: application/json');
+			echo json_encode(array(
+				'status'	=> 'KO',
+				'data'		=> array(),
+				'message'	=> 'Class NOT found!'
+			));
+		}
 	}
 	
 	public function class_mail() {
