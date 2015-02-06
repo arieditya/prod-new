@@ -24,13 +24,13 @@
 }
 
 .top-head {
-	background-color: rgb(225, 0, 101);
+	background-color: #3bc4e6;
 	text-align: center;
 	color: #fff;
 	border-radius: 10px 10px 0 0;
 	-moz-border-radius: 10px 10px 0 0;
 	-webkit-border-radius: 10px 10px 0 0;
-	border: 1px solid #e20065;
+	border: 1px solid #3bc4e6;
 }
 
 .top-head h2{
@@ -73,6 +73,11 @@
 .pinkfont {
 	color: rgb(225, 0, 101);
 }
+
+.bluefont {
+	color: #3bc4e6;
+}
+
 .pinkpanel {
 	margin-bottom: 15px;
 }
@@ -83,7 +88,7 @@
 	padding-bottom: 2px;
 }
 .pinkpanel .title {
-	background-color: #e20065;
+	background-color: #3bc4e6;
 	padding: 10px;
 	text-align: center;
 	font-size: 16px;
@@ -139,10 +144,10 @@
 }
 .btn-orange2{
 	border: 0;
-	padding: 8px 12px;
+	padding: 8px 0px 10px 0px;
 	font-weight: bold;
 	font-size:18px;
-	border-radius: 22px;
+	border-radius: 27px;
 }
 .btn-orange, .btn-orange2 {
 	background-color: rgb(252, 166, 10);
@@ -168,10 +173,9 @@
 	border-bottom: 0;
 }
 .white-segment, .blue-segment {
-	width: 367px;
+	width: 100%;
 	height: 40px;
 	margin-top: 50px;
-	margin-left: -20px;
 	padding-top: 7px;
 }
 .content-segment {
@@ -244,4 +248,80 @@
 	padding-top:10px;
 	border-top:1px solid #c9c9c9;
 	border-bottom:1px solid #c9c9c9;
+}
+
+a.button{
+	background-color:#ffffff;
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+	border-radius: 18px;
+	padding: 5px 15px;
+	text-decoration: none;
+	text-shadow: #fff 0 1px 0;
+	float: left;
+	margin-right: 15px;
+	margin-bottom: 15px;
+	display: block;
+	color: #597390;
+	line-height: 24px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+a.button:hover{
+	background-color: #f5f5f5;
+	color: #000;
+	display: block;
+}
+
+a.button::before {
+	content: url('../../images/price-tag.png');
+}
+
+
+
+.ico-price{
+	background: #ffffff;
+	width: 100%;
+	margin-bottom: 15px;
+	padding: 12px 0px 12px 25px;
+	font-weight: bold;
+	font-size:18px;
+	border-radius: 22px;
+	background-image: url('../../images/price-tag.png') no-repeat !important;
+}
+
+.ico-reg img{
+	position: absolute;
+	top: 90px;
+	left: 0px;
+}
+
+.ico-wish img{
+	position: absolute;
+	top: 180px;
+	left: 0px;
+}
+
+.ico-loc img{
+	position: fixed;
+	top: 270px;
+	left: 5px;
+}
+
+.ico-ask {
+	position: absolute;
+	top:338px;
+	left: 0px;
+}
+
+.ico-session img{
+	position: absolute;
+	top:450px;
+	left: 0px;
+}
+
+.ico-vendor img{
+	position: absolute;
+	top: 540px;
+	left: 0px;
 }

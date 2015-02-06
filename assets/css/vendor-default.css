@@ -39,7 +39,7 @@
 /* HEADER */
 body {
 	font-family: Ubuntu !important;
-	padding-top: 120px;
+	padding-top: 95px;
 	position: relative;
 	overflow-x: hidden;
 }
@@ -81,6 +81,11 @@ body {
 .text-20{
 	font-family : Ubuntu;
 	font-size: 20px;
+	color: #000;
+}
+.text-21{
+	font-family : Ubuntu;
+	font-size: 21px;
 	color: #000;
 }
 .text-24{
@@ -193,10 +198,10 @@ body {
 .navbar-white .container .white-navbar,
 .navbar-white .container .white-navbar ul
 {
-	height: 95px;
 	margin-top: 7px;
 	margin-left: 50px;
-	width:920px;
+	width:910px;
+	height:70px;
 }
 .navbar-blue a, .navbar-blue button {
 		color: #000;
@@ -233,8 +238,8 @@ body {
 .navbar-nav > li > p ,
 .navbar-nav > li > h2 ,
 .navbar-nav > li > a {
-	margin-top: 35px;
-	margin-left: 25px;
+	margin-top: 15px;
+	margin-left: 45px;
 }
 ul.menubar li {
 	padding: 20px 40px;
@@ -421,8 +426,9 @@ a.normal-link:visited
 .tooltip{
 	display: inline;
 	position: relative;
-	background: #D6D6D6;
+	color:#FCA60A;
 	padding: 2px;
+	font-weight: bold;
 }
 
 .tooltip:hover:after{
@@ -452,8 +458,8 @@ a.normal-link:visited
 
 .discount-tag{
 	position: absolute;
-	top:8px;
-	right:16px;
+	top:3px;
+	right:7px;
 }
 
 .price-tag{
@@ -523,10 +529,11 @@ a.normal-link:visited
 
 .btn-reg-class{
 	background-color: #fbb33c;
-	padding: 10px 30px 10px 30px;
+	padding: 10px 30px 12px 30px;
 	border-radius: 18px;
 	position: relative;
-	left: 155px;
+	left: 190px;
+	font-weight:bold;
 }
 
 .bottom-5{
@@ -618,7 +625,7 @@ a.normal-link:visited
 }
 
 .shadow{
-	box-shadow: 0px 4px 4px #999;
+	box-shadow: 0px 1px 4px #999;
 }
 
 #review-wrapper{
@@ -669,11 +676,10 @@ a.normal-link:visited
 .class-title{
 	position: relative;
     top: -66px;
-    left: 5px;
+    left: 8px;
 	color: #fff;
 	font-weight: bold;
 	font-size:18px;
-	text-align: center;
 }
 
 .class-name{
@@ -700,14 +706,13 @@ a.normal-link:visited
 	margin-left: -5px;
 	margin-right: -3px;
 	padding-top: 5px;
-	padding-left: 8px;
+	padding-left: 10px;
 	height: 30px;
 	font-size:14px;
 	color:#fff;
 	font-weight:bold;
 	width:70%;
 	float:left;
-	text-align:center;
 }
 
 .class-register{
@@ -814,7 +819,7 @@ a.normal-link:visited
     z-index:5;
     */
     position: relative;
-	top:30px;
+	top:12px;
 	left: -8px;
 	font-family: Ubuntu;
 	width:100px;
@@ -877,7 +882,7 @@ a.normal-link:visited
     z-index:5;
     */
     position: relative;
-	top: 30px;
+	top: 12px;
 	left: -50px;
 	font-family: Ubuntu;
 	width:100px;
@@ -1081,6 +1086,7 @@ a.normal-link:visited
 	padding-bottom:30px;
 	line-height:18px;
 	min-height:120px;
+	font-size: 13px;
 }
 
 .ico-manfaat{
@@ -1097,6 +1103,7 @@ a.normal-link:visited
 	float: left;
 	width: 210px;
 	margin-right: 25px;
+	font-size: 13px;
 }
 
 .btn-how-to{
@@ -1122,4 +1129,29 @@ a.normal-link:visited
 	list-style-type: none;
 	float: left;
 	margin-right:25px;
+}
+
+.bg-vendor{
+	background: url('../../images/banner-vendor-1.jpg') no-repeat;
+	height:300px;
+}
+
+.title-class{
+	width: 115px;
+	padding: 5px 10px;
+	margin-left: -15px;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+	background-color:#3bc4e6;
+}
+
+.pos-icon{
+	position: relative;
+	top: -27px;
+	left: 142px;
+}
+
+.narrow{
+	margin-top: -10px;
+	margin-bottom: -10px;
 }

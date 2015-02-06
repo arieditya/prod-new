@@ -21,7 +21,7 @@ $this->load->view('vendor/general/header');
 </div>
 	<div class="row padbottom-50 bg-all">
 		<div class="col-md-offset-2 col-md-6">
-			<ul class="nav nav-tabs" role="tablist">
+			<ul class="nav nav-tabs-2" role="tablist">
 				<li id="profile_selector" class="active"><a href="#profile" role="tab" data-toggle="tab">PROFIL PENYELENGGARA</a></li>
 				<li id="profile2_selector"><a href="#profile-2" role="tab" data-toggle="tab">PENANGGUNG JAWAB</a></li>
 			</ul>
@@ -80,12 +80,47 @@ $this->load->view('vendor/general/header');
 							<button type="reset" class="btn btn-sm btn-danger">Reset</button>
 						</div>
 					</form>
+					<form class="form-horizontal" role="form" action="<?php echo base_url();?>vendor/profile/update_socmed" method="post">
+						<div class="panel-heading bold pink text-16">Social Media</div>
+						<div class="form-group">
+							<label for="account_branch" class="col-md-5 control-label">Facebook&nbsp;&nbsp; http://facebook.com/</label>
+							<div class="col-md-7 ">
+								<input type="text" name="socmed_fb" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->facebook;?>" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="socmed_tw" class="col-md-5 control-label">Twitter&nbsp;&nbsp;@</label>
+							<div class="col-md-7">
+								<input type="text" name="socmed_tw" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->twitter;?>" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="socmed_ig" class="col-md-5 control-label">Instagram&nbsp;&nbsp;http://instagram.com/</label>
+							<div class="col-md-7">
+								<input type="text" name="socmed_ig" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->instagram;?>" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="socmed_pt" class="col-md-5 control-label">Pinterest</label>
+							<div class="col-md-7">
+								<input type="text" name="socmed_pt" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->pinterest;?>" />
+							</div>
+						</div>
+						<div class="col-md-3"></div>
+						<div class="col-md-9">
+							<button type="submit" class="btn btn-lg btn-success">Submit</button>&nbsp;&nbsp;&nbsp;
+							<button type="reset	" class="btn btn-sm btn-danger">Reset</button>
+						</div>
+					</form>
 				</div>
 				</div>
 				<div class="tab-pane" id="profile-2">
 				<div class="panel-body">
 					<form class="form-horizontal" role="form" action="<?php echo base_url();?>vendor/profile/update_info" method="post" id="form-2" enctype="multipart/form-data">
-						<div class="panel-heading bold">Penanggungjawab penyelenggara</div>
+						<div class="panel-heading bold pink text-16">
+							Penanggungjawab penyelenggara
+							<p class="text-13"><i>* Data tidak bisa diakses secara umum</i></p>
+						</div>
 						<div class="panel-body">
 							<div class="form-group">
 								<label for="class_room_address" class="col-md-3 control-label">Nama</label>
@@ -112,13 +147,7 @@ $this->load->view('vendor/general/header');
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="class_room_capacity" class="col-md-3 control-label">Jabatan/Posisi</label>
-								<div class="col-md-9 ">
-									<input type="email" name="contact_person_jabatan" class="form-control" value="<?php echo $vendor['info']->contact_person_email;?>" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="class_room_address" class="col-md-3 control-label">Alamat/Lokasi</label>
+								<label for="class_room_address" class="col-md-3 control-label">Alamat</label>
 								<div class="col-md-9 ">
 									<textarea class="form-control" name="class_room_address"><?php echo $vendor['info']->class_room_address;?></textarea>
 								</div>
@@ -129,12 +158,6 @@ $this->load->view('vendor/general/header');
 									<input type="text" name="class_room_phone" class="form-control" value="<?php echo $vendor['info']->class_room_phone;?>" />
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="class_room_capacity" class="col-md-3 control-label">Kapasitas kelas</label>
-								<div class="col-md-9 ">
-									<input type="text" name="class_room_capacity" class="form-control" value="<?php echo $vendor['info']->class_room_capacity;?>" />
-								</div>
-							</div>
 						</div>
 						<div class="col-md-3"></div>
 						<div class="col-md-9">
@@ -143,7 +166,7 @@ $this->load->view('vendor/general/header');
 						</div>
 					</form>
 					<form class="form-horizontal" role="form" action="<?php echo base_url();?>vendor/profile/update_account" method="post">
-					<div class="panel-heading bold">Rekening Bank</div>
+					<div class="panel-heading bold pink text-16">Rekening Bank</div>
 						<div class="form-group">
 							<label for="account_bank" class="col-md-3 control-label">Bank</label>
 							<div class="col-md-9 ">
@@ -181,38 +204,6 @@ $this->load->view('vendor/general/header');
 						<div class="col-md-3"></div>
 						<div class="col-md-9">
 							<button type="submit" class="btn btn-lg btn-success">Simpan</button>&nbsp;&nbsp;&nbsp;
-							<button type="reset	" class="btn btn-sm btn-danger">Reset</button>
-						</div>
-					</form>
-					<form class="form-horizontal" role="form" action="<?php echo base_url();?>vendor/profile/update_socmed" method="post">
-						<div class="panel-heading bold">Social Media</div>
-						<div class="form-group">
-							<label for="account_branch" class="col-md-5 control-label">Facebook&nbsp;&nbsp; http://facebook.com/</label>
-							<div class="col-md-7 ">
-								<input type="text" name="socmed_fb" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->facebook;?>" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="socmed_tw" class="col-md-5 control-label">Twitter&nbsp;&nbsp;@</label>
-							<div class="col-md-7">
-								<input type="text" name="socmed_tw" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->twitter;?>" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="socmed_ig" class="col-md-5 control-label">Instagram&nbsp;&nbsp;http://instagram.com/</label>
-							<div class="col-md-7">
-								<input type="text" name="socmed_ig" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->instagram;?>" />
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="socmed_pt" class="col-md-5 control-label">Pinterest</label>
-							<div class="col-md-7">
-								<input type="text" name="socmed_pt" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->pinterest;?>" />
-							</div>
-						</div>
-						<div class="col-md-3"></div>
-						<div class="col-md-9">
-							<button type="submit" class="btn btn-lg btn-success">Submit</button>&nbsp;&nbsp;&nbsp;
 							<button type="reset	" class="btn btn-sm btn-danger">Reset</button>
 						</div>
 					</form>

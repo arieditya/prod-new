@@ -9,8 +9,6 @@
  */
 $this->load->view('vendor/general/header');
 ?>
-<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js" ></script>
-<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/adapters/jquery.js" ></script>
 <div class="row list-orange">
 	<div class="col-md-offset-2 col-md-8">
 		<ul class="nav nav-pills">
@@ -22,20 +20,8 @@ $this->load->view('vendor/general/header');
 	</div>
 </div>
 	<div class="row padbottom-40 bg-all">
-		<div class="col-md-offset-2 col-md-3">
-			<h2>Buka kelas</h2>
-			<p>
-				Buka kelas adalah fitur baru di Ruangguru.
-				Anda sebagai guru dapat membuat kelas sesuai dengan mata pelajaran yang Anda kuasai dalam kurun waktu yang singkat. 
-				Kelas ini akan terbuka untuk umum dan untuk siapa saja bisa mendaftar untuk mengikuti kelas Anda
-			</p>
-			<p>
-				Anda bisa menampilkan profil Anda sebagai guru ataupun sebagai komunitas/organisasi Anda di kelas yang akan Anda adakan. 
-				Silahkan masukkan deskripsi komunitas/organisasi Anda.
-			</p>
-		</div>
-		<div class="col-md-5 top-40 bg-section shadow">
-			<h2>Pendaftaran Kelas Baru</h2>
+		<div class="col-md-offset-2 col-md-8 top-40 bg-section shadow">
+			<h2 class="pink">Pendaftaran Kelas Baru</h2>
 			<form class="form-horizontal" action="<?php echo base_url();?>vendor/kelas/submit_new" method="post">
 				<div class="form-group">
 					<label class="col-md-4 control-label">Nama kelas</label>
@@ -46,25 +32,19 @@ $this->load->view('vendor/general/header');
 				<div class="form-group">
 					<label class="col-md-4 control-label">SEO Friendly URL</label>
 					<div class="col-md-8">
-						<input class="form-control" tabindex="-1" id="class_uri" type="text" name="class_uri" placeholder="Biarkan terisi secara automatis bila anda ragu mengenai isinya" />
+						<input class="form-control" tabindex="-1" id="class_uri" type="text" name="class_uri" placeholder="Biarkan terisi secara automatis bila Anda ragu" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-md-4 control-label">Tentang kelas</label>
 					<div class="col-md-8">
-						<textarea class="form-control txtEditor" name="class_deskripsi" rows="5"></textarea>
+						<textarea class="form-control" name="class_deskripsi" rows="5"></textarea>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-md-4 control-label">Tarif per pertemuan</label>
 					<div class="col-md-8">
-						<input class="form-control" type="number" name="class_harga" placeholder="Masukkan angka saja, mis: 50000. Jika gratis masukkan angka 0" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-md-4 control-label">Alamat Kelas</label>
-					<div class="col-md-8">
-						<textarea class="form-control" name="class_lokasi" rows="5"></textarea>
+						<input class="form-control" type="number" name="class_harga" placeholder="Masukkan angka saja, mis: 50000. 0 jika kelas gratis" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -97,7 +77,7 @@ $this->load->view('vendor/general/header');
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-4 control-label">Tingkat keahlian</label>
+					<label class="col-md-4 control-label">Level yang Diajarkan</label>
 					<div class="col-md-8">
 						<select class="form-control" name="class_level">
 							<option>-- Pilih tingkat --</option>
@@ -113,13 +93,19 @@ $this->load->view('vendor/general/header');
 						</select>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-md-4 control-label">Alamat</label>
+					<div class="col-md-8">
+						<textarea class="form-control" name="class_lokasi" rows="5"></textarea>
+					</div>
+				</div>
 				<div class="form-group has-feedback">
 					<label class="col-md-4 control-label">Peta Lokasi</label>
 					<div class="col-md-4">
 						<input class="form-control" type="text" id="class_map_search" name="maps" placeholder="Masukkan area / lokasi" />
-						<button type="button" class="form-control-feedback panel alert-warning" id="btn_search_maps">
+						<a href="#" class="manage-icon pos-icon" id="btn_search_maps">
 							<i class="glyphicon glyphicon-search"></i>
-						</button>
+						</a>
 						<input id="class_maps" class="form-control" readonly="readonly" type="text" name="class_peta" placeholder="" style="margin-top: 5px;" />
 					</div>
 					<div class="col-md-4">
@@ -127,7 +113,7 @@ $this->load->view('vendor/general/header');
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-4 control-label">Kelas Paket</label>
+					<label class="col-md-4 control-label">Tipe Kelas</label>
 					<div class="col-md-8">
 <?php /*/ ?>
 						<label class="checkbox-inline">
@@ -140,17 +126,17 @@ $this->load->view('vendor/general/header');
 <?php // */ ?>
 						<div class="radio">
 							<label>
-								<input type="radio" name="class_paket" value="single" /> <span>One shot</span>
+								<input type="radio" name="class_paket" value="single" /> <span>Hanya satu sesi <a href="#" title="Kelas yang hanya diadakan satu kali saja" class="tooltip">?</a></span>
 							</label>
 						</div>
 						<div class="radio">
 							<label>
-								<input type="radio" name="class_paket" value="series" checked="checked" /> <span>Series</span>
+								<input type="radio" name="class_paket" value="series" checked="checked" /> <span>Kelas Berseri <a href="#" title="Kelas yang dibuat dalam beberapa sesi dan akan berkelanjutan" class="tooltip">?</a></span>
 							</label>
 						</div>
 						<div class="radio">
 							<label>
-								<input type="radio" name="class_paket" value="package" /> <span>Package</span>
+								<input type="radio" name="class_paket" value="package" /> <span>Satu Paket <a href="#" title="Kelas yang terdiri dari beberapa sesi namun harus diikuti semua sesinya oleh murid" class="tooltip">?</a></span>
 							</label>
 						</div>
 					</div>
@@ -165,7 +151,6 @@ $this->load->view('vendor/general/header');
 	</div>
 <script type="application/javascript" >
 	$(document).ready(function(){
-		$('.txtEditor').ckeditor();
 		$('#class_name').blur(function(){
 			$.get('<?php echo base_url();?>vendor/kelas/generate_uri', {title: $(this).val()})
 					.success(function(data){

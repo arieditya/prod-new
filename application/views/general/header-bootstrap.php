@@ -18,9 +18,9 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 <link rel="icon" type="image/png" href="<?php echo base_url();?>images/favicon.png" />
 <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.9.1.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
-	<script type="application/javascript" src="<?php echo base_url();?>assets/js/jquery.cookie.js" ></script>
-	<script type="application/javascript" >$.cookie.json = true;</script>
-	<link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet" />
+<script type="application/javascript" src="<?php echo base_url();?>assets/js/jquery.cookie.js" ></script>
+<script type="application/javascript" >$.cookie.json = true;</script>
+<link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="<?php echo base_url();?>assets/css/bootstrap-theme.min.css" rel="stylesheet" />
 <link href="<?php echo base_url();?>assets/css/vendor-default.css" rel="stylesheet" />
 <link rel="stylesheet" href="<?php echo base_url()?>assets/css/font-awesome.min.css">
@@ -62,16 +62,13 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 			<div class="white-navbar">
 				<ul class="nav navbar-nav navbar-left">
 					<li>
-						<img src="<?php echo base_url();?>images/header-logo.png" height="80">
-					</li>
-					<li>
-						<h2><a href="<?php echo base_url();?>vendor/main">Home</a></h2>
+						<img src="<?php echo base_url();?>images/header-logo.png" height="60">
 					</li>
 					<li>
 						<h2><a href="<?php echo base_url();?>kelas">Kelas</a></h2>
 					</li>
 					<li>
-						<h2><a href="http://ruangguru.com">Guru Privat</a></h2>
+						<h2><a href="http://ruangguru.com">Privat</a></h2>
 					</li>
 					<li>
 						<h2><a href="<?php echo base_url();?>faq">Kebijakan</a></h2>
@@ -110,7 +107,7 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 	else:
 ?>
 					<li class="pull-right">
-						<p><a href="<?php echo base_url().'vendor/auth/logout';?>" class="manage-icon text-18 bold">Sign Out</a></p>
+						<p><a href="<?php echo base_url().'vendor/auth/logout';?>" class="manage-icon text-16 bold">Sign Out</a></p>
 					</li>
 					<li class="pull-right pos-logreg">
 						<h2>Hello,<br/><a href="<?php echo base_url();?>vendor/profile/edit" class="pink"><?php echo $this->data['user']['name'];?></a></h2>

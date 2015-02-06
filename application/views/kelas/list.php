@@ -190,21 +190,13 @@ $this->load->view('vendor/general/header');
 ?>
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail">
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><img data-src="<?php echo base_url().$img;?>" src="<?php echo base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_price}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?> /></a>
+								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><img width="280px" data-src="<?php echo base_url().$img;?>" src="<?php echo base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_price}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?> /></a>
 								<div class="price-class"></div>
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
 								<div class="class-info">
 									<div>
 										<div class="class-price">
-											Rp <?php echo $_price; ?>
-											<?php if($kelas->class_paket == 0){
-													echo "/ sesi";
-												}elseif($kelas->class_paket == 1){
-													echo "/ seri";
-												}else{
-													echo "/ paket";
-												}
-											?>
+											Rp <?php echo $_price.' /sesi'; ?>
 										</div>
 										<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>" class="class-register">
 											DETAIL
@@ -216,7 +208,7 @@ $this->load->view('vendor/general/header');
 											<img src="<?php echo base_url().'images/calendar.png';?>"/>
 										</div>
 										<p class="text-13"><?php echo date('d M Y', strtotime($kelas->class_tanggal));?> | 17.00 - 19.00 WIB<br/>
-											dan <a href="#"><span class="title-filter link-sesi"><?php echo 5;?> sesi lainnya</span></a><br/>
+											dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>" class="pink"><span class="link-sesi"><?php echo 5;?> sesi lainnya</span></a><br/>
 										</p>
 									</div>
 									<a href="#"><div class="line-title"><span class="bold text-left text-16 title-filter"></span></div></a>
@@ -252,7 +244,7 @@ $this->load->view('vendor/general/header');
 
 					</div>
 					
-					<div class="text-center top-10 bottom-10 text-20 bold">New and Noteworthy</div>
+					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Terbaru</div>
 					
 					<div class="row">
 <?php
@@ -278,7 +270,7 @@ $this->load->view('vendor/general/header');
 ?>
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail">
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><img data-src="<?php echo base_url().$img;?>" src="<?php echo base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?> /></a>
+								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><img data-src="<?php echo base_url().$img;?>" width="280px" src="<?php echo base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?>/></a>
 								<div class="price-class"></div>
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
 								<div class="class-info">
@@ -304,7 +296,7 @@ $this->load->view('vendor/general/header');
 											<img src="<?php echo base_url().'images/calendar.png';?>"/>
 										</div>
 										<p class="text-13"><?php echo date('d M Y', strtotime($kelas->class_tanggal));?> | 17.00 - 19.00 WIB<br/>
-											dan <a href="#"><span class="pink link-sesi"><?php echo 5;?> sesi lainnya</span></a><br/>
+											dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>" class="pink"><span class="link-sesi"><?php echo 5;?> sesi lainnya</span></a><br/>
 										</p>
 									</div>
 									<a href="#"><div class="line-title"><span class="bold text-left text-16 title-filter"></span></div></a>

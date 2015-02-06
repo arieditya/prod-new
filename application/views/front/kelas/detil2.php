@@ -88,7 +88,7 @@ foreach($sched as $s) {
 			<div class="row">
 				<div class="col-md-8">
 					<div class="top-head">
-						<h2><?php echo $class->class_nama;?></h2>
+						<h2 class="bold text-21"><?php echo $class->class_nama;?></h2>
 					</div>
 					<div id="main-photo" class="top-30 bg-section shadow"><img class="img-responsive2" src="<?php echo base_url();?>/images/class/<?php echo $class->id?>/<?php echo $class->class_image;?>" /></div>
 					<ul class="nav nav-tabs" role="tablist">
@@ -98,20 +98,20 @@ foreach($sched as $s) {
 					</ul>
 					<div class="tab-content bg-section padtop-30 shadow">
 						<div class="tab-pane active" id="about">
-							<p class="pinkfont text-14 bold">Penyelenggara</p>
+							<p class="text-14 bold title-class">Penyelenggara</p>
 							<a href=""><?php echo $vendor['profile']->name;?></a>
 							<p>
 								<?php echo nl2br($class->class_deskripsi);?>
 							</p>
-							<p class="pinkfont text-14 bold bottom-10">Target Peserta</p>
+							<p class="text-14 bold bottom-10 title-class">Target Peserta</p>
 							<p>
 								<?php echo !empty($class->class_perserta_target)?nl2br($class->class_perserta_target):'';?>
 							</p>
-							<p class="pinkfont text-14 bold bottom-10">Kapasitas</p>
+							<p class="text-14 bold bottom-10 title-class">Kapasitas</p>
 							<p>
 								<?php echo $class->class_peserta_max?> orang (kelas terlaksana jika ada minimal <?php echo $class->class_peserta_min;?> murid)
 							</p>
-							<p class="pinkfont text-14 bold bottom-10">Galeri Foto</p>
+							<p class="text-14 bold bottom-10 title-class">Galeri Foto</p>
 							<div id="slider4">
 								<a class="buttons prev" href="#">&#60;</a>
 										<div class="viewport">
@@ -134,14 +134,14 @@ foreach($sched as $s) {
 						</div>
 						<div class="tab-pane" id="price">
 							<div>
-								<p class="pinkfont text-14 bold">Harga per sesi</p>
+								<p class="bluefont text-14 bold">Harga per sesi</p>
 								<p>Rp <?php echo number_format($class->price_per_session, 0, ',', ',')?>,-</p>
-								<p class="pinkfont text-14 bold bottom-10">Harga per paket</p>
+								<p class="bluefont text-14 bold bottom-10">Harga per paket</p>
 								<?php if(empty($class->discount)):?>
 								<p>Rp <?php echo number_format($class->price_per_session*$schedule->num_rows(), 0, ',', ',')?>,-</p>
 								<?php else:?>
 								<p>Rp <?php echo number_format($class->price_per_session*$schedule->num_rows(), 0, ',', ',')?>,-</p>
-								<p class="pinkfont text-14 bold bottom-10">Harga setelah discount</p>
+								<p class="bluefont text-14 bold bottom-10">Harga setelah discount</p>
 								<p>Rp <?php echo number_format($class->price_per_session*$schedule->num_rows()-($class->discount), 0, ',', ',')?>,-</p>
 								<?php endif;?>
 <?php 
@@ -243,7 +243,7 @@ endif;
 									</tbody>
 								</table>
 						</div>
-						&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url().'payment/transfer/step1'?>" class="btn-reg-class register_class text-18"><span class="bold">DAFTAR </span>KELAS SEKARANG!</a>
+						&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url().'payment/transfer/step1'?>" class="btn-reg-class register_class text-18"><img src="<?php echo base_url().'images/daftar.png';?>"/>&nbsp;&nbsp;&nbsp;DAFTAR</a>
 					</div>
 							<?php 
 								$rating = $class->rating->row();
@@ -253,8 +253,8 @@ endif;
 							?>
 							<div class="jumbotron shadow">
 								<div class="rating">
-									<span class="pinkfont text-14 bold">Rating
-									<?php if($review->num_rows > 0){?>
+									<span class="bold">Rating
+									<?php if($counter > 0){ ?>
 									<?php 
 									for($i=0;$i<5;$i++):
 									?>
@@ -268,19 +268,22 @@ endif;
 									?>
 									dari <span class="pinkfont"><?php echo $counter?></span> pemilih
 									</span>
+									<?php } else { ?>
+										<p class="bottom-10">Mohon maaf rating untuk kelas ini belum ada</p>
+									<?php } ?>
 								</div>
 								<div class="review">
-									<span class="title-filter bold">Testimonial</span>
+									<span class="bold">Testimonial</span>
 									<ul id="review-wrapper">
-										<?php foreach($review->result() as $student_review):?>
+									<?php if($class->review->num_rows() > 0){ ?>
+										<?php foreach($class->review->num_rows() as $student_review):?>
 										<li>
 											<div class="left-review"><img src="<?php echo base_url().'images/murid/pp/dummy-murid.png';?>" class="frame-murid"/></div>
 											<div class="right-review"><span class="title-filter bold"><?php echo $student_review->murid_nama?></span><br/><?php echo nl2br($student_review->review);?></div>
 										</li>
 										<?php endforeach; ?>
 										<?php } else { ?>
-										<br/><br/>
-										<p class="text-13">Mohon maaf, rating untuk penyelenggara ini belum ada</p>
+											<p>Mohon maaf testimonial untuk kelas ini belum ada</p>
 										<?php } ?>
 									</ul>
 								</div>
@@ -290,23 +293,31 @@ endif;
 						</div>
 				</div>
 				<div class="col-md-4">
-					<!--<div class="top-head-blue shadow">
-						<p class="text-18">Rp <?php //echo number_format($class->price_per_session*$schedule->num_rows(),0,',',',');?>,-</p>
-						<p class="disc-title text-16"><strong>Rp <?php //echo number_format($class->price_per_session*$schedule->num_rows()-($class->discount), 0, ',', ',')?>,-</strong></p>
-					</div>-->
-					<div class="pinkpanel">
-						<div class="title white">Sesi selanjutnya</div>
-						<div class="content bg-section shadow"></div>
+					<div class="btn-orange2 text-center shadow">
+						<span class="btn-orange2 text-18 bold"><img src="<?php echo base_url().'images/pricetag.png'?>"/>&nbsp;&nbsp;&nbsp;Rp <?php echo number_format($class->price_per_session*$schedule->num_rows()-($class->discount), 0, ',', ',')?>,-</span>
 					</div>
 					<a class="register_class" href="<?php echo base_url().'payment/transfer/step1';?>">
 						<div class="btn-orange2 text-center shadow">
-							<span class="btn-orange2 text-18 bold">DAFTAR SEKARANG</span>
+							<span class="btn-orange2 text-18 bold"><img src="<?php echo base_url().'images/daftar.png'?>"/>&nbsp;&nbsp;&nbsp;DAFTAR SEKARANG</span>
 						</div>
 					</a>
-					<button class="btn-orange shadow"><img src="<?php echo base_url().'images/heart.png'?>"/>&nbsp;&nbsp;&nbsp;Jadikan <strong class="pinkfont">wishlist</strong></button>
+					<button class="btn-orange shadow"><img src="<?php echo base_url().'images/wish.png'?>"/>&nbsp;&nbsp;&nbsp;Jadikan <strong class="pinkfont">wishlist</strong></button>
 					<div class="pinkpanel">
-						<div class="title white">Lokasi</div>
-						<div class="content bg-section shadow">
+							<div class="title bold"><img src="<?php echo base_url().'images/session.png'?>"/>&nbsp;&nbsp;&nbsp;Sesi selanjutnya</div>
+							<div class="content bg-section shadow">
+								lorem ipsum dolor sit amet<br/>
+								lorem ipsum dolor sit amet<br/>
+								lorem ipsum dolor sit amet<br/>
+								lorem ipsum dolor sit amet<br/>
+								lorem ipsum dolor sit amet<br/>
+								lorem ipsum dolor sit amet<br/>
+								lorem ipsum dolor sit amet<br/>
+								lorem ipsum dolor sit amet<br/>
+							</div>
+					</div>
+					<div class="pinkpanel">
+							<div class="title bold"><img src="<?php echo base_url().'images/location.png'?>"/>&nbsp;&nbsp;&nbsp;Lokasi</div>
+							<div class="content bg-section shadow">
 <?php 
 $maps = explode('||',$class->class_peta);
 if(count($maps) == 1) {
@@ -314,12 +325,12 @@ if(count($maps) == 1) {
 }
 ?>
 							<p class="text-13"><i class="fa fa-map-marker"></i> <?php echo $class->class_lokasi?></p>
-							<img class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?size=300x300&maptype=roadmap&markers=color:red%7C<?php echo $maps[0];?>" />
+							<a href="<?php echo $maps[1];?>" target="_blank"><img class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?size=300x300&maptype=roadmap&markers=color:red%7C<?php echo $maps[0];?>" /></a>
 							<a href="<?php echo $maps[1];?>" target="_blank" class="text-13">View on <span style="text-decoration: underline">Google Maps</span></a>
 						</div>
 					</div>
 					<div class="pinkpanel">
-						<div class="title white">Ada pertanyaan?</div>
+						<div class="title bold"><img src="<?php echo base_url().'images/ask.png'?>"/>&nbsp;&nbsp;&nbsp;Butuh Bantuan?</div>
 						<div class="content bg-section shadow">
 							<p class="text-13">Peroleh informasi dan bantuan terkait kelas dari tim layanan konsumen kami!</p>
 							<p class="text-13"><img src="<?php echo base_url().'images/telephone.png';?>"/>&nbsp;&nbsp;021-9200-3040</p>
@@ -328,7 +339,7 @@ if(count($maps) == 1) {
 						</div>
 					</div>
 					<div class="pinkpanel">
-						<div class="title white">Penyelenggara</div>
+						<div class="title bold"><img src="<?php echo base_url().'images/vendor.png'?>"/>&nbsp;&nbsp;&nbsp;Penyelenggara</div>
 						<div class="content bg-section shadow">
 							<div class="line-title text-center"><img src="<?php echo base_url("images/vendor/{$vendor['profile']->id}/{$vendor['info']->vendor_logo}")?>" class="img-responsive2 top-10" /></div>
 							<p class="text-13 bottom-10"><?php echo substr($vendor['info']->vendor_description,0, 100).'... ';?><a href="#" class="pink pull-right bold">More</a></p>

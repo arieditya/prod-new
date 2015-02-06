@@ -19,7 +19,7 @@ $this->load->view('general/header-bootstrap');
 					<div class="col-md-7 top-30">
 						<h2 class="text-18 bold pinkfont">Review Data Pemesanan</h2>
 							<div class="bg-section padding-content shadow">
-							<p class="text-16 bold">Data <span class="pinkfont">Pemesan</span></p>
+							<p class="text-16 bold" style="margin-left:-4px;">Data <span class="pinkfont">Pemesan</span></p>
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
@@ -357,22 +357,20 @@ $this->load->view('general/header-bootstrap');
 	$(document).ready(function(){
 		$('#curtain').hide();
 		$('.payment_info').hide();
-		$('.btn-payment2').click(function(e){
+		$('.btn-payment').click(function(e){
 			e.preventDefault();
 			var $id = $(this).attr('id');
-			$('.btn-payment2').removeClass('active');
+			$('.btn-payment').removeClass('active');
 			$('.payment_info').hide();
 			$(this).addClass('active');
 			switch($id) {
 				case		'payment_atm':
 					$('#transfer_info').show();
-					return false;
 					break;
 				case		'payment_cash':
 					$('#cash_info').show();
-					return false;
-					break;
 			}
+			return false;
 		});
 		$('#btn_next').click(function(e){
 			e.preventDefault();

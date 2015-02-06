@@ -28,13 +28,13 @@
 		</script>
     </head>
     <body>
-        <section id="header" style="background:url('../images/banner-vendor-1.jpg') no-repeat; height:300px;">
+        <section id="header" class="bg-vendor">
             <div class="container">
 				<div class="row">
 					<div class="col-md-offset-1 col-md-5 padbottom-10">
 						<ul class="btn-how-to">
 							<li class="btn-pinky shadow"><a href="#cara-kerja">Cara Kerja</a></li>
-							<li class="btn-pinky-active shadow"><a href="<?php echo base_url();?>">Daftar kelas pertama gratis!</a></li>
+							<li class="btn-pinky-active shadow"><a class="fancybox" href="#inline2">Daftar kelas pertama gratis!</a></li>
 						</ul>
 					</div>
 				</div>
@@ -63,9 +63,10 @@
         </div>     
         </section>-->
 		<section id="galeri">
-			<div class="container bottom-30">
+			<div class="container bottom-10">
 				<div class="row">
 					<div class="col-md-offset-1 col-md-10">
+						<h1 class="bold text-center top-30">Apa Manfaat Menggunakan Ruangguru?</h1>
 						<div class="col-md-6">
 							<ul id="manfaat-rg">
 								<li>
@@ -158,7 +159,7 @@
 										<p class="text-center bold">
 											"Pemesanan secara online memudahkan saya untuk mencari guru yang saya mau. Sistemnya simple dan praktis, hanya habis beberapa menit!"
 										</p>
-										<p class="text-center text-13 pink bold">Reza (24), Jakarta</p>
+										<p class="text-center text-13 pink bold">Marissa, Jakarta</p>
 									</div>
 								</li>
 							</ul>
@@ -183,30 +184,30 @@
     <section id="media" class="bottom-20 padtop-30">
         <div class="container">
 			<div class="row" id="cara-kerja">
-				<h2 class="bold text-center pink">Bagaimana Cara Kerjanya?</h2>
-				<div class="col-md-offset-3 col-md-6 text-center">
+				<h1 class="bold text-center">Bagaimana Cara Kerjanya?</h1>
+				<div class="col-md-offset-3 col-md-6 text-center top-30 text-13">
 					Institusi/ individu dapat menyelenggarakan kelas (untuk pelajaran apapun) dan kemudian mempublikasikannya melalui website Ruangguru.
 				</div>
 				<div class="col-md-offset-1 col-md-10">
 						<div class="col-md-3 text-center">
 							<img src="<?php echo base_url();?>images/step-1.png"/><br/>
-							<p class="pink bold">Sign Up</p>
-							<p class="text-center">Penyedia Kelas <a class="fancybox pink" href="#inline1">mendaftar di sini</a> dan kemudian mendaftarkan kelas baru yang ingin diselenggarakan</p>
+							<p class="pink bold text-14">Sign Up</p>
+							<p class="text-center text-13">Penyedia Kelas <a class="fancybox pink" href="#inline1">mendaftar di sini</a> dan kemudian mendaftarkan kelas baru yang ingin diselenggarakan</p>
 						</div>
-						<div class="col-md-3  text-center">
+						<div class="col-md-3  text-center text-13">
 							<img src="<?php echo base_url();?>images/step-2.png"/><br/>
-							<p class="pink bold">Review</p>
-							<p class="text-center">Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfirmasi dengan Penyedia Kelas</p>
+							<p class="pink bold text-14">Review</p>
+							<p class="text-center text-13">Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfirmasi dengan Penyedia Kelas</p>
 						</div>
-						<div class="col-md-3 text-center">
+						<div class="col-md-3 text-center text-13">
 							<img src="<?php echo base_url();?>images/step-3.png"/><br/>
-							<p class="pink bold">Publish</p>
-							<p class="text-center">Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfirmasi dengan Penyedia Kelas</p>
+							<p class="pink bold text-14">Publish</p>
+							<p class="text-center text-13">Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfirmasi dengan Penyedia Kelas</p>
 						</div>
-						<div class="col-md-3 text-center">
+						<div class="col-md-3 text-center text-13">
 							<img src="<?php echo base_url();?>images/step-4.png"/><br/>
-							<p class="pink bold">Teach</p>
-							<p class="text-center">Setelah kelas terisi, Penyedia Kelas dapat mulai mengajar  sesuai dengan jadwal yang ditentukan. Biaya registrasi murid akan dibayarkan setelah kelas.</p>
+							<p class="pink bold text-14">Teach</p>
+							<p class="text-center text-13">Setelah kelas terisi, Penyedia Kelas dapat mulai mengajar  sesuai dengan jadwal yang ditentukan. Biaya registrasi murid akan dibayarkan setelah kelas.</p>
 						</div>
 					</ul>
 				</div>
