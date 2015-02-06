@@ -54,8 +54,8 @@ $(document).ready(function(){
                                     Berikut ini adalah daftar pertanyaan dan jawaban untuk hal-hal yang sering ditanyakan mengenai Ruangguru. Jika Anda masih memiliki pertanyaan lain namun tidak tertera di bawah ini, Anda dapat menghubungi kami ke kontak kami <a href="<?php echo base_url()."kontak_kami";?>" class="normal-link bold">di sini</a>.
                                 </div>
 								<ul class="nav nav-tabs-sq" role="tablist">
-									<li id="profile_selector" class="active"><a href="#private" role="tab" data-toggle="tab">Published</a></li>
-									<li id="profile2_selector"><a href="#kelas" role="tab" data-toggle="tab">Draft</a></li>
+									<li id="profile_selector" class="active"><a href="#private" role="tab" data-toggle="tab">Privat</a></li>
+									<li id="profile2_selector"><a href="#kelas" role="tab" data-toggle="tab">Kelas</a></li>
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane active" id="private">
@@ -65,7 +65,9 @@ $(document).ready(function(){
 										<?php $this->load->view('front/bantuan/duta_guru');?>
 									</div>
 									<div class="tab-pane" id="kelas">
-										<p>Kelas tidak tersedia</p>
+										<?php $this->load->view('front/bantuan/umum');?>
+										<?php $this->load->view('front/bantuan/calon_murid');?>
+										<?php $this->load->view('front/bantuan/vendor');?>
 									</div>
 								</div>
 							</div>

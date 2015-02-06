@@ -25,7 +25,7 @@ $this->load->view('vendor/general/header');
 			<li class="sub-menu-btn"><a href="<?php echo base_url().'vendor/profile/edit'?>">Profil Anda</a></li>
 			<li class="sub-menu-btn-active"><a href="<?php echo base_url().'vendor/kelas/daftar'?>">Kelas Anda</a></li>
 			<li class="sub-menu-btn"><a href="<?php echo base_url().'vendor/kelas/baru'?>">Tambah Kelas</a></li>
-			<li class="pull-right bottom-10 bold"><img src="<?php echo base_url().'images/phone-2.png';?>" width="20px"/>&nbsp;021-9200-3040</li>
+			<li class="pull-right bottom-10 bold"><img src="<?php echo base_url().'images/phone-2.png';?>" width="20px"/>&nbsp;021-92000-3040</li>
 		</ul>
 	</div>
 </div>
@@ -45,7 +45,7 @@ $this->load->view('vendor/general/header');
 						<?php
 							endif;
 						?>
-						<li id="tab_summary" class="<?php echo $tabs=='summary'||(empty($tabs)&& $class->active > 0)?'active':''?>"><a href="#summary" role="tab" data-toggle="tab">Detail</a></li>
+						<li id="tab_summary" class="<?php echo $tabs=='summary'||(empty($tabs)&& $class->active > 0)?'active':''?>"><a href="#summary" role="tab" data-toggle="tab">Preview</a></li>
 						<?php 
 							if($class->active > 0):
 						?>
@@ -64,17 +64,16 @@ $this->load->view('vendor/general/header');
 						<form method="post" class="form-horizontal" action="<?php echo base_url();?>vendor/kelas/update_profile">
 							<input type="hidden" value="<?php echo $class->id;?>" name="id" id="id" />
 							<div class="form-group">
-								<label class="col-md-3 control-label">Tentang kelas</label>
+								<label class="col-md-3 control-label">Tentang Kelas</label>
 								<div class="col-md-9">
 									<textarea name="class_deskripsi"
 											placeholder="Deskripsi mengenai kelas yang akan dilaksanakan sebanyak 1-2 paragraf. Kalimat disarankan bersifat persuasif dan menjelaskan mengapa kelas ini harus diikuti oleh target perserta. Anda juga bisa memaparkan secara singkat, mengapa Anda adalah 'guru' yang tepat untuk kelas ini."
-											class="form-control txtEditor" rows="5"><?php echo 
-										$class->class_deskripsi;?>
+											class="form-control" rows="5"><?php echo $class->class_deskripsi;?>
 									</textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Alamat kelas</label>
+								<label class="col-md-3 control-label">Alamat</label>
 								<div class="col-md-9">
 										<textarea name="class_lokasi" class="form-control" rows="5"><?php echo $class->class_lokasi;?></textarea>
 								</div>
@@ -97,22 +96,23 @@ $this->load->view('vendor/general/header');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Target peserta</label>
+								<label class="col-md-3 control-label">Target Peserta</label>
 								<div class="col-md-9">
-									<textarea name="class_perserta_target"
+									<textarea name="class_peserta_target"
 											placeholder="Siapa target kelas anda? Golongan pelajar atau pekerja atau umum? Ibu rumah tangga? Range umur, dll"
-											class="form-control" rows="5"><?php echo $class->class_perserta_target;?></textarea>
+											class="form-control" rows="5"><?php echo $class->class_peserta_target;?>
+									</textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Jumlah peserta Minimal</label>
+								<label class="col-md-3 control-label">Jumlah Peserta Minimal</label>
 								<div class="col-md-9">
 									<input class="form-control" type="number" name="class_peserta_min" value="<?php echo $class->class_peserta_min;?>" 
 											placeholder="Jumlah maksimal siswa dalam satu kelas" />
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Jumlah peserta Maksimal</label>
+								<label class="col-md-3 control-label">Jumlah Peserta Maksimal</label>
 								<div class="col-md-9">
 									<input class="form-control" type="number" name="class_peserta_max" value="<?php echo $class->class_peserta_max;?>" 
 											placeholder="Jumlah maksimal siswa dalam satu kelas" />
@@ -126,7 +126,7 @@ $this->load->view('vendor/general/header');
 <?php
 	$class_package = $class->class_paket == 0?'':'checked="checked" ';
 ?>
-											<input type="radio" <?php echo $class_package;?>name="class_paket" value="single" /> <span>Satu kali pertemuan</span>
+											<input type="radio" <?php echo $class_package;?>name="class_paket" value="single" /> <span>Hanya satu sesi</span>
 										</label>
 									</div>
 									<div class="radio">
@@ -142,7 +142,7 @@ $this->load->view('vendor/general/header');
 <?php
 	$class_package = $class->class_paket == 2?'':'checked="checked" ';
 ?>
-											<input type="radio" <?php echo $class_package;?>name="class_paket" value="package" /> <span>Paket</span>
+											<input type="radio" <?php echo $class_package;?>name="class_paket" value="package" /> <span>Satu Paket</span>
 										</label>
 									</div>
 								</div>
@@ -193,8 +193,8 @@ $this->load->view('vendor/general/header');
 							</div>
 							<div class="form-group">
 								<div class="col-md-offset-3 col-md-9">
-									<button class="btn btn-success" type="submit">Submit</button>
-									<button class="btn btn-warning" type="reset">reset</button>
+									<button class="btn btn-success btn-lg">Simpan</button>&nbsp;&nbsp;
+									<button class="btn btn-danger btn-sm">Batal</button>
 								</div>
 							</div>
 						</form>
@@ -215,7 +215,7 @@ $this->load->view('vendor/general/header');
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-3 control-label">Foto kelas</label>
+								<label class="col-md-3 control-label">Foto Kelas</label>
 <?php
 	if(!empty($class->class_image)):
 ?>
@@ -243,8 +243,8 @@ $this->load->view('vendor/general/header');
 							</div>
 							<div class="form-group">
 								<div class="col-md-offset-3 col-md-9">
-									<button class="btn btn-success" type="submit">Submit</button>
-									<button class="btn btn-warning" type="reset">reset</button>
+									<button class="btn btn-success btn-lg">Simpan</button>&nbsp;&nbsp;
+									<button class="btn btn-danger btn-sm">Batal</button>
 								</div>
 							</div>
 						</form>
@@ -266,57 +266,6 @@ $this->load->view('vendor/general/header');
 								<tbody id="class_sched">
 <?php
 $i=0;
-	if(count($jadwal->result()) == 0 && $class->class_paket == 0):
-?>
-								<tr data-id="1">
-									<td>
-										<div class="form-group has-feedback">
-											<div class="col-md-12">
-												1
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="form-group has-feedback">
-											<div class="col-md-12">
-												<input type="text" class="form-control jadwal_date" id="" name="jadwal_date[]" data-date-format="YYYY-MM-DD" placeholder="YYYY-MM-DD" value="" />
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="form-group has-feedback">
-											<div class="col-md-12">
-												<input type="text" class="form-control jadwal_time_start" id="" 
-													   name="jadwal_time_start[]" data-date-format="HH:mm" placeholder="mis: 17:30" value="" />
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="form-group has-feedback">
-											<div class="col-md-12">
-												<input type="text" class="form-control jadwal_time_end" id="" name="jadwal_time_end[]" data-date-format="HH:mm" placeholder="mis: 17:30" value=""/>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="form-group has-feedback">
-											<div class="col-md-12">
-												<input type="text" id="" class="form-control jadwal_topic" name="jadwal_topik[]" />
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="form-group">
-											<div class="col-md-12">
-												<button class="btn btn-xs btn-danger" class="delete_button">Delete</button>
-											</div>
-										</div>
-									</td>
-								</tr>
-<?php
-	else:
-?>
-<?php
 	foreach($jadwal->result() as $sched):
 		$i++;
 		if($class->class_paket == 0 && $i > 1) break;
@@ -381,9 +330,6 @@ $i=0;
 		if($class->class_paket == 0) break;
 	endforeach;
 ?>
-<?php
-	endif;
-?>
 								</tbody>
 								<tfoot>
 								<tr>
@@ -402,8 +348,8 @@ $i=0;
 								</tr>
 								</tfoot>
 							</table>
-							<button class="btn btn-success" type="submit">Submit</button>
-							<button class="btn btn-warning btn-sm" type="reset">Reset</button>
+								<button class="btn btn-success btn-lg">Simpan</button>&nbsp;&nbsp;
+								<button class="btn btn-danger btn-sm">Batal</button>
 <?php
 	$price = $biaya;
 ?>
@@ -421,10 +367,7 @@ $i=0;
 							<div class="form-group">
 								<label class="col-md-offset-1 col-md-2 control-label">Harga per sesi</label>
 								<div class="col-md-8">
-									<input class="form-control" name="price_per_session" id="price_per_session" 
-										   value="<?php echo empty($price->price_per_session)?
-												   (empty($class->class_harga)?0:$class->class_harga)
-												   :$price->price_per_session;?>" />
+									<input class="form-control" name="price_per_session" id="price_per_session" value="<?php echo empty($price->price_per_session)?'':$price->price_per_session;?>" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -462,8 +405,8 @@ $i=0;
 							<div class="form-group">
 
 								<div class="col-md-offset-3 col-md-8">
-									<button class="btn btn-success" type="submit">Submit</button>
-									<button class="btn btn-warning btn-sm" type="reset">reset</button>
+									<button class="btn btn-success btn-lg">Simpan</button>&nbsp;&nbsp;
+									<button class="btn btn-danger btn-sm">Batal</button>
 								</div>
 							</div>
 						</form>
@@ -472,33 +415,33 @@ $i=0;
 	endif;
 ?>
 					<div class="tab-pane <?php echo $tabs=='summary'||(empty($tabs)&& $class->active > 0)?'active':''; ?>" id="summary">
-						<div class="blue-bar top-20">
+						<div class="blue-bar">
 							<h4 class="bold">Profil</h4>
 						</div>
 						<div class="padding-content">
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">Nama Kelas</div>
 								<div class="col-md-8"><?php echo $class->class_nama; ?></div>
 							</div>
 							<hr/>
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">URI</div>
 								<div class="col-md-8">http://kelas.ruangguru.com/<?php echo $class->class_uri; ?></div>
 							</div>
 							<hr/>
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">Deskripsi</div>
 								<div class="col-md-8">
 									<p><?php echo nl2br($class->class_deskripsi); ?></p>
 								</div>
 							</div>
 							<hr/>
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">Alamat</div>
 								<div class="col-md-8"><?php echo $class->class_lokasi; ?></div>
 							</div>
 							<hr/>
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">Peta</div>
 								<div class="col-md-8">
 <?php
@@ -508,16 +451,16 @@ $i=0;
 								</div>
 							</div>
 						</div>
-						<div class="blue-bar top-20">
+						<div class="blue-bar">
 							<h4 class="bold">Info</h4>
 						</div>
 						<div class="padding-content">
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">Catatan</div>
 								<div class="col-md-8"><?php echo nl2br($class->class_catatan);?></div>
 							</div>
 							<hr/>
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">Video</div>
 <?php 	if(!empty($class->class_video))
 			$video = preg_replace('/^.*v\=/', '', $class->class_video);
@@ -534,32 +477,32 @@ $i=0;
 <?php 
 	else:
 ?>
-								<h4>Belum ada video tersedia</h4>
+								<h5>Belum ada video tersedia</h5>
 <?php 
 	endif;
 ?>
 								</div>
 							</div>
 							<hr/>
-							<div class="row">
+							<div class="row narrow">
 								<div class="col-md-4">Foto</div>
 								<div class="col-md-8">
-									<img style="width: 100%" src="<?php echo base_url()."images/class/{$class->id}/{$class->class_image}";?>" />
+									<img style="width: 70%" src="<?php echo base_url()."images/class/{$class->id}/{$class->class_image}";?>" />
 								</div>
 							</div>
 						</div>
-							<div class="blue-bar top-20">
+							<div class="blue-bar">
 								<h4 class="bold">Jadwal</h4>
 							</div>
 							<div class="padding-content">
 							<table class="table table-bordered table-responsive table-striped">
 							<thead>
 							<tr>
-								<th>No.</th>
-								<th>Tanggal</th>
-								<th>Mulai</th>
-								<th>Selesai</th>
-								<th>Topik</th>
+								<th class="text-center">No.</th>
+								<th class="text-center">Tanggal</th>
+								<th class="text-center">Mulai</th>
+								<th class="text-center">Selesai</th>
+								<th class="text-center">Topik</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -569,11 +512,11 @@ $i=0;
 	foreach($sched as $schedule):
 ?>
 							<tr>
-								<td><?php echo $j+1;?></td>
-								<td><?php echo $schedule->class_tanggal;?></td>
-								<td><?php echo $schedule->class_jam_mulai.':'.$schedule->class_menit_mulai;?></td>
-								<td><?php echo $schedule->class_jam_selesai.':'.$schedule->class_menit_selesai;?></td>
-								<td><?php echo $schedule->class_jadwal_topik;?></td>
+								<td class="text-center"><?php echo $j+1;?></td>
+								<td class="text-center"><?php echo $schedule->class_tanggal;?></td>
+								<td class="text-center"><?php echo $schedule->class_jam_mulai.':'.$schedule->class_menit_mulai;?></td>
+								<td class="text-center"><?php echo $schedule->class_jam_selesai.':'.$schedule->class_menit_selesai;?></td>
+								<td class="text-center"><?php echo $schedule->class_jadwal_topik;?></td>
 							</tr>
 <?php 
 	$j++;
@@ -582,36 +525,36 @@ $i=0;
 							</tbody>
 						</table>
 						</div>
-					<div class="blue-bar top-20">
+					<div class="blue-bar">
 						<h4 class="bold">Biaya</h4>
 					</div>
 					<div class="padding-content">
-						<div class="row">
+						<div class="row narrow">
 							<div class="col-md-4">Jumlah pertemuan (sesi)</div>
 							<div class="col-md-8"><?php echo $jadwal->num_rows(); ?> x pertemuan</div>
 						</div>
 						<hr />
-						<div class="row">
+						<div class="row narrow">
 							<div class="col-md-4">Harga per sesi</div>
 							<div class="col-md-8">Rp <?php echo number_format($biaya->price_per_session); ?>,-</div>
 						</div>
 						<hr />
-						<div class="row">
+						<div class="row narrow">
 							<div class="col-md-4">Total</div>
 							<div class="col-md-8">Rp <?php echo number_format($biaya->price_per_session * $jadwal->num_rows()); ?>,-</div>
 						</div>
 						<hr />
-						<div class="row">
+						<div class="row narrow">
 							<div class="col-md-4">Potongan harga</div>
 							<div class="col-md-8">Rp <?php echo number_format($biaya->discount);?>,-</div>
 						</div>
 						<hr />
-						<div class="row">
+						<div class="row narrow">
 							<div class="col-md-4">Total sesudah diskon</div>
 							<div class="col-md-8">Rp <?php echo number_format(($biaya->price_per_session * $jadwal->num_rows()) - $biaya->discount)?>,-</div>
 						</div>
 						<hr />
-						<div class="row">
+						<div class="row narrow">
 							<div class="col-md-4">Harga sudah meliputi</div>
 							<div class="col-md-8"><?php echo nl2br($class->class_include);?></div>
 						</div>
@@ -692,7 +635,7 @@ $i=0;
 ?>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row narrow">
 						<form class="form-horizontal" action="" method="post">
 						<div class="col-md-10">
 							<div class="form-group">
@@ -706,12 +649,12 @@ $i=0;
 						<div class="col-md-4">
 							<div class="form-group">
 								<h5 class="bold pink">Masukkan Kode</h5>
-								<div class="row">
+								<div class="row narrow">
 									<div class="col-md-5">
 										<label class="control-label pull-left">Kode Publik</label>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row narrow">
 									<div class="col-md-7">
 										<input class="form-control" id="code_discount" type="text" name="code_discount"/>
 									</div>
@@ -735,7 +678,7 @@ $i=0;
 									Jumlah Diskon
 								</label>
 								<div class="col-md-9">
-									<div class="row">
+									<div class="row narrow">
 										<div class="col-md-2">
 											<label class="control-label">
 												<input type="radio" name="nominal_type" value="idr" />&nbsp;&nbsp;Rp 
@@ -745,10 +688,10 @@ $i=0;
 											<input type="number" class="form-control" id="idr_value" name="nominal_value" value="" />
 										</div>
 									</div>
-									<div class="row">
+									<div class="row narrow">
 										<div class="col-md-4 col-md-offset-4"><span class="bold"> atau </span></div>
 									</div>
-									<div class="row">
+									<div class="row narrow">
 										<div class="col-md-2">
 											<label class="control-label">
 												<input type="radio" name="nominal_type" value="percent" />
@@ -759,7 +702,7 @@ $i=0;
 											<input type="number" max="100" class="form-control" id="percent_value" name="nominal_value" value="" />
 										</div>
 									</div>
-									<div class="row">
+									<div class="row narrow">
 										<div class="col-md-offset-2 col-md-10">
 											<span class="bold">&nbsp;dari harga yang terpasang</span>
 										</div>
@@ -768,17 +711,17 @@ $i=0;
 							</div>
 							<div class="form-group">
 								<h5 class="bold pink">Masa Berlaku</h5>
-								<div class="row">
+								<div class="row narrow">
 									<label class="col-md-4 control-label">
 										Mulai Tanggal
 									</label>
 									<div class="col-md-8">
-										<div class="row">
+										<div class="row narrow">
 											<div class="col-md-12">
 												<label><input type="radio" name="begin" value="*">&nbsp;Sejak awal pendaftaran</label><br />
 											</div>
 										</div>
-										<div class="row">
+										<div class="row narrow">
 											<div class="col-md-3">
 												<label><input type="radio" name="begin" value="">&nbsp;Tanggal</label>
 											</div>
@@ -788,19 +731,19 @@ $i=0;
 										</div>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row narrow">
 									<label class="col-md-4 control-label">
 										Berakhir
 									</label>
 									<div class="col-md-8">
-										<div class="row">
+										<div class="row narrow">
 											<div class="col-md-12">
 												<label>
 													<input type="radio" name="ended" value="*">&nbsp;Sampai akhir pendaftaran
 												</label>
 											</div>
 										</div>
-										<div class="row">
+										<div class="row narrow">
 											<div class="col-md-3">
 												<label><input type="radio" name="ended" value="">&nbsp;Tanggal</label>
 											</div>
@@ -826,8 +769,8 @@ $i=0;
 <?php //*/ ?>
 							<div class="form-group">
 								<div class="col-md-5 pull-left">
-									<button type="submit" class="btn btn-lg btn-success">Submit</button>&nbsp;&nbsp;&nbsp;
-									<button type="reset	" class="btn btn-sm btn-danger">Reset</button>
+									<button class="btn btn-success btn-lg">Simpan</button>&nbsp;&nbsp;
+									<button class="btn btn-danger btn-sm">Batal</button>
 								</div>
 							</div>
 						</div>
@@ -880,7 +823,7 @@ $i=0;
 							<div class="form-group">
 								<label class="control-label col-md-2">Message</label>
 								<div class="col-md-10">
-									<textarea id="txt_message" class="form-control txtEditor" name="message" ></textarea>
+									<textarea id="txt_message" class="form-control" name="message" ></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -889,9 +832,14 @@ $i=0;
 									<input class="form-control" type="file" name="attach" />
 								</div>
 							</div>
-							<button class="col-md-offset-2 btn btn-lg btn-info">Kirim Email</button>
+								<button class="btn btn-success btn-lg">Kirim</button>&nbsp;&nbsp;
 						</form>
 					</div>
+<script type="application/javascript">
+	$(document).ready(function(){
+		$('#txt_message').ckeditor();
+	});
+</script>
 <?php 
 	endif;
 ?>
@@ -1151,7 +1099,6 @@ $i=0;
 	
 	var class_id = <?php echo $class->id;?>;
 	$(document).ready(function(){
-		$('.txtEditor').ckeditor();
 		$('input[type=number]').keydown(function(e){
 			if(
 					( e.keyCode < 48 || e.keyCode > 57 )

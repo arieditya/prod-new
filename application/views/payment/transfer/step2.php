@@ -19,7 +19,7 @@ $this->load->view('general/header-bootstrap');
 					<div class="col-md-7 top-30">
 						<h2 class="text-18 bold pinkfont">Review Data Pemesanan</h2>
 							<div class="bg-section padding-content shadow">
-							<p class="text-16 bold">Data <span class="pinkfont">Pemesan</span></p>
+							<p class="text-16 bold" style="margin-left:-4px;">Data <span class="pinkfont">Pemesan</span></p>
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">

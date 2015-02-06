@@ -37,15 +37,15 @@ $this->load->view('vendor/general/header');
 							<table class="table-class bold" width="850">
 								<thead>
 									<tr>
-										<th>ID</th>
-										<th>Nama Kelas</th>
-										<th>Harga Kelas (Rp) <!--<a href="#" class="tooltip" title="Harga kelas untuk setiap sesi yang diadakan">?</a>--></th>
-										<th>Jumlah Sesi</th>
-										<th>Tipe Kelas</th>
-										<th>Jumlah Murid</th>
-										<th>Status</th>
-										<th width="120px">Action</th>
-										<th>Go to web</th>
+										<th class="text-center">ID</th>
+										<th class="text-center">Nama Kelas</th>
+										<th class="text-center">Harga Kelas (Rp) <!--<a href="#" class="tooltip" title="Harga kelas untuk setiap sesi yang diadakan">?</a>--></th>
+										<th class="text-center">Jumlah Sesi</th>
+										<th class="text-center">Tipe Kelas</th>
+										<th class="text-center">Jumlah Murid</th>
+										<th class="text-center">Status</th>
+										<th class="text-center" width="120px">Action</th>
+										<th class="text-center">Go to web</th>
 									</tr>
 								</thead>
 							<tbody>
@@ -157,7 +157,7 @@ $this->load->view('vendor/general/header');
 						</table>
 					</div>
 				</div>
-				<h4>Add new schedule</h4>
+				<h4>Tambah jadwal baru</h4>
 				<input type="hidden" id="class_id" value="" />
 				<div class="row">
 					<div class="col-md-4">

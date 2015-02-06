@@ -54,19 +54,16 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 			<div class="white-navbar">
 				<ul class="nav navbar-nav navbar-left">
 					<li>
-						<img src="<?php echo base_url();?>images/header-logo.png" height="80">
-					</li>
-					<li>
-						<h2><a href="<?php echo base_url();?>vendor/main">Home</a></h2>
+						<img src="<?php echo base_url();?>images/header-logo.png" height="60">
 					</li>
 					<li>
 						<h2><a href="<?php echo base_url();?>kelas">Kelas</a></h2>
 					</li>
 					<li>
-						<h2><a href="http://ruangguru.com">Guru Privat</a></h2>
+						<h2><a href="http://ruangguru.com">Privat</a></h2>
 					</li>
 					<li>
-						<h2><a href="<?php echo base_url();?>faq">Kebijakan</a></h2>
+						<h2><a href="<?php echo base_url();?>faq">FAQ</a></h2>
 					</li>
 					<li>
 						<h2><a href="<?php echo base_url();?>kontak">Kontak</a></h2>
@@ -104,8 +101,12 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 					<li class="pull-right">
 						<p><a href="<?php echo base_url().'vendor/auth/logout';?>" class="manage-icon text-16 bold">Sign Out</a></p>
 					</li>
+					<?php 
+						$nama = $this->data['user']['name'];
+						$nama_dpn = explode(' ',$nama);
+					?>
 					<li class="pull-right pos-logreg">
-						<h2>Hello,<br/><a href="<?php echo base_url();?>vendor/profile/edit" class="pink"><?php echo $this->data['user']['name'];?></a></h2>
+						<h2>Hello,<br/><a href="<?php echo base_url();?>vendor/profile/edit" class="pink"><?php echo $nama_dpn[0];?></a></h2>
 					</li>
 <?php
 	endif;

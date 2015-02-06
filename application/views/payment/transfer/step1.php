@@ -12,15 +12,6 @@ $wait = json_decode($wait);
 	if(!wait) wait = [];
 </script>
 <div class="main-content">
-	<div class="row graybar bottom-30">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="class-step bold">
-				<p><span>1</span> <i>Galeri Kelas</i></p>
-				<p><span>2</span> <i>Kelas Pilihan</i></p>
-				<p><span>3</span> <em class="pinkfont"><i>Pembayaran</i></em></p>
-			</div>
-		</div>
-	</div>
 	<div class="row bg-all">
 		<div class="col-md-8 col-md-offset-2">
 			<form role="form" method="post" action="<?php echo base_url('payment/transfer/step2');?>">
@@ -28,7 +19,7 @@ $wait = json_decode($wait);
 					<div class="col-md-7">
 						<h2 class="text-18 bold pinkfont">Review Data Pemesanan</h2>
 						<div class="bg-section padding-content shadow">
-							<p class="text-16 bold">Data <span class="pinkfont">Pemesan</span></p>
+							<p class="text-16 bold" style="margin-left:-4px;">Data <span class="pinkfont">Pemesan</span></p>
 <?php 
 	if(empty($student)): 
 ?>
@@ -64,7 +55,7 @@ $wait = json_decode($wait);
 							</div>
 							<div class="form-group">
 								<label>Alamat lengkap*</label>
-								<textarea rows="5" class="form-control" name="pemesan_address" <?php echo !empty($student)?'readonly="readonly"':'';?> placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini."><?php echo !empty($student)?$student->murid_alamat:'';?> </textarea>
+								<textarea rows="3" class="form-control" name="pemesan_address" <?php echo !empty($student)?'readonly="readonly"':'';?> placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini."><?php echo !empty($student)?$student->murid_alamat:'';?> </textarea>
 							</div>
 							<br/>
 							<p class="text-16 bold">Data <span class="pinkfont">Murid</span></p>
@@ -144,7 +135,7 @@ $wait = json_decode($wait);
 									</div>
 								</div>
 								<hr/>
-								<div>
+								<div class="row">
 									<table class="white-table">
 										<thead>
 										<tr>
@@ -171,9 +162,7 @@ $wait = json_decode($wait);
 			} else {
 				$diskon = FALSE;
 			}
-			
-//			$text = empty($sched->class_jadwal_topik)?'':('<span style="'.$followed?'':'text-decoration: line-through;'.'">'.$sched->class_jadwal_topik.'</span>');
-			$text = print_r($sched->class_jadwal_topik, TRUE);
+			$text = $sched->class_jadwal_topik?'':('<span style="'.$followed?'':'text-decoration: line-through;'.'">'.$sched->class_jadwal_topik.'</span>');
 			$text .= $sched->available_seat == 0?'<span class="label label-warning">Fullbook</span>':'';
 			$text .= (!empty($text)?'<br />':'');
 ?>
@@ -235,10 +224,14 @@ $wait = json_decode($wait);
 									</table>
 								</div>
 							</div>
+							<div class="subtotal bottom-20 padtop-30">
+								<h4 class="pull-left bold">Subtotal Harga</h4>
+								<h4 class="pull-right bold">Rp <?php echo number_format($subprice).',-';?></h4>
+							</div>
+							<div class="bottom-20"></div>
 <?php 
 		$total_price += $subprice;
 	endforeach;
-	
 ?>
 <?php
 //	$potongan_diskon = 250000;
@@ -254,20 +247,20 @@ $wait = json_decode($wait);
 	}
 	else $potongan_diskon = 0;
 ?>
-							<div class="blue-segment">
-								<h5 class="pull-left">Total yang harus dibayar</h5>
-								<h5 class="pull-right">Rp <?php echo number_format($total_price, 0, ',',',')?>,-</h5>
-							</div>
 							<div class="top-10">
 								<div class="form-group">
-									<label>Kode Diskon</label><br/>
+									<label class="col-md-9">Kode Diskon</label><br/>
 									<div class="col-md-9">
 										<input type="text" id="kode_diskon" class="form-control" placeholder="(jika ada)" value="" />
 									</div>
-									<div class="col-md-3">
-										<button class="manage-icon text-14" id="cek_diskon" type="button">Cek!</button>
+									<div class="col-md-3 bottom-10">
+										<a class="manage-icon text-14" id="cek_diskon">Cek!</a>
 									</div>
 								</div>
+							</div>
+							<div class="blue-segment">
+								<h3 class="pull-left bold">Total yang harus dibayar</h3>
+								<h3 class="pull-right bold">Rp <?php echo number_format($total_price, 0, ',',',')?>,-</h3>
 							</div>
 						</div>
 					</div>

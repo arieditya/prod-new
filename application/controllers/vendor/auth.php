@@ -42,7 +42,7 @@ class Auth extends MY_Controller{
 			return;
 		} else {
 			$this->session->set_flashdata('status.warning', 'Email / Password is not match!');
-			redirect('vendor/auth/logreg');
+			redirect('vendor/main');
 			return;
 		}
 	}
@@ -53,7 +53,7 @@ class Auth extends MY_Controller{
 		$conf_pass = md5($this->input->post('confirm_password', TRUE));
 		if($data['password'] != $conf_pass) {
 			$this->session->set_flashdata('status.warning', 'Password confirmation not match!');
-			redirect('vendor/auth/logreg');
+			redirect('vendor/main');
 			return;
 		}
 		$data['name'] = $this->input->post('vendor_name', TRUE);
@@ -69,7 +69,7 @@ class Auth extends MY_Controller{
 			redirect('vendor/profile/edit');
 		} else {
 			$this->session->set_flashdata('status.warning', 'Cannot create new vendor!');
-			redirect('vendor/auth/logreg');
+			redirect('vendor/main');
 		}
 	}
 	public function teacher_connect() {
