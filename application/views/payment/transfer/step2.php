@@ -10,6 +10,18 @@
 $this->load->view('general/header-bootstrap');
 ?>
 <link href="<?php echo base_url();?>/assets/css/payment-transfer.css" type="text/css" rel="stylesheet">
+<style>
+	.grey {
+		width: 100%;
+		background-color: rgba(200,200,200,0.9);
+		margin-bottom: -41px;
+		border-radius: 22px;
+		height: 41px;
+		z-index: 20;
+		top: -56px;
+		position: relative;
+	}
+</style>
 <div id="curtain"></div>
 <div class="main-content">
 	<div class="row bg-all">
@@ -79,6 +91,8 @@ $this->load->view('general/header-bootstrap');
 						</div>
 <?php 
 if($total > 0):
+	$not_connect = FALSE;
+	try {
 							$jml_sesi = count($jadwal);
 							$price_session = $subtotal/$jml_sesi;
 							
@@ -181,6 +195,17 @@ if($total > 0):
 							$vtweb_url = Veritrans_Vtweb::getRedirectionUrl($transaction);
 							$vtweb_url_cimb = Veritrans_Vtweb::getRedirectionUrl($transaction2);
 							$vtweb_url_mandiri = Veritrans_Vtweb::getRedirectionUrl($transaction3);
+	} catch(Exception $e) {
+?>
+<script type="application/javascript">
+	console.error('Cannot connect to payment gateway server!');
+</script>
+<?php
+							$not_connect = TRUE;
+							$vtweb_url = 
+							$vtweb_url_cimb = 
+							$vtweb_url_mandiri = '#not_connect';
+	}
 						?>
 						<div class="bg-section padding-content shadow top-30">
 							<h5 class="pinkfont bold">Pilih metode pembayaran</h5>
@@ -290,11 +315,17 @@ if($total > 0):
 								</div>
 							</div>
 						</div>
-						<button class="btn-orange" id="btn_next">Lanjutkan</button>
+						<div class="agreefirst">
+							<button class="btn-orange" id="btn_next">Lanjutkan</button>
+							<div class="grey"></div>
+						</div>
 <?php 
 else:
 ?>
-						<button class="btn-orange" id="btn_free">Ambil Tiket Gratis!</button>
+						<div class="agreefirst">
+							<button class="btn-orange" id="btn_free">Ambil Tiket Gratis!</button>
+							<div class="grey"></div>
+						</div>
 <?php 
 endif;
 ?>
@@ -355,7 +386,7 @@ endif;
 									</div>
 								</div>
 							</div>
-							<div class="blue-segment">
+							<div class="blue-segment" style="width: 367px;margin-left: -20px;">
 								<h5 class="pull-left">Total yang harus dibayar</h5>
 								<h5 class="pull-right">Rp <?php echo number_format((int)$total, 0, ',','.')?>,-</h5>
 							</div>
@@ -529,11 +560,28 @@ endif;
 			e.preventDefault();
 			$('#curtain').empty().hide();
 		});
-		$('#btn_next').attr('disabled','disabled');
+		$('#btn_next, #btn_free').attr('disabled','disabled');
+		var warning = false;
 		$('#iagree').click(function(){
-			if($(this).is(':checked')) $('#btn_next').removeAttr('disabled');
-			else $('#btn_next').attr('disabled','disabled');
+			if($(this).is(':checked')) {
+				$('.grey').hide();
+				warning = false;
+				$('#btn_next, #btn_free').removeAttr('disabled');
+			} else {
+				$('.grey').show();
+				$('#btn_next, #btn_free').attr('disabled','disabled');
+			}
 		});
+		$('.grey')
+				.click(function(e){
+					if(!warning)
+					alert('Mohon centang persetujuan anda\n' +
+							'dengan persyaratan dan ketentuan kami\n' +
+							'yang berlaku terlebih dahulu.\n' +
+							'Terima kasih.');
+					warning = true;
+				});
+		$('#btn_next, #btn_free').attr('disabled','disabled');
 	});
 </script>
 <?php

@@ -71,11 +71,48 @@ class Payment extends MY_Controller {
 			}
 		}
 	}
+	
+	public function t_remove_from_cart() {
+		$remove_id = (int)$this->input->get('r_id', TRUE);
+		if(empty($remove_id)) {
+			show_error('No ID found!', 400);
+			return;
+		}
+		
+		if(!$this->input->cookie('cart', TRUE)) show_404();
+		$cart = json_decode($this->input->cookie('cart', TRUE));
+		$new_cart = array();
+		foreach($cart as $c){
+			var_dump($c->id);
+			var_dump($remove_id);
+			if($c->id == $remove_id) {
+				continue;
+			}
+			$new_cart[] = $c;
+		}
+		var_dump($new_cart);exit;
+		$this->load->helper('cookie');
+		set_cookie('cart', json_encode($new_cart), '', '', '/');
+		header('Content-type: application/json');
+		echo json_encode(array(
+			'status'		=> 'OK',
+			'data'			=> array(),
+			'message'		=> 'Class removed!'
+		));
+		return;
+	}
+	
+	public function t_clear_cart() {
+		
+	}
 
 	public function t_step1() {
 		if(!$this->input->cookie('cart', TRUE)) show_404();
 //		var_dump();exit;
 		$cart = json_decode($this->input->cookie('cart', TRUE));
+		if(empty($cart)) {
+			show_404();
+		}
 
 		$class_ids = array();
 		foreach($cart as $c) {
@@ -183,6 +220,8 @@ class Payment extends MY_Controller {
 			$this->load->view('payment/transfer/step2', $dt1);
 			return;
 		}
+		
+		if(!empty($dt1)) $this->vendor_class_model->remove_transaction($dt1['code']);
 		
 		$this->load->model('discount_model');
 		
@@ -393,6 +432,14 @@ class Payment extends MY_Controller {
 		}
 		$this->load->model('payment_model');
 		$this->load->model('email_model');
+		$this->vendor_class_model->set_participant_status($code, 4);
+		$this->vendor_class_model->update_transaction($code, 
+				array(
+					'status_2'=>date('Y-m-d H:i:s'),
+					'status_3'=>date('Y-m-d H:i:s'),
+					'status_4'=>date('Y-m-d H:i:s')
+				)
+		);
 		$tikets = $this->payment_model->create_ticket($code);
 		$this->email_model->send_ticket($trx['pemesan']['email'], $code);
 		$this->session->unset_userdata('transaction');
@@ -504,16 +551,17 @@ class Payment extends MY_Controller {
 		$message = '';
 		$status = FALSE;
 		if($this->input->post('code')) {
-			$code = $this->input->post('code');
-			$from = $this->input->post('transfer_from');
+			$code = $this->input->post('code', TRUE);
+			$from = $this->input->post('transfer_from', TRUE);
+			$tgl_transfer = $this->input->post('transfer_date', TRUE);
 			if($from != '0'){
 				$_from = explode('|',$from);
 				$from_other = $_from[1];
-				$from = $from[0];
+				$from = (int)$from[0];
 			} else {
-				$from_other = $this->input->post('transfer_from_other');
+				$from_other = $this->input->post('transfer_from_other', TRUE);
 			}
-			$to = $this->input->post('transfer_to');
+			$to = (int)$this->input->post('transfer_to', TRUE);
 		}
 		if(!empty($code) && !empty($from) && !empty($from_other) && !empty($to)){
 			$code = strtoupper($code);
@@ -548,15 +596,15 @@ class Payment extends MY_Controller {
 					// */
 				}
 			}
-			if(TRUE ){ //$this->vendor_class_model->set_participant_status($code, 3)){
+			if($this->vendor_class_model->set_participant_status($code, 3)){
 				$update_data = array(
-						'status_3'=>date('Y-m-d H:i:s'),
+						'status_3'=>$tgl_transfer.' '.date('H:i:s'),
 						'status_3_bank_from'=>$from,
 						'status_3_bank_from_other'=>$from_other,
 						'status_3_bank_to'=>$to,
 						'status_3_upload_file'=>!empty($file)?$file:''
 				);
-//				$this->vendor_class_model->update_transaction($code, $update_data);
+				$this->vendor_class_model->update_transaction($code, $update_data);
 				$trx = $this->vendor_class_model->get_transaction($code);
 				$pemesan = $this->vendor_class_model->get_class_pemesan($trx->pemesan_id);
 				$peserta = $this->vendor_class_model->get_class_peserta($trx->student_id);

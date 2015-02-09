@@ -428,12 +428,41 @@ class Vendor_class_model extends MY_Model{
 			'status'			=> 1,
 			'code'				=> $code
 		));
-		return !!($this->db->affected_rows())?$code:FALSE;
+		if(!!($this->db->affected_rows())) {
+			$q =	$this->db
+						 ->select('code')
+						 ->where(array(
+							'participant_id'	=> $student_id,
+							'class_id'			=> $class_id,
+							))
+						 ->from('vendor_class_participant')
+						 ->get()->row();
+			if(!empty($q->code)) return $q->code;
+			else return FALSE;
+		}
+		return $code;
 	}
 	
 	public function get_class_participant($code) {
 		$this->db->where(array('code'=>$code));
 		return $this->db->get('vendor_class_participant');
+	}
+	
+	public function get_transaction_all() {
+		$trx = $this->db
+			 ->get('vendor_class_transaction')->result();
+		if(count($trx) == 0) return array();
+		foreach($trx as &$t) {
+			$t->student = $this->get_participant($t->student_id);
+			$t->pemesan = $this->get_participant($t->pemesan_id);
+			$t->status = $this->get_invoice_status($t->code);
+		}
+		return $trx;
+	}
+	
+	public function get_invoice_status($code) {
+		return $this->db->select('status')->distinct()->from('vendor_class_participant')->where('code', 
+				$code)->get()->row()->status;
 	}
 	
 	public function add_new_transaction($data) {
@@ -449,7 +478,14 @@ class Vendor_class_model extends MY_Model{
 	
 	public function get_transaction($code){
 		$this->db->where(array('code'=>$code));
-		return $this->db->get('vendor_class_transaction')->row();
+		return $this->db->from('vendor_class_transaction')->get()->row();
+	}
+	
+	public function remove_transaction($code){
+		$this->db->where(array('code'=>$code));
+		$this->db->delete('vendor_class_transaction');
+		$this->db->where(array('code'=>$code));
+		$this->db->delete('vendor_class_participant');
 	}
 	
 	public function set_participant_status($code, $status) {
@@ -722,17 +758,65 @@ class Vendor_class_model extends MY_Model{
 		
 	}
 	
-	public function set_confirm_payment_transfer() {
-		
+	public function set_confirm_payment_transfer($code) {
+		$admin_id = $this->CI->session->userdata('admin_id');
+		if($admin_id == 1) {
+			show_error('ONLY ADMIN WITH PERSONAL ADMIN ACCOUNT CAN CONFIRM! Ask aried!', 400);
+			return;
+		}
+		$this->db
+			 ->update(
+					'vendor_class_transaction', 
+					array(
+						'status_4'			=> date('Y-m-d H:i:s'),
+						'status_4_approval'	=> $admin_id
+					),
+					array('code'=>$code)
+				);
+		if(!!$this->db->affected_rows()) {
+			$this->db->update(
+				'vendor_class_participant',
+				array(
+					'status'	=> 4
+				),
+				array(
+					'code'		=> $code
+				)
+			);
+			return !! $this->db->affected_rows();
+		}
+		return FALSE;
 	}
 	
 	public function get_confirm_payment_transfer() {
-		
+		$codes = $this->db
+				->select('code')
+				->distinct()
+				->where('status', 3)
+				->get('vendor_class_participant')->result();
+		if(count($codes) == 0) return array();
+		$result = array();
+		foreach($codes as $code) {
+			$code = $code->code;
+			$trx = $this->get_transaction($code);
+			$bank_from = ((int)$trx->status_3_bank_from)==0?
+					$trx->status_3_bank_from_other:
+					$this->get_bank($trx->status_3_bank_from);
+			$trx->bank_from =  $bank_from;
+			$trx->bank_to =  $this->get_bank($trx->status_3_bank_to);
+			$result[$code] = $trx;
+		}
+		return $result;
 	}
 	
-	public function get_class_participant_full($class_id, $status=4) {
+	public function get_bank($id) {
+		return $this->db->where('bank_id', $id)->get('bank')->row()->bank_title;
+	}
+	
+	public function get_class_participant_full($class_id=0, $status=4) {
 		$query = "
 		SELECT DISTINCT 
+			pemesan_id,
 			b.name AS nama_pemesan,
 			b.email AS email_pemesan,
 			b.phone AS phone_pemesan,
@@ -740,8 +824,8 @@ class Vendor_class_model extends MY_Model{
 			c.name AS nama_peserta,
 			c.email AS email_peserta,
 			c.phone AS phone_peserta,
-			pemesan_id,
-			participant_id as peserta_id
+			participant_id as peserta_id,
+			a.status
 		FROM
 			vendor_class_participant a
 			LEFT JOIN vendor_class_pemesan b
@@ -749,10 +833,19 @@ class Vendor_class_model extends MY_Model{
 			LEFT JOIN vendor_class_student c
 			ON c.id = a.participant_id
 		WHERE 1
-			AND a.class_id = ?
 ";
-		if(!empty($status)) $query .="
+		if(!empty($class_id)) $query .="
+			AND a.class_id = ?";
+		if(!empty($status)) {
+			if(is_numeric($status))
+				$query .="
 			AND a.status = ?";
+			elseif(is_string($status))
+				$query .= "
+			AND a.status {$status}";
+		}
+		$query .= "
+		ORDER BY a.class_id ASC, a.pemesan_id ASC, a.participant_id ASC, a.status ASC";
 		return $this->db->query($query, array($class_id, $status));
 	}
 	
@@ -836,6 +929,24 @@ class Vendor_class_model extends MY_Model{
 
 	public function get_sponsor($id) {
 		return $this->db->from('vendor_class_pemesan')->where('id', $id)->get()->row();
+	}
+	
+	public function get_participant_all() {
+		$results = $this->db->from('vendor_class_student')->get()->result();
+		$ret = array();
+		foreach($results as $result) {
+			$ret[$result->id] = $result;
+		}
+		return $ret;
+	}
+
+	public function get_sponsor_all() {
+		$results = $this->db->from('vendor_class_pemesan')->get()->result();
+		$ret = array();
+		foreach($results as $result) {
+			$ret[$result->id] = $result;
+		}
+		return $ret;
 	}
 	
 }

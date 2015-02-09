@@ -277,7 +277,34 @@ class Teacher_driven extends MY_Controller{
 	}
 	
 	public function class_attendance() {
+		$data['active'] = 531;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Class'=>'teacher_driven/class_list',
+																	 'Attendance'=>'teacher_driven/class_attendance'
+		));
+		$class = $this->vendor_class_model->get_class(array(
+				'class_status >='	=> NULL,
+				'active'		=> NULL
+		))->result();
 		
+		foreach($class as &$cls) {
+			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
+			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
+					->category_name;
+			$cls->level_name = $this->vendor_class_model->get_level(array('id'=>$cls->level_id))->row()
+					->name;
+			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
+					->num_rows();
+			$cls->attendance = $this->vendor_class_model->get_class_participant_full($cls->id, 0);
+			$cls->attendance_register = $this->vendor_class_model->get_class_participant_full($cls->id, '<= 3');
+			$cls->attendance_paid = $this->vendor_class_model->get_class_participant_full($cls->id, 4);
+//			var_dump($cls);exit;
+		}
+		$data['class'] = $class;
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/class_attendance_list',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
 	}
 	
 	public function get_class_attendance_detail() {
@@ -285,7 +312,21 @@ class Teacher_driven extends MY_Controller{
 	}
 	
 	public function payment_invoice() {
+		$data['active'] = 541;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Payment'=>'teacher_driven/payment_invoice',
+																	 'Invoice'=>''
+		));
 		
+		$invoice = $this->vendor_class_model->get_transaction_all();
+		
+		$data['invoice'] = $invoice;
+		$data['student'] = $this->vendor_class_model->get_participant_all();
+		$data['pemesan'] = $this->vendor_class_model->get_sponsor_all();
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/payment_invoice',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
 	}
 	
 	public function get_payment_invoice_detail() {
@@ -293,11 +334,29 @@ class Teacher_driven extends MY_Controller{
 	}
 	
 	public function payment_confirm() {
+		$data['active'] = 541;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Payment'=>'teacher_driven/payment_invoice',
+																	 'Invoice'=>''
+		));
 		
+		$invoice = $this->vendor_class_model->get_confirm_payment_transfer();
+		$data['invoice'] = $invoice;
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/payment_confirmation',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
 	}
 	
-	public function do_payment_confirm() {
+	public function do_payment_confirm($code) {
+		$this->load->model('email_model');
 		
+		if($this->email_model->send_admin_confirmed_payment_message($code)){
+			$this->session->set_flashdata('f_class', 'Payment Confirmed!');
+		} else {
+			$this->session->set_flashdata('f_class_error', 'Failed To Confirm Payment!');
+		}
+		redirect('admin/teacher_driven/payment_confirm');
 	}
 	
 	public function reject_payment_confirm() {

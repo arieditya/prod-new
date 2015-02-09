@@ -8,6 +8,11 @@
         <script type="text/javascript">
             var base_url = "<?php echo base_url();?>";
         </script>
+		<style type="text/css" media="screen">
+			.msg.boxwidth {
+				z-index: -1;
+			}
+		</style>
     </head>
     <body>
         <!-- Header -->

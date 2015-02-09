@@ -131,7 +131,13 @@ $wait = json_decode($wait);
 										<img class="img-responsive" src="<?php echo $logo; ?>" />
 									</div>
 									<div class="col-md-8">
-										<h5 class="pinkfont bold"><?php echo $cart_list['class']->class_nama?></h5>
+										<h5 class="pinkfont bold">
+											<?php echo $cart_list['class']->class_nama?><br />
+											<a href="#remove_cart" data-r_id="<?php echo $cart_list['class']->id?>" 
+											   class="remove_cart">
+												<sub>(Remove from list)</sub>
+											</a>
+										</h5>
 									</div>
 								</div>
 								<hr/>
@@ -177,6 +183,7 @@ $wait = json_decode($wait);
 													Rp <?php echo number_format((int)$cart_list['class']->price_per_session, 0, ',',',')?>,-&nbsp;&nbsp;&nbsp;
 												</div>
 <?php 
+	if($cart_list['class']->class_paket == 1):
 		if($followed):
 ?>
 												<i class="fa fa-times-circle fa-lg rmv_schd" title="Remove from schedule" data-id="<?php echo $sched->class_id.'|'.$sched->jadwal_id; ?>"></i>
@@ -198,6 +205,7 @@ $wait = json_decode($wait);
 <?php 
 			endif;
 		endif;
+	endif;
 ?>
 											</td>
 										</tr>
@@ -277,6 +285,29 @@ $wait = json_decode($wait);
 			$('#student_other').hide();
 		}
 	});
+	
+	$(document).ready(function(){
+		$('.blue-segment').css(
+				{
+					'width':$('.blue-segment').parent().css('width'),
+					'marginLeft': '-20px'
+				}
+		);
+	});
+	
+	$('.remove_cart').click(function(e){
+		e.preventDefault();
+		var r_id = $(this).data('r_id');
+		var newCart = [];
+		$.each(cart, function(idx, dt){
+			if(dt.id == r_id) return;
+			newCart.push(dt);
+		});
+		$.cookie('cart', newCart, {'path': '/'});
+		window.location.reload();
+		return false;
+	});
+	
 	$('#btn_signin').click(function(e){
 		e.preventDefault();
 		$('#curtain').show().css({

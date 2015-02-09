@@ -9,7 +9,6 @@
  */
 $this->load->view('general/header-bootstrap');
 ?>
-<<<<<<< .mine
 <link href="<?php echo base_url();?>/assets/css/payment-transfer.css" type="text/css" rel="stylesheet">
 <div class="main-content">
 	<div class="row graybar bottom-30">

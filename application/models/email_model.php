@@ -131,9 +131,12 @@ class Email_model extends MY_Model
 		var_dump('zzz');
 		exit;//
 // */
-		if($this->email->send()){
-			$this->reset();
-			return TRUE;
+		try {
+			if($this->email->send()){
+				$this->reset();
+				return TRUE;
+			}
+		} catch(Exception $e) {
 		}
 		$this->reset();
 		return FALSE;
@@ -390,6 +393,9 @@ Tim Ruangguru.com";
 		$trx['murid'] = $murid;
 
 		$this->CI->load->model('payment_model');
+		if(!$this->CI->vendor_class_model->set_confirm_payment_transfer($code)) {
+			return FALSE;
+		}
 		$file_links = $this->CI->payment_model->create_ticket($code);
 
 		$email_message = "
