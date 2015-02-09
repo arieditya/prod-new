@@ -16,6 +16,7 @@ class Teacher_driven extends MY_Controller{
 		$this->load->model('vendor_model');
 		$this->load->model('vendor_class_model');
 		$this->load->model('payment_model');
+		error_reporting(E_ALL);
 	}
 	
 	public function index() {
