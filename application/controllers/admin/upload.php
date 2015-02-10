@@ -156,17 +156,18 @@ class Upload extends CI_Controller {
     }
 
 	public function send_all(){
+		$type = array('csv','txt');
 		$input['data_email'] = $this->input->post('data_email');
 		$config['upload_path'] = './images/class';
-		$config['allowed_types'] = 'csv|txt';
+		$config['allowed_types'] = '*';
 		$config['is_image'] = FALSE;
 		$template = $this->admin_model->get_email_template();
+		$ext = '';
 		if(!empty($_FILES['data_email'])) {
-			$ext = $_FILES['data_email']['filename'];
+			$ext = array_pop(explode('.',$_FILES['data_email']['name']));
 		}
-		var_dump($_FILES);exit;
 		$this->load->library('upload',$config);
-		if($this->upload->do_upload('data_email')){
+		if($this->upload->do_upload('data_email') && in_array($ext, $type)){
 			$file_data = $this->upload->data();
 			$source = $file_data['full_path'];
 			$file_handle = fopen($source, "r");
@@ -184,11 +185,10 @@ class Upload extends CI_Controller {
 			}
 			fclose($file_handle);
 			$this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Email telah berhasil 
-			dikirim.</span>'.implode('<br />', $send_to));
+			dikirim.</span>');
 		}else{
 			$this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Email tidak berhasil dikirim.
-			 Pastikan data yang Anda upload file bertipe *.csv atau *.txt</span>'.$this->upload->display_errors
-							('<span>','</span>'));
+			 Pastikan data yang Anda upload file bertipe *.csv atau *.txt</span>');
 		}
 		redirect('admin/upload/send_email');
 	}
