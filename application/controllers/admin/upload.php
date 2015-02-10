@@ -180,6 +180,6 @@ class Upload extends CI_Controller {
           }else{
             $this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Email tidak berhasil dikirim. Pastikan data yang Anda upload file bertipe *.csv atau *.txt</span>');
           }
-		redirect('admin/upload');
+		redirect('admin/upload/send_email');
     }
 }
