@@ -28,7 +28,18 @@
 		</script>
     </head>
     <body>
-        <section id="header" class="bg-vendor">
+<?php
+if ($this->session->flashdata('status.message')): ?>
+	<div class="msg msg-ok boxwidth">
+		<p><strong><?php echo $this->session->flashdata('f_class'); ?></strong></p>
+	</div>
+<?php endif; 
+if ($this->session->flashdata('status.warning')): ?>
+	<div class="msg msg-error boxwidth">
+		<p><strong><?php echo $this->session->flashdata('f_class_error'); ?></strong></p>
+	</div>
+<?php endif; ?>
+		<section id="header" class="bg-vendor">
             <div class="container">
 				<div class="row">
 					<div class="col-md-offset-1 col-md-5 padbottom-10">
