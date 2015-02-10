@@ -116,18 +116,18 @@ class Upload extends CI_Controller {
 		$config['priority'] = 1;
 		$config['mailtype'] = 'html';
 		$config['charset'] = 'utf-8';
-		$config['wordwrap'] = TRUE; 
+		$config['wordwrap'] = TRUE;
 
 		$this->email->initialize($config);
 		$this->email->from($content['sender'], 'Ruangguru.com');
 		$this->email->to($content['email']);
 
-	$this->email->subject($content['subject']);
-     $content_msg = $this->load->view('admin/upload/template_email_blast',array('content'=>$content),TRUE);
-	$this->email->message($content_msg);
+		$this->email->subject($content['subject']);
+		$content_msg = $this->load->view('admin/upload/template_email_blast',array('content'=>$content),TRUE);
+		$this->email->message($content_msg);
 
-	$this->email->send();
-    }
+		$this->email->send();
+	}
     
      public function send_email(){
         $this->check();
@@ -153,33 +153,35 @@ class Upload extends CI_Controller {
 		$this->admin_model->edit_email_template($input);
 		redirect('admin/upload/send_email');
     }
-    
-    	public function send_all(){
+
+	public function send_all(){
 		$input['data_email'] = $this->input->post('data_email');
 		$config['upload_path'] = './images/class';
-          $config['allowed_types'] = 'csv|txt';
+		$config['allowed_types'] = 'csv|txt';
 		$template = $this->admin_model->get_email_template();
-          $this->load->library('upload',$config);
-          if($this->upload->do_upload('data_email')){
-            $file_data = $this->upload->data();
-            $source = $file_data['full_path'];
-		  $file_handle = fopen($source, "r");
-		  while (!feof($file_handle)) {
-			$line = fgets($file_handle);
-			$contents = preg_split("/;/", $line);
-			$input['nama'] = $contents[0];
-			$input['email'] = $contents[1];
-			$input['sender'] = $template->sender;
-			$input['subject'] = $template->subject;
-			$input['content'] = $template->template_email;
-			
-			$this->email_event($input);
+		$this->load->library('upload',$config);
+		if($this->upload->do_upload('data_email')){
+			$file_data = $this->upload->data();
+			$source = $file_data['full_path'];
+			$file_handle = fopen($source, "r");
+			$send_to = array();
+			while (!feof($file_handle)) {
+				$line = fgets($file_handle);
+				$contents = preg_split("/;/", $line);
+				$input['nama'] = $contents[0];
+				$input['email'] = $contents[1];
+				$input['sender'] = $template->sender;
+				$input['subject'] = $template->subject;
+				$input['content'] = $template->template_email;
+				$send_to[] = "{$contents[0]} &lt;{$contents[1]}&gt;}";
+				$this->email_event($input);
+			}
+			fclose($file_handle);
+			$this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Email telah berhasil 
+			dikirim.</span>'.implode('<br />', $send_to));
+		}else{
+			$this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Email tidak berhasil dikirim. Pastikan data yang Anda upload file bertipe *.csv atau *.txt</span>');
 		}
-		fclose($file_handle);
-            $this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Email telah berhasil dikirim.</span>');
-          }else{
-            $this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Email tidak berhasil dikirim. Pastikan data yang Anda upload file bertipe *.csv atau *.txt</span>');
-          }
 		redirect('admin/upload/send_email');
-    }
+	}
 }
