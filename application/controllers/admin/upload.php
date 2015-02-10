@@ -161,6 +161,10 @@ class Upload extends CI_Controller {
 		$config['allowed_types'] = 'csv|txt';
 		$config['is_image'] = FALSE;
 		$template = $this->admin_model->get_email_template();
+		if(!empty($_FILES['data_email'])) {
+			$ext = $_FILES['data_email']['filename'];
+		}
+		var_dump($_FILES);exit;
 		$this->load->library('upload',$config);
 		if($this->upload->do_upload('data_email')){
 			$file_data = $this->upload->data();
