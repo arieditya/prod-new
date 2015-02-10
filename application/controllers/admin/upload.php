@@ -105,21 +105,22 @@ class Upload extends CI_Controller {
 	$this->email->send();
     }
     
-     public function email_event($content){
-     
-	$this->load->library('email');
-	$config['useragent'] = 'Ruangguru Web Service';
-	$config['protocol'] = 'smtp';
-	$config['smtp_host'] = 'mail.ruangguru.com';
-	$config['smtp_port'] = 26;
-	$config['smtp_user'] = 'no-reply@ruangguru.com';
-	$config['smtp_pass'] = $this->config->item('smtp_password');
-	$config['priority'] = 1;
-	$config['mailtype'] = 'html';
-	$config['charset'] = 'utf-8';
-	$config['wordwrap'] = TRUE; 
-	$this->email->from($content['sender'], 'Ruangguru.com');
-     $this->email->to($content['email']);
+	public function email_event($content){
+		$this->load->library('email');
+		$config['useragent'] = 'Ruangguru Web Service';
+		$config['protocol'] = 'smtp';
+		$config['smtp_host'] = 'mail.ruangguru.com';
+		$config['smtp_port'] = 25;
+		$config['smtp_user'] = 'no-reply@ruangguru.com';
+		$config['smtp_pass'] = $this->config->item('smtp_password');
+		$config['priority'] = 1;
+		$config['mailtype'] = 'html';
+		$config['charset'] = 'utf-8';
+		$config['wordwrap'] = TRUE; 
+
+		$this->email->initialize($config);
+		$this->email->from($content['sender'], 'Ruangguru.com');
+		$this->email->to($content['email']);
 
 	$this->email->subject($content['subject']);
      $content_msg = $this->load->view('admin/upload/template_email_blast',array('content'=>$content),TRUE);
