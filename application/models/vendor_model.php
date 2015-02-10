@@ -70,9 +70,13 @@ class Vendor_model extends MY_Model{
 			'main_phone'	=> NULL,
 			'address'		=> NULL
 		));
-		if($this->db->insert('vendor_profile', $data, 'update')) {
-			if(empty($var['id'])) $id = $this->db->insert_id();
-			else $id = $var['id'];
+		
+		if(isset($var['id'])) {
+			$this->db->update('vendor_profile', $data, array('id'=>$var['id']));
+			$this->set_info(array('vendor_id'=>$var['id'], 'is_institute'=>1));
+			return $var['id'];
+		} elseif($this->db->insert('vendor_profile', $data)) {
+			$id = $this->db->insert_id();
 			$this->set_info(array('vendor_id'=>$id, 'is_institute'=>1));
 			return $id;
 		}
