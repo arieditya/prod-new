@@ -49,7 +49,7 @@ class Profile extends Vendor_Controller{
 		$desc = $this->input->post('vendor_description');
 		$logo = $this->input->post('vendor_logo');
 		
-		if(($flag == 0) && (empty($desc)) && (empty($logo))){
+		if((empty($desc)) && (empty($logo))){
 			foreach($_POST as $k => $v) {
 				$update[$k]	= $this->input->post($k, TRUE);
 			}
@@ -63,19 +63,28 @@ class Profile extends Vendor_Controller{
 		$no_files = FALSE;
 		if(!empty($_FILES['vendor_logo']) ) {
 			if($_FILES['vendor_logo']['error'] > 0 || $_FILES['vendor_logo']['size'] < 10){
+				$no_files = TRUE;
 			} else {
-				@mkdir(rtrim(str_replace('\\','/',FCPATH), '/')."/images/vendor/{$this->vendor->id}/", 0777, TRUE);
-				$opt = array(
-					'file_name'		=> 'main_picture',
-					'upload_path'	=> rtrim(FCPATH, '/')."/images/vendor/{$this->vendor->id}/",
-					'allowed_types'	=> 'gif|jpg|jpeg|png',
-					'overwrite'		=> TRUE
-				);
-				$this->load->library('upload', $opt);
-				if(!$this->upload->do_upload('vendor_logo')){
-					$no_files = TRUE;
+				$exts = explode('|','gif|jpg|jpeg|png');
+				$name = $_FILES['vendor_logo']['name'];
+				$ext = array_pop(explode('.',$name));
+				if(in_array($ext, $exts)) {
+					@mkdir(rtrim(str_replace('\\','/',FCPATH), '/')."/images/vendor/{$this->vendor->id}/", 0777, TRUE);
+					$opt = array(
+						'file_name'		=> 'main_picture',
+						'upload_path'	=> rtrim(FCPATH, '/')."/images/vendor/{$this->vendor->id}/",
+						'allowed_types'	=> '*',
+						'overwrite'		=> TRUE
+					);
+					$this->load->library('upload', $opt);
+					if(!$this->upload->do_upload('vendor_logo')){
+						$no_files = TRUE;
+					} else {
+						echo $this->upload->display_errors();
+						$files = $this->upload->data();
+					}
 				} else {
-					$files = $this->upload->data();
+					$no_files = TRUE;
 				}
 			}
 		} else {
@@ -86,7 +95,6 @@ class Profile extends Vendor_Controller{
 		} else {
 //			$data['class_image'] = NULL;
 		}
-//		var_dump($update);exit;
 		$this->vendor_model->update_info($update);
 		redirect('vendor/profile/edit');
 	}
