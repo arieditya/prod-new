@@ -1,6 +1,6 @@
 <html>
 <body>
-	<p style="font-size:14px;"><strong>Kpd. <?php echo $content['nama'];?></strong>,</p>
+	<p style="font-size:14px;"><strong>Halo <?php echo $content['nama'];?></strong>,</p>
 	<?php echo $content['content']?>
 	<br/>
 	<p>
