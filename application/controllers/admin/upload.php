@@ -159,6 +159,7 @@ class Upload extends CI_Controller {
 		$input['data_email'] = $this->input->post('data_email');
 		$config['upload_path'] = './images/class';
 		$config['allowed_types'] = 'csv|txt';
+		$config['is_image'] = FALSE;
 		$template = $this->admin_model->get_email_template();
 		$this->load->library('upload',$config);
 		if($this->upload->do_upload('data_email')){
@@ -181,7 +182,9 @@ class Upload extends CI_Controller {
 			$this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Email telah berhasil 
 			dikirim.</span>'.implode('<br />', $send_to));
 		}else{
-			$this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Email tidak berhasil dikirim. Pastikan data yang Anda upload file bertipe *.csv atau *.txt</span>');
+			$this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Email tidak berhasil dikirim.
+			 Pastikan data yang Anda upload file bertipe *.csv atau *.txt</span>'.$this->upload->display_errors
+							('<span>','</span>'));
 		}
 		redirect('admin/upload/send_email');
 	}
