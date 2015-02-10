@@ -13,6 +13,8 @@
     </div>
     <!-- End Box Head -->
 
+<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js" ></script>
+<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/adapters/jquery.js" ></script>
     <form action="<?php echo base_url();?>admin/upload/edit_email_submit" method="post" >
 
         <!-- Form -->
@@ -27,7 +29,7 @@
             </p>
 		  <p>
                 <label>Template Email</label>
-                <textarea class="field size1" cols="10" rows="10" name="content"  style="overflow-y:auto;">
+                <textarea id="txtEditor" class="field size1" cols="10" rows="10" name="content"  style="overflow-y:auto;">
 			<?php echo $template->template_email; ?>
 			 </textarea>
             </p>
@@ -41,4 +43,9 @@
         <!-- End Form Buttons -->
     </form>
 </div>
+<script type="application/javascript">
+	$(document).ready(function(){
+		$('#txtEditor').ckeditor();
+	});
+</script>
 <!-- End Box -->
