@@ -34,11 +34,13 @@ if ($this->session->flashdata('status.message')): ?>
 		<p><strong><?php echo $this->session->flashdata('f_class'); ?></strong></p>
 	</div>
 <?php endif; 
-if ($this->session->flashdata('status.warning')): ?>
+if ($this->session->flashdata('status.warning') || $this->session->userdata('status.warning')): ?>
 	<div class="msg msg-error boxwidth">
 		<p><strong><?php echo $this->session->flashdata('f_class_error'); ?></strong></p>
 	</div>
-<?php endif; ?>
+<?php 
+$this->session->unset_userdata('status.warning');
+endif; ?>
 		<section id="header" class="bg-vendor">
             <div class="container">
 				<div class="row">
