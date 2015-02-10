@@ -29,9 +29,13 @@
             </p>
 		  <p>
                 <label>Template Email</label>
-                <textarea id="txtEditor" class="field size1" cols="10" rows="10" name="content"  style="overflow-y:auto;">
-			<?php echo $template->template_email; ?>
-			 </textarea>
+                <textarea 
+						id="txtEditor" 
+						class="field size1" 
+						cols="10" rows="10" 
+						name="content"  
+						style="overflow-y:auto;"
+					><?php echo $template->template_email; ?></textarea>
             </p>
         </div>
         <!-- End Form -->
