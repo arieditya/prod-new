@@ -9,7 +9,7 @@
  */
 if ($this->session->flashdata('edit_profile_notif')): ?>
 	<div class="msg msg-ok boxwidth">
-		<p><strong><?php echo $this->session->flashdata('f_class'); ?></strong></p>
+		<p><strong><?php echo $this->session->flashdata('edit_profile_notif'); ?></strong></p>
 	</div>
 <?php endif; ?>
 <!-- Box -->
