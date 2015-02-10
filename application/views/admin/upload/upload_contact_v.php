@@ -1,3 +1,17 @@
+<?php
+/**
+ * Created by :
+ * 
+ * User: AndrewMalachel
+ * Date: 2/9/15
+ * Time: 7:15 AM
+ * Proj: prod-new
+ */
+if ($this->session->flashdata('edit_profile_notif')): ?>
+	<div class="msg msg-ok boxwidth">
+		<p><strong><?php echo $this->session->flashdata('f_class'); ?></strong></p>
+	</div>
+<?php endif; ?>
 <!-- Box -->
 <div class="box">
     <!-- Box Head -->

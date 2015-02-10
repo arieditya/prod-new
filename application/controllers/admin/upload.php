@@ -127,6 +127,7 @@ class Upload extends CI_Controller {
 		$this->email->message($content_msg);
 
 		$this->email->send();
+		return $this->email->print_debugger();
 	}
     
      public function send_email(){
@@ -173,8 +174,8 @@ class Upload extends CI_Controller {
 				$input['sender'] = $template->sender;
 				$input['subject'] = $template->subject;
 				$input['content'] = $template->template_email;
-				$send_to[] = "{$contents[0]} &lt;{$contents[1]}&gt;}";
-				$this->email_event($input);
+//				$send_to[] = "{$contents[0]} &lt;{$contents[1]}&gt;}";
+				$send_to[] = $this->email_event($input);
 			}
 			fclose($file_handle);
 			$this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Email telah berhasil 
