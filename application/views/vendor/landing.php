@@ -39,7 +39,7 @@ if ($this->session->flashdata('status.warning') || $this->session->userdata('sta
 		<p><strong><?php echo $this->session->flashdata('f_class_error'); ?></strong></p>
 	</div>
 <?php 
-$this->session->unset_userdata('status.warning');
+	$this->session->unset_userdata('status.warning');
 endif; ?>
 		<section id="header" class="bg-vendor">
             <div class="container">

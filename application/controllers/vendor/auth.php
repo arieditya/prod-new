@@ -54,6 +54,7 @@ class Auth extends MY_Controller{
 		if($data['password'] != $conf_pass) {
 			$this->session->set_flashdata('status.warning', 'Password confirmation not match!');
 			$this->session->set_userdata('status.warning', 'Password confirmation not match!');
+			var_dump($data);exit;
 			redirect('vendor/main');
 			return;
 		}
@@ -71,6 +72,7 @@ class Auth extends MY_Controller{
 		} else {
 			$this->session->set_flashdata('status.warning', 'Cannot create new vendor!');
 			$this->session->set_userdata('status.warning', 'Cannot create new vendor!');
+			var_dump($data);exit;
 			redirect('vendor/main');
 		}
 	}
