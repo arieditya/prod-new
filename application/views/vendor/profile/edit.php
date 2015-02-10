@@ -28,7 +28,8 @@ $this->load->view('vendor/general/header');
 			<div class="tab-content bg-section">
 				<div class="tab-pane active" id="profile">
 					<div class="panel-body">
-						<form class="form-horizontal" role="form" action="<?php echo base_url();?>vendor/profile/update_profile" method="post" id="form-1">
+						<form class="form-horizontal" role="form" action="<?php echo base_url();
+						?>vendor/profile/update_profile" method="post" id="form-1" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="email" class="col-md-3 control-label">Email penyelenggara</label>
 								<div class="col-md-9 ">
