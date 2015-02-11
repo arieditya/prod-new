@@ -12,6 +12,10 @@ $arr = array();
 foreach($sched as $s) {
 	$arr[] = $s->jadwal_id;
 }
+
+$imgparts = explode('.',$class->class_image);
+$ext = array_pop($imgparts);
+array_push($imgparts, '600x282.k.'.$ext);
 ?>
 <script>
 		// Wait until the DOM has loaded before querying the document
@@ -90,7 +94,8 @@ foreach($sched as $s) {
 					<div class="top-head">
 						<h2 class="bold text-21"><?php echo $class->class_nama;?></h2>
 					</div>
-					<div id="main-photo" class="top-30 bg-section shadow"><img class="img-responsive2" src="<?php echo base_url();?>/images/class/<?php echo $class->id?>/<?php echo $class->class_image;?>" /></div>
+					<div id="main-photo" class="top-30 bg-section shadow"><img class="img-responsive2" src="<?php 
+						echo base_url();?>/images/class/<?php echo $class->id?>/<?php echo implode('.',$imgparts);?>" /></div>
 					<ul class="nav nav-tabs" role="tablist">
 						<li id="about_selector" class="active"><a href="#about" role="tab" data-toggle="tab">Tentang Kelas</a></li>
 						<li id="biaya_selector"><a href="#price" role="tab" data-toggle="tab">Harga</a></li>
@@ -103,7 +108,7 @@ foreach($sched as $s) {
 							<p>
 								<?php echo nl2br($class->class_deskripsi);?>
 							</p>
-							<p class="text-14 bold bottom-10 title-class">Target Peserta</p>
+							<p class="text-14 bold bottom-10 title-class">Target&nbsp;Peserta</p>
 							<p>
 								<?php echo !empty($class->class_perserta_target)?nl2br($class->class_perserta_target):'';?>
 							</p>
@@ -111,6 +116,8 @@ foreach($sched as $s) {
 							<p>
 								<?php echo $class->class_peserta_max?> orang (kelas terlaksana jika ada minimal <?php echo $class->class_peserta_min;?> murid)
 							</p>
+
+<?php if($gallery->num_rows() > 0) : ?>
 							<p class="text-14 bold bottom-10 title-class">Galeri Foto</p>
 							<div id="slider4">
 								<a class="buttons prev" href="#">&#60;</a>
@@ -131,6 +138,7 @@ foreach($sched as $s) {
 										</div>
 									<a class="buttons next" href="#">&#62;</a>
 							</div>
+<?php endif; ?>
 						</div>
 						<div class="tab-pane" id="price">
 							<div>
@@ -288,22 +296,64 @@ endif;
 									</ul>
 								</div>
 							</div>
+<?php if(FALSE):?>
 						<div class="related_class">
 							<p class="pinkfont text-14">Kelas lainnya yang sejenis atau terkait</p>
 						</div>
+<?php endif; ?>
 				</div>
 				<div class="col-md-4">
-					<div class="btn-orange2 text-center shadow">
-						<span class="btn-orange2 text-18 bold"><img src="<?php echo base_url().'images/pricetag.png'?>"/>&nbsp;&nbsp;&nbsp;Rp <?php echo number_format($class->price_per_session*$schedule->num_rows()-($class->discount), 0, ',', ',')?>,-</span>
+					<div class="btn-orange2 text-center shadow" style="background-color: #3bc4e6 !important;">
+						<div class="text-18 bold" style="float: left; margin-left: 20px;">
+							<img src="<?php echo base_url().'images/pricetag.png'?>"/>
+						</div>
+						<div style="float: left;margin: 5px auto; display: block; text-align: center; width: 75%;">
+							<div style="display: inline-block; width: 100%;">Rp <?php echo 
+								number_format
+							($class->price_per_session*$schedule->num_rows()-($class->discount), 0, ',', ',')?>,-
+							</div>
+						</div>
+						<div style="clear: both;"></div>
 					</div>
 					<a class="register_class" href="<?php echo base_url().'payment/transfer/step1';?>">
 						<div class="btn-orange2 text-center shadow">
-							<span class="btn-orange2 text-18 bold"><img src="<?php echo base_url().'images/daftar.png'?>"/>&nbsp;&nbsp;&nbsp;DAFTAR SEKARANG</span>
+							<div class="text-18 bold" style="float: left; margin-left: 20px;">
+								<img src="<?php echo base_url().'images/daftar.png'?>"/>
+							</div>
+							<div style="float: left;margin: 5px auto; display: block; text-align: center; width: 75%;">
+								<div class="text-18 bold" style="display: inline-block; width: 100%;">
+									Daftar Sekarang
+								</div>
+							</div>
+							<div style="clear: both;"></div>
 						</div>
 					</a>
-					<button class="btn-orange shadow"><img src="<?php echo base_url().'images/wish.png'?>"/>&nbsp;&nbsp;&nbsp;Jadikan <strong class="pinkfont">wishlist</strong></button>
+					<a class="register_class" href="#add2wishist">
+						<div class="btn-orange2 text-center shadow">
+							<div class="text-18 bold" style="float: left; margin-left: 20px;">
+								<img src="<?php echo base_url().'images/wish.png'?>"/>
+							</div>
+							<div style="float: left;margin: 5px auto; display: block; text-align: center; width: 75%;">
+								<div class="text-18" style="display: inline-block; width: 100%;">
+									Jadikan <strong class="pinkfont">wishlist</strong>
+								</div>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+					</a>
 					<div class="pinkpanel">
-							<div class="title bold"><img src="<?php echo base_url().'images/session.png'?>"/>&nbsp;&nbsp;&nbsp;Sesi selanjutnya</div>
+							<div class="title bold">
+								<div class="text-18 bold" style="float: left; margin-left: 10px;">
+									<img src="<?php echo base_url().'images/session.png'?>"/>
+								</div>
+								<div style="float: left;margin: 5px auto; display: block; text-align: center; width: 
+								80%;">
+									<div class="text-18" style="display: inline-block; width: 100%;">
+										Sesi selanjutnya
+									</div>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
 							<div class="content bg-section shadow">
 								lorem ipsum dolor sit amet<br/>
 								lorem ipsum dolor sit amet<br/>
@@ -316,7 +366,18 @@ endif;
 							</div>
 					</div>
 					<div class="pinkpanel">
-							<div class="title bold"><img src="<?php echo base_url().'images/location.png'?>"/>&nbsp;&nbsp;&nbsp;Lokasi</div>
+							<div class="title bold">
+								<div class="text-18 bold" style="float: left; margin-left: 10px;">
+									<img src="<?php echo base_url().'images/location.png'?>"/>
+								</div>
+								<div style="float: left;margin: 5px auto; display: block; text-align: center; width: 
+								80%;">
+									<div class="text-18" style="display: inline-block; width: 100%;">
+										Lokasi
+									</div>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
 							<div class="content bg-section shadow">
 <?php 
 $maps = explode('||',$class->class_peta);
@@ -330,7 +391,18 @@ if(count($maps) == 1) {
 						</div>
 					</div>
 					<div class="pinkpanel">
-						<div class="title bold"><img src="<?php echo base_url().'images/ask.png'?>"/>&nbsp;&nbsp;&nbsp;Butuh Bantuan?</div>
+							<div class="title bold">
+								<div class="text-18 bold" style="float: left; margin-left: 10px;">
+									<img src="<?php echo base_url().'images/ask.png'?>"/>
+								</div>
+								<div style="float: left;margin: 5px auto; display: block; text-align: center; width: 
+								80%;">
+									<div class="text-18" style="display: inline-block; width: 100%;">
+										Butuh Bantuan?
+									</div>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
 						<div class="content bg-section shadow">
 							<p class="text-13">Peroleh informasi dan bantuan terkait kelas dari tim layanan konsumen kami!</p>
 							<p class="text-13"><img src="<?php echo base_url().'images/telephone.png';?>"/>&nbsp;&nbsp;021-9200-3040</p>
@@ -339,7 +411,18 @@ if(count($maps) == 1) {
 						</div>
 					</div>
 					<div class="pinkpanel">
-						<div class="title bold"><img src="<?php echo base_url().'images/vendor.png'?>"/>&nbsp;&nbsp;&nbsp;Penyelenggara</div>
+							<div class="title bold">
+								<div class="text-18 bold" style="float: left; margin-left: 10px;">
+									<img src="<?php echo base_url().'images/vendor.png'?>"/>
+								</div>
+								<div style="float: left;margin: 5px auto; display: block; text-align: center; width: 
+								80%;">
+									<div class="text-18" style="display: inline-block; width: 100%;">
+										Penyelenggara
+									</div>
+								</div>
+								<div style="clear: both;"></div>
+							</div>
 						<div class="content bg-section shadow">
 							<div class="line-title text-center"><img src="<?php echo base_url("images/vendor/{$vendor['profile']->id}/{$vendor['info']->vendor_logo}")?>" class="img-responsive2 top-10" /></div>
 							<p class="text-13 bottom-10"><?php echo substr($vendor['info']->vendor_description,0, 100).'... ';?><a href="#" class="pink pull-right bold">More</a></p>

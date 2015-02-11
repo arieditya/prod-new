@@ -475,7 +475,7 @@ a.normal-link:visited
 	position: relative;
 	top: -35px;
 	padding: 8px;
-	opacity: 0.5;
+	opacity: 0.8;
 	height: 35px;
 }
 
@@ -1139,7 +1139,7 @@ a.normal-link:visited
 }
 
 .title-class{
-	width: 115px;
+	width: 150px;
 	padding: 5px 10px;
 	margin-left: -15px;
 	border-top-right-radius: 15px;

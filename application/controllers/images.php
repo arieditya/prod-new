@@ -34,6 +34,16 @@ class Images extends MY_Controller{
 		$file_ext = array_pop($file_parts);
 
 		$file_size = array_pop($file_parts);
+
+		$treatment = 'r';
+		if($file_parts > 2) {
+			// if C: crop, if K: keep aspect ratio
+			if(in_array($file_size, array('c','k'))) {
+				$treatment = $file_size;
+				$file_size = array_pop($file_parts);
+			}
+		}
+
 		$realfile = implode('.', $file_parts).'.'.$file_ext;
 		$tempfile = implode('.', $file_parts).'.temp.'.$file_ext;
 //		var_dump($realfile);
@@ -44,6 +54,7 @@ class Images extends MY_Controller{
 			show_404();
 		}
 		$image_size = getimagesize($realpath);
+
 		$sizes = explode('x', $file_size);
 		if(count($sizes) !== 2 ) {
 			show_404();
@@ -51,8 +62,8 @@ class Images extends MY_Controller{
 		if(empty($sizes[0])){
 			$img_ratio = $sizes[1]/100;
 			$sizes = array(
-				floor($image_size[0]*$img_ratio),
-				floor($image_size[1]*$img_ratio)
+				(int)floor($image_size[0]*$img_ratio),
+				(int)floor($image_size[1]*$img_ratio)
 			);
 			$vars = array(
 				'image_library'		=> 'gd2',
@@ -61,11 +72,12 @@ class Images extends MY_Controller{
 				'new_image'			=> $new_path,
 				'width'				=> $sizes[0],
 				'height'			=> $sizes[1],
-				'maintain_ratio'	=> FALSE,
+				'maintain_ratio'	=> $treatment=='k',
 				'quality'			=> "100"
 			);
 			$this->load->library('image_lib', $vars);
-			$this->image_lib->resize();
+			$method = $treatment=='c'?'crop':'resize';
+			$this->image_lib->{$method}();
 		} else {
 			// $sizes[0] = width
 			// $sizes[1] = height
@@ -149,11 +161,12 @@ class Images extends MY_Controller{
 					'new_image'			=> $new_path,
 					'width'				=> $sizes[0],
 					'height'			=> $sizes[1],
-					'maintain_ratio'	=> FALSE,
+					'maintain_ratio'	=> $treatment=='k',
 					'quality'			=> "100"
 				);
 				$this->load->library('image_lib', $vars);
-				$this->image_lib->resize();
+				$method = $treatment=='c'?'crop':'resize';
+				$this->image_lib->{$method}();
 			}
 		}
 		// 
@@ -213,7 +226,8 @@ class Images extends MY_Controller{
 			);
 			$this->load->library('image_lib', $vars);
 			
-			$this->image_lib->resize();
+			$method = $treatment=='c'?'crop':'resize';
+			$this->image_lib->{$method}();
 		}
 		
 		redirect($url);

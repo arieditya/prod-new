@@ -179,18 +179,33 @@ $this->load->view('vendor/general/header');
 					<div class="row">
 <?php 
 		endif;
-		$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'.$kelas->class_image);
+		$imgparts = explode('.',$kelas->class_image);
+		$ext = array_pop($imgparts);
+		array_push($imgparts, $ext);
+		$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'
+				.implode('.', $imgparts));
 		$price = (int)$kelas->price_per_session;
 		$disc = (int)$kelas->discount;
 		if(empty($price)){
-			
+			$_price = '0,-';
 		} else {
 			$_price = number_format($price).',-';
 		}
 ?>
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail">
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><img width="280px" data-src="<?php echo base_url().$img;?>" src="<?php echo base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_price}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?> /></a>
+								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>">
+									<div style="width: 300px; height: 200px;overflow: hidden;">
+									<img style="width: 100%;top:0;left:0;" 
+										 data-src="<?php echo base_url().$img;?>" 
+										 src="<?php echo base_url().$img;?>" 
+										 alt="..." 
+										 <?php echo !empty($price)?"dee-picture data-price='{$_price}'":''?> 
+										 <?php 
+									echo !empty($kelas->discount)?'dee-discount':''?> 
+									/>
+									</div>
+								</a>
 								<div class="price-class"></div>
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
 								<div class="class-info">
@@ -270,8 +285,14 @@ $this->load->view('vendor/general/header');
 ?>
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail">
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><img data-src="<?php echo base_url().$img;?>" width="280px" src="<?php echo base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?>/></a>
-								<div class="price-class"></div>
+								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>">
+									<div style="width: 300px; height: 200px;overflow: hidden;">
+									<img style="width: 100%;top:0;left:0;" 
+										 data-src="<?php echo base_url().$img;?>" src="<?php echo 
+											base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?>/>
+									</div>
+								</a>
+								<div class="price-class"></div>	 
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
 								<div class="class-info">
 									<div>
