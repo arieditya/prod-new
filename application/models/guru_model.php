@@ -752,6 +752,7 @@ class Guru_model extends CI_Model {
 	$this->email->initialize($config);
 	$this->email->from('no-reply@ruangguru.com', 'Ruangguru.com');
         $this->email->cc('registrasi@ruangguru.com');
+        $this->email->bcc('arie@ruangguru.com');
 	$this->email->to($guru->guru_email);
 
 	$this->email->subject('Reset Password Guru Ruangguru');
