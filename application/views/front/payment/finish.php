@@ -1,4 +1,3 @@
-<<<<<<< .
 <div id="content">
     <div class="blank" style="height:30px;"></div>
     <div id="bantuan">
@@ -30,7 +29,7 @@
         </table>
     </div>
     <div class="blank" style="height:30px;"></div>
-=======
+<?php /*
 <div id="content">
     <div class="blank" style="height:30px;"></div>
     <div id="bantuan">
@@ -59,3 +58,5 @@
     <div class="blank" style="height:30px;"></div>
 >>>>>>> .r88
 </div>
+*/
+// END OF FILE
