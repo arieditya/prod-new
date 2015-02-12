@@ -479,6 +479,13 @@ a.normal-link:visited
 	height: 35px;
 }
 
+.class-title-container{
+    background-color: rgba(0,0,0,0.5);
+    position:absolute;
+    margin-right:13px;
+    width:282px;
+}
+
 .class-info{
 	margin-top: -61px;
 	-webkit-border-bottom-right-radius: 5px;
@@ -675,13 +682,13 @@ a.normal-link:visited
 
 .class-title{
 	position: relative;
-	top: -66px;
 	left: 8px;
 	color: #fff;
 	font-weight: bold;
 	font-size:18px;
 	overflow: hidden;
 	height: 26px;
+    padding: 5px;
 }
 
 .class-name{

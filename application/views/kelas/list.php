@@ -206,8 +206,8 @@ $this->load->view('vendor/general/header');
 									echo !empty($kelas->discount)?'dee-discount':''?> 
 									/>
 									</div>
-                                    <div style="background-color: rgba(0,0,0,0.5); position:absolute; margin-right:13px; width:282px;">
-                                        <span class="class-title" style="padding:5px; position:static;"><?php echo $kelas->class_nama?></span>
+                                    <div class="class-title-container">
+                                        <span class="class-title"><?php echo $kelas->class_nama?></span>
                                     </div>
 								</a>
 								<div class="class-info" style="margin-top:0px;">
