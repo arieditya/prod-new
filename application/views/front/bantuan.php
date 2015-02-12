@@ -53,7 +53,8 @@ $(document).ready(function(){
         <table>
             <tr>
                 <td>
-                        <div id="bf-header" style="width:auto;">
+                    <div id="bantuan-faq" style="width:940px">
+                        <div id="bf-header" style="width: auto">
                             <div id="bf-header-wrap">
                                 FAQ
                             </div>
@@ -64,8 +65,7 @@ $(document).ready(function(){
                                 <div class="bfc-title">
                                     Berikut ini adalah daftar pertanyaan dan jawaban untuk hal-hal yang sering ditanyakan mengenai Ruangguru. Jika Anda masih memiliki pertanyaan lain namun tidak tertera di bawah ini, Anda dapat menghubungi kami ke kontak kami <a href="<?php echo base_url()."kontak_kami";?>" class="normal-link bold">di sini</a>.
                                 </div>
-								</br>
-                                <ul class="nav nav-tabs-2" role="tablist">
+                                <ul class="nav nav-tabs-sq" role="tablist">
 									<li id="profile_selector" class="active"><a href="#private" role="tab" data-toggle="tab">Privat</a></li>
 									<li id="profile2_selector"><a href="#kelas" role="tab" data-toggle="tab">Kelas</a></li>
 								</ul>
@@ -84,7 +84,7 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</div>
-
+                    </div>
                 </td>
             </tr>
         </table>
