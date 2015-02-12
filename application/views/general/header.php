@@ -72,7 +72,9 @@
 					<div id="header-bottom-wrap">
 						<div class="header-logo">
 							<div>
-								<img style="height:80px;" src="<?php echo base_url(); ?>images/header-logo.png" />
+								<a href="<?php echo base_url(); ?>">
+                                <img style="height:80px;" src="<?php echo base_url(); ?>images/header-logo.png" />
+                                </a>
 							</div>
 						</div>
 						<div class="header-nav">

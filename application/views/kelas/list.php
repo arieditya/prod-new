@@ -173,12 +173,14 @@ $this->load->view('vendor/general/header');
 	$j = 0;
 	if(!empty($class)):
 	foreach($class as $kelas):
-		if($i % 4 == 0 && $i > 0):
+        if($i < 6) {
+		if($i % 3 == 0 && $i > 0){
+            $j++;
 ?>
 					</div>
 					<div class="row">
 <?php 
-		endif;
+        }
 		$imgparts = explode('.',$kelas->class_image);
 		$ext = array_pop($imgparts);
 		array_push($imgparts, $ext);
@@ -195,7 +197,7 @@ $this->load->view('vendor/general/header');
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail" style="width: 308px;">
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>">
-									<div style="width: 300px; height: 200px;overflow: hidden;">
+									<div style="height: 200px;overflow: hidden;">
 									<img style="width: 100%;top:0;left:0;" 
 										 data-src="<?php echo base_url().$img;?>" 
 										 src="<?php echo base_url().$img;?>" 
@@ -205,10 +207,11 @@ $this->load->view('vendor/general/header');
 									echo !empty($kelas->discount)?'dee-discount':''?> 
 									/>
 									</div>
+                                    <div id=<?php echo "'new-class-title".$i."'"?>'' class="class-title-container">
+                                        <span class="class-title"><?php echo $kelas->class_nama?></span>
+                                    </div>
 								</a>
-								<div class="price-class"></div>
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
-								<div class="class-info">
+								<div class="class-info" style="margin-top:0px;">
 									<div>
 										<div class="class-price">
 											Rp <?php echo $_price.' /sesi'; ?>
@@ -233,7 +236,7 @@ $this->load->view('vendor/general/header');
 										</div>
 										<a href="#" class="link-vendor">Toko Kue Primadona</a>
 											<div class="class-rating">
-												<?php for($i=0;$i<5;$i++){ ?>
+												<?php for($ii=0;$ii<5;$ii++){ ?>
 												<img src="<?php echo base_url().'images/count-star.png'?>"/>
 												<?php } ?>
 											</div>
@@ -242,8 +245,9 @@ $this->load->view('vendor/general/header');
 							</div>
 						</div>
 <?php 
-	$j++;
-	endforeach;
+	    $i++;
+        }
+    endforeach;
 	else:
 ?>
 					<div class="col-md-12">
@@ -258,6 +262,9 @@ $this->load->view('vendor/general/header');
 ?>
 
 					</div>
+                    <a href="<?php echo base_url()?>vendor/cari_kelas">
+                        <div class="btn-browse top-40">Lihat semua kelas</div>
+                    </a>
 					
 					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Terbaru</div>
 					
@@ -267,12 +274,7 @@ $this->load->view('vendor/general/header');
 	$j = 0;
 	if(!empty($class)):
 	foreach($class as $kelas):
-		if($i % 4 == 0 && $i > 0):
-?>
-					</div>
-					<div class="row">
-<?php 
-		endif;
+		if($i < 3){
 		$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'.$kelas->class_image);
 		$price = (int)$kelas->price_per_session;
 		$disc = (int)$kelas->discount;
@@ -286,15 +288,16 @@ $this->load->view('vendor/general/header');
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail">
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>">
-									<div style="width: 300px; height: 200px;overflow: hidden;">
+									<div style="height: 200px;overflow: hidden;">
 									<img style="width: 100%;top:0;left:0;" 
 										 data-src="<?php echo base_url().$img;?>" src="<?php echo 
 											base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?>/>
 									</div>
+                                    <div id=<?php echo "'new-class-title".$i."'"?>'' class="class-title-container">
+                                        <span class="class-title"><?php echo $kelas->class_nama?></span>
+                                    </div>
 								</a>
-								<div class="price-class"></div>	 
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
-								<div class="class-info">
+								<div class="class-info" style="margin-top:0px;">
 									<div>
 										<div class="class-price">
 											Rp <?php echo $_price; ?>
@@ -327,7 +330,7 @@ $this->load->view('vendor/general/header');
 										</div>
 										<a href="#" class="link-vendor">Toko Kue Primadona</a>
 											<div class="class-rating">
-												<?php for($i=0;$i<5;$i++){ ?>
+												<?php for($ii=0;$ii<5;$ii++){ ?>
 												<img src="<?php echo base_url().'images/count-star.png'?>"/>
 												<?php } ?>
 											</div>
@@ -336,8 +339,9 @@ $this->load->view('vendor/general/header');
 							</div>
 						</div>
 <?php 
-	$j++;
-	endforeach;
+	$i++;
+        }
+        endforeach;
 	else:
 ?>
 					<div class="col-md-12">
