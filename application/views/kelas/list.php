@@ -263,7 +263,7 @@ $this->load->view('vendor/general/header');
 
 					</div>
                     <a href="<?php echo base_url()?>cari_kelas">
-                        <div class="btn-browse">Lihat semua</div>
+                        <div class="btn-browse top-40">Lihat semua kelas</div>
                     </a>
 					
 					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Terbaru</div>
