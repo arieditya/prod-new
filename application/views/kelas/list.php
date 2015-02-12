@@ -195,7 +195,7 @@ $this->load->view('vendor/general/header');
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail">
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>">
-									<div style="width: 300px; height: 200px;overflow: hidden;">
+									<div style="height: 200px;overflow: hidden;">
 									<img style="width: 100%;top:0;left:0;" 
 										 data-src="<?php echo base_url().$img;?>" 
 										 src="<?php echo base_url().$img;?>" 
@@ -205,10 +205,11 @@ $this->load->view('vendor/general/header');
 									echo !empty($kelas->discount)?'dee-discount':''?> 
 									/>
 									</div>
+                                    <div style="background-color: rgba(0,0,0,0.5); position:absolute; margin-right:13px; width:282px;">
+                                        <span class="class-title" style="padding:5px; position:static;"><?php echo $kelas->class_nama?></span>
+                                    </div>
 								</a>
-								<div class="price-class"></div>
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
-								<div class="class-info">
+								<div class="class-info" style="margin-top:0px;">
 									<div>
 										<div class="class-price">
 											Rp <?php echo $_price.' /sesi'; ?>
@@ -286,15 +287,16 @@ $this->load->view('vendor/general/header');
 						<div class="col-md-4 bottom-20">
 							<div class="thumbnail">
 								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>">
-									<div style="width: 300px; height: 200px;overflow: hidden;">
+									<div style="height: 200px;overflow: hidden;">
 									<img style="width: 100%;top:0;left:0;" 
 										 data-src="<?php echo base_url().$img;?>" src="<?php echo 
 											base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?>/>
 									</div>
+                                    <div style="background-color: rgba(0,0,0,0.5); position:absolute; margin-right:13px; width:282px;">
+                                        <span class="class-title" style="padding:5px; position:static;"><?php echo $kelas->class_nama?></span>
+                                    </div>
 								</a>
-								<div class="price-class"></div>	 
-								<a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"><div class="class-title"><?php echo $kelas->class_nama?></div></a>
-								<div class="class-info">
+								<div class="class-info" style="margin-top:0px;">
 									<div>
 										<div class="class-price">
 											Rp <?php echo $_price; ?>
