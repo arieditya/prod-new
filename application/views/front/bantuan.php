@@ -1,20 +1,18 @@
-<link rel="stylesheet" href="<?php echo base_url(); ?>css/orbit-1.2.3.css" />
-<link rel="canonical" href="http://www.ruangguru.com/kelas" />
-<link rel="stylesheet" type="text/css" media="screen and (max-width: 1024px)" href="<?php echo base_url(); ?>css/mobile.css" />
-<link rel="stylesheet" href="<?php echo base_url()?>assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>css/default.css" />
-<?php if (isset($css)){foreach($css as $value){?>
-    <link rel="stylesheet" href="<?php echo base_url(); ?>css/<?php echo $value;?>.css?v=20140218" />
-<?php }}?>
-<script type="text/javascript">var base_url="<?php echo base_url();?>";</script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/bantuan.js"></script>
-<?php /*
 <html>
 <head>
 <link rel="canonical" href="http://www.ruangguru.com/bantuan" />
-*/?>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>css/orbit-1.2.3.css" />
+    <link rel="canonical" href="http://www.ruangguru.com/kelas" />
+    <link rel="stylesheet" type="text/css" media="screen and (max-width: 1024px)" href="<?php echo base_url(); ?>css/mobile.css" />
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>css/default.css" />
+    <?php if (isset($css)){foreach($css as $value){?>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>css/<?php echo $value;?>.css?v=20140218" />
+    <?php }}?>
+    <script type="text/javascript">var base_url="<?php echo base_url();?>";</script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/bantuan.js"></script>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/jquery-2.1.1.min.js"></script>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
 <script>
@@ -48,14 +46,8 @@ $(document).ready(function(){
     });
 });
 </script>
-<?php /*
 </head>
-*/?>
-<?php
-$this->load->view('vendor/general/header');
-?>
 <body>
-<div class="container">
 <div id="content">
     <div id="bantuan">
         <table>
@@ -98,7 +90,6 @@ $this->load->view('vendor/general/header');
         </table>
     </div>
     <div class="blank" style="height:30px;"></div>
-</div>
 </div>
 </body>
 </html>

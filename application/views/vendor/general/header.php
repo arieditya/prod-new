@@ -63,7 +63,7 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 						<h2><a href="<?php echo base_url();?>cari_guru">Privat</a></h2>
 					</li>
 					<li>
-						<h2><a href="<?php echo base_url();?>bantuan">FAQ</a></h2>
+						<h2><a href="<?php echo base_url();?>vendor/bantuan">FAQ</a></h2>
 					</li>
 					<li>
 						<h2><a href="<?php echo base_url();?>kontak_kami">Kontak</a></h2>
