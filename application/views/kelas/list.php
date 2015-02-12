@@ -173,6 +173,7 @@ $this->load->view('vendor/general/header');
 	$j = 0;
 	if(!empty($class)):
 	foreach($class as $kelas):
+        if($i < 6) {
 		if($i % 3 == 0 && $i > 0){
             $j++;
 ?>
@@ -244,8 +245,9 @@ $this->load->view('vendor/general/header');
 							</div>
 						</div>
 <?php 
-	$i++;
-	endforeach;
+	    $i++;
+        }
+    endforeach;
 	else:
 ?>
 					<div class="col-md-12">
@@ -260,6 +262,9 @@ $this->load->view('vendor/general/header');
 ?>
 
 					</div>
+                    <a href="<?php echo base_url()?>cari_kelas">
+                        <div class="btn-browse">Lihat semua</div>
+                    </a>
 					
 					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Terbaru</div>
 					
@@ -269,13 +274,7 @@ $this->load->view('vendor/general/header');
 	$j = 0;
 	if(!empty($class)):
 	foreach($class as $kelas):
-		if($i % 3 == 0 && $i > 0){
-            $j++;
-?>
-					</div>
-					<div class="row">
-<?php
-        }
+		if($i < 3){
 		$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'.$kelas->class_image);
 		$price = (int)$kelas->price_per_session;
 		$disc = (int)$kelas->discount;
@@ -341,7 +340,8 @@ $this->load->view('vendor/general/header');
 						</div>
 <?php 
 	$i++;
-	endforeach;
+        }
+        endforeach;
 	else:
 ?>
 					<div class="col-md-12">
