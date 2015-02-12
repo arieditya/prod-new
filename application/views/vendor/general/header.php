@@ -60,13 +60,13 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 						<h2><a href="<?php echo base_url();?>kelas">Kelas</a></h2>
 					</li>
 					<li>
-						<h2><a href="http://ruangguru.com">Privat</a></h2>
+						<h2><a href="<?php echo base_url();?>cari_guru">Privat</a></h2>
 					</li>
 					<li>
-						<h2><a href="<?php echo base_url();?>faq">FAQ</a></h2>
+						<h2><a href="<?php echo base_url();?>bantuan">FAQ</a></h2>
 					</li>
 					<li>
-						<h2><a href="<?php echo base_url();?>kontak">Kontak</a></h2>
+						<h2><a href="<?php echo base_url();?>kontak_kami">Kontak</a></h2>
 					</li>
 <?php
 	if(!$is_login):

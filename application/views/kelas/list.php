@@ -12,7 +12,7 @@ $this->load->view('vendor/general/header');
 <link href="<?php echo base_url();?>assets/css/bootstrap-slider.css" rel="stylesheet" />
 <script src="<?php echo base_url();?>assets/js/bootstrap-slider.js" type="application/javascript"></script>
 	<div class="panel panel-default">
-		<div class="panel-body bg-all">
+		<div class="panel-body">
 			<div class="row">
 <?php /*
 				<div class="col-md-offset-2 col-md-8" style="margin-bottom: 20px;">
@@ -167,7 +167,7 @@ $this->load->view('vendor/general/header');
 <div class="row bottom-50">
 				<div class="col-md-offset-2 col-md-8">
 					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Pilihan</div>
-					<div class="row">
+					<div class="row bg-all">
 <?php
 	$i = 0;
 	$j = 0;
@@ -177,7 +177,7 @@ $this->load->view('vendor/general/header');
             $j++;
 ?>
 					</div>
-					<div class="row">
+					<div class="row bg-all">
 <?php 
         }
 		$imgparts = explode('.',$kelas->class_image);
@@ -206,7 +206,7 @@ $this->load->view('vendor/general/header');
 									echo !empty($kelas->discount)?'dee-discount':''?> 
 									/>
 									</div>
-                                    <div class="class-title-container">
+                                    <div id=<?php echo "'new-class-title".$i."'"?>'' class="class-title-container">
                                         <span class="class-title"><?php echo $kelas->class_nama?></span>
                                     </div>
 								</a>
@@ -263,7 +263,7 @@ $this->load->view('vendor/general/header');
 					
 					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Terbaru</div>
 					
-					<div class="row">
+					<div class="row bg-all">
 <?php
 	$i = 0;
 	$j = 0;
@@ -273,7 +273,7 @@ $this->load->view('vendor/general/header');
             $j++;
 ?>
 					</div>
-					<div class="row">
+					<div class="row bg-all">
 <?php
         }
 		$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'.$kelas->class_image);
@@ -294,8 +294,8 @@ $this->load->view('vendor/general/header');
 										 data-src="<?php echo base_url().$img;?>" src="<?php echo 
 											base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?>/>
 									</div>
-                                    <div style="background-color: rgba(0,0,0,0.5); position:absolute; margin-right:13px; width:282px;">
-                                        <span class="class-title" style="padding:5px; position:static;"><?php echo $kelas->class_nama?></span>
+                                    <div id=<?php echo "'new-class-title".$i."'"?>'' class="class-title-container">
+                                        <span class="class-title"><?php echo $kelas->class_nama?></span>
                                     </div>
 								</a>
 								<div class="class-info" style="margin-top:0px;">
