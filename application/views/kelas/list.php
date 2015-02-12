@@ -173,12 +173,13 @@ $this->load->view('vendor/general/header');
 	$j = 0;
 	if(!empty($class)):
 	foreach($class as $kelas):
-		if($i % 4 == 0 && $i > 0):
+		if($i % 3 == 0 && $i > 0){
+            $j++;
 ?>
 					</div>
 					<div class="row">
 <?php 
-		endif;
+        }
 		$imgparts = explode('.',$kelas->class_image);
 		$ext = array_pop($imgparts);
 		array_push($imgparts, $ext);
@@ -234,7 +235,7 @@ $this->load->view('vendor/general/header');
 										</div>
 										<a href="#" class="link-vendor">Toko Kue Primadona</a>
 											<div class="class-rating">
-												<?php for($i=0;$i<5;$i++){ ?>
+												<?php for($ii=0;$ii<5;$ii++){ ?>
 												<img src="<?php echo base_url().'images/count-star.png'?>"/>
 												<?php } ?>
 											</div>
@@ -243,7 +244,7 @@ $this->load->view('vendor/general/header');
 							</div>
 						</div>
 <?php 
-	$j++;
+	$i++;
 	endforeach;
 	else:
 ?>
@@ -268,12 +269,13 @@ $this->load->view('vendor/general/header');
 	$j = 0;
 	if(!empty($class)):
 	foreach($class as $kelas):
-		if($i % 4 == 0 && $i > 0):
+		if($i % 3 == 0 && $i > 0){
+            $j++;
 ?>
 					</div>
 					<div class="row">
-<?php 
-		endif;
+<?php
+        }
 		$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'.$kelas->class_image);
 		$price = (int)$kelas->price_per_session;
 		$disc = (int)$kelas->discount;
@@ -329,7 +331,7 @@ $this->load->view('vendor/general/header');
 										</div>
 										<a href="#" class="link-vendor">Toko Kue Primadona</a>
 											<div class="class-rating">
-												<?php for($i=0;$i<5;$i++){ ?>
+												<?php for($ii=0;$ii<5;$ii++){ ?>
 												<img src="<?php echo base_url().'images/count-star.png'?>"/>
 												<?php } ?>
 											</div>
@@ -338,7 +340,7 @@ $this->load->view('vendor/general/header');
 							</div>
 						</div>
 <?php 
-	$j++;
+	$i++;
 	endforeach;
 	else:
 ?>
