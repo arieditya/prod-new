@@ -12,7 +12,7 @@ $this->load->view('vendor/general/header');
 <link href="<?php echo base_url();?>assets/css/bootstrap-slider.css" rel="stylesheet" />
 <script src="<?php echo base_url();?>assets/js/bootstrap-slider.js" type="application/javascript"></script>
 	<div class="panel panel-default">
-		<div class="panel-body">
+		<div class="panel-body bg-all">
 			<div class="row">
 <?php /*
 				<div class="col-md-offset-2 col-md-8" style="margin-bottom: 20px;">
@@ -167,7 +167,7 @@ $this->load->view('vendor/general/header');
 <div class="row bottom-50">
 				<div class="col-md-offset-2 col-md-8">
 					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Pilihan</div>
-					<div class="row bg-all">
+					<div class="row">
 <?php
 	$i = 0;
 	$j = 0;
@@ -177,7 +177,7 @@ $this->load->view('vendor/general/header');
             $j++;
 ?>
 					</div>
-					<div class="row bg-all">
+					<div class="row">
 <?php 
         }
 		$imgparts = explode('.',$kelas->class_image);
@@ -263,7 +263,7 @@ $this->load->view('vendor/general/header');
 					
 					<div class="text-center top-10 bottom-10 text-20 bold">Kelas Terbaru</div>
 					
-					<div class="row bg-all">
+					<div class="row">
 <?php
 	$i = 0;
 	$j = 0;
@@ -273,7 +273,7 @@ $this->load->view('vendor/general/header');
             $j++;
 ?>
 					</div>
-					<div class="row bg-all">
+					<div class="row">
 <?php
         }
 		$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'.$kelas->class_image);
