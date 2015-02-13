@@ -179,7 +179,7 @@ $this->load->view('vendor/general/header');
         }
         ?>
         <div class="col-md-4 bottom-20">
-            <div class="thumbnail">
+            <div class="thumbnail" style="width: 308px">
                 <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>">
                     <div style="height: 200px;overflow: hidden;">
                         <img style="width: 100%;top:0;left:0;"
