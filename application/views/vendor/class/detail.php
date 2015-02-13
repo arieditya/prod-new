@@ -587,8 +587,10 @@ foreach($schedule_attendance as $sched_attd):
 								<tr>
 									<td><?php echo "{$ii}. <em>{$sched_attd['topik']}</em>"; ?></td>
 									<td>
-										<?php echo "{$peserta->nama_pemesan} ($peserta->phone_pemesan)";?><br />
-										<?php echo "<a href=\"mailto:{$peserta->email_pemesan}\">{$peserta->email_pemesan}</a>";?>
+										<?php var_dump($peserta); ?>
+										<?php //echo "{$peserta->nama_pemesan} ($peserta->phone_pemesan)";?><br />
+										<?php //echo "<a href=\"mailto:{$peserta->email_pemesan}\">{$peserta
+											  // ->email_pemesan}</a>";?>
 									</td>
 									<td>
 										<?php echo "{$peserta->nama_peserta} ($peserta->phone_peserta)";?><br />
