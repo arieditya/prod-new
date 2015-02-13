@@ -113,6 +113,7 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('vendor_level_list.name');
 		$this->db->select('vendor_level_list.nama');
 		$this->db->select('vendor_class_price.price_per_session');
+		$this->db->select('COUNT(`vendor_class_jadwal`.`jadwal_id`) AS `count_session`', TRUE);
 		$this->db->select('vendor_class_jadwal.class_tanggal');
 		$this->db->select('vendor_class_jadwal.class_jam_mulai');
 		$this->db->select('vendor_class_jadwal.class_menit_mulai');

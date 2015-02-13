@@ -54,7 +54,15 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 			<div class="white-navbar">
 				<ul class="nav navbar-nav navbar-left">
 					<li>
-						<a href="<?php echo base_url();?>" style="padding:0; margin:0;"><img src="<?php echo base_url();?>images/header-logo.png" height="60"></a>
+						<a href="<?php echo base_url();?>" style="padding:0; margin:0;">
+<?php
+	$logo = 'header-logo.png';
+	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
+		$logo = 'logo-kelas-2.png';
+		;
+?>
+							<img src="<?php echo base_url();?>images/<?php echo $logo;?>" height="60">
+						</a>
 					</li>
 					<li>
 						<h2><a href="<?php echo base_url();?>kelas">Kelas</a></h2>

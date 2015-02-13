@@ -42,7 +42,7 @@ class Teacher_driven extends MY_Controller{
 			$vendor = $this->vendor_model->get_vendor_detail($id);
 			$this->email_model->admin_approved_vendor($vendor->email);
 		}
-		redirect('admin/teacher_driver/'.$referer);
+		redirect('admin/teacher_driven/'.$referer);
 	}
 
 	public function reject_vendor_confirm($id) {
@@ -54,7 +54,7 @@ class Teacher_driven extends MY_Controller{
 			$vendor = $this->vendor_model->get_vendor_detail($id);
 			$this->email_model->admin_rejected_vendor($vendor->email);
 		}
-		redirect('admin/teacher_driver/'.$referer);
+		redirect('admin/teacher_driven/'.$referer);
 	}
 
 	public function deactivate_vendor($id) {
@@ -62,7 +62,7 @@ class Teacher_driven extends MY_Controller{
 		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
 		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
 		$this->vendor_model->deactivate_vendor($id);
-		redirect('admin/teacher_driver/'.$referer);
+		redirect('admin/teacher_driven/'.$referer);
 	}
 
 	public function vendor_search() {

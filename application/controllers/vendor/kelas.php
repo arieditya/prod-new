@@ -26,6 +26,9 @@ class Kelas extends Vendor_Controller{
 			$list->level = $this->vendor_class_model->get_class_level($list->id);
 			$list->category = $this->vendor_class_model->get_class_category($list->id);
 			$list->jadwal_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$list->id))->num_rows();
+			$participant = $this->vendor_class_model->get_class_participant_full($list->id, 4);
+			$list->participant_count = $participant->num_rows();
+			$list->participant = $participant->result();
 		}
 		$this->data['classes'] = $list_class;
 		$this->load->view('vendor/class/list', $this->data);

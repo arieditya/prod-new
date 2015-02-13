@@ -458,8 +458,8 @@ a.normal-link:visited
 
 .discount-tag{
 	position: absolute;
-	top:3px;
-	right:7px;
+	top:4px;
+	right:-13px;
 }
 
 .price-tag{
@@ -483,7 +483,7 @@ a.normal-link:visited
     background-color: rgba(0,0,0,0.5);
     position:absolute;
     margin-right:13px;
-    width:282px;
+    width:300px;
     margin-top:-25px;
 }
 

@@ -130,9 +130,12 @@ class Kelas extends MY_Controller {
 		}
 //		var_dump($where_class);
 		//print_r($classes);exit();
-		foreach($classes as $cla){
-			$data['vendor']['profile'][]= $this->vendor_model->get_profile(array('id'=>$cla->vendor_id))->result();
-			$data['vendor']['info'][]= $this->vendor_model->get_info(array('vendor_id'=>$cla->vendor_id))->result();
+		foreach($classes as &$cla){
+			$v['profile'] = $this->vendor_model->get_profile(array('id'=>$cla->vendor_id))->row();
+			$v['info'] = $this->vendor_model->get_info(array('vendor_id'=>$cla->vendor_id))->row();
+			$data['vendor']['profile'][]= $v['profile'];
+			$data['vendor']['info'][]= $v['info'];
+			$cla->vendor = $v;
 		}
 		$this->load->helper('text');
 		$this->data['class'] = $classes;

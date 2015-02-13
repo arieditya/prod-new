@@ -75,10 +75,17 @@ $this->load->view('vendor/general/header');
 									<td><?php echo number_format($class->class_harga).',-'; ?></td>
 									<td><?php echo $class->jadwal_count; ?></td>
 									<td><?php echo $type; ?></td>
-									<td><a href="#" class="blue underline">5 orang</a></td>
+									<td>
+										<a href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>/attendance" 
+										   class="list_participant blue underline">
+											<?php echo $class->participant_count; ?>&nbsp;orang
+										</a>
+									</td>
 									<td><?php echo $status;?></td>
 									<td>
-										<a class="manage-icon text-12 bold" href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>"><img src="<?php echo base_url().'images/manage.png';?>" width="18px"/>&nbsp;Manage</a>
+										<a class="manage-icon text-12 bold" href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>">
+											<img src="<?php echo base_url().'images/manage.png';?>" width="18px"/>&nbsp;Manage
+										</a>
 									</td>
 									<td><a href="<?php echo base_url().'kelas/'.$class->class_uri;?>" class="blue underline">Link</a></td>
 								</tr>

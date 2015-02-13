@@ -207,7 +207,8 @@ $this->load->view('vendor/general/header');
 									echo !empty($kelas->discount)?'dee-discount':''?> 
 									/>
 									</div>
-                                    <div id=<?php echo "'new-class-title".$i."'"?>'' class="class-title-container">
+                                    <div id=<?php echo "'featured-class-title".$i."'"?>'' 
+										 class="class-title-container">
                                         <span class="class-title"><?php echo $kelas->class_nama?></span>
                                     </div>
 								</a>
@@ -226,7 +227,17 @@ $this->load->view('vendor/general/header');
 											<img src="<?php echo base_url().'images/calendar.png';?>"/>
 										</div>
 										<p class="text-13"><?php echo date('d M Y', strtotime($kelas->class_tanggal));?> | 17.00 - 19.00 WIB<br/>
-											dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>" class="pink"><span class="link-sesi"><?php echo 5;?> sesi lainnya</span></a><br/>
+<?php if($kelas->count_session-1 > 0):
+?>
+											dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>" 
+												   class="pink">
+												<span class="link-sesi"><?php echo $kelas->count_session-1;?> sesi 
+													lainnya</span>
+											</a>
+<?php else: ?>
+<br />
+<?php 
+endif; ?>
 										</p>
 									</div>
 									<a href="#"><div class="line-title"><span class="bold text-left text-16 title-filter"></span></div></a>
@@ -234,7 +245,8 @@ $this->load->view('vendor/general/header');
 										<div class="ico-session">
 											<img src="<?php echo base_url().'images/check-order.png';?>"/>
 										</div>
-										<a href="#" class="link-vendor">Toko Kue Primadona</a>
+										<a href="#" class="link-vendor"><?php echo 
+											$kelas->vendor['profile']->name;?></a>
 											<div class="class-rating">
 												<?php for($ii=0;$ii<5;$ii++){ ?>
 												<img src="<?php echo base_url().'images/count-star.png'?>"/>
@@ -280,7 +292,7 @@ $this->load->view('vendor/general/header');
 		$disc = (int)$kelas->discount;
 		$_disc = number_format($disc).',-';
 		if(empty($price)){
-			
+			$_price = '0,-';
 		} else {
 			$_price = number_format($price, 0, ',', '.').',-';
 		}
@@ -293,7 +305,7 @@ $this->load->view('vendor/general/header');
 										 data-src="<?php echo base_url().$img;?>" src="<?php echo 
 											base_url().$img;?>" alt="..." <?php echo !empty($price)?"dee-picture data-price='{$_disc}'":''?> <?php echo !empty($kelas->discount)?'dee-discount':''?>/>
 									</div>
-                                    <div id=<?php echo "'new-class-title".$i."'"?>'' class="class-title-container">
+                                    <div id=<?php echo "'latest-class-title".$i."'"?>'' class="class-title-container">
                                         <span class="class-title"><?php echo $kelas->class_nama?></span>
                                     </div>
 								</a>
@@ -320,7 +332,17 @@ $this->load->view('vendor/general/header');
 											<img src="<?php echo base_url().'images/calendar.png';?>"/>
 										</div>
 										<p class="text-13"><?php echo date('d M Y', strtotime($kelas->class_tanggal));?> | 17.00 - 19.00 WIB<br/>
-											dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>" class="pink"><span class="link-sesi"><?php echo 5;?> sesi lainnya</span></a><br/>
+<?php if($kelas->count_session-1 > 0):
+	?>
+											dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>" 
+												   class="pink">
+												<span class="link-sesi"><?php echo $kelas->count_session-1;?> sesi 
+													lainnya</span>
+											</a>
+<?php else: ?>
+<br />
+<?php 
+endif; ?>
 										</p>
 									</div>
 									<a href="#"><div class="line-title"><span class="bold text-left text-16 title-filter"></span></div></a>
@@ -328,7 +350,8 @@ $this->load->view('vendor/general/header');
 										<div class="ico-session">
 											<img src="<?php echo base_url().'images/check-order.png';?>"/>
 										</div>
-										<a href="#" class="link-vendor">Toko Kue Primadona</a>
+										<a href="#" class="link-vendor"><?php echo 
+											$kelas->vendor['profile']->name;?></a>
 											<div class="class-rating">
 												<?php for($ii=0;$ii<5;$ii++){ ?>
 												<img src="<?php echo base_url().'images/count-star.png'?>"/>
@@ -432,6 +455,16 @@ $this->load->view('vendor/general/header');
 	</div>
 <script type="application/javascript">
 	$(document).ready(function(){
+
+		$('.class-title-container').each(function(id, elm){
+			console.log();
+			var c_id = $(elm).attr('id');
+			var top = '-'+$(elm).css('height');
+			console.log('TOP:'+top);
+			$('#'+c_id).css({'marginTop':top});
+		});
+		
+		
 		$('.filter_level').click(function(e){
 			e.preventDefault();
 			var lvl_id = $(this).data('id');
@@ -508,7 +541,6 @@ $this->load->view('vendor/general/header');
 		$.each($('img[dee-discount]'), function(i, elm){
 			$(elm).before(
 			$('<div class="discount-tag"></div>')
-					.css({'width':'-13px','top': '4px'})
 					.append($("<img src='<?php echo base_url();?>images/tag-discount.png' width='70px'/>"))
 			);
 		});
