@@ -77,7 +77,7 @@ if(!empty($this->data['user']) && $this->data['user']['type'] == 'vendor' && !em
 						<h2><a href="http://ruangguru.com">Privat</a></h2>
 					</li>
 					<li>
-						<h2><a href="<?php echo base_url();?>faq">Kebijakan</a></h2>
+						<h2><a href="<?php echo base_url();?>vendor/bantuan">FAQ</a></h2>
 					</li>
 					<li>
 						<h2><a href="<?php echo base_url();?>kontak">Kontak</a></h2>
