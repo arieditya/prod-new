@@ -568,7 +568,40 @@ $i=0;
 							<h4 class="bold">Peserta Kelas</h4>
 						</div>
 						<div class="padding-content">
+							<table>
+								<thead>
+								<tr>
+									<th>Session</th>
+									<th>Pemesan</th>
+									<th>Peserta</th>
+								</tr>
+								</thead>
+								<tbody>
 <?php 
+$ii = 0;
+foreach($schedule_attendance as $sched_attd):
+	foreach($sched_attd['peserta'] as $peserta):
+		$i++;
+?>
+								<tr>
+									<td><?php echo "{$i}. <em>{$sched_attd['topik']}</em>"; ?></td>
+									<td>
+										<?php echo "{$peserta->nama_pemesan} ($peserta->phone_pemesan)";?><br />
+										<?php echo "<a href=\"mailto:{$peserta->email_pemesan}\">{$peserta->email_pemesan}</a>";?>
+									</td>
+									<td>
+										<?php echo "{$peserta->nama_peserta} ($peserta->phone_peserta)";?><br />
+										<?php echo "<a href=\"mailto:{$peserta->email_peserta}\">{$peserta->email_peserta}</a>";?>
+									</td>
+								</tr>
+<?php 
+	endforeach;
+endforeach;
+?>
+								</tbody>
+							</table>
+<?php 
+/*
 	foreach($schedule_attendance as $sched_attendance):
 ?>
 						<p>Kelas: <?php echo $sched_attendance['topik'];?></p>
@@ -585,6 +618,7 @@ $i=0;
 						</ul>
 <?php 
 	endforeach;
+// */
 ?>
 						</div>
 					</div>

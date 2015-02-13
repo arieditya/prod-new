@@ -894,11 +894,11 @@ class Vendor_class_model extends MY_Model{
 	public function get_class_per_sched_participant_full($class_id, $status=4) {
 		$query = "
 		SELECT 
--- 			pemesan_id,
--- 			b.name AS nama_pemesan,
--- 			b.email AS email_pemesan,
--- 			b.phone AS phone_pemesan,
--- 			b.address AS alamat_pemesan,
+ 			pemesan_id,
+ 			b.name AS nama_pemesan,
+ 			b.email AS email_pemesan,
+ 			b.phone AS phone_pemesan,
+ 			b.address AS alamat_pemesan,
 			participant_id as peserta_id,
 			c.name AS nama_peserta,
 			c.email AS email_peserta,
@@ -908,8 +908,8 @@ class Vendor_class_model extends MY_Model{
 			d.class_jadwal_topik AS topik
 		FROM
 			vendor_class_participant a
--- 			LEFT JOIN vendor_class_pemesan b
--- 			ON b.id = a.pemesan_id
+ 			LEFT JOIN vendor_class_pemesan b
+ 			ON b.id = a.pemesan_id
 			LEFT JOIN vendor_class_student c
 			ON c.id = a.participant_id
 			LEFT JOIN vendor_class_jadwal d
