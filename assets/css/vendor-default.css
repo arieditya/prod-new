@@ -1084,6 +1084,21 @@ a.normal-link:visited
     margin-right: auto;
 }
 
+.btn-back{
+    font-family: Ubuntu;
+    background-color: #fcb33b;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color:#fff;
+    text-decoration:none;
+    height: auto;
+    width: 150px;
+    padding: 7px 15px;
+    font-size:19px;
+    text-align: center;
+    margin-right: auto;
+}
+
 .why-text{
 	margin-left:-35px;
 	font-weight:bold;
