@@ -580,11 +580,12 @@ $i=0;
 <?php 
 $ii = 0;
 foreach($schedule_attendance as $sched_attd):
-	foreach($sched_attd['peserta'] as $peserta):
-		$i++;
+	foreach($sched_attd['peserta'] as $peserta_id => $peserta):
+		$x = $peserta_id;
+		$ii++;
 ?>
 								<tr>
-									<td><?php echo "{$i}. <em>{$sched_attd['topik']}</em>"; ?></td>
+									<td><?php echo "{$ii}. <em>{$sched_attd['topik']}</em>"; ?></td>
 									<td>
 										<?php echo "{$peserta->nama_pemesan} ($peserta->phone_pemesan)";?><br />
 										<?php echo "<a href=\"mailto:{$peserta->email_pemesan}\">{$peserta->email_pemesan}</a>";?>
