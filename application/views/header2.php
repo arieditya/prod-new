@@ -1,10 +1,31 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<?php
+	$kw = '';
+	if(!empty($meta)){
+		if(!empty($meta['keywords'])) {
+			$kw .= implode(', ', $meta['keywords']);
+		}
+	}
+	$title = '';
+	if(!empty($meta['title'])) {
+		$title .= $meta['title'];
+	} else {
+		$title .= 'Mau bisa apa?';
+	}
+	$title .= ' | ruangguru.com';
+	$desc = 'Butuh guru privat untuk bimbingan belajar pelajaranmu? Ruangguru punya banyak guru kursus berpengalaman yang bisa kamu request berdasarkan posisi, rate, dan lainnya.';
+	if(!empty($meta['description'])) {
+		$desc = $meta['description'];
+	}
+?><!DOCTYPE html>
+<html>
 <head>
-	<meta name="keywords" content="guru, cari guru, guru privat, privat, bimbel, guru les, guru bimbel, bimbingan belajar, tutor, guru tambahan, les, bahasa inggris, guru freelance, freelance, guru part-time, guru honor, pengajar muda, guru anak, guru panggilan, guru berprestasi, pelatih, mahasiswa berprestasi" />
-	<meta name="robots" content="noarchive">
+	<meta name="keywords" content="guru, cari guru, guru privat, privat, bimbel, guru les, guru bimbel, 
+	bimbingan belajar, tutor, guru tambahan, les, bahasa inggris, guru freelance, freelance, guru part-time, 
+	guru honor, pengajar muda, guru anak, guru panggilan, guru berprestasi, pelatih, mahasiswa berprestasi
+	<?php echo $kw; ?>" />
+	<meta name="robots" content="index, follow">
+	<meta name="description" content="<?php echo $desc;?>">
+	<title><?php echo $title;?></title>
 	<link rel="icon" type="image/png" href="<?php echo base_url();?>images/favicon.png"/>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>css/orbit-1.2.3.css" />
 	<link rel="stylesheet" href="<?php echo base_url(); ?>css/default.css" />
@@ -18,13 +39,12 @@
 	<script type="text/javascript" src="<?php echo base_url();?>js/bantuan.js"></script>
 </head>
 <body>
-
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5RGCZZ"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<script type="application/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+j=d.createElement(s),dl=l!='dataLayer'?('&l='+l):'';j.async=true;j.src=
 '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5RGCZZ');</script>
 <!-- End Google Tag Manager -->

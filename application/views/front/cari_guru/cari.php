@@ -350,8 +350,8 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
 											 <?php for($i=0;$i<$n;$i++){ ?>
 											 <?php if($i==0) { ?>
 												<tr>
-													<th class="bold"><?php echo $get_jenjang_title; ?></td>
-													<th class="bold" width="200px">Tarif/ 1 Jam Kursus</td>
+													<th class="bold"><?php echo $get_jenjang_title; ?></th>
+													<th class="bold" width="200px">Tarif/ 1 Jam Kursus</th>
 												</tr>
 											<?php } ?>
 												<?php if($tarif_matpel[$i]->jenjang_pendidikan_id == $get_jenjang){ ?>
@@ -363,8 +363,8 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
 												<?php $get_jenjang = $tarif_matpel[$i]->jenjang_pendidikan_id; ?>
 												<?php $get_jenjang_title = $tarif_matpel[$i]->jenjang_pendidikan_title; ?>
 												<tr>
-													<th class="bold"><?php echo $get_jenjang_title; ?></td>
-													<th class="bold">Tarif/ 1 Jam Kursus</td>
+													<th class="bold"><?php echo $get_jenjang_title; ?></th>
+													<th class="bold">Tarif/ 1 Jam Kursus</th>
 												</tr>
 												<tr>
 													<td class="<?php if($tarif_matpel[$i]->matpel_id == $input['matpel']){ echo 'bold bg-hilite italic'; } ?>"><?php echo $tarif_matpel[$i]->matpel_title; ?></td>

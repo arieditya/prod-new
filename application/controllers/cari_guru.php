@@ -5,7 +5,7 @@ ob_start();
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Cari_guru extends CI_Controller {
+class Cari_guru extends MY_Controller {
     private $id;
     
     public function __construct() {
@@ -196,7 +196,7 @@ class Cari_guru extends CI_Controller {
             $this->load->model('request_model');
 		  if($this->email_check($input['email'])){
 			$murid_id = $this->murid_model->insert_murid($input);
-			$this->murid_model->send_email_request($id);
+			$this->murid_model->send_email_request($murid_id);
 			$input['murid_id'] = $murid_id;
 			$input['disc']=0;
 		  }else{

@@ -14,6 +14,7 @@ class Profile extends Vendor_Controller{
 	public function __construct()
 	{
 		parent::__construct();
+		$this->vendor->id = $this->session->userdata('user_type')=='vendor'?$this->session->userdata('user_id'):FALSE;
 	}
 	
 	public function edit() {
@@ -58,7 +59,7 @@ class Profile extends Vendor_Controller{
 			$update['vendor_logo'] = $this->input->post('vendor_logo');
 		}
 
-		$update['id'] = $this->vendor->id;
+		$update['id'] = $this->session->userdata('user_type')=='vendor'?$this->session->userdata('user_id'):FALSE;
 
 		$no_files = FALSE;
 		if(!empty($_FILES['vendor_logo']) ) {

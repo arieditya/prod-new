@@ -83,9 +83,44 @@ $this->load->view('vendor/general/header');
 									</td>
 									<td><?php echo $status;?></td>
 									<td>
-										<a class="manage-icon text-12 bold" href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>">
+<?php 
+	if($class->class_status != '-1'):
+		
+?>
+										<a class="manage-icon text-12 bold" href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>" style="margin-top: 3px;">
 											<img src="<?php echo base_url().'images/manage.png';?>" width="18px"/>&nbsp;Manage
 										</a>
+		<br />
+<?php 
+		if($class->class_status == '0'): 
+			
+?>
+										<a class="manage-icon text-12 bold" href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>">
+											<i class="fa fa-upload"></i>&nbsp;Publish Class
+										</a>
+<?php 
+		elseif($class->class_status == '1'):
+			
+?>
+										<a class="manage-icon text-12 bold" href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>">
+											<i class="fa fa-download"></i>&nbsp;Request&nbsp;Unpublish
+										</a>
+<?php 
+		else: 
+			
+?>
+										<a class="manage-icon text-12 bold" href="<?php echo base_url().'vendor/kelas/detil/'.$class->id; ?>">
+											<i class="fa fa-exclamation"></i>&nbsp;Cancel&nbsp;Request
+										</a>
+<?php 
+		endif;
+	else:
+?>
+										<span class="text-12 bold">REJECTED</span>
+<?php 
+	endif;
+?>
+
 									</td>
 									<td><a href="<?php echo base_url().'kelas/'.$class->class_uri;?>" class="blue underline">Link</a></td>
 								</tr>

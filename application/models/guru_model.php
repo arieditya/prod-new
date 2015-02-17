@@ -859,6 +859,7 @@ class Guru_model extends CI_Model {
 			foreach($kelas->result() as $k){
 				if($k->kelas_feedback_status == 1){
 					$feedback = $this->kelas_model->get_feedback_by_kelas_id($k->kelas_id);
+					$n = array();
 						foreach($feedback->result() as $f){
 							if(($f->feedback_answer_sort == 4) || ($f->feedback_answer_sort == 5)){
 								$n[] = $k->kelas_total_jam * $f->feedback_answer_score;
@@ -880,7 +881,7 @@ class Guru_model extends CI_Model {
     
     public function update_current_rating($guru_id){
         //update calculated rating
-        $rating = $this->guru_model->get_calculated_rating($guru_id);
+        $rating = $this->get_calculated_rating($guru_id);
         $this->db->set('guru_rating',$rating);
         $this->db->where('guru_id',$guru_id);
         $this->db->update('guru'); 
@@ -1041,10 +1042,10 @@ class Guru_model extends CI_Model {
     function nama_guru($guru_nama){
 		$chunk = explode(" ", $guru_nama);
 		if(count($chunk) >= 2){
-			$nama_baru = $chunk[0];
-			for($i=1; $i<2; $i++){
-				$nama_baru .= " ".$chunk[$i][0].". ";
-			}
+			$nama_baru = array_shift($chunk);
+			$chunk[0] = trim($chunk[0]);
+			if(!empty($chunk[0]))
+				$nama_baru .= ' '.substr($chunk[0],0,1).'.';
 		}else{
 			$nama_baru = $guru_nama;
 		}
@@ -1093,7 +1094,101 @@ class Guru_model extends CI_Model {
 		$this->db->set('status_request',$status);
 		$this->db->update('request_langsung');
 	}
+	
+	public function search($var) {
+		$q_where = '';
+		
+		if(!empty($var['l'])) {
+			$var['l'] = mysql_real_escape_string($var['l']);
+			$q_where .= "
+			AND ( FALSE
+				OR d.provinsi_title like '%{$var['l']}%'
+				OR c.lokasi_title like '%{$var['l']}%'
+				OR a.guru_alamat like '%{$var['l']}%'
+			)";
+		} elseif(!empty($var['c'])) {
+			$var['c'] = mysql_real_escape_string($var['c']);
+			$q_where .= "
+			AND c.lokasi_title like '%{$var['c']}%'";
+		} elseif(!empty($var['p'])) {
+			$var['p'] = mysql_real_escape_string($var['p']);
+			$q_where .= "
+			AND d.provinsi_title like '%{$var['p']}%'";
+		}
+		
+		if(!empty($var['k'])) {
+			$var['k'] = mysql_real_escape_string($var['k']);
+			$q_where .= "
+			AND g.jenjang_pendidikan_title like '%{$var['k']}%'";
+		}
+		if(!empty($var['s'])) {
+			$var['s'] = mysql_real_escape_string($var['s']);
+			$q_where .= "
+			AND f.matpel_title like '%{$var['s']}%'";
+		}
+
+		$query = "
+		SELECT DISTINCT
+			a.*,
+			h.*
+		FROM
+			guru a
+			LEFT JOIN guru_lokasi b
+				ON b.guru_id = a.guru_id
+			LEFT JOIN lokasi c
+				ON c.lokasi_id = b.lokasi_id
+			LEFT JOIN provinsi d
+				ON d.provinsi_id = c.provinsi_id
+			LEFT JOIN guru_matpel e
+				ON e.guru_id = a.guru_id
+			LEFT JOIN matpel f
+				ON f.matpel_id = e.matpel_id
+			LEFT JOIN jenjang_pendidikan g
+				ON g.jenjang_pendidikan_id = f.jenjang_pendidikan_id
+			LEFT JOIN pendidikan h
+				ON h.pendidikan_id = a.pendidikan_id
+		WHERE 1 {$q_where}";
+
+		return $this->db->query($query);
+	}
+	
+	public function get_matpel_by_name($name) {
+		$data = $this->db
+			 ->from('matpel')
+			 ->like('matpel_title',$name)
+			 ->get();
+		if(!empty($data) && $data->num_rows() > 0)
+			 return $data->row();
+		return NULL;
+	}
+	
+	public function get_province_by_name($name) {
+		$data = $this->db
+			 ->from('provinsi')
+			 ->like('provinsi_title',$name)
+			 ->get();
+		if(!empty($data) && $data->num_rows() > 0)
+			 return $data->row();
+		return NULL;
+	}
+	
+	public function get_city_by_name($name) {
+		$data = $this->db
+			 ->from('lokasi')
+			 ->like('lokasi_title',$name)
+			 ->get();
+		if(!empty($data) && $data->num_rows() > 0)
+			 return $data->row();
+		return NULL;
+	}
+	
+	public function get_jenjang_by_name($name) {
+		$data = $this->db
+			 ->from('jenjang_pendidikan')
+			 ->like('jenjang_pendidikan_title',$name)
+			 ->get();
+		if(!empty($data) && $data->num_rows() > 0)
+			 return $data->row();
+		return NULL;
+	}
 }
-
-
-

@@ -1,14 +1,11 @@
-<html>
-<head>
-<title>Langkah Mudah Cari Guru Privat dan Kursus Bimbingan Belajar</title>
-<meta name="description" content="Butuh guru privat untuk bimbingan belajar pelajaranmu? Ruangguru punya banyak guru kursus berpengalaman yang bisa kamu request berdasarkan posisi, rate, dan lainnya." />
-<link rel="canonical" href="http://www.ruangguru.com/cari_guru" />
-<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.alerts.js"></script>
+<?php 
+$this->load->view('header2',$temp);
+?><script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.alerts.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/cariguru.js"></script>
 <script>
      $(document).ready(function(){
-        update_matpel();
-        update_provinsi();
+//        update_matpel();
+//        update_provinsi();
     }); 
 </script>
 
@@ -29,184 +26,289 @@ window._fbq = window._fbq || [];
 window._fbq.push(['track', 'PixelInitialized', {}]);
 </script>
 <noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=583152025127396&amp;ev=NoScript" /></noscript>
-
-</head>
-<body>
 <div id="content">
     <div class="blank" style="height:30px;"></div>
     <div id="cari-guru-detail">
         <div id="cariguru-header"><?php //print_r($this->session->userdata);?>
             <div id="cariguru-header-wrap">
-                <h2><span class="text-20">1. CARI GURU</span></h2>
+                <h1><span class="text-20">GURU PRIVAT <?php echo strtoupper($temp['meta']['title']);?></span></h1>
             </div>
         </div>
         <div id="cari-guru-content">
-            <form action="<?php echo base_url(); ?>cari_guru/result" method="post">
-                <div class="blank" style="height: 20px;"></div>
-                <div class="cari-guru-left">
-                    <div class="cari-field">
-                        <p>Pilih Provinsi</p><?php $sesi = $this->session->userdata('cari_guru');?>
-                        <select id="ddProvinsi" class="select" name="provinsi" onchange="update_provinsi()">
-						  <option value="0">Pilih Semua</option>
-						  <option value="1" <?php if ($sesi['provinsi'] == 1){ echo 'selected';} else { echo ''; }?>>DKI Jakarta</option>
-                            <?php foreach ($this->guru_model->get_provinsi('provinsi')->result() as $row): ?>
-					   <?php if($row->provinsi_id != 1){?>
-                                <option value="<?php echo $row->provinsi_id; ?>" <?php if ($sesi['provinsi']==$row->provinsi_id){ echo 'selected';} else { echo '';};?>><?php echo $row->provinsi_title; ?></option>
-                            <?php } ?>
-					   <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="cari-field">
-                        <p>Pilih Kota</p>
-				    <input type="hidden" name="sesi_kota" id="sesi_kota" value="<?php echo $sesi['lokasi'];?>"/>
-                        <select id="ddLokasi" class="select" name="location">
-                        </select>
-                    </div>
-                    <div class="cari-field">
-                        <p>Preferensi Guru</p>
-                        <div class="blank" style="height: 10px;"></div>
-                            <table width="260">
-						<tr>
-							<td class="text-13">1. Gender</td>
-							<!--<td class="text-13">2. Usia</td>-->
-						</tr>
-						<tr>
-                                <td><input class="radio" name="gender" type="radio" value="1" <?php if (!empty($input['gender'])) {echo($input['gender'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Laki-laki</span></td>
-                                <!--<td><input class="radio" name="age" type="radio" value="1" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Di bawah 20 tahun</span></td>-->
-                            </tr>
-                            <tr>
-                                <td><input class="radio" name="gender" type="radio" value="2" <?php if (!empty($input['gender'])) {echo($input['gender'] == 2) ? 'checked' : '';}; ?>/> <span class="text-13">Perempuan</span></td>
-                                <!--<td><input class="radio" name="age" type="radio" value="2" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 2) ? 'checked' : '';}; ?>/> <span class="text-13">20-30 tahun</span></td>-->
-					   </tr>
-                            <tr>
-						<td><input class="radio" name="gender" type="radio" value="3" <?php if (!empty($input['gender'])) {echo($input['gender'] == 3) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Bebas</span></td>
-						<!--<td><input class="radio" name="age" type="radio" value="3" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 3) ? 'checked' : '';}; ?>/> <span class="text-13">Di atas 30 tahun</span></td>-->
-					  </tr>
-					  <!--<tr>
-						<td>&nbsp;</td>
-						<!--<td><input class="radio" name="age" type="radio" value="4" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 4) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Usia Bebas</span></td>-->
-					  <!--</tr>-->
-					 </table>
-                        <div class="blank" style="height: 10px;"></div>
-                              <table>
-								<tr>
-									<td class="text-13">2. Usia</td>
+			<div id="description" style="text-align: left;float:left;">
+				<p>Guru Privat <?php echo $temp['meta']['title']?> berkualitas. <br />
+					Gunakan perinci pencarian untuk menyaring lebih lanjut
+				</p>
+			</div>
+			<div id="description_link" style="text-align: left;float:right;height: 50px;margin-top: 15px;">
+				<a id="show_form" href="#show_me">Tampilkan rincian pencarian</a>
+			</div>
+			<div style="clear:both;"></div>
+			<div id="hide_first">
+				<form action="<?php echo base_url(); ?>cari_guru/result" method="post">
+					<div class="blank" style="height: 20px;"></div>
+					<div class="cari-guru-left">
+						<div class="cari-field">
+							<p>Pilih Provinsi</p><?php $sesi = $this->session->userdata('cari_guru');?>
+							<select id="ddProvinsi" class="select" name="provinsi" onchange="update_provinsi()">
+							  <option value="0">Pilih Semua</option>
+<?php 
+foreach ($this->guru_model->get_provinsi('provinsi')->result() as $row): 
+	if( TRUE || $row->provinsi_id != 1):
+		$selected = '';
+		if (
+				$sesi['provinsi']==$row->provinsi_id || 
+				(
+						!empty($input['provinsi']) && 
+						$input['provinsi']->provinsi_id ==$row->provinsi_id
+				) ||
+				(
+						!empty($input['lokasi']) && 
+						$input['lokasi']->provinsi_id ==$row->provinsi_id
+				) || $row->provinsi_id == 1
+		) {
+			$selected = 'selected="selected"';
+		}
+		
+?>
+									<option value="<?php echo $row->provinsi_id; ?>" <?php echo $selected;?>>
+										<?php echo $row->provinsi_title; ?>
+									</option>
+<?php 
+	endif; 
+endforeach; ?>
+							</select>
+						</div>
+						<div class="cari-field">
+							<p>Pilih Kota</p>
+						<input type="hidden" name="sesi_kota" id="sesi_kota" value="<?php echo $sesi['lokasi'];?>"/>
+							<select id="ddLokasi" class="select" name="location">
+<?php
+if(!empty($input['lokasi'])):
+?>
+								<option value="<?php echo $input['lokasi']->lokasi_id;?>" selected="selected">
+									<?php echo $input['lokasi']->lokasi_title;?>
+								</option>
+<?php 
+	else:
+?>
+								<option value="0">Pilih Semua</option>
+<?php 
+	endif;
+?>
+							</select>
+						</div>
+						<div class="cari-field">
+							<p>Preferensi Guru</p>
+							<div class="blank" style="height: 10px;"></div>
+								<table width="260">
+							<tr>
+								<td class="text-13">1. Gender</td>
+								<!--<td class="text-13">2. Usia</td>-->
+							</tr>
+							<tr>
+									<td><input class="radio" name="gender" type="radio" value="1" <?php if (!empty($input['gender'])) {echo($input['gender'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Laki-laki</span></td>
+									<!--<td><input class="radio" name="age" type="radio" value="1" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Di bawah 20 tahun</span></td>-->
 								</tr>
 								<tr>
-									<td>
-										<input class="radio" name="age" type="radio" value="1" <?php if (!empty($input['umur'])) {echo($input['umur'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Dibawah 20 tahun</span><br/>
-									</td>
-								</tr>
+									<td><input class="radio" name="gender" type="radio" value="2" <?php if (!empty($input['gender'])) {echo($input['gender'] == 2) ? 'checked' : '';}; ?>/> <span class="text-13">Perempuan</span></td>
+									<!--<td><input class="radio" name="age" type="radio" value="2" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 2) ? 'checked' : '';}; ?>/> <span class="text-13">20-30 tahun</span></td>-->
+						   </tr>
 								<tr>
-									<td>
-										<input class="radio" name="age" type="radio" value="2" <?php if (!empty($input['umur'])) {echo($input['umur'] == 2) ? 'checked' : '';}; ?>/> <span class="text-13">20-30 tahun</span><br/>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<input class="radio" name="age" type="radio" value="3" <?php if (!empty($input['umur'])) {echo($input['umur'] == 3) ? 'checked' : '';}; ?>/> <span class="text-13">Diatas 30 tahun</span><br/>
-									<td>
-								</tr>
-								<tr>
-									<td>
-										<input class="radio" name="age" type="radio" value="4" <?php if (!empty($input['umur'])) {echo($input['umur'] == 4) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Usia Bebas</span>
-									</td>
-								</tr>
-						</table>
-                    </div>
-                </div>
-                <div class="cari-guru-center">
-                    <div class="cari-field">
-                        <p>Kategori Pelajaran</p>
-                        <select id="select-jenjang" class="select" name="education" onchange="update_matpel()">
-					   <option value="0">Pilih Semua</option>
-                            <?php foreach ($this->guru_model->get_jenjang()->result() as $row): ?>
-                                <option class="<?php echo $row->jenjang_pendidikan_id;?>" value="<?php echo $row->jenjang_pendidikan_id; ?>" <?php if ($sesi['jenjang']==$row->jenjang_pendidikan_id){ echo 'selected';} else { echo '';};?>/><?php echo $row->jenjang_pendidikan_title; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    
-                    <div class="cari-field">
-                        <p>Mata Pelajaran</p>
-				    <input type="hidden" name="sesi_matpel" id="sesi_matpel" value="<?php echo $sesi['matpel'];?>"/>
-                        <select id="select-matpel" class="select" name="matpel">
-                        </select>
-                    </div>
-				
-                    <div class="cari-field">
-				     <p>Tarif per Jam</p>
-                         <select id="tarifP" class="select  text-13" name="tarif">
-                               <option value="0" <?php if($sesi['tarif'] == 0){ echo "selected";} else {echo "";}?>>Tarif berapapun</option>
-                               <option value="1" <?php if($sesi['tarif'] == 1){ echo "selected";} else {echo "";}?>>&lt; Rp 100,000,-</option>
-                               <option value="2" <?php if($sesi['tarif'] == 2){ echo "selected";} else {echo "";}?>>Rp 101,000,- s/d Rp 250,000,-</option>
-                               <option value="3" <?php if($sesi['tarif'] == 3){ echo "selected";} else {echo "";}?>>Rp 251,000,- s/d Rp 500,000,-</option>
-                               <option value="4" <?php if($sesi['tarif'] == 4){ echo "selected";} else {echo "";}?>>&gt; Rp 500,000,-</option>
-                          </select>
-				</div>
-				<div class="cari-field">
-					<p>Metode Belajar</p>
-					<div class="r-guru-detail">
-						<input class="checkbox" name="metode[]" type="checkbox" value="1" checked/> <span class="text-13">Online</span>
+							<td><input class="radio" name="gender" type="radio" value="3" <?php if (!empty($input['gender'])) {echo($input['gender'] == 3) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Bebas</span></td>
+							<!--<td><input class="radio" name="age" type="radio" value="3" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 3) ? 'checked' : '';}; ?>/> <span class="text-13">Di atas 30 tahun</span></td>-->
+						  </tr>
+						  <!--<tr>
+							<td>&nbsp;</td>
+							<!--<td><input class="radio" name="age" type="radio" value="4" <?php //if (!empty($input['umur'])) {echo($input['umur'] == 4) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Usia Bebas</span></td>-->
+						  <!--</tr>-->
+						 </table>
+							<div class="blank" style="height: 10px;"></div>
+								  <table>
+									<tr>
+										<td class="text-13">2. Usia</td>
+									</tr>
+									<tr>
+										<td>
+											<input class="radio" name="age" type="radio" value="1" <?php if (!empty($input['umur'])) {echo($input['umur'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Dibawah 20 tahun</span><br/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input class="radio" name="age" type="radio" value="2" <?php if (!empty($input['umur'])) {echo($input['umur'] == 2) ? 'checked' : '';}; ?>/> <span class="text-13">20-30 tahun</span><br/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input class="radio" name="age" type="radio" value="3" <?php if (!empty($input['umur'])) {echo($input['umur'] == 3) ? 'checked' : '';}; ?>/> <span class="text-13">Diatas 30 tahun</span><br/>
+										<td>
+									</tr>
+									<tr>
+										<td>
+											<input class="radio" name="age" type="radio" value="4" <?php if (!empty($input['umur'])) {echo($input['umur'] == 4) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Usia Bebas</span>
+										</td>
+									</tr>
+							</table>
+						</div>
 					</div>
-					<div class="r-guru-detail">
-						<input class="checkbox" name="metode[]" type="checkbox" value="2" checked/> <span class="text-13">Tatap Muka</span>
+					<div class="cari-guru-center">
+						<div class="cari-field">
+							<p>Kategori Pelajaran</p>
+							<select id="select-jenjang" class="select" name="education" onchange="update_matpel()">
+						   <option value="0">Pilih Semua</option>
+<?php 
+foreach ($this->guru_model->get_jenjang()->result() as $row): 
+	$selected = '';
+	if(
+			$sesi['jenjang']==$row->jenjang_pendidikan_id ||
+			(
+					!empty($input['jenjang']) && 
+					$input['jenjang']->jenjang_pendidikan_id==$row->jenjang_pendidikan_id
+			) ||
+			(
+					!empty($input['matpel']) && 
+					$input['matpel']->jenjang_pendidikan_id==$row->jenjang_pendidikan_id
+			)
+	){
+		$selected = 'selected="selected"';
+	}
+?>
+									<option class="<?php echo $row->jenjang_pendidikan_id;?>" 
+											value="<?php echo $row->jenjang_pendidikan_id; ?>" <?php echo $selected;?>>
+										<?php echo $row->jenjang_pendidikan_title; ?>
+									</option>
+<?php 
+endforeach; 
+?>
+							</select>
+						</div>
+						
+						<div class="cari-field">
+							<p>Mata Pelajaran</p>
+						<input type="hidden" name="sesi_matpel" id="sesi_matpel" value="<?php echo $sesi['matpel'];?>"/>
+							<select id="select-matpel" class="select" name="matpel">
+<?php
+if(!empty($input['matpel'])):
+?>
+								<option value="<?php echo $input['matpel']->matpel_id;?>" selected="selected">
+									<?php echo $input['matpel']->matpel_title;?>
+								</option>
+<?php 
+	else:
+?>
+								<option value="0">Pilih Semua</option>
+<?php 
+	endif;
+?>
+							</select>
+						</div>
+					
+						<div class="cari-field">
+						 <p>Tarif per Jam</p>
+							 <select id="tarifP" class="select  text-13" name="tarif">
+								   <option value="0" <?php if($sesi['tarif'] == 0){ echo "selected";} else {echo "";}?>>Tarif berapapun</option>
+								   <option value="1" <?php if($sesi['tarif'] == 1){ echo "selected";} else {echo "";}?>>&lt; Rp 100,000,-</option>
+								   <option value="2" <?php if($sesi['tarif'] == 2){ echo "selected";} else {echo "";}?>>Rp 101,000,- s/d Rp 250,000,-</option>
+								   <option value="3" <?php if($sesi['tarif'] == 3){ echo "selected";} else {echo "";}?>>Rp 251,000,- s/d Rp 500,000,-</option>
+								   <option value="4" <?php if($sesi['tarif'] == 4){ echo "selected";} else {echo "";}?>>&gt; Rp 500,000,-</option>
+							  </select>
 					</div>
-				</div>
-<!--                    <div class="cari-field">
-                        <p>Nama Guru :</p>
-                        <input type="text" class="text" name="nama" value="<?php echo (!empty($input['nama']))?$input['nama']:'';?>" />
-                    </div>-->
-                </div>
-                <div class="cari-guru-right">
-                    <div class="cari-field">
-                        <p>Pilih Kategori Guru</p>
-						<input class="checkbox" name="edu[]" type="checkbox" value="7" <?php if(!empty($sesi['kategori'])){ if(in_array("7",$sesi['kategori'])){ echo "checked";} } ?>/> <span class="text-13">Pelajar SMA</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="1" <?php if(!empty($sesi['kategori'])){ if(in_array("1",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Mahasiswa S1</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="2" <?php if(!empty($sesi['kategori'])){ if(in_array("2",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Mahasiswa S2/S3</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="3" <?php if(!empty($sesi['kategori'])){ if(in_array("3",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Guru Sekolah</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="5" <?php if(!empty($sesi['kategori'])){ if(in_array("5",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Guru Privat Full Time (> 1 Tahun)</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="6" <?php if(!empty($sesi['kategori'])){ if(in_array("6",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Guru Privat Part Time</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="4" <?php if(!empty($sesi['kategori'])){ if(in_array("4",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Dosen</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="8" <?php if(!empty($sesi['kategori'])){ if(in_array("8",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Profesional</span><br/>
-						<input class="checkbox" name="edu[]" type="checkbox" value="9" <?php if(!empty($sesi['kategori'])){ if(in_array("9",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Lainnya</span><br/>
-                        <!--<select class="select" name="edu">
-                            <option value="-1"/>Bebas</option>
-                        <?php //foreach ($this->guru_model->get_table('kategori')->result() as $row): ?>
-                            <option value="<?php //echo $row->kategori_id; ?>" <?php //if (!empty($input['kategori'])) {echo($input['kategori'] == $row->kategori_id) ? 'selected' : '';}; ?>/><?php //echo $row->kategori_title; ?>
-                        <?php //endforeach; ?>
-                        </select>-->
-                    </div>
-                    <div class="cari-field">
-                        <p>Tampilkan hanya guru bersertifikat?</p>
-                        <div class="blank" style="height: 20px;margin-top:10px;">
-                            <div class="r-guru-detail">
-                                <input class="radio" name="cert" type="radio" value="1" <?php if (!empty($input['sertifikat'])) {echo($input['sertifikat'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Ya</span>
-                            </div>
-                            <div class="r-guru-detail">
-                                <input class="radio" name="cert" type="radio" value="2" <?php if (!empty($input['sertifikat'])) {echo($input['sertifikat'] == 2) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Tidak Perlu Sertifikasi</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cari-field">
-                        <p>Urutkan pencarian berdasarkan</p>
-                        <select class="select" name="sort">
-                            <option value="1" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 1) ? 'selected' : '';} ?>><span class="text-13">Rating</span></option>
-                            <option value="2" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 2) ? 'selected' : '';} ?>><span class="text-13">Nama Guru</span></option>
-                            <option value="3" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 3) ? 'selected' : '';} ?>><span class="text-13">Harga - rendah ke tinggi</span></option>
-                            <option value="4" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 4) ? 'selected' : '';} ?>><span class="text-13">Harga - tinggi ke rendah</span></option>
-                        </select>
-                    </div>
-                    <div class="blank" style="height:12px"></div>
-                    <div class="cari-submit">
-                        <input type="image" src="<?php echo base_url(); ?>images/cari-button.png"/>
-                    </div>
-                </div>
-            </form>
+					<div class="cari-field">
+						<p>Metode Belajar</p>
+						<div class="r-guru-detail">
+							<input class="checkbox" name="metode[]" type="checkbox" value="1" checked/> <span class="text-13">Online</span>
+						</div>
+						<div class="r-guru-detail">
+							<input class="checkbox" name="metode[]" type="checkbox" value="2" checked/> <span class="text-13">Tatap Muka</span>
+						</div>
+					</div>
+	<!--                    <div class="cari-field">
+							<p>Nama Guru :</p>
+							<input type="text" class="text" name="nama" value="<?php echo (!empty($input['nama']))?$input['nama']:'';?>" />
+						</div>-->
+					</div>
+					<div class="cari-guru-right">
+						<div class="cari-field">
+							<p>Pilih Kategori Guru</p>
+							<input class="checkbox" name="edu[]" type="checkbox" value="7" <?php if(!empty($sesi['kategori'])){ if(in_array("7",$sesi['kategori'])){ echo "checked";} } ?>/> <span class="text-13">Pelajar SMA</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="1" <?php if(!empty($sesi['kategori'])){ if(in_array("1",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Mahasiswa S1</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="2" <?php if(!empty($sesi['kategori'])){ if(in_array("2",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Mahasiswa S2/S3</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="3" <?php if(!empty($sesi['kategori'])){ if(in_array("3",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Guru Sekolah</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="5" <?php if(!empty($sesi['kategori'])){ if(in_array("5",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Guru Privat Full Time (> 1 Tahun)</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="6" <?php if(!empty($sesi['kategori'])){ if(in_array("6",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Guru Privat Part Time</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="4" <?php if(!empty($sesi['kategori'])){ if(in_array("4",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Dosen</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="8" <?php if(!empty($sesi['kategori'])){ if(in_array("8",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Profesional</span><br/>
+							<input class="checkbox" name="edu[]" type="checkbox" value="9" <?php if(!empty($sesi['kategori'])){ if(in_array("9",$sesi['kategori'])){ echo "checked";} }?>/> <span class="text-13">Lainnya</span><br/>
+							<!--<select class="select" name="edu">
+								<option value="-1"/>Bebas</option>
+							<?php //foreach ($this->guru_model->get_table('kategori')->result() as $row): ?>
+								<option value="<?php //echo $row->kategori_id; ?>" <?php //if (!empty($input['kategori'])) {echo($input['kategori'] == $row->kategori_id) ? 'selected' : '';}; ?>/><?php //echo $row->kategori_title; ?>
+							<?php //endforeach; ?>
+							</select>-->
+						</div>
+						<div class="cari-field">
+							<p>Tampilkan hanya guru bersertifikat?</p>
+							<div class="blank" style="height: 20px;margin-top:10px;">
+								<div class="r-guru-detail">
+									<input class="radio" name="cert" type="radio" value="1" <?php if (!empty($input['sertifikat'])) {echo($input['sertifikat'] == 1) ? 'checked' : '';}; ?>/> <span class="text-13">Ya</span>
+								</div>
+								<div class="r-guru-detail">
+									<input class="radio" name="cert" type="radio" value="2" <?php if (!empty($input['sertifikat'])) {echo($input['sertifikat'] == 2) ? 'checked' : '';} else {echo'checked';}; ?>/> <span class="text-13">Tidak Perlu Sertifikasi</span>
+								</div>
+							</div>
+						</div>
+						<div class="cari-field">
+							<p>Urutkan pencarian berdasarkan</p>
+							<select class="select" name="sort">
+								<option value="1" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 1) ? 'selected' : '';} ?>><span class="text-13">Rating</span></option>
+								<option value="2" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 2) ? 'selected' : '';} ?>><span class="text-13">Nama Guru</span></option>
+								<option value="3" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 3) ? 'selected' : '';} ?>><span class="text-13">Harga - rendah ke tinggi</span></option>
+								<option value="4" <?php if (!empty($input['urutan'])) {echo($input['urutan'] == 4) ? 'selected' : '';} ?>><span class="text-13">Harga - tinggi ke rendah</span></option>
+							</select>
+						</div>
+						<div class="blank" style="height:12px"></div>
+						<div class="cari-submit">
+							<input type="image" src="<?php echo base_url(); ?>images/cari-button.png"/>
+						</div>
+					</div>
+				</form>
+			</div>
+<script type="application/javascript">
+		function hideForm() {
+			$('#hide_first').hide();
+			$('#cari-guru-detail')
+					.css('height', '120px');
+			$('#cari-guru-content')
+					.css('height', '60px');
+			$('#content')
+					.css('minHeight', '170px')
+			$('#show_form').html('Tampilkan rincian pencarian');
+		}
+		function showForm() {
+			$('#hide_first').show();
+			$('#cari-guru-detail')
+					.css('height', '520px');
+			$('#cari-guru-content')
+					.css('height', '424px');
+			$('#content')
+					.css('minHeight', '500px');
+			$('#show_form').html('Sembunyikan pencarian');
+		}
+		var formShowed = false;
+		hideForm();
+		$('#show_form').click(function(e){
+			e.preventDefault();
+			if(formShowed) hideForm();
+			else showForm();
+			formShowed = ! formShowed;
+			return false;
+		})
+</script>
         </div>
     </div>
-    <div class="blank" style="height:30px"></div>
+    <div class="blank" style="height:10px"></div>
     <?php if (!empty($show_result)): ?>
-        <?php if (!empty($guru['suggest']) && $guru['data']->num_rows>0): ?>
+        <?php if (!empty($guru['suggest']) && count($guru['data'])>0): ?>
 	   <div id="alert-empty-guru">
             <p class="text-13 bold"><img src="<?php echo base_url().'images/icon-punctuation.png'?>" width="15px"/> Maaf, Kami tidak dapat menemukan guru yang Anda cari</p>
 		  <p class="text-13">Guru dengan kriteria yang Anda pilih belum terdaftar di database Ruangguru.<br/>
@@ -215,7 +317,7 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
 		  </p>
 	    </div>
             <p class="text-13">Kami Sarankan Guru-Guru Berikut Ini:</p>
-        <?php elseif($guru['data']->num_rows==0):?>
+        <?php elseif(count($guru['data'])==0):?>
 	     <div id="alert-empty-guru">
             <p class="text-13 bold"><img src="<?php echo base_url().'images/icon-punctuation.png'?>" width="15px"/> Maaf, Kami tidak dapat menemukan guru yang Anda cari</p>
 		  <p class="text-13">Guru dengan kriteria yang Anda pilih belum terdaftar di database Ruangguru.<br/>
@@ -225,19 +327,19 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
 	    </div>
         <?php endif;?>
  </div>
-	<div class="blank" style="height:20px"></div>
         <div id="cari-guru-page">
-           <?php if(($guru['data']->num_rows==0) || (empty($pagination))) { ?><span class="text-13 text-color"></span><?php } else {  ?><span class="text-13 text-color">Untuk melihat preferensi guru lainnya, silahkan akses halaman selanjutnya,<br/> setelah itu pilih tombol &quot;Lanjut&quot; untuk melanjutkan ke Review Guru.</span><br/><br/><span class="text-13 text-color">Halaman</span><?php } ?> <?php echo $pagination;?>
+			<span>Total hasil pencarian: 
+				<strong>
+					<?php echo $guru['total'];?> Guru ditemukan!
+				</strong>
+			</span>
         </div>
-	   <?php if($guru['data']->num_rows>0):?>
-	   <div class="blank" style="height:80px"></div>
-	   <?php endif;?>
         <div id="cari-guru-suggest-notif">
         
         <div id="cari-guru-result">
         <?php
-        $count = $page;
-        foreach ($guru['data']->result() as $row):
+        $count = ($pagination['page'] * $pagination['perpage']);
+        foreach ($guru['data'] as $row):
         ?>
             <div class="guru-result-con">
                 <table>
@@ -259,7 +361,8 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
                                         <tr>
                                             <th>Gender</th>
                                             <td>:&nbsp;</td>
-                                            <td><?php echo ($row->guru_gender == 1) ? 'Laki-Laki' : 'Perempuan'; ?></td>
+                                            <td><?php echo ((int)$row->guru_gender === 1) ? 'Laki-Laki' : 
+														'Perempuan'; ?></td>
                                         </tr>
                                         <tr>
                                             <th>Usia</th>
@@ -464,12 +567,20 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
             <?php endforeach; ?>
         </div>        
         <div id="cari-guru-page">
-           <?php if(($guru['data']->num_rows==0) || (empty($pagination))) { ?><span class="text-13 text-color"></span><?php } else {  ?><span class="text-13 text-color">Cari dan pilih 3 preferensi guru yang Anda inginkan. Kemudian pilih tombol &quot;Lanjut&quot; di bawah ini.</span><br/><br/><span class="text-13 text-color">Halaman</span><?php } ?> <?php echo $pagination;?>
+			<div style="display: inline-block; text-align: left;width: 49.5%;">
+				Menampilkan 
+				<strong><?php echo ($pagination['page'] * $pagination['perpage'])+1?></strong>
+				s.d 
+				<strong><?php echo $count?></strong>
+			</div>
+			<div style="display: inline-block; text-align: right;width: 49.5%;">
+				Halaman <strong><?php echo $pagination['page']+1?></strong>
+				dari <strong><?php echo ceil($guru['total']/$pagination['perpage']);?></strong>
+			</div>
         </div>
-	   <?php if($guru['data']->num_rows>0):?>
-        <div class="blank" style="height:60px"></div>
+	   <?php if($pagination['page']+1 < ceil($guru['total']/$pagination['perpage'])):?>
         <div id="cari-guru-nav">
-            <a href="<?php echo base_url();?>cari_guru/review" class="diy-button">
+            <a href="<?php echo current_url();?>?page=<?php echo $pagination['page']+2?>" class="diy-button">
                 LANJUT
             </a>
         </div>
@@ -483,5 +594,5 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
 <div class="pilih-guru-hapus formError">
     <div class="formErrorContent">* Pilihan guru dihilangkan<br></div><div class="formErrorArrow"><div class="line10"><!-- --></div><div class="line9"><!-- --></div><div class="line8"><!-- --></div><div class="line7"><!-- --></div><div class="line6"><!-- --></div><div class="line5"><!-- --></div><div class="line4"><!-- --></div><div class="line3"><!-- --></div><div class="line2"><!-- --></div><div class="line1"><!-- --></div></div>
 </div>
-</body>
-</html>
+<?php
+$this->load->view('footer');

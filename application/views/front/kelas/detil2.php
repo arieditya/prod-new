@@ -14,8 +14,12 @@ foreach($sched as $s) {
 }
 
 $imgparts = explode('.',$class->class_image);
-$ext = array_pop($imgparts);
-array_push($imgparts, '600x282.k.'.$ext);
+if(count($imgparts) > 1) {
+	$ext = array_pop($imgparts);
+	array_push($imgparts, '600x282.k.'.$ext);
+} else {
+	$imgparts = array('default_profile_image','png');
+}
 ?>
 <script>
 		// Wait until the DOM has loaded before querying the document
@@ -94,8 +98,14 @@ array_push($imgparts, '600x282.k.'.$ext);
 					<div class="top-head">
 						<h2 class="bold text-21"><?php echo $class->class_nama;?></h2>
 					</div>
-					<div id="main-photo" class="top-30 bg-section shadow"><img class="img-responsive2" src="<?php 
-						echo base_url();?>/images/class/<?php echo $class->id?>/<?php echo implode('.',$imgparts);?>" /></div>
+					<div id="main-photo" 
+						 class="top-30 bg-section shadow">
+						<img 
+								class="img-responsive2" 
+								src="<?php 
+						echo base_url();?>/images/<?php echo count($imgparts)>2?('class/'.$class->id.'/'):''. implode('
+						.',$imgparts);?>" 
+								/></div>
 					<ul class="nav nav-tabs" role="tablist">
 						<li id="about_selector" class="active"><a href="#about" role="tab" data-toggle="tab">Tentang Kelas</a></li>
 						<li id="biaya_selector"><a href="#price" role="tab" data-toggle="tab">Harga</a></li>
@@ -103,8 +113,9 @@ array_push($imgparts, '600x282.k.'.$ext);
 					</ul>
 					<div class="tab-content bg-section padtop-30 shadow">
 						<div class="tab-pane active" id="about">
-							<p class="text-14 bold title-class">Penyelenggara</p>
-							<a href=""><?php echo $vendor['profile']->name;?></a>
+							<h3>
+								<a href=""><?php echo $vendor['profile']->name;?></a>
+							</h3>
 							<p>
 								<?php echo nl2br($class->class_deskripsi);?>
 							</p>

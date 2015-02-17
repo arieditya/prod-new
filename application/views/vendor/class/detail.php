@@ -100,7 +100,7 @@ $this->load->view('vendor/general/header');
 								<div class="col-md-9">
 									<textarea name="class_peserta_target"
 											placeholder="Siapa target kelas anda? Golongan pelajar atau pekerja atau umum? Ibu rumah tangga? Range umur, dll"
-											class="form-control" rows="5"><?php echo $class->class_peserta_target;?>
+											class="form-control" rows="5"><?php echo $class->class_perserta_target;?>
 									</textarea>
 								</div>
 							</div>
@@ -266,6 +266,54 @@ $this->load->view('vendor/general/header');
 								<tbody id="class_sched">
 <?php
 $i=0;
+	if($jadwal->num_rows() == 0 && $class->class_paket==0 ):
+?>
+								<tr data-id="">
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												1
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" class="form-control jadwal_date" id="" 
+													   name="jadwal_date[0]" data-date-format="YYYY-MM-DD" placeholder="2014-10-15" value="" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" class="form-control jadwal_time_start" id="" name="jadwal_time_start[]" data-date-format="HH:mm" placeholder="mis: 17:30" value="" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" class="form-control jadwal_time_end" id="" name="jadwal_time_end[]" data-date-format="HH:mm" placeholder="mis: 17:30" value=""/>
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group has-feedback">
+											<div class="col-md-12">
+												<input type="text" id="" class="form-control jadwal_topic" name="jadwal_topik[]" />
+											</div>
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+											<div class="col-md-12">
+											</div>
+										</div>
+									</td>
+								</tr>
+<?php
+	endif;
 	foreach($jadwal->result() as $sched):
 		$i++;
 		if($class->class_paket == 0 && $i > 1) break;
@@ -367,7 +415,10 @@ $i=0;
 							<div class="form-group">
 								<label class="col-md-offset-1 col-md-2 control-label">Harga per sesi</label>
 								<div class="col-md-8">
-									<input class="form-control" name="price_per_session" id="price_per_session" value="<?php echo empty($price->price_per_session)?'':$price->price_per_session;?>" />
+									<input class="form-control" name="price_per_session" id="price_per_session" 
+										   value="<?php echo empty($price->price_per_session)
+												   ?$class->class_harga
+												   :$price->price_per_session;?>" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -382,7 +433,8 @@ $i=0;
 									<small>Hanya diberlakukan untuk pendaftaran 1 paket</small>
 								</label>
 								<div class="col-md-8">
-									<input class="form-control" id="discount_price" name="discount_price" value="<?php echo empty($price->discount)?'':$price->discount;?>" />
+									<input class="form-control" id="discount_price" name="discount_price" 
+										   value="<?php echo empty($price->discount)?0:$price->discount;?>" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -568,7 +620,7 @@ $i=0;
 							<h4 class="bold">Peserta Kelas</h4>
 						</div>
 						<div class="padding-content">
-							<table>
+							<table class="table-class bold">
 								<thead>
 								<tr>
 									<th>Session</th>
@@ -579,26 +631,27 @@ $i=0;
 								<tbody>
 <?php 
 $ii = 0;
+$topik = '';
 foreach($schedule_attendance as $sched_attd):
-	foreach($sched_attd['peserta'] as $peserta_id => $peserta):
-		$x = $peserta_id;
+	if($topik != $sched_attd->topik){
 		$ii++;
+		$topik = $sched_attd->topik;
+	}
 ?>
 								<tr>
-									<td><?php echo "{$ii}. <em>{$sched_attd['topik']}</em>"; ?></td>
+									<td><?php echo "{$ii}. <em>{$topik}</em>"; ?></td>
 									<td>
-										<?php var_dump($peserta); ?>
-										<?php //echo "{$peserta->nama_pemesan} ($peserta->phone_pemesan)";?><br />
-										<?php //echo "<a href=\"mailto:{$peserta->email_pemesan}\">{$peserta
-											  // ->email_pemesan}</a>";?>
+										<?php echo "{$sched_attd->nama_pemesan} ($sched_attd->phone_pemesan)";?><br />
+										<?php echo "<a href=\"mailto:{$sched_attd->email_pemesan}\">{$sched_attd
+											   ->email_pemesan}</a>";?>
 									</td>
 									<td>
-										<?php echo "{$peserta->nama_peserta} ($peserta->phone_peserta)";?><br />
-										<?php echo "<a href=\"mailto:{$peserta->email_peserta}\">{$peserta->email_peserta}</a>";?>
+										<?php echo "{$sched_attd->nama_peserta} ($sched_attd->phone_peserta)";?><br />
+										<?php echo "<a href=\"mailto:{$sched_attd->email_peserta}\">{$sched_attd
+											  ->email_peserta}</a>";?>
 									</td>
 								</tr>
 <?php 
-	endforeach;
 endforeach;
 ?>
 								</tbody>
@@ -1221,11 +1274,12 @@ endforeach;
 		});
 		$('#price_per_session').change(function(){
 			var c_sess = parseInt($('#count_sess').val());
-			var prc = parseInt($(this).val());
+			var prc = parseInt($(this).val()|0);
+			
 			$('#total_price').val(c_sess * prc);
 		});
 		$('#discount_price').change(function(){
-			var dsc_pr = parseInt($(this).val());
+			var dsc_pr = parseInt($(this).val()|0);
 			var t_pr = parseInt($('#total_price').val());
 			$('#total_per_package').val(t_pr - dsc_pr);
 		});

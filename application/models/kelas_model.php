@@ -354,7 +354,7 @@ class Kelas_model extends CI_Model {
         
 		$hash=md5($kelas_id);
 		$class_code = substr($hash, 0, 2).substr($hash, 6, 2).$kelas_id.substr($hash, 30, 2);
-		$this->get_kelas_by_id($kelas_id);
+		$kelas = $this->get_kelas_by_id($kelas_id);
 		$this->email->to($kelas->murid_email);
 		$this->email->subject('Tagihan Pembayaran Murid');
         

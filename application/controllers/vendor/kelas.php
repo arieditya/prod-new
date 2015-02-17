@@ -206,10 +206,10 @@ class Kelas extends Vendor_Controller{
 					'peserta'	=> array()
 				);
 			}
-			$attendance[$attendee->jadwal_id]['peserta'][$attendee->peserta_id] = $attendance;
+	//		$attendance[$attendee->jadwal_id]['peserta'][$attendee->peserta_id] = $attendance;
 			
 		}
-		$this->data['schedule_attendance'] = $attendance;
+		$this->data['schedule_attendance'] = $per_jadwal->result();
 		$this->data['attendance_data'] = $attendance_only;
 		$this->data['sponsor_data'] = $sponsored;
 
