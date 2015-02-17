@@ -73,17 +73,25 @@ $this->load->view('vendor/general/header');
                                 </div>
                                 </br>
                                 <ul class="nav nav-tabs-2" role="tablist">
-                                    <li id="profile_selector" class="active"><a href="#private" role="tab" data-toggle="tab">Privat</a></li>
-                                    <li id="profile2_selector"><a href="#kelas" role="tab" data-toggle="tab">Kelas</a></li>
+                                    <?php
+                                    $private = 'active';
+                                    $kelas = '';
+                                    if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE ){
+                                        $kelas = 'active';
+                                        $private = '';
+                                    }
+                                    ?>
+                                    <li id="profile_selector" class="<?php echo $private?>"><a href="#private" role="tab" data-toggle="tab">Privat</a></li>
+                                    <li id="profile2_selector" class="<?php echo $kelas?>"><a href="#kelas" role="tab" data-toggle="tab">Kelas</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="private">
+                                    <div class="tab-pane <?php echo $private; ?>" id="private">
                                         <?php $this->load->view('front/bantuan/ruangguru');?>
                                         <?php $this->load->view('front/bantuan/guru');?>
                                         <?php $this->load->view('front/bantuan/murid');?>
                                         <?php $this->load->view('front/bantuan/duta_guru');?>
                                     </div>
-                                    <div class="tab-pane" id="kelas">
+                                    <div class="tab-pane <?php echo $kelas; ?>" id="kelas">
                                         <?php $this->load->view('front/bantuan/umum');?>
                                         <?php $this->load->view('front/bantuan/calon_murid');?>
                                         <?php $this->load->view('front/bantuan/vendor');?>
