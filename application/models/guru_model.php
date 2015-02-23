@@ -1180,7 +1180,7 @@ class Guru_model extends CI_Model {
 			LEFT JOIN pendidikan h
 				ON h.pendidikan_id = a.pendidikan_id
 		WHERE 1 {$q_where}";
-		
+//		var_dump($query);exit;
 		if($use_cache) {
 /*			
 			$path = APPPATH.'cache/';
@@ -1260,20 +1260,10 @@ class Guru_model extends CI_Model {
 	}
 	
 	public function set_cache($key, $data) {
-		$serialized = serialize($data);
-		$compressed = gzcompress($serialized);
-		$this->db->delete('cache', array('key'=>$key));
-		$this->db->insert('cache', array(
-			'key'				=> $key,
-			'data_serialized'	=> $serialized,
-			'data_compressed'	=> $compressed
-		));
+		set_cache($key, $data);
 	}
 	public function get_cache($key) {
-		$data = $this->db->get_where('cache', array('key'=>$key));
-		if($data->num_rows() == 0) return FALSE;
-//		return unserialize($data->row()->data_serialized);
-		return unserialize(gzuncompress($data->row()->data_compressed));
+		return get_cache($key);
 	}
 	
 	public function sitemap_guru() {
