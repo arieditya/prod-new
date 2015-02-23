@@ -178,6 +178,7 @@ class Murid_model extends MY_Model {
             //update password
             if(!empty($murid) && $murid->murid_id > 0){
                 $this->db->set('murid_password',md5($new_pass));
+                $this->db->set('murid_active',1);
                 $this->db->where('murid_id',$murid->murid_id);
                 $this->db->update('murid');
             }else{
