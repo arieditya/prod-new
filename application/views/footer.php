@@ -1,3 +1,7 @@
+<?php
+$this->config->load('catalogue');
+$seo = $this->config->item('catalogue_pages');
+?>
 <!-- FB share -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
@@ -13,6 +17,119 @@
     <div id="footer-wrap">
         <div class="blank" style="height:25px;"></div>
         <div id="footer-content-wrap">
+			<ul id="seo-footer">
+<?php 
+	foreach($seo as $seo_1):
+		$seo_title = $seo_1['title'];
+?>
+				<li>
+					<ul>
+						<li class="underline"><?php echo $seo_title;?></li>
+<?php 
+		foreach($seo_1 as $seo_2):
+			if(!is_array($seo_2)) continue;
+?>
+							<li>
+<?php 
+			$li_title = $seo_2['title'];
+			$link = base_url().'cari/';
+			foreach($seo_2 as $seo_k => $seo_v):
+				if($seo_k === 'title') continue;
+				$link .= "{$seo_v}/";
+			endforeach;
+?>
+								<a href="<?php echo $link;?>" class="normal-link"><?php echo $li_title;?></a>
+							</li>
+<?php
+		endforeach;
+?>
+					</ul>
+				</li>
+<?php
+	endforeach;
+	/* * /
+?>
+
+					<li>
+						<ul>
+							<li class="underline">Semua Guru Privat</li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/jakarta-selatan'?>" class="normal-link">Guru Privat di Jakarta Selatan</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/jakarta-timur'?>" class="normal-link">Guru Privat di Jakarta Timur</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/jakarta-pusat'?>" class="normal-link">Guru Privat di Jakarta Pusat</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/jakarta-barat'?>" class="normal-link">Guru Privat di Jakarta Barat</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/jakarta-utara'?>" class="normal-link">Guru Privat di Jakarta Utara</a></li>
+							<li><a href="<?php echo base_url().'cari/banten/tangerang-selatan'?>" class="normal-link">Guru Privat di Tangerang Selatan</a></li>
+							<li><a href="<?php echo base_url().'cari/banten/tangerang'?>" class="normal-link">Guru Privat di Tangerang</a></li>
+							<li><a href="<?php echo base_url().'cari/jawa-barat/bekasi'?>" class="normal-link">Guru Privat di Bekasi</a></li>
+							<li><a href="<?php echo base_url().'cari/jawa-barat/depok'?>" class="normal-link">Guru Privat di Depok</a></li>
+							<li><a href="<?php echo base_url().'cari/jawa-barat/bandung'?>" class="normal-link">Guru Privat di Bandung</a></li>
+						</ul>
+					</li>
+					<li>
+						<ul>
+							<li class="underline">Bahasa</li>
+							<li><a href="<?php echo base_url().'cari/jakarta-selatan/bahasa-inggris'?>" class="normal-link">Guru B. Inggris Jakarta Selatan</a></li>
+							<li><a href="<?php echo base_url().'cari/jakarta-timur/bahasa-inggris'?>" class="normal-link">Guru B. Inggris Jakarta Timur</a></li>
+							<li><a href="<?php echo base_url().'cari/jakarta-pusat/bahasa-inggris'?>" class="normal-link">Guru B. Inggris Jakarta Pusat</a></li>
+							<li><a href="<?php echo base_url().'cari/tangerang-selatan/bahasa-inggris'?>" class="normal-link">Guru B. Inggris Tangerang Selatan</a></li>
+							<li><a href="<?php echo base_url().'cari/tangerang/bahasa-inggris'?>" class="normal-link">Guru B. Inggris Tangerang</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/bahasa-mandarin'?>" class="normal-link">Guru B. Mandarin di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/bahasa-jerman'?>" class="normal-link">Guru B. Jerman di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/bahasa-jepang'?>" class="normal-link">Guru B. Jepang di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/bahasa-spanyol'?>" class="normal-link">Guru B. Spanyol di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/bahasa-perancis'?>" class="normal-link">Guru B. Perancis di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/bahasa-arab'?>" class="normal-link">Guru B. Arab di Jakarta</a></li>
+						</ul>
+					</li>
+					<li>
+						<ul>
+							<li class="underline">Matematika</li>
+							<li><a href="<?php echo base_url().'cari/jakarta-selatan/matematika'?>" class="normal-link">Guru Matematika di Jakarta Selatan</a></li>
+							<li><a href="<?php echo base_url().'cari/jakarta-timur/matematika'?>" class="normal-link">Guru Matematika di Jakarta Timur</a></li>
+							<li><a href="<?php echo base_url().'cari/jakarta-pusat/matematika'?>" class="normal-link">Guru Matematika di Jakarta Pusat</a></li>
+							<li><a href="<?php echo base_url().'cari/jakarta-barat/matematika'?>" class="normal-link">Guru Matematika di Jakarta Barat</a></li>
+							<li><a href="<?php echo base_url().'cari/jakarta-utara/matematika'?>" class="normal-link">Guru Matematika di Jakarta Utara</a></li>
+							<li><a href="<?php echo base_url().'cari/tangerang-selatan/matematika'?>" class="normal-link">Guru Matematika di Tangerang Selatan</a></li>
+							<li><a href="<?php echo base_url().'cari/tangerang-matematika'?>" class="normal-link">Guru Matematika di Tangerang</a></li>
+							<li><a href="<?php echo base_url().'cari/bekasi/matematika'?>" class="normal-link">Guru Matematika di Bekasi</a></li>
+							<li><a href="<?php echo base_url().'cari/depok/matematika'?>" class="normal-link">Guru Matematika di Depok</a></li>
+							<li><a href="<?php echo base_url().'cari/bandung/matematika'?>" class="normal-link">Guru Matematika di Bandung</a></li>
+						</ul>
+					</li>
+					<li>
+						<ul>
+							<li class="underline">Keterampilan</li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/piano'?>" class="normal-link">Guru Piano di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/biola'?>" class="normal-link">Guru Biola di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/gitar'?>" class="normal-link">Guru Gitar di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/programming'?>" class="normal-link">Guru Pogramming di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/web-design'?>" class="normal-link">Guru Web Design di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/photoshop'?>" class="normal-link">Guru Photoshop di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/renang'?>" class="normal-link">Guru Renang di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/basket'?>" class="normal-link">Guru Basket di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/yoga'?>" class="normal-link">Guru Yoga di Jakarta</a></li>
+							<li><a href="<?php echo base_url().'cari/dki-jakarta/mengaji'?>" class="normal-link">Guru Mengaji di Jakarta</a></li>
+						</ul>
+					</li>
+					<li>
+						<ul>
+							<li class="underline">Lainnya</li>
+							<li><a href="<?php echo base_url().'cari/toefl'?>" class="normal-link">TOEFL</a></li>
+							<li><a href="<?php echo base_url().'cari/ielts'?>" class="normal-link">IELTS</a></li>
+							<li><a href="<?php echo base_url().'cari/un-sd'?>" class="normal-link">UN SD</a></li>
+							<li><a href="<?php echo base_url().'cari/un-smp'?>" class="normal-link">UN SMP</a></li>
+							<li><a href="<?php echo base_url().'cari/un-sma'?>" class="normal-link">UN SMA</a></li>
+							<li><a href="<?php echo base_url().'cari/snmptn'?>" class="normal-link">SNMPTN</a></li>
+							<li><a href="<?php echo base_url().'cari/simak-ui'?>" class="normal-link">SIMAK UI</a></li>
+							<li><a href="<?php echo base_url().'cari/a-level'?>" class="normal-link">A-Level</a></li>
+							<li><a href="<?php echo base_url().'cari/bahasa-indonesia-pengantar-asing'?>" class="normal-link">Indonesian for Foreingers</a></li>
+						</ul>
+					</li>
+<?php 
+	// */
+?>
+			</ul>
+			<div class="clear"></div>
             <div class="footer-content">
                 <div class="footer-contact-header bold orange">
                     <h3><span class="text-16 orange bold">Ruangguru.com</span></h3>
@@ -40,6 +157,10 @@
                 <div class="footer-copyright">
                     <p class="text-12 white-text">&copy; 2014 <a href="<?php echo base_url();?>" class="normal-link">Ruangguru.com</a>. All rights reserved.</p>
                 </div>
+				<div id="status" style="font-size: 10px;">
+					Page load: {elapsed_time}s<br />
+					Memory: {memory_usage}
+				</div>
             </div>
             <div class="clear"></div>
         </div>

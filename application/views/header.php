@@ -1,9 +1,15 @@
-<!DOCTYPE html>
+<?php
+if(isset($seo['keywords'])) {
+	$keywords = implode(';', $seo['keywords']);
+} else {
+	$keywords = "guru, cari guru, guru privat, privat, bimbel, guru les, guru bimbel, bimbingan belajar, tutor, guru tambahan, les, bahasa inggris, guru freelance, freelance, guru part-time, guru honor, pengajar muda, guru anak, guru panggilan, guru berprestasi, pelatih, mahasiswa berprestasi";
+}
+?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<meta name="keywords" content="guru, cari guru, guru privat, privat, bimbel, guru les, guru bimbel, bimbingan belajar, tutor, guru tambahan, les, bahasa inggris, guru freelance, freelance, guru part-time, guru honor, pengajar muda, guru anak, guru panggilan, guru berprestasi, pelatih, mahasiswa berprestasi" />
-	<meta name="robots" content="noarchive">
+	<meta name="keywords" content="<?php echo $keywords;?>" />
+	<meta name="robots" content="index, follow">
 	<link rel="icon" type="image/png" href="<?php echo base_url();?>images/favicon.png"/>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>css/orbit-1.2.3.css" />
 	<link rel="stylesheet" href="<?php echo base_url(); ?>css/default.css" />

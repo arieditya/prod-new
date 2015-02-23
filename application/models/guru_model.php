@@ -811,78 +811,97 @@ class Guru_model extends CI_Model {
     }
     
     /*** RATING ***/
-    function get_calculated_rating($guru_id){
+    function get_calculated_rating($guru_id, $force_update = FALSE){
         $guru = $this->get_guru_by_id($guru_id);
         $total = 0;
+		$key = 'guru_rating_calculated_'.$guru_id;
         if(!empty($guru)){
-		if($guru->guru_rating_bio == 0){
-	   //profile based
-            $len = strlen($guru->guru_bio);
-            if($len > 1000){
-                $total += 2;
-            }else if($len > 500){
-                $total += 1;
-            }else if($len > 0){
-                $total += 0;
-            }else{
-                $total -= 1;
-            }
-		}
-            //sertifikat based
-            $total += $guru->guru_rating_sma;
-            $total += $guru->guru_rating_diploma;
-            $total += $guru->guru_rating_s1_top;
-            $total += ($guru->guru_rating_s1>0)?($guru->guru_rating_s1+1):0;
-            $total += $guru->guru_rating_s2_top;
-            $total += ($guru->guru_rating_s2>0)?($guru->guru_rating_s1+2):0;
-            $total += $guru->guru_rating_s3_top;
-            $total += ($guru->guru_rating_s3==1)?6:0;
-            $total += $guru->guru_rating_beasiswa;
-            $total += ($guru->guru_rating_sertifikat==1)?2:0;
-            $total += $guru->guru_rating_toefl_ibt;
-            $total += $guru->guru_rating_toefl_itp;
-            $total += $guru->guru_rating_ielts;
-            $total += $guru->guru_rating_gre;
-            $total += $guru->guru_rating_gmat;
-            $total += $guru->guru_rating_cfa;
-            $total += $guru->guru_rating_bio;
+			if($force_update || ($total = $this->get_cache($key)) === FALSE) {
+				if($guru->guru_rating_bio == 0){
+			   //profile based
+					$len = strlen($guru->guru_bio);
+					if($len > 1000){
+						$total += 2;
+					}else if($len > 500){
+						$total += 1;
+					}else if($len > 0){
+						$total += 0;
+					}else{
+						$total -= 1;
+					}
+				}
+				//sertifikat based
+				$total += $guru->guru_rating_sma;
+				$total += $guru->guru_rating_diploma;
+				$total += $guru->guru_rating_s1_top;
+				$total += ($guru->guru_rating_s1>0)?($guru->guru_rating_s1+1):0;
+				$total += $guru->guru_rating_s2_top;
+				$total += ($guru->guru_rating_s2>0)?($guru->guru_rating_s1+2):0;
+				$total += $guru->guru_rating_s3_top;
+				$total += ($guru->guru_rating_s3==1)?6:0;
+				$total += $guru->guru_rating_beasiswa;
+				$total += ($guru->guru_rating_sertifikat==1)?2:0;
+				$total += $guru->guru_rating_toefl_ibt;
+				$total += $guru->guru_rating_toefl_itp;
+				$total += $guru->guru_rating_ielts;
+				$total += $guru->guru_rating_gre;
+				$total += $guru->guru_rating_gmat;
+				$total += $guru->guru_rating_cfa;
+				$total += $guru->guru_rating_bio;
+			}
         }
         return $total;
     }
     
-    function get_rating_by_feedback($guru_id){
+    function get_rating_by_feedback($guru_id, $force_update = FALSE){
         $this->load->model('kelas_model');
-		$n=array();
-		$total = array();
-		$rate = 0;
-		$kelas = $this->kelas_model->get_kelas_by_guru_id($guru_id);
-		if($kelas->num_rows() > 0){
-			foreach($kelas->result() as $k){
-				if($k->kelas_feedback_status == 1){
-					$feedback = $this->kelas_model->get_feedback_by_kelas_id($k->kelas_id);
-					$n = array();
-						foreach($feedback->result() as $f){
-							if(($f->feedback_answer_sort == 4) || ($f->feedback_answer_sort == 5)){
-								$n[] = $k->kelas_total_jam * $f->feedback_answer_score;
-							}else{
-								$n[] = $k->kelas_total_jam * $f->feedback_answer_score * (-1);
+		$key = 'guru_rating_feedback_'.$guru_id;
+		if($force_update || ($data = $this->get_cache($key)) === FALSE) {
+			$n=array();
+			$total = array();
+			$rate = 0;
+			$kelas = $this->kelas_model->get_kelas_by_guru_id($guru_id);
+			if($kelas->num_rows() > 0){
+				foreach($kelas->result() as $k){
+					if($k->kelas_feedback_status == 1){
+						$feedback = $this->kelas_model->get_feedback_by_kelas_id($k->kelas_id);
+						$n = array();
+							foreach($feedback->result() as $f){
+								if(($f->feedback_answer_sort == 4) || ($f->feedback_answer_sort == 5)){
+									$n[] = $k->kelas_total_jam * $f->feedback_answer_score;
+								}else{
+									$n[] = $k->kelas_total_jam * $f->feedback_answer_score * (-1);
+								}
 							}
-						}
-						$avg1 = ($n[0]+$n[1]+$n[2]+$n[3])/4;
-						$avg2 = ($n[4]+$n[5]+$avg1)/3;
-						$total[] = $avg2;
-				} else {
-					$total[] = $rate;
+							$avg1 = ($n[0]+$n[1]+$n[2]+$n[3])/4;
+							$avg2 = ($n[4]+$n[5]+$avg1)/3;
+							$total[] = $avg2;
+					} else {
+						$total[] = $rate;
+					}
 				}
+				$total_rate = array_sum($total);
+				$data = round($total_rate, 2);
+				$this->set_cache($key, $data);
 			}
-		$total_rate = array_sum($total);
-		return round($total_rate, 2);
 		}
+		return $data;
     }
+	
+	public function get_full_guru_rating($guru_id, $force_update = FALSE) {
+		$key = 'guru_rating_total_'.$guru_id;
+		if($force_update || ($data = $this->get_cache($key)) === FALSE) {
+			$r1 = $this->get_calculated_rating($guru_id, $force_update);
+			$r2 = $this->get_rating_by_feedback($guru_id, $force_update);
+			$data = $r1 + $r2;
+			$this->set_cache($key, $data);
+		}
+		return $data;
+	}
     
     public function update_current_rating($guru_id){
         //update calculated rating
-        $rating = $this->get_calculated_rating($guru_id);
+        $rating = $this->get_calculated_rating($guru_id, TRUE);
         $this->db->set('guru_rating',$rating);
         $this->db->where('guru_id',$guru_id);
         $this->db->update('guru'); 
@@ -1255,5 +1274,27 @@ class Guru_model extends CI_Model {
 		if($data->num_rows() == 0) return FALSE;
 //		return unserialize($data->row()->data_serialized);
 		return unserialize(gzuncompress($data->row()->data_compressed));
+	}
+	
+	public function sitemap_guru() {
+		$query = "
+		SELECT
+			a.guru_id
+		FROM
+			guru a
+		WHERE 1
+			AND a.guru_active = 1
+		";
+		$result = $this->db->query($query);
+		$data = array();
+		if($result->num_rows() > 0) {
+			foreach($result->result() as $row) {
+				$rating = (int) $this->get_full_guru_rating($row->guru_id);
+				if($rating < 1) continue;
+				$data[$row->guru_id] = $this->get_full_guru_rating($row->guru_id);
+			}
+		}
+		arsort($data);
+		return $data;
 	}
 }

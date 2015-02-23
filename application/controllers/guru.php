@@ -29,10 +29,61 @@ class Guru extends MY_Controller {
         }
     }
     
-    public function view($guru_id){
+    public function view($guru_id = 0){
+		$guru_id = (int) $guru_id;
+		if(empty($guru_id)) show_404();
         $this->load->model('profile_model');
 	   $data['pilihan_guru'] = $this->session->userdata('pilihan_guru');
         $data['guru'] = $this->profile_model->get_profile_guru($guru_id);
+		$lokasi = $data['guru']->lokasi;
+		$matpel = $data['guru']->matpel->result();
+		$temp['seo']['keywords'] = array(
+			'Guru di '.$lokasi, 'Guru Privat di '.$lokasi,'Les Privat di '.$lokasi
+		);
+		foreach($matpel as $mp) {
+			$temp['seo']['keywords'][] = 'Guru '.$mp->matpel_title;
+			$temp['seo']['keywords'][] = 'Guru '.$mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru '.$mp->matpel_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru '.$mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title. ' di '
+					.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Privat '.$mp->matpel_title;
+			$temp['seo']['keywords'][] = 'Guru Privat '.$mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru Privat '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru Privat '.$mp->matpel_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Privat '.$mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Privat '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title. 
+					' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Les '.$mp->matpel_title;
+			$temp['seo']['keywords'][] = 'Guru Les '.$mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru Les '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru Les '.$mp->matpel_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Les '.$mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Les '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title. 
+					' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Les Privat '.$mp->matpel_title;
+			$temp['seo']['keywords'][] = 'Guru Les Privat '.$mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru Les Privat '.$mp->matpel_title. ' untuk '. 
+					$mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Guru Les Privat '.$mp->matpel_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Les Privat '.$mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Guru Les Privat '.$mp->matpel_title. ' untuk '. 
+					$mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Les '.$mp->matpel_title;
+			$temp['seo']['keywords'][] = 'Les '.$mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Les '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Les '.$mp->matpel_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Les '.$mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Les '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Les Privat '.$mp->matpel_title;
+			$temp['seo']['keywords'][] = 'Les Privat '.$mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Les Privat '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title;
+			$temp['seo']['keywords'][] = 'Les Privat '.$mp->matpel_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Les Privat '.$mp->jenjang_pendidikan_title. ' di '.$lokasi;
+			$temp['seo']['keywords'][] = 'Les Privat '.$mp->matpel_title. ' untuk '. $mp->jenjang_pendidikan_title. ' di '.$lokasi;
+		}
+//		var_dump($data['seo']);exit;
         $data['rating'] = $this->guru_model->get_calculated_rating($guru_id);
         $temp['css'] = array(1=>'guru',2=>'profile');
         $temp['kelas'] = $this->guru_model->get_kelas($guru_id);
