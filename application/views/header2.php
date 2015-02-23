@@ -19,12 +19,9 @@
 ?><!DOCTYPE html>
 <html>
 <head>
-	<meta name="keywords" content="guru, cari guru, guru privat, privat, bimbel, guru les, guru bimbel, 
-	bimbingan belajar, tutor, guru tambahan, les, bahasa inggris, guru freelance, freelance, guru part-time, 
-	guru honor, pengajar muda, guru anak, guru panggilan, guru berprestasi, pelatih, mahasiswa berprestasi
-	<?php echo $kw; ?>" />
 	<meta name="robots" content="index, follow">
 	<meta name="description" content="<?php echo $desc;?>">
+	<meta name="keywords" content="<?php echo $kw; ?>" />
 	<title><?php echo $title;?></title>
 	<link rel="icon" type="image/png" href="<?php echo base_url();?>images/favicon.png"/>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>css/orbit-1.2.3.css" />
@@ -40,15 +37,14 @@
 </head>
 <body>
 <!-- Google Tag Manager -->
-<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5RGCZZ"
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N7V538"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<script type="application/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?('&l='+l):'';j.async=true;j.src=
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5RGCZZ');</script>
+})(window,document,'script','dataLayer','GTM-N7V538');</script>
 <!-- End Google Tag Manager -->
-
 	<script type="text/javascript">
 		function searchClick(obj){
 			if($(obj).val()=='masukkan nama guru'){
