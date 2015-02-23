@@ -724,6 +724,7 @@ class Guru_model extends CI_Model {
             //update password
             if(!empty($guru) && $guru->guru_id > 0){
                 $this->db->set('guru_password',md5($new_pass));
+                $this->db->set('guru_active',1);
                 $this->db->where('guru_id',$guru->guru_id);
                 $this->db->update('guru');
             }else{
@@ -1095,7 +1096,7 @@ class Guru_model extends CI_Model {
 		$this->db->update('request_langsung');
 	}
 	
-	public function search($var) {
+	public function search($var,$use_cache=FALSE, $force_update = FALSE) {
 		$q_where = '';
 		
 		if(!empty($var['l'])) {
@@ -1126,6 +1127,18 @@ class Guru_model extends CI_Model {
 			$q_where .= "
 			AND f.matpel_title like '%{$var['s']}%'";
 		}
+		if(!empty($var['n'])) {
+			$var['n'] = mysql_real_escape_string($var['n']);
+			$n = explode('@', $var['n']);
+			$var['n'] = $n[0];
+			$q_where .= "
+			AND ( FALSE
+				OR a.guru_nama like '%{$var['n']}%'
+				OR a.guru_email like '%{$var['n']}%'
+				OR a.guru_fb like '%{$var['n']}%'
+				OR a.guru_twitter like '%{$var['n']}%'
+			)";
+		}
 
 		$query = "
 		SELECT DISTINCT
@@ -1148,8 +1161,43 @@ class Guru_model extends CI_Model {
 			LEFT JOIN pendidikan h
 				ON h.pendidikan_id = a.pendidikan_id
 		WHERE 1 {$q_where}";
-
-		return $this->db->query($query);
+		
+		if($use_cache) {
+/*			
+			$path = APPPATH.'cache/';
+//			$file = md5($query).'-t.dz';
+			$file = md5($query).'.dz';
+			$CI = get_instance();
+			$CI->load->helper('file');
+			if(!$force_update && file_exists($path.$file)) {
+				$data = read_file($path.$file);
+				$data = gzuncompress($data);
+				return unserialize($data);
+			}
+*/
+			$key = md5($query);
+			if(!$force_update && !empty($row)) {
+				
+//				return unserialize(gzuncompress($row->data_compressed));
+//				return unserialize($row->data_serialized);
+			}
+		}
+		$data = $this->db->query($query)->result();
+		if(FALSE && $use_cache) {
+/*
+			$save_data = serialize($data);
+			$save_data = gzcompress($save_data, 9);
+			delete_files($path.$file);
+			write_file($path.$file, $save_data);
+// */
+			$serialized = serialize($data);
+			$compressed = gzcompress($serialized, 9);
+			$this->db->delete('cache', array('key'=>$key));
+			$this->db->insert('cache', array('key'=>$key, 
+											 'data_serialized'=>$serialized, 
+											 'data_compressed'=>$compressed));
+		}
+		return $data;
 	}
 	
 	public function get_matpel_by_name($name) {
@@ -1190,5 +1238,22 @@ class Guru_model extends CI_Model {
 		if(!empty($data) && $data->num_rows() > 0)
 			 return $data->row();
 		return NULL;
+	}
+	
+	public function set_cache($key, $data) {
+		$serialized = serialize($data);
+		$compressed = gzcompress($serialized);
+		$this->db->delete('cache', array('key'=>$key));
+		$this->db->insert('cache', array(
+			'key'				=> $key,
+			'data_serialized'	=> $serialized,
+			'data_compressed'	=> $compressed
+		));
+	}
+	public function get_cache($key) {
+		$data = $this->db->get_where('cache', array('key'=>$key));
+		if($data->num_rows() == 0) return FALSE;
+//		return unserialize($data->row()->data_serialized);
+		return unserialize(gzuncompress($data->row()->data_compressed));
 	}
 }
