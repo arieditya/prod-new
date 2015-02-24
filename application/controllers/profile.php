@@ -70,7 +70,9 @@ class Profile extends CI_Controller {
 		if(trim($tmp_files) != ""){
 			if(($type == "image/jpeg") || ($type == "image/png") || ($type == "application/pdf")){
 				$ext = explode('.',$files);
-				$name_files = str_replace(' ', '_', $this->input->post('title'));
+				$name_files = preg_replace('/[^a-z0-9\s]/','-', $this->input->post('title'));
+				$name_files = str_replace('--', '-', $name_files);
+//				$name_files = str_replace(' ', '_', $this->input->post('title'));
 				$new_files = $this->id.'-'.$name_files.'.'.$ext[1];
 				copy($tmp_files,'./files/sertifikat/'.$new_files);
 				return $new_files;
