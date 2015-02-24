@@ -211,7 +211,7 @@ class Guru_model extends CI_Model {
         $this->db->set('guru_alamat_domisili',$input['alamat_domisili']);
         $this->db->set('guru_fb',$input['fb']);
         $this->db->set('guru_twitter',$input['twitter']);
-        $this->db->set('guru_referral',$input['referral']);
+        $this->db->set('guru_referral',empty($input['referral'])?0:$input['referral']);
         $this->db->set('source_info_id',$input['source_info']);
         $this->db->set('guru_metode',$input['metode']);
         $this->db->set('kategori_id',$input['kategori']);
@@ -221,7 +221,15 @@ class Guru_model extends CI_Model {
         $this->db->set('guru_rating_bio',$input['guru_rating_bio']);
         $this->db->set('guru_active',0,FALSE);
         $this->db->set('guru_blocked',0,FALSE);
+        $this->db->set('guru_bio','');
+        $this->db->set('guru_nik_image','');
+        $this->db->set('guru_video','');
+        $this->db->set('guru_jenis_video',0);
+        $this->db->set('guru_review','');
+        $this->db->set('guru_kualifikasi','');
+        $this->db->set('guru_pengalaman','');
         $this->db->insert('guru');
+//        var_dump($this->db->last_query());exit;
         //$this->email_reg($input['email'], $input['nama']);
         return $this->db->insert_id();
     }
