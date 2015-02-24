@@ -122,8 +122,27 @@ class Guru extends CI_Controller {
     }
 	
 	public function sertifikat_upload($guru_id) {
-		
-	}
+        if($_FILES){
+            $upload = $_FILES['sertifikat']['tmp_name'];
+            $name 	= $_FILES['sertifikat']['name'];
+            $type	= $_FILES['sertifikat']['type'];
+            $size	= $_FILES['sertifikat']['size'];
+            $upload_file = $this->upload_files($upload,$name,$type);
+        }
+        if(trim($upload) != ""){
+            $ext = explode('.',$name);
+            $name_files = preg_replace('/[^a-z0-9\s]/','-', $name);
+            $name_files = str_replace('--', '-', $name_files);
+            $new_files = $this->id.'-'.$name_files.'.'.$ext[1];
+            copy($upload,'./files/sertifikat/'.$new_files);
+        }
+        $this->load->model('profile_model');
+        $this->profile_model->insert_guru_sertifikat($guru_id,array(
+            'title'=>$this->input->post('guru_sertifikat_title', true),
+            'file'=>$new_files
+        ));
+        redirect('admin/guru/'.$guru_id);
+    }
     
     /****** EDIT *******/
     public function edit($guru_id){
