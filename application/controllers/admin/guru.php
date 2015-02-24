@@ -134,7 +134,7 @@ class Guru extends CI_Controller {
                 $tmp_name_files = str_replace('--', '-', $name_files);
                 if($tmp_name_files==$name_files) break;
             }
-            $new_files = $this->id.'-'.$name_files.'.'.$ext;
+            $new_files = $guru_id.'-'.$name_files.'.'.$ext;
             copy($upload,'./files/sertifikat/'.$new_files);
         }
         $this->load->model('profile_model');
