@@ -127,7 +127,7 @@ class Guru extends CI_Controller {
             $name 	= $_FILES['guru_sertifikat_file']['name'];
         }
         if(trim($upload) != ""){
-            $name=explode('.',strtlower($name));
+            $name=explode('.',strtolower($name));
             $ext = array_pop($name);
             $name_files = preg_replace('/[^a-z0-9]/','-', implode('.',$name));
             while(TRUE) {
