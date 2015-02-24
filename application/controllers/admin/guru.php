@@ -120,6 +120,10 @@ class Guru extends CI_Controller {
         $data['content'] = $this->load->view('admin/guru/sertifikat_v',$data,TRUE);
         $this->load->view('admin/admin_v',$data);
     }
+	
+	public function sertifikat_upload($guru_id) {
+		
+	}
     
     /****** EDIT *******/
     public function edit($guru_id){

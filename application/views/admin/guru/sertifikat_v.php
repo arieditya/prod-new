@@ -36,6 +36,22 @@
                     </tr>
                 <?php endforeach; ?>
             </tbody>
+			<tfoot>
+			<form method="post" enctype="multipart/form-data" action="<?php echo base_url()
+			?>admin/guru/sertifikat_upload/<?php echo $guru->guru_id;?>">
+			<tr>
+				<td>Upload sertifikat baru</td>
+				<td><input type="text" name="guru_sertifikat_title" style="width: 100%;" /></td>
+				<td><input type="file" name="guru_sertifikat_file" style="width: 100%;" /></td>
+			</tr>
+			<tr>
+				<td colspan="3" style="text-align: right;">
+					<button type="reset">Cancel</button>
+					<button type="submit">Submit</button>
+				</td>
+			</tr>
+			</form>
+			</tfoot>
         </table>
         <div class="pagging">
             <div class="left">
