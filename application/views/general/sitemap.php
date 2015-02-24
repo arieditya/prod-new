@@ -8,8 +8,11 @@
  * Proj: prod-new
  */
 
-echo "<?"; ?>xml version="1.0" encoding="UTF-8" <?php echo "?".">\n"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+echo "<?"; ?>xml version="1.0" encoding="UTF-8"<?php echo "?".">\n"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+         xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!-- This page is build in {elapsed_time} seconds! -->
 <?php foreach($urls as $url):?>
 	<url>
 <?php 

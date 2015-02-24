@@ -25,87 +25,172 @@ class Search extends MY_Controller{
 		 * s: subject
 		 * l: location => will search thorough address, city and province!
 		 */
-		$default = array('p','c','k','s','l');
-		$parameters = $this->uri->uri_to_assoc(2, $default);
+		
+		if($this->input->get('debug') === 'me') {
+			error_reporting(E_ALL);
+		}
+		$r = 'uri_to_assoc';
+		if($this->uri->segment(1) == 'cari') $r = 'ruri_to_assoc';
+//		var_dump($this->uri->{$r}(2));exit;
+		$default = array('p','c','k','s','l','n');
+		$parameters = $this->uri->{$r}(2, $default);
 		$parameters = array_filter($parameters);
+		ksort($parameters);
 		
 		// init
-		$kategori = $matpel = $city = $provinsi = NULL;
+		$name = $kategori = $matpel = $city = $provinsi = NULL;
 		
 		foreach($parameters as &$parameter) {
 			$parameter = urldecode($parameter);
 			$parameter = preg_replace('/\-/',' ',$parameter);
 		}
 		
-		$data_raw = $this->guru_model->search($parameters);
-		$data = $data_raw->result();
-		
-		$rating = array();
-		$t_data = array();
-//		var_dump($data);
-
-		foreach($data as $_d) {
-			$r1 = $this->guru_model->get_rating_by_feedback($_d->guru_id);
-			$r2 = $this->guru_model->get_calculated_rating($_d->guru_id);
-			$rating[] = $r1 + $r2;
-			$t_data[] = array(
-				'rating'	=> $r1 + $r2,
-				'data'		=> $_d
-			);
+		$key = md5(json_encode($parameters));
+		if(FALSE === ($data = $this->guru_model->get_cache($key))) {
+			$data = $this->guru_model->search($parameters, TRUE);
+			
+			$rating = array();
+			$t_data = array();
+	//		var_dump($data);
+	
+			foreach($data as $_d) {
+				$rates = $this->guru_model->get_full_guru_rating($_d->guru_id);
+				$rating[] = $rates;
+				$t_data[] = array(
+					'rating'	=> $rates,
+					'data'		=> $_d
+				);
+			}
+			
+			array_multisort($rating, SORT_DESC, $data);
+			$this->guru_model->set_cache($key, $data);
 		}
-		
-		array_multisort($rating, SORT_DESC, $data);
 
+		if($this->input->get('debug') === 'me') {
+			var_dump($data);
+			exit;
+		}
+//		$data_raw = $this->guru_model->search($parameters);
+		
+//		echo $data;exit;
+		
+		// Coba bikin pagination nya...
+		// $page = halaman saat ini
+		// $total_page = total halaman seluruhnya
+		// $perpage = data yg ditampilkan per halaman
+		// $total_data = seluruh data yang ada
+		// $step = jumlah halaman ke depan/ke belakang yang di tampilkan
+		// $content = no. halaman pagination yg (akan) ditampilkan
 		$total_data = count($data);
 		$page = ((int)$this->input->get('page', TRUE));
-		if($page > 0) $page -= 1;
-		else $page = 0;
-		$perpage = 10;
+		if($page > 0) {
+			$current = $page;
+			$page -= 1;
+		}else {
+			$current = 1;
+			$page = 0;
+		}
+		$perpage = 5;
+		$total_page = ceil($total_data / $perpage);
+		$step = 2;
+
+		$first = $current-$step;
+		$first = $first<=1?1:$first;
+		$last = $current+$step;
+		$last = $last>=$total_page?$total_page:$last;
+		
+		$add_next = FALSE;
+		$add_prev = FALSE;
+		if($current<$last) {
+			$add_next = TRUE;
+		}
+		if($current>$first) {
+			$add_prev = TRUE;
+		}
+		$list_page = range($first, $last);
+		$pagination_link = '';
+		foreach($list_page as $list) {
+			if($list == $current) {
+				$pagination_link .= 
+						'<div class="page-wrap page-current">'
+							.'<div class="page-link">'
+								.$list
+							.'</div>'
+						.'</div>';
+			} else {
+				$pagination_link .= 
+						'<div class="page-wrap">'
+							.'<a class="page-link" href="'.current_url().'?page='.$list.'">'
+								.$list
+							.'</a>'
+						.'</div>';
+			}
+		}
+		if($add_prev) {
+			$pagination_link = 
+						'<div class="page-wrap">'
+							.'<a class="page-link" href="'.current_url().'?page='.((int)$current-1).'">'
+								.'&lt;'
+							.'</a>'
+						.'</div>'.$pagination_link;
+		}
+		if($add_next) {
+			$pagination_link .= 
+						'<div class="page-wrap">'
+							.'<a class="page-link" href="'.current_url().'?page='.((int)$current+1).'">'
+								.'&gt;'
+							.'</a>'
+						.'</div>';
+		}
 		
 		$data = array_slice($data, $page * $perpage, $perpage);
 		
-//		var_dump($data); 
-//		var_dump($rating); 
-		
-//		exit;
-		
-		$title = '';
+		$title = 'Guru ';
 		if(!empty($parameters['s'])) {
-			$title .= $parameters['s'].' ';
 			$matpel = $this->guru_model->get_matpel_by_name($parameters['s']);
+			$title .= $matpel->matpel_title.' ';
+		} else {
+			$title .= 'Privat ';
 		}
 		if(!empty($parameters['k'])) {
-			$title .= 'untuk '.$parameters['k'].' ';
 			$kategori = $this->guru_model->get_jenjang_by_name($parameters['k']);
+//			$title .= 'untuk '.$parameters['k'].' ';
+			$title .= 'untuk '.$kategori->jenjang_pendidikan_title.' ';
 		}
 		
 		if(!empty($parameters['l']) || !empty($parameters['c']) || !empty($parameters['p'])) {
 			$title .= 'di ';
 			$f_l = TRUE; // first
 			if(!empty($parameters['l'])) {
-				$title .= $parameters['l'].' ';
+				$title .= ucwords($parameters['l']);
 				$f_l = FALSE;
 			}
 			if(!empty($parameters['c'])) {
-				if(!$f_l) $title .= ', ';
-				$title .= $parameters['c'].' ';
 				$city = $this->guru_model->get_city_by_name($parameters['c']);
+				if(!$f_l) $title .= ', ';
+				else $title .= ' ';
+				$title .= $city->lokasi_title;
 				$f_l = FALSE;
 			}
 			if(!empty($parameters['p'])) {
-				if(!$f_l) $title .= ', ';
-				$title .= $parameters['p'].' ';
 				$provinsi = $this->guru_model->get_province_by_name($parameters['p']);
+				if(!$f_l) $title .= ', ';
+				else $title .= ' ';
+				$title .= $provinsi->provinsi_title;
 			}
 		}
+		
+		$title = str_replace('  ',' ', $title);
+		$desc_ = str_replace('Privat ', '', $title);
+		$desc_ = str_replace('Guru ', '', $title);
+		$desc  = "Guru {$desc_}; Guru Privat {$desc_}; Les {$desc_}; Les Privat {$desc_}; Guru Les {$desc_}; Guru Les Privat {$desc_}";
 		
         $temp['css'] = array('jquery.alerts','validation','cariguru','profile');
         $temp['meta'] = array(
 			'title'			=> $title,
-			'description'	=> 'Cari guru privat '.$title.' murah dan bagus di ruangguru.com',
+			'description'	=> 'Temukan '.$title.' murah dan berkualitas di ruangguru.com',
 			'keywords'		=> array(
-					'Guru Privat '.$title,
-					'Guru '.$title
+				$desc
 			)
 		);
 		$input = array(
@@ -126,7 +211,8 @@ class Search extends MY_Controller{
 			'input'	=>	$input,
 			'pagination' => array(
 				'page'	=> $page,
-				'perpage'=> $perpage
+				'perpage'=> $perpage,
+				'link'	=> $pagination_link
 			),
 			'page'	=> 0
 		);

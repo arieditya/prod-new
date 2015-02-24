@@ -16,7 +16,9 @@ foreach($sched as $s) {
 $imgparts = explode('.',$class->class_image);
 if(count($imgparts) > 1) {
 	$ext = array_pop($imgparts);
-	array_push($imgparts, '600x282.k.'.$ext);
+	array_push($imgparts, '600x282');
+	array_push($imgparts, 'k');
+	array_push($imgparts, $ext);
 } else {
 	$imgparts = array('default_profile_image','png');
 }
@@ -103,9 +105,8 @@ if(count($imgparts) > 1) {
 						<img 
 								class="img-responsive2" 
 								src="<?php 
-						echo base_url();?>/images/<?php echo count($imgparts)>2?('class/'.$class->id.'/'):''. implode('
-						.',$imgparts);?>" 
-								/></div>
+						echo base_url();?>images/<?php echo (count($imgparts)>2?('class/'.$class->id.'/'):'').implode('.',$imgparts);?>" />
+					</div>
 					<ul class="nav nav-tabs" role="tablist">
 						<li id="about_selector" class="active"><a href="#about" role="tab" data-toggle="tab">Tentang Kelas</a></li>
 						<li id="biaya_selector"><a href="#price" role="tab" data-toggle="tab">Harga</a></li>

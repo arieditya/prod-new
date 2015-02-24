@@ -31,12 +31,12 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
     <div id="cari-guru-detail">
         <div id="cariguru-header"><?php //print_r($this->session->userdata);?>
             <div id="cariguru-header-wrap">
-                <h1><span class="text-20">GURU PRIVAT <?php echo strtoupper($temp['meta']['title']);?></span></h1>
+                <h1><span class="text-20"><?php echo strtoupper($temp['meta']['title']);?></span></h1>
             </div>
         </div>
         <div id="cari-guru-content">
 			<div id="description" style="text-align: left;float:left;">
-				<p>Guru Privat <?php echo $temp['meta']['title']?> berkualitas. <br />
+				<p><?php echo $temp['meta']['title']?> berkualitas. <br />
 					Gunakan perinci pencarian untuk menyaring lebih lanjut
 				</p>
 			</div>
@@ -327,7 +327,7 @@ if(!empty($input['matpel'])):
 	    </div>
         <?php endif;?>
  </div>
-        <div id="cari-guru-page">
+        <div id="cari-guru-page" style="font-family: Ubuntu;">
 			<span>Total hasil pencarian: 
 				<strong>
 					<?php echo $guru['total'];?> Guru ditemukan!
@@ -566,21 +566,25 @@ if(!empty($input['matpel'])):
             </div>
             <?php endforeach; ?>
         </div>        
-        <div id="cari-guru-page">
-			<div style="display: inline-block; text-align: left;width: 49.5%;">
+        <div id="cari-guru-page" style="font-family: Ubuntu;">
+			<div style="display: inline-block; text-align: left;width: 30%;">
 				Menampilkan 
 				<strong><?php echo ($pagination['page'] * $pagination['perpage'])+1?></strong>
 				s.d 
 				<strong><?php echo $count?></strong>
 			</div>
-			<div style="display: inline-block; text-align: right;width: 49.5%;">
+			<div style="display: inline-block; text-align: center;width: 30%;">
+				<?php echo $pagination['link'];?>
+			</div>
+			<div style="display: inline-block; text-align: right;width: 30%;">
 				Halaman <strong><?php echo $pagination['page']+1?></strong>
 				dari <strong><?php echo ceil($guru['total']/$pagination['perpage']);?></strong>
 			</div>
         </div>
 	   <?php if($pagination['page']+1 < ceil($guru['total']/$pagination['perpage'])):?>
+        <div class="blank" style="height:30px"></div>
         <div id="cari-guru-nav">
-            <a href="<?php echo current_url();?>?page=<?php echo $pagination['page']+2?>" class="diy-button">
+            <a href="<?php echo base_url();?>cari_guru/review" class="diy-button">
                 LANJUT
             </a>
         </div>
