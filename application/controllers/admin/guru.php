@@ -125,9 +125,6 @@ class Guru extends CI_Controller {
         if($_FILES){
             $upload = $_FILES['guru_sertifikat_file']['tmp_name'];
             $name 	= $_FILES['guru_sertifikat_file']['name'];
-            $type	= $_FILES['guru_sertifikat_file']['type'];
-            $size	= $_FILES['guru_sertifikat_file']['size'];
-            $upload_file = $this->upload_files($upload,$name,$type);
         }
         if(trim($upload) != ""){
             $ext = explode('.',$name);
