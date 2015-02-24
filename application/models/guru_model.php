@@ -1266,25 +1266,29 @@ class Guru_model extends CI_Model {
 		return get_cache($key);
 	}
 	
-	public function sitemap_guru() {
-		$query = "
-		SELECT
-			a.guru_id
-		FROM
-			guru a
-		WHERE 1
-			AND a.guru_active = 1
-		";
-		$result = $this->db->query($query);
-		$data = array();
-		if($result->num_rows() > 0) {
-			foreach($result->result() as $row) {
-				$rating = (int) $this->get_full_guru_rating($row->guru_id);
-				if($rating < 1) continue;
-				$data[$row->guru_id] = $this->get_full_guru_rating($row->guru_id);
+	public function sitemap_guru($force_refresh = FALSE) {
+		$key = 'sitemap_guru';
+		if($force_refresh || ($data = get_cache($key)) === FALSE) {
+			$query = "
+			SELECT
+				a.guru_id
+			FROM
+				guru a
+			WHERE 1
+				AND a.guru_active = 1
+			";
+			$result = $this->db->query($query);
+			$data = array();
+			if($result->num_rows() > 0) {
+				foreach($result->result() as $row) {
+					$rating = (int) $this->get_full_guru_rating($row->guru_id);
+					if($rating < 1) continue;
+					$data[$row->guru_id] = $this->get_full_guru_rating($row->guru_id);
+				}
 			}
+			arsort($data);
+			set_cache($key, $data);
 		}
-		arsort($data);
 		return $data;
 	}
 }
