@@ -123,10 +123,10 @@ class Guru extends CI_Controller {
 	
 	public function sertifikat_upload($guru_id) {
         if($_FILES){
-            $upload = $_FILES['sertifikat']['tmp_name'];
-            $name 	= $_FILES['sertifikat']['name'];
-            $type	= $_FILES['sertifikat']['type'];
-            $size	= $_FILES['sertifikat']['size'];
+            $upload = $_FILES['guru_sertifikat_file']['tmp_name'];
+            $name 	= $_FILES['guru_sertifikat_file']['name'];
+            $type	= $_FILES['guru_sertifikat_file']['type'];
+            $size	= $_FILES['guru_sertifikat_file']['size'];
             $upload_file = $this->upload_files($upload,$name,$type);
         }
         if(trim($upload) != ""){
@@ -141,7 +141,7 @@ class Guru extends CI_Controller {
             'title'=>$this->input->post('guru_sertifikat_title', true),
             'file'=>$new_files
         ));
-        redirect('admin/guru/'.$guru_id);
+        redirect('admin/guru/sertifikat/'.$guru_id);
     }
     
     /****** EDIT *******/
