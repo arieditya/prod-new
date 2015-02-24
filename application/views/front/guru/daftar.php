@@ -353,7 +353,7 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
 						  <?php if(($x%4 == 0)){echo "<tr>"; }?>
 							 <td>
                                     <span class="inline-block rgc">
-                                        <input type="checkbox" class="validate[minCheckbox[1]]" name="matpel[]" value="<?php echo $row->matpel_id; ?>"/><?php echo $row->matpel_title; ?>
+                                        <input type="checkbox" class="matpelrequired" name="matpel[]" value="<?php echo $row->matpel_id; ?>"/><?php echo $row->matpel_title; ?>
                                     </span> 
 							</td>
 							<?php $x++;?>
@@ -392,4 +392,16 @@ window._fbq.push(['track', 'PixelInitialized', {}]);
     </div>
 </div>
 </body>
+<script>
+    $(document).ready(function() {
+        $('form').submit(function(e) {
+            if(typeof $('.matpelrequired:checked').val() == 'undefined') {
+                alert("Mohon isi salah satu mata pelajaran");
+                $('.matpelrequired:first').focus();
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>
 </html>
