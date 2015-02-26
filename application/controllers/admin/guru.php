@@ -130,10 +130,7 @@ class Guru extends CI_Controller {
             $name=explode('.',strtolower($name));
             $ext = array_pop($name);
             $name_files = preg_replace('/[^a-z0-9]/','-', implode('.',$name));
-            while(TRUE) {
-                $tmp_name_files = str_replace('--', '-', $name_files);
-                if($tmp_name_files==$name_files) break;
-            }
+			$name_files = str_replace('--', '-', $name_files);
             $new_files = $guru_id.'-'.$name_files.'.'.$ext;
             copy($upload,'./files/sertifikat/'.$new_files);
         }
@@ -247,6 +244,6 @@ class Guru extends CI_Controller {
 	$this->email->message($content);
 
 	$this->email->send();
-	redirect('admin/guru/page/'.$page);
+	redirect('admin/guru/page/');
     }
 }

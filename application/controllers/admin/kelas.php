@@ -192,7 +192,7 @@ class Kelas extends MY_Controller {
     public function change_kelas_status($kelas_id,$status){
         $this->kelas_model->edit_kelas_status($kelas_id,$status);
         $this->session->set_flashdata('f_kelas','Successfully update kelas');
-        redirect('admin/kelas');
+        redirect($_SERVER['HTTP_REFERER']);
     }
     
     /****** DELETE *******/

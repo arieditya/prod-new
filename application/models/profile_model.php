@@ -317,9 +317,17 @@ class Profile_model extends CI_Model {
     }
     
     function delete_guru_sertifikat($guru_id,$sertifikat_id){
-        $this->delete_guru_sertifikat_file($guru_id,$sertifikat_id);
         $this->db->where('guru_id',$guru_id);
         $this->db->where('guru_sertifikat_id',$sertifikat_id);
+        $result = $this->db->get('guru_sertifikat')->row();
+        if(count($result)>0){
+            $file = $result->guru_sertifikat_file;
+            @unlink('./files/sertifikat/'.$file);
+        }
+//		$this->db->where_in();
+        $this->delete_guru_sertifikat_file($guru_id,$sertifikat_id);
+        $this->db->where('guru_id',$guru_id);
+        $this->db->where('guru_sertifikat_file',$file);
         $this->db->delete('guru_sertifikat');
     }
     

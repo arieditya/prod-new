@@ -69,14 +69,21 @@ class Profile extends CI_Controller {
 	public function upload_files($tmp_files, $files, $type){
 		if(trim($tmp_files) != ""){
 			if(($type == "image/jpeg") || ($type == "image/png") || ($type == "application/pdf")){
-				$ext = explode('.',$files);
-				$name_files = preg_replace('/[^a-z0-9\s]/','-', $this->input->post('title'));
-				$name_files = str_replace('--', '-', $name_files);
+				$file_expl = explode('.',strtolower($files));
+				$ext = array_pop($file_expl);
 //				$name_files = str_replace(' ', '_', $this->input->post('title'));
-				$new_files = $this->id.'-'.$name_files.'.'.$ext[1];
+				$name_files = preg_replace('/[^a-z0-9]/','-', implode('.',$file_expl));
+				$name_files = str_replace('--', '-', $name_files);
+				$name_files = trim($name_files,'-');
+				$new_files = $this->id.'-'.$name_files.'.'.$ext;
 				copy($tmp_files,'./files/sertifikat/'.$new_files);
 				return $new_files;
+			} else {
+				show_error('Jenis file yang di-unggah tidak sesuai: '.$type);
 			}
+		} else {
+			show_error('Gagal mengunggah file!', 400);
+			exit;
 		}
 	}
     
@@ -399,7 +406,13 @@ class Profile extends CI_Controller {
 			$type	= $_FILES['sertifikat']['type'];
 			$size	= $_FILES['sertifikat']['size'];
 			$upload_file = $this->upload_files($upload,$name,$type);
+			$title = preg_replace('/[^a-z0-9]/', '-', $this->input->post('title'));
+			$title = str_replace('--', '-', $title);
+			$input['title'] = trim($title, '-');
+			$input['file'] = $upload_file;
+			$this->profile_model->insert_guru_sertifikat($this->id,$input);
 		}
+		redirect('profile/edit');
         /*$input['title'] = str_replace(' ', '_', $this->input->post('title'));
         $config['upload_path'] = './files/sertifikat';
         $config['allowed_types'] = 'jpg|png|pdf';
@@ -416,11 +429,7 @@ class Profile extends CI_Controller {
             //echo $this->upload->display_errors();
             $this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Sertifikat tidak berhasil diupload. Pastikan Anda hanya mengupload dokumen berekstensi jpg, pdf atau png.</span>');
         }*/
-        $ext = explode('.',$name);
-	$input['title'] = str_replace(' ', '_', $this->input->post('title'));
-	$input['file'] = $this->id.'-'.$input['title'].'.'.$ext[1];
-        $this->profile_model->insert_guru_sertifikat($this->id,$input);
-        redirect('profile/edit');
+//        $ext = explode('.',$name);
     }
     
     public function sertifikat_delete($sertifikat_id){

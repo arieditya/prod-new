@@ -3,8 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Utilities extends CI_Controller {
+class Utilities extends MY_Controller {
     private $id;
+	var $godmode = FALSE;
 
     public function __construct() {
         parent::__construct();
@@ -14,6 +15,10 @@ class Utilities extends CI_Controller {
         $this->load->model('murid_model');
         $this->load->model('duta_guru_model');
         $this->check();
+		if($this->id == 2){
+			$this->godmode = TRUE;
+			error_reporting(E_ALL);
+		}
     }
     
     public function check(){
@@ -55,7 +60,7 @@ class Utilities extends CI_Controller {
         $this->check();
         $this->admin_model->edit_sertifikat_status($sertifikat_id,$status);
         $this->session->set_flashdata('f_sertifikat','Successfully update sertifikat');
-        redirect('admin/utilities/sertifikat/');
+        redirect($_SERVER['HTTP_REFERER']);
     }
     
     public function sertifikat_delete($guru_id,$sertifikat_id){
