@@ -117,6 +117,8 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('vendor_class_jadwal.class_tanggal');
 		$this->db->select('vendor_class_jadwal.class_jam_mulai');
 		$this->db->select('vendor_class_jadwal.class_menit_mulai');
+		$this->db->select('vendor_class_jadwal.class_jam_selesai');
+		$this->db->select('vendor_class_jadwal.class_menit_selesai');
 		$this->db->select('vendor_class_price.discount');
 		$this->db->select('vendor_class_price.price_per_session');
 		$this->db->group_by('vendor_class.id');

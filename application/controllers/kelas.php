@@ -140,10 +140,13 @@ class Kelas extends MY_Controller {
 		$this->load->helper('text');
 		$this->data['class'] = $classes;
 		$this->data['vendor'] = $data['vendor'];
+		$this->data['show_filter'] = TRUE;
 //		var_dump($classes);exit;
-		$this->load->view('kelas/list', $this->data);
+		$this->new_design?
+				$this->load->view('kelas/list2', $this->data):
+				$this->load->view('kelas/list', $this->data);
 	}
-
+	
 	public function index(){
 		$data['kelas'] = $this->kelas_model->get_buka_kelas_all_front();
 		$this->load->view('vendor/general/header');
@@ -168,7 +171,9 @@ class Kelas extends MY_Controller {
 		$this->load->model('discount_model');
 		$data['deals'] = $this->discount_model->get_diskon_code_for_class($hash, 'public');
 //		var_dump($data);exit;
-		$this->load->view('front/kelas/detil2',$data);
+		$this->new_design?
+				$this->load->view('kelas/detil2', $this->data):
+				$this->load->view('front/kelas/detil2',$data);
 	}
 
 }
