@@ -59,7 +59,7 @@
 						Filter
 					</button>
 <?php endif; ?>
-<?php if(!empty($show_vendor_menu) && $show_vendor_menu): ?>
+<?php if(!empty($show_vendor_menu) && in_array($show_vendor_menu, array('profile','class','add_new'))):?>
 					<button type="button" 
 							class="filter-toggle collapsed visible-xs" 
 							data-toggle="collapse" 
@@ -229,7 +229,7 @@
 			</div>
 		</div><!-- below-nav -->
 <?php endif;?>
-<?php if(!empty($show_vendor_menu) && $show_vendor_menu):?>
+<?php if(!empty($show_vendor_menu) && in_array($show_vendor_menu, array('profile','class','add_new'))):?>
 		<div class="below-nav">
 			<div class="container">
 			<div class="row list-orange collapse" id="list-orange">
@@ -239,9 +239,21 @@
 				</button>
 				<div class="col-sm-12">
 					<ul class="nav nav-pills">
-						<li><a href="#" class="button-nav-top">Profil Anda</a></li>
-						<li><a href="#" class="button-nav-top">Kelas Anda</a></li>
-						<li><a href="#" class="button-nav-top active">Tambah Kelas</a></li>
+						<li>
+							<a href="#" class="button-nav-top <?php echo $show_vendor_menu=='profile'?'active':'';?>">
+								Profil Anda
+							</a>
+						</li>
+						<li>
+							<a href="#" class="button-nav-top <?php echo $show_vendor_menu=='class'?'active':'';?>">
+								Kelas Anda
+							</a>
+						</li>
+						<li>
+							<a href="#" class="button-nav-top <?php echo $show_vendor_menu=='add_new'?'active':'';?>">
+								Tambah Kelas
+							</a>
+						</li>
 					</ul>
 					<ul class="sort nav">
 						<li class="title-filter sort-list"><i class="fa fa-phone"></i> 021-9200-3040 </li>

@@ -70,6 +70,8 @@ $this->load->view('vendor/general/header2');
 			<div class="col-sm-12 block-title-wrap">
 				<h2 class="block-title text-center text-uppercase">Kelas Pilihan</h2>
 			</div>
+		</div>
+		<div class="row">
 <?php
 	$i = 0;
 	$j = 0;
@@ -136,6 +138,8 @@ $this->load->view('vendor/general/header2');
 	endif;
 ?>
 
+		</div>
+		<div class="row">
 			<div class="col-sm-4 col-sm-offset-4">
 				<a href="#" class="main-button text-center">Lihat Semua Kelas</a>
 			</div>
