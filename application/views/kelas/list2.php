@@ -7,6 +7,7 @@
  * Time: 3:00 PM
  * Proj: prod-new
  */
+$this->load->helper('text');
 $this->load->view('vendor/general/header2');
 //var_dump($class);exit;
 ?>
@@ -131,7 +132,7 @@ $this->load->view('vendor/general/header2');
 						</div><!-- description -->
 						<div class="review">
 							<div class="icon"><i class="fa fa-shopping-cart"></i></div>
-                            <a href="#"><?php echo $kelas->vendor['profile']->name?></a>
+                            <a href="#"><?php echo character_limiter($kelas->vendor['profile']->name, 15);?></a>
 							<div class="rating">
 								<i class="fa fa-star"></i>
 								<b><?php echo (int)$kelas->rating->rate;?></b> (<?php echo $kelas->rating->counter?> review)
@@ -220,7 +221,7 @@ $this->load->view('vendor/general/header2');
                             </div><!-- description -->
                             <div class="review">
                                 <div class="icon" id="icon-tag"><i class="fa fa-shopping-cart"></i></div>
-                                <a href="#"><?php echo $kelas->vendor['profile']->name?></a>
+                                <a href="#"><?php echo character_limiter($kelas->vendor['profile']->name, 15);?></a>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
                                     <b><?php echo (int)$kelas->rating->rate;?></b> (<?php echo $kelas->rating->counter?> review)
