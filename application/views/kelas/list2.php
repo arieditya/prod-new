@@ -67,8 +67,8 @@ $this->load->view('vendor/general/header2');
 
 	<div class="container content">
 		<div class="row">
-			<div class="col-sm-12 block-title-wrap">
-				<h2 class="block-title text-center text-uppercase">Kelas Pilihan</h2>
+			<div class="col-sm-12">
+				<h3 class="block-title text-center">Kelas Pilihan</h3>
 			</div>
 		</div>
 		<div class="row">
@@ -100,7 +100,7 @@ $this->load->view('vendor/general/header2');
 				}
 ?>
 			<div class="col-sm-4">
-				<div class="content-grid diskon">
+				<div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
 					<a href="#">
 						<div class="grid-top" style="background-image: url('<?php echo base_url().$img;?>');">
 							<div class="grid-title-wrap" style="width: 100%">
@@ -119,13 +119,23 @@ $this->load->view('vendor/general/header2');
 								<?php echo double_digit($kelas->class_jam_mulai).'.'.double_digit($kelas->class_menit_mulai)?> - 
 								<?php echo double_digit($kelas->class_jam_selesai).'.'.double_digit($kelas->class_menit_selesai)?> WIB
 							</span>
+                            <?php if($kelas->count_session-1 > 0):
+                                ?>
+                                dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"
+                                       class="pink">
+												<span class="link-sesi"><?php echo $kelas->count_session-1;?> sesi
+													lainnya</span>
+                            </a>
+                            <?php else: ?>
+                                <br />
+                            <?php endif; ?>
 						</div><!-- description -->
 						<div class="review">
 							<div class="icon"><i class="fa fa-shopping-cart"></i></div>
 							<span class="tag"><?php echo $kelas->vendor['profile']->name?></span>
 							<div class="rating">
 								<i class="fa fa-star"></i>
-								<?php echo (int)$kelas->rating->rate;?> (<?php echo $kelas->rating->counter?> review)
+								<b><?php echo (int)$kelas->rating->rate;?></b> (<?php echo $kelas->rating->counter?> review)
 							</div>
 						</div>
 					</div><!-- grid-bottom -->
@@ -140,10 +150,10 @@ $this->load->view('vendor/general/header2');
 
 		</div>
 		<div class="row">
-			<div class="col-sm-4 col-sm-offset-4">
-				<a href="#" class="main-button text-center">Lihat Semua Kelas</a>
-			</div>
-		</div>
+            <div class="col-sm-4 col-sm-offset-4">
+                <a href="#" class="main-button text-center">Lihat Semua Kelas</a>
+            </div>
+        </div>
 	</div> <!-- /container -->
 <?php
 $this->load->view('vendor/general/footer2');

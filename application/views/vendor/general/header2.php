@@ -163,7 +163,7 @@
 						<ul class="nav nav-pills">
 							<li class="title-filter text-16">Filter</li>
 							<li id="cat_list" class="filter-select">
-								<select class="form-control">
+								<select class="form-control input-sm">
 									<option value="0">Hari</option>
 									<option value="1">Senin</option>
 									<option value="2">Selasa</option>
@@ -175,7 +175,7 @@
 								</select>
 							</li>
 							<li id="lev_list" class="filter-select">
-								<select class="form-control level">
+								<select class="form-control level input-sm">
 									<option value="0">Level</option>
 									<option value="1" class="level_check level_1">Basic</option>
 									<option value="2" class="level_check level_2">Beginner</option>
@@ -186,19 +186,19 @@
 								</select>
 							</li>
 							<li id="prov_list" class="filter-select">
-								<select class="form-control propinsi">
+								<select class="form-control propinsi input-sm">
 									<option value="0">Provinsi</option>
 								</select>
 							</li>
 							<li id="tipe_list" class="filter-select">
-								<select class="form-control">
+								<select class="form-control input-sm">
 									<option value="0">Tipe Kelas</option>
 									<option value="0">Paket</option>
 									<option value="0">Satu Sesi</option>
 								</select>
 							</li>
 							<li id="harga_list" class="filter-select">
-								<select class="form-control kategori">
+								<select class="form-control kategori input-sm">
 									<option value="0">Kategori</option>
 									<option value="1">Bahasa</option>
 									<option value="2">Kewirausahaan</option>
@@ -216,7 +216,7 @@
 							
 							<li class="title-filter text-16 sort-list">Urutan</li>
 							<li id="sort_by_list" class="sort-list">
-								<select class="form-control">
+								<select class="form-control input-sm">
 									<option value="0">Harga Termurah</option>
 									<option value="1">On Going Class</option>
 									<option value="2">Upcoming Class</option>
