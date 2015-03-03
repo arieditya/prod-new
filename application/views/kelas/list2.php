@@ -131,71 +131,10 @@ $this->load->view('vendor/general/header2');
 <?php 
 			endif;
 		endforeach;
+		$i++;
 	endif;
 ?>
 
-			<div class="col-sm-4">
-				<div class="content-grid">
-					<a href="#">
-						<div class="grid-top" style="background-image: url('<?php echo 
-						base_url().'.';?>/assets/images/main_picture.jpg');">
-							<div class="grid-title-wrap">
-								<h3 class="grid-title">Training CodeIgniter: Breaking The Frame[works]</h3>
-							</div><!-- grid-title-wrap -->
-						</div><!-- grid-top -->  
-					</a>
-					<div class="grid-bottom">
-						<span class="price">Rp 75,000,- /sesi</span>
-						<a href="#"><span class="details">Details</span></a>
-						<div class="description">
-							<div class="icon"><i class="fa fa-calendar-o"></i></div>
-							<span class="date"> 08 Mar 2015 | 17.00 - 19.00 WIB</span>
-						</div><!-- description -->
-						<div class="review">
-							<div class="icon"><i class="fa fa-shopping-cart"></i></div>
-							<span class="tag">kelas ruangguru</span>
-							<div class="rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</div>
-						</div>
-					</div><!-- grid-bottom -->
-				</div> <!-- content-grid -->
-			</div><!-- col-sm-4 -->
-			<div class="col-sm-4">
-				<div class="content-grid">
-					<a href="#">
-						<div class="grid-top" style="background-image: url('<?php echo 
-						base_url().'.';?>/assets/images/main_picture.jpg');">
-							<div class="grid-title-wrap">
-								<h3 class="grid-title">Training CodeIgniter: Breaking The Frame[works]</h3>
-							</div><!-- grid-title-wrap -->
-						</div><!-- grid-top -->  
-					</a>
-					<div class="grid-bottom">
-						<span class="price">Rp 75,000,- /sesi</span>
-						<a href="#"><span class="details">Details</span></a>
-						<div class="description">
-							<div class="icon"><i class="fa fa-calendar-o"></i></div>
-							<span class="date"> 08 Mar 2015 | 17.00 - 19.00 WIB</span>
-						</div><!-- description -->
-						<div class="review">
-							<div class="icon"><i class="fa fa-shopping-cart"></i></div>
-							<span class="tag">kelas ruangguru</span>
-							<div class="rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-							</div>
-						</div>
-					</div><!-- grid-bottom -->
-				</div> <!-- content-grid -->
-			</div><!-- col-sm-4 -->
 			<div class="col-sm-4 col-sm-offset-4">
 				<a href="#" class="main-button text-center">Lihat Semua Kelas</a>
 			</div>
