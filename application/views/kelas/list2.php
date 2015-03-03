@@ -131,10 +131,13 @@ $this->load->view('vendor/general/header2');
                             <?php endif; ?>
 						</div><!-- description -->
 						<div class="review">
-							<div class="icon"><i class="fa fa-shopping-cart"></i></div>
-                            <a href="#"><?php echo character_limiter($kelas->vendor['profile']->name, 15);?></a>
+                            <div class="vendor-name">
+                                <div class="icon tag"><i class="fa fa-shopping-cart"></i></div>
+                                <a href="#"><?php echo character_limiter($kelas->vendor['profile']->name,28);?></a>
+                                <div class="gradient"></div>
+                            </div>
 							<div class="rating">
-								<i class="fa fa-star"></i>
+                                <div class="icon tag"><i class="fa fa-star"></i></div>
 								<b><?php echo (int)$kelas->rating->rate;?></b> (<?php echo $kelas->rating->counter?> review)
 							</div>
 						</div>
