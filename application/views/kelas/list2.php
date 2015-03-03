@@ -70,6 +70,8 @@ $this->load->view('vendor/general/header2');
 			<div class="col-sm-12">
 				<h3 class="block-title text-center">Kelas Pilihan</h3>
 			</div>
+		</div>
+		<div class="row">
 <?php
 	$i = 0;
 	$j = 0;
@@ -79,8 +81,8 @@ $this->load->view('vendor/general/header2');
 				if($i % 3 == 0 && $i > 0){
 					$j++;
 ?>
-					</div>
-					<div class="row">
+        </div>
+        <div class="row">
 <?php 
 				}
 				$imgparts = explode('.',$kelas->class_image);
@@ -128,7 +130,7 @@ $this->load->view('vendor/general/header2');
                             <?php endif; ?>
 						</div><!-- description -->
 						<div class="review">
-							<div class="icon" id="icon-tag"><i class="fa fa-shopping-cart"></i></div>
+							<div class="icon"><i class="fa fa-shopping-cart"></i></div>
                             <a href="#"><?php echo $kelas->vendor['profile']->name?></a>
 							<div class="rating">
 								<i class="fa fa-star"></i>
@@ -146,6 +148,11 @@ $this->load->view('vendor/general/header2');
 ?>
 
 		</div>
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <a href="#" class="main-button text-center">Lihat Semua Kelas</a>
+            </div>
+        </div>
     </div> <!-- /container -->
     <div class="related">
         <div class="container">
