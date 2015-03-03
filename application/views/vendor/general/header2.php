@@ -6,7 +6,13 @@
  * Date: 2/26/15
  * Time: 1:56 PM
  * Proj: prod-new
- */?><!DOCTYPE html>
+ */
+	$logo = 'header-logo.png';
+	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
+		$logo = 'logo-kelas-2.png';
+		;
+
+?><!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -19,19 +25,19 @@
 		<title>Ruang Guru</title>
 
 	<!-- Bootstrap core CSS -->
-		<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.new.min.css">
-		<link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'.'?>/assets/css/bootstrap.new.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'.'?>/assets/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'.'?>/css/jquery.fancybox.css" media="screen"/>
 
 		<!-- Custom styles for this template -->
-		<link href="/assets/css/style.css" rel="stylesheet">
+		<link href="<?php echo base_url().'.'?>/assets/css/style.css" rel="stylesheet">
 
 	</head>
 <!--  -->
-	<script type="application/javascript" src="/assets/js/jquery-2.1.1.min.js"></script>
-	<script type="application/javascript" src="/assets/js/bootstrap.min.js"></script>
-	<script type="application/javascript" src="/js/jquery.fancybox.js"></script>
-	<script type="application/javascript" src="/js/jquery.fancybox-media.js?v=1.0.6"></script>
+	<script type="application/javascript" src="<?php echo base_url().'.'?>/assets/js/jquery-2.1.1.min.js"></script>
+	<script type="application/javascript" src="<?php echo base_url().'.'?>/assets/js/bootstrap.min.js"></script>
+	<script type="application/javascript" src="<?php echo base_url().'.'?>/js/jquery.fancybox.js"></script>
+	<script type="application/javascript" src="<?php echo base_url().'.'?>/js/jquery.fancybox-media.js?v=1.0.6"></script>
 
 	<body class="have-bar">
 
@@ -41,7 +47,7 @@
 			<div class="row">
 				<div class="navbar-header">
 					<a class="navbar-brand visible-xs" href="#">
-						<img src="/assets/images/logo-kelas-2.png" height="60">
+						<img src="<?php echo base_url().'./images/'.$logo;?>" height="60">
 					</a>
 <?php if(!empty($show_filter) && $show_filter): ?>
 					<button type="button" 
@@ -74,12 +80,6 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-<?php
-	$logo = 'header-logo.png';
-	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
-		$logo = 'logo-kelas-2.png';
-		;
-?>
 					<a class="navbar-brand hidden-xs" href="#">
 						<img src="<?php echo base_url();?>images/<?php echo $logo;?>" height="60">
 					</a>
