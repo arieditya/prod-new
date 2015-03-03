@@ -87,35 +87,43 @@ endforeach;
 						<div class="tab-content">
 							<div class="tab-pane active" id="about">
 								<p><?php echo nl2br($class->class_deskripsi);?></p>
-								<?php if($class->class_paket == 1): ?>
+<?php if($class->class_paket == 1): ?>
 								<p>Ini adalah kelas paket! Dengan jumlah pertemuan: <?php echo $schedule->num_rows();?> kali</p>
-								<?php endif; ?>
+<?php endif; ?>
 								
 								<p class="title-filter text-16 bold">Galeri</p>
 								<div id="slider4">
 									<a class="buttons prev" href="#">&#60;</a>
-									<?php if($gallery->num_rows() > 0): ?>
+<?php 
+	if($gallery->num_rows() > 0): 
+?>
 										<div class="viewport">
 											<ul class="overview">
-												<?php
-													$igal = 0;
-													foreach($gallery->result() as $gal):
-													$foto = explode('.', $gal->galeri_foto);
-													$ext = array_pop($foto);
-													$foto[] = '142x113';
-													$foto[] = $ext;
-													$photo = implode('.', $foto);
-												?>
+<?php
+		$igal = 0;
+		foreach($gallery->result() as $gal):
+			$foto = explode('.', $gal->galeri_foto);
+			$ext = array_pop($foto);
+			$foto[] = '142x113';
+			$foto[] = $ext;
+			$photo = implode('.', $foto);
+?>
 												<li>
 													<a href="<?php echo base_url(); ?>images/class/<?php echo $class->id.'/'.$photo; ?>" class="fancybox" rel="gallery1">
 														<img src="<?php echo base_url(); ?>images/class/<?php echo $class->id.'/'.$photo; ?>"/>
 													</a>
 												</li>
-											<?php $igal++; ?>
-											<?php endforeach;?>
+<?php 
+			$igal++; 
+?>
+<?php 
+		endforeach;
+?>
 											</ul>
 										</div>
-									<?php endif; ?>
+<?php 
+	endif; 
+?>
 									<a class="buttons next" href="#">&#62;</a>
 								</div>
 							</div>
@@ -125,7 +133,7 @@ endforeach;
 								</div>
 								<div>
 									<h4>Harga sudah termasuk:</h4>
-									<p><?php echo nl2br($class->class_include);?></p>	
+									<p><?php echo nl2br($class->class_include);?></p>
 								</div>
 								<div class="blue-bar">
 									Kurikulum
@@ -139,63 +147,81 @@ endforeach;
 												<th class="center-top">Sesi</th>
 												<th class="center-top">Tanggal</th>
 												<th class="center-top">Jam</th>
-												<?php if($got_topic): ?>
+<?php 
+	if($got_topic): 
+?>
 												<th class="center-top">Topik</th>
-												<?php 
-												endif;
-												if($class->class_paket==0):?>
-												<th class="center-top">Daftar<br /><input type="checkbox" id="kurikulum_select_all" data-toggle="tooltip" data-placement="top" title="Pilih semua" /></th>
-												<?php endif; ?>
+<?php 
+	endif;
+	if($class->class_paket==0):
+?>
+												<th class="center-top">
+													Daftar<br />
+													<input type="checkbox" 
+														   id="kurikulum_select_all" 
+														   data-toggle="tooltip" 
+														   data-placement="top" 
+														   title="Pilih semua" />
+												</th>
+<?php 
+	endif; 
+?>
 											</tr>
 										</thead>
 										<tbody>
-											<?php
-												$i = 0;
-												if($schedule->num_rows() > 0):
-												//var_dump($jadwal->result());
-												foreach($schedule->result() as $kelas_jadwal):
-													$i++;
-													if($i > 5 && $class->class_paket != 1) break;
-													$mulai_jam = $kelas_jadwal->class_jam_mulai<10?('0'.$kelas_jadwal->class_jam_mulai):$kelas_jadwal->class_jam_mulai;
-													$mulai_menit = $kelas_jadwal->class_menit_mulai<10?('0'.$kelas_jadwal->class_menit_mulai):$kelas_jadwal->class_menit_mulai;
-													$mulai = $mulai_jam.':'.$mulai_menit;
-			
-													$selesai_jam = $kelas_jadwal->class_jam_selesai<10?('0'.$kelas_jadwal->class_jam_selesai):$kelas_jadwal->class_jam_selesai;
-													$selesai_menit = $kelas_jadwal->class_menit_selesai<10?('0'.$kelas_jadwal->class_menit_selesai):$kelas_jadwal->class_menit_selesai;
-													$selesai = $selesai_jam.':'.$selesai_menit;
-			
-											?>
+<?php
+	$i = 0;
+	if($schedule->num_rows() > 0):
+	//var_dump($jadwal->result());
+		foreach($schedule->result() as $kelas_jadwal):
+			$i++;
+			if($i > 5 && $class->class_paket != 1) break;
+			$mulai_jam = $kelas_jadwal->class_jam_mulai<10?('0'.$kelas_jadwal->class_jam_mulai):$kelas_jadwal->class_jam_mulai;
+			$mulai_menit = $kelas_jadwal->class_menit_mulai<10?('0'.$kelas_jadwal->class_menit_mulai):$kelas_jadwal->class_menit_mulai;
+			$mulai = $mulai_jam.':'.$mulai_menit;
+	
+			$selesai_jam = $kelas_jadwal->class_jam_selesai<10?('0'.$kelas_jadwal->class_jam_selesai):$kelas_jadwal->class_jam_selesai;
+			$selesai_menit = $kelas_jadwal->class_menit_selesai<10?('0'.$kelas_jadwal->class_menit_selesai):$kelas_jadwal->class_menit_selesai;
+			$selesai = $selesai_jam.':'.$selesai_menit;
+
+?>
 											<tr>
 												<td><?php echo $i?></td>
 												<td><?php echo date('j F Y', strtotime($kelas_jadwal->class_tanggal)); ?></td>
 												<td><?php echo "{$mulai} - {$selesai}"; ?></td>
-												<?php if($got_topic): ?>
+<?php 
+			if($got_topic): 
+?>
 												<td><?php echo $kelas_jadwal->class_jadwal_topik; ?></td>
-												<?php 
-												endif;
-												if($class->class_paket==0):?>
+<?php 
+			endif;
+			if($class->class_paket==0):?>
 												<td><input type="checkbox" class="kurikulum_daftar" value="join" name="daftar[<?php echo $kelas_jadwal->jadwal_id;?>]" /></td>
-												<?php endif; ?>
+<?php 
+			endif; 
+?>
 											</tr>
-											<?php
-												endforeach;
-												else:
-												$cols = 3+($got_topic?1:0)+($class->class_paket==0?1:0);
-											?>
+<?php
+		endforeach;
+	else:
+		$cols = 3+($got_topic?1:0)+($class->class_paket==0?1:0);
+?>
 											<tr>
 												<td colspan="<?php echo $cols;?>">
 													<span>Belum ada jadwal tersedia</span>
 												</td>
 											</tr>
-											<?php
-												endif;
-											?>
+<?php
+	endif;
+?>
 
 										</tbody>
 									</table>
 								</div>
 							</div>
-							<a href="#" class="btn-reg-class text-18"><span class="bold">DAFTAR </span>KELAS SEKARANG!</a>
+							<a href="#" class="btn-reg-class text-18">
+								<span class="bold">DAFTAR </span>KELAS SEKARANG!
+							</a>
 						</div>
 					</div>
 					<div class="row">
@@ -216,18 +242,20 @@ endforeach;
 										<img src="<?php echo base_url().'images/empty-star.png';?>"/>
 									</span>
 									<span>dari </span><span class="title-filter">10</span><span> pemilih</span>
-									<?php 
-										$rate = 4;
-										for($i=0;$i<5;$i++):
-											if($i < $rate):
-									?>
+<?php 
+	$rate = 4;
+	for($i=0;$i<5;$i++):
+		if($i < $rate):
+?>
 										<i class="fa fa-star"></i>
-									<?php else: ?>
+<?php 
+		else: 
+?>
 										<i class="fa fa-star-o"></i>
-									<?php 
-										endif;
-										endfor;
-									?>
+<?php 
+		endif;
+	endfor;
+?>
 								</div>
 								<div class="rating-kelas">
 									<span class="title-filter bold">Testimonial</span>
@@ -284,34 +312,34 @@ endforeach;
 							<a href="<?php echo $maps[1];?>" target="_blank">View on Google Maps</a>
 					</div>
 				</div>
-					<?php
-						if($schedule->num_rows() > 5 && $class->class_paket != 1):
-					?>
+<?php
+	if($schedule->num_rows() > 5 && $class->class_paket != 1):
+?>
 					<div class="panel panel-default">
 						<div class="panel-title">Sesi yang akan datang</div>
 						<div class="panel-body">
 							<ul>
-								<?php
-									$i = 0;
-									foreach($schedule->result() as $sched):
-										$i++;
-										if($i <= 5) continue;
-											$waktu_jam = $sched->class_jam_mulai<10?('0'.$sched->class_jam_mulai):$sched->class_jam_mulai;
-											$waktu_menit = $sched->class_menit_mulai<10?('0'.$sched->class_menit_mulai):$sched->class_menit_mulai;
-											$waktu = $waktu_jam.':'.$waktu_menit;
-								?>
+<?php
+		$i = 0;
+		foreach($schedule->result() as $sched):
+			$i++;
+			if($i <= 5) continue;
+			$waktu_jam = $sched->class_jam_mulai<10?('0'.$sched->class_jam_mulai):$sched->class_jam_mulai;
+			$waktu_menit = $sched->class_menit_mulai<10?('0'.$sched->class_menit_mulai):$sched->class_menit_mulai;
+			$waktu = $waktu_jam.':'.$waktu_menit;
+?>
 										<li>
 											<?php echo date('j F, Y \J\a\m\: H:i', strtotime($sched->class_tanggal.' '.$waktu)); ?> 
 										</li>
-								<?php
-									endforeach;
-								?>
+<?php
+		endforeach;
+?>
 							</ul>
 						</div>
 					</div>
-					<?php
-						endif;
-					?>
+<?php
+	endif;
+?>
 					<div class="panel panel-default pink-border">
 						<div class="panel-title pink-box text-18 white-text">Sesi selanjutnya</div>
 						<div class="panel-body">

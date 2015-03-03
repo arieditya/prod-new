@@ -135,6 +135,7 @@ class Kelas extends MY_Controller {
 			$v['info'] = $this->vendor_model->get_info(array('vendor_id'=>$cla->vendor_id))->row();
 			$data['vendor']['profile'][]= $v['profile'];
 			$data['vendor']['info'][]= $v['info'];
+			$cla->rating = $this->vendor_class_model->get_class_rating($cla->vendor_id)->row();
 			$cla->vendor = $v;
 		}
 		$this->load->helper('text');
@@ -167,12 +168,13 @@ class Kelas extends MY_Controller {
 		$data['gallery'] = $this->vendor_class_model->get_class_gallery(array('class_id'=>$hash));
 		$data['class']->review = $this->vendor_class_model->get_class_review(array('class_id'=>$data['class']->vendor_id));
 		$data['class']->rating = $this->vendor_class_model->get_class_rating($data['class']->vendor_id);
+		$data['class']->tag = $this->vendor_class_model->get_tags($hash);
 		$data['category'] = $this->vendor_class_model->get_class_category($hash);
 		$this->load->model('discount_model');
 		$data['deals'] = $this->discount_model->get_diskon_code_for_class($hash, 'public');
 //		var_dump($data);exit;
 		$this->new_design?
-				$this->load->view('kelas/detil2', $this->data):
+				$this->load->view('kelas/detil2', $data):
 				$this->load->view('front/kelas/detil2',$data);
 	}
 

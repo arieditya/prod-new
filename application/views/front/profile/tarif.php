@@ -42,7 +42,10 @@ $(document).ready(function(){
                         <tr>
                             <td><?php echo $item->matpel_title;?> (<?php echo $item->jenjang_pendidikan_title;?>) : </td>
                             <td>
-                                <input id="tarif<?php echo $item->matpel_id;?>" name="tarif[<?php echo $item->matpel_id; ?>]" type="text" class="validate[required,custom[onlyNumberSp],min[50000]] text" value="<?php echo $item->guru_matpel_tarif;?>"/> <span> Rupiah/Jam</span>
+                                <input id="tarif<?php echo $item->matpel_id;?>" name="tarif[<?php echo 
+								$item->matpel_id; ?>]" type="number" min="50000" class="validate[required,
+									   custom[onlyNumberSp],
+								min[50000]] text" value="<?php echo $item->guru_matpel_tarif;?>"/> <span> Rupiah/Jam</span>
                             </td>
                         </tr>
                         <?php endforeach;?>

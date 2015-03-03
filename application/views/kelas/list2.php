@@ -8,6 +8,7 @@
  * Proj: prod-new
  */
 $this->load->view('vendor/general/header2');
+//var_dump($class);exit;
 ?>
 <script type="application/javascript">
 //	$.parseJSON();
@@ -92,20 +93,20 @@ $this->load->view('vendor/general/header2');
 				if(empty($price)){
 					$_price = '0,-';
 				} else {
-					$_price = number_format($price).',-';
+					$_price = number_format($price, 0, ',', '.').',-';
 				}
 ?>
 			<div class="col-sm-4">
 				<div class="content-grid diskon">
 					<a href="#">
 						<div class="grid-top" style="background-image: url('<?php echo base_url().$img;?>');">
-							<div class="grid-title-wrap">
+							<div class="grid-title-wrap" style="width: 100%">
 								<h3 class="grid-title"><?php echo $kelas->class_nama?></h3>
 							</div><!-- grid-title-wrap -->
 						</div><!-- grid-top -->  
 					</a>
 					<div class="grid-bottom">
-						<span class="price"><?php echo $_price.' /sesi'; ?></span>
+						<span class="price">Rp. <?php echo $_price.' /sesi'; ?></span>
 						<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 							<span class="details">Details</span>
 						</a>
@@ -121,10 +122,7 @@ $this->load->view('vendor/general/header2');
 							<span class="tag"><?php echo $kelas->vendor['profile']->name?></span>
 							<div class="rating">
 								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o"></i>
-								<i class="fa fa-star-o"></i>
+								<?php echo (int)$kelas->rating->rate;?> (<?php echo $kelas->rating->counter?> review)
 							</div>
 						</div>
 					</div><!-- grid-bottom -->

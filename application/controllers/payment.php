@@ -179,7 +179,18 @@ class Payment extends MY_Controller {
 			$this->load->model('murid_model');
 			$murid = $this->murid_model->get_murid_by_email($this->session->userdata('user_email'));
 		}
-		$this->load->view('payment/transfer/step1', array('in_cart'=>$class, 'student'=>$murid, 'potongan_diskon'=> $kode, 'potongan_diskon_persen'=>$percent_class, 'potongan_diskon_nominal'=>$nominal_class,'whostudent'=>$whostudent));
+		$data = array(
+				'in_cart'					=>$class, 
+				'student'					=>$murid, 
+				'potongan_diskon'			=> $kode, 
+				'potongan_diskon_persen'	=>$percent_class, 
+				'potongan_diskon_nominal'	=>$nominal_class,
+				'whostudent'=>$whostudent
+		);
+		$this->new_design?
+				$this->load->view('payment/transfer/step1_2', $data):
+				$this->load->view('payment/transfer/step1',$data);
+//		$this->load->view('payment/transfer/step1', $data);
 	}
 	
 	public function user($act) {

@@ -451,8 +451,21 @@ $(document).ready(function(){
 							 <tr>
 							 <form id="tarif-form<?php echo $item->matpel_id;?>" method="post" action="<?php echo base_url().'profile/edit_matpel/'.$item->matpel_id;?>">
 							     <td style="min-width: 20px;"><input type="hidden" name="id_guru" value="<?php echo $guru->guru_id;?>"></td>
-                                        <td style="min-width: 200px;"><input type="hidden" name="id_matpel" value="<?php echo $item->matpel_id;?>"></td>
-                                        <td><input type="text" id="harga<?php echo $item->matpel_id?>" name="harga<?php echo $item->matpel_id?>" style="border:1px solid #9de9ff;" class="validate[required,custom[onlyNumberSp],min[50000]]">&nbsp;<a onclick="document.getElementById('tarif-form<?php echo $item->matpel_id;?>').submit();" class="diy-btn-mini" style="cursor:pointer;">Simpan</a></td>
+                                        <td style="min-width: 200px;"><input type="hidden" name="id_matpel" value="<?php echo 
+											$item->matpel_id;?>"></td>
+                                        <td>
+											<input type="number" 
+												   min="50000"
+												   id="harga<?php echo $item->matpel_id?>" 
+												   name="harga<?php echo $item->matpel_id?>" 
+												   style="border:1px solid #9de9ff;"
+												   class="validate[required,custom[onlyNumberSp], min[50000]]">&nbsp;
+											<a onclick="document.getElementById('tarif-form<?php echo $item->matpel_id;?>').submit();" 
+											   class="diy-btn-mini" 
+											   style="cursor:pointer;">
+												Simpan
+											</a>
+										</td>
 							 </form>
 							 </tr>
                                 <?php endforeach; ?>
@@ -480,7 +493,11 @@ $(document).ready(function(){
                                     <tr>
                                         <td>Tarif per Jam <span class="red-notif"> * </span></td>
                                         <td>
-                                            <input id="tarif-matpel" name="tarif" type="text" class="validate[required,custom[onlyNumberSp],min[50000]] text" />
+                                            <input id="tarif-matpel" 
+												   name="tarif" 
+												   type="number" 
+												   min="50000"
+												   class="validate[required,custom[onlyNumberSp],min[50000]] text" />
                                         </td>
                                     </tr>
                                     <tr>

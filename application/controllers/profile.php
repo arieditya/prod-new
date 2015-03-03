@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Profile extends CI_Controller {
+class Profile extends MY_Controller {
     private $id;
 
     public function __construct() {
@@ -279,8 +279,12 @@ class Profile extends CI_Controller {
     public function add_matpel(){
         $matpel = $this->input->post('matpel');
         $tarif = $this->input->post('tarif');
-        $this->profile_model->add_guru_matpel($this->id,$matpel,$tarif);
-        $this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Preferensi Mata Pelajaran telah berhasil ditambah.</span>');
+		if($tarif < 50000) {
+			$this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Minimum Preferensi Tarif Mata Pelajaran adalah Rp. 50.000,- .</span>');
+		} else {
+			$this->profile_model->add_guru_matpel($this->id,$matpel,$tarif);
+			$this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Preferensi Mata Pelajaran telah berhasil ditambah.</span>');
+		}
         redirect('profile/edit');
     }
     
@@ -323,9 +327,13 @@ class Profile extends CI_Controller {
     }
     
     public function tarif_submit(){
-        $tarif = $this->input->post('tarif');
-        $this->profile_model->update_guru_tarif($this->id, $tarif);
-        $this->session->set_flashdata('tarif_notif','<span class="green-notif">Preferensi Tarif untuk setiap mata pelajaran telah berhasil diubah.</span>');
+        $tarif = (int) $this->input->post('tarif');
+		if(min($tarif) < 50000){
+			$this->session->set_flashdata('tarif_notif','<span class="red-notif">Minimum Preferensi Tarif untuk setiap mata pelajaran adalah Rp. 50.000,-.</span>');
+		} else {
+			$this->profile_model->update_guru_tarif($this->id, $tarif);
+			$this->session->set_flashdata('tarif_notif','<span class="green-notif">Preferensi Tarif untuk setiap mata pelajaran telah berhasil diubah.</span>');
+		}
         redirect('profile/tarif');
     }
     
@@ -642,8 +650,14 @@ class Profile extends CI_Controller {
      public function edit_matpel($id_matpel){
 	   $input['id_guru'] = $this->input->post('id_guru');
 	   $input['id_matpel'] = $this->input->post('id_matpel');
-	   $input['tarif'] = $this->input->post('harga'.$input['id_matpel']);
-	   $this->guru_model->update_matpel($input);
+	   $tarif = $this->input->post('harga'.$input['id_matpel']);
+		if($tarif < 50000) {
+			$this->session->set_flashdata('edit_profile_notif','<span class="red-notif">Minimum Preferensi Tarif Mata Pelajaran adalah Rp. 50.000,- .</span>');
+		} else {
+			$input['tarif'] = $tarif;
+			$this->guru_model->update_matpel($input);
+			$this->session->set_flashdata('edit_profile_notif','<span class="green-notif">Preferensi Mata Pelajaran telah berhasil diubah.</span>');
+		}
         redirect('profile/edit');
     }
     

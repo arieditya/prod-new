@@ -252,5 +252,3 @@
 		</div><!-- below-nav -->
 <?php endif;?>
 	</nav>
-
- 
