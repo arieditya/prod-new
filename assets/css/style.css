@@ -167,7 +167,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .content-grid {
   box-shadow: 0 2px 5px #999;
   margin-bottom: 30px;
-  min-height: 385px;
+  min-height: 303px;
   position: relative;
 }
 /*.content-grid.diskon:before {
@@ -247,6 +247,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .grid-bottom {
   position: relative;
+  line-height: 1;
 }
 
 .block-title {
@@ -265,7 +266,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   background-color: #fcb33b;
   border-radius: 0;
   color: #000;
-  height: 43px;
+  height: 34px;
   padding: 10px 20px;
   position: absolute;
   right: 0;
@@ -281,7 +282,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .description {
   border-bottom: 1px solid #ddd;
-  min-height: 70px;
+  min-height: 20px;
   padding: 10px 15px;
 }
 .icon {
