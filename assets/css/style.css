@@ -1,26 +1,34 @@
 @font-face { 
-  font-family: Roboto; 
-  src: url('../fonts/Roboto-Regular.ttf'); 
+  font-family: Ubuntu; 
+  src: url('../fonts/Ubuntu-Regular.ttf'); 
 }
 @font-face { 
-  font-family: Roboto Semibold; 
-  src: url('../fonts/Roboto-Medium.ttf'); 
+  font-family: Ubuntu Semibold; 
+  src: url('../fonts/Ubuntu-Medium.ttf'); 
 }
 @font-face { 
-  font-family: Roboto Bold; 
-  src: url('../fonts/Roboto-Bold.ttf'); 
+  font-family: Ubuntu Bold; 
+  src: url('../fonts/Ubuntu-Bold.ttf'); 
 }
 @font-face { 
-  font-family: Roboto Condensed Bold; 
-  src: url('../fonts/RobotoCondensed-Bold.ttf'); 
+  font-family: Ubuntu Condensed Bold; 
+  src: url('../fonts/UbuntuCondensed-Bold.ttf'); 
 }
 body {
-  font-family: Roboto;
+  font-family: Ubuntu;
   line-height: 1.6;
   padding-top: 90px;
 }
 body.have-bar {
   padding-top: 150px;
+}
+@media only screen and (min-width: 1024px) {
+    .container {
+        width: 970px;
+    }
+    .container.normal {
+        width: 1170px;
+    }
 }
 .form-control {
   border: 1px solid #fff;
@@ -41,7 +49,7 @@ body.have-bar {
   margin: 20px 0 0 50px;
 }
 .navbar.navbar-default .navbar-nav a {
-  font-family: Roboto Condensed Bold; 
+  font-family: Ubuntu Condensed Bold; 
   background: none repeat scroll 0 0 transparent;
   color: #4c4c4c;
   font-size: 19px;
@@ -133,7 +141,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   float: left;
 }
 .title-filter {
-  font-family: Roboto Semibold; 
+  font-family: Ubuntu Semibold; 
   font-size: 16px;
   padding: 5px 10px;
 }
@@ -147,7 +155,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   margin-bottom: 30px;
 }
 .block-title {
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
 }
 .content-grid {
   box-shadow: 0 2px 5px #999;
@@ -159,7 +167,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   background-color: #e43;
   color: #fff;
   content: "Diskon Spesial";
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
   font-size: 14px;
   padding: 3px 0;
   position: absolute;
@@ -184,18 +192,19 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .grid-title {
   color: #fff;
-  font-family: Roboto Semibold;
+  font-family: Ubuntu Semibold;
   font-size: 18px;
   margin: 0;
 }
 .grid-bottom {
   position: relative;
+  line-height: 1;
 }
 .price {
   background-color: #000;
   color: #fff;
   display: inline-block;
-  font-family: Roboto semibold;
+  font-family: Ubuntu semibold;
   font-size: 16px;
   padding: 10px 15px;
   width: 100%;
@@ -204,7 +213,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   background-color: #fcb33b;
   border-radius: 2px;
   color: #000;
-  font-family: Roboto Semibold;
+  font-family: Ubuntu Semibold;
   padding: 5px 10px;
   position: absolute;
   right: 15px;
@@ -237,7 +246,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   border-radius: 2px;
   color: #333;
   display: inline-block;
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
   font-size: 16px;
   margin-top: 30px;
   padding: 10px;
@@ -254,7 +263,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .footer-label {
   color: #fff;
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
   margin: 0 0 10px;
 }
 .footer .col-sm-4 {
@@ -268,14 +277,14 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .footer-link a {
   color: inherit;
-  font-family: Roboto Semibold;
+  font-family: Ubuntu Semibold;
 }
 
 
 /*detail page*/
 .entry-title {
   color: #444;
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
   margin-bottom: 15px;
 }
 .add-info {
@@ -285,11 +294,11 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .info-label {
   color: #3bc4e6;
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
 }
 .info-label a {
   color: #333;
-  font-family: Roboto Semibold;
+  font-family: Ubuntu Semibold;
   text-decoration: underline;
   text-transform: none;
 }
@@ -304,7 +313,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   border-bottom: 1px solid #3bc4e6;
 }
 .nav-tabs li a {
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
   font-size: 18px;
   background-color: #fefefe;
   border-color: #3bc4e6 #3bc4e6 #ddd;
@@ -341,7 +350,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 
 thead {
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   text-transform: uppercase;
 }
 .table caption + thead tr:first-child th, 
@@ -370,7 +379,7 @@ thead {
 .review-title {
   border-bottom: 2px solid #fcb33b;
   color: #fcb33b;
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   padding-bottom: 5px;
 }
 .rating-wrap .rate {
@@ -392,7 +401,7 @@ thead {
 }
 .testimonial-item .username {
   color: #3bc4e6;
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
 }
 .price-big-wrap:before {
   background-color: #fcb33b;
@@ -420,7 +429,7 @@ thead {
   border-radius: 0px;
   color: #3a3a3a;
   height: 60px;
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   font-size: 24px;
   position: relative;
 }
@@ -444,7 +453,7 @@ thead {
 }
 .entry-detail-label {
   color: #3a3a3a;
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   margin: 0;
 }
 .panel-body .fa {
@@ -469,17 +478,17 @@ thead {
   padding-bottom: 20px;
 }
 .panel-body .more {
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   text-decoration: underline;
   color: #3bc4e6;
 }
 
 /*Register page*/
 .form-group label {
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
 }
 .radio label {
-  font-family: Roboto;
+  font-family: Ubuntu;
 }
 .tab-content .form-control,
 .panel-body .form-control {
@@ -504,7 +513,7 @@ textarea.form-control {
   padding-bottom: 20px;
 }
 .jadwal-title {
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   font-size: 16px;
   margin: 5px 0;
 }
@@ -513,25 +522,25 @@ a.remove {
   margin: 0;
 }
 .sum-label {
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
 }
 .sum-price {
-  font-family: Roboto;
+  font-family: Ubuntu;
 }
 .btn.btn-default.cek-button {
   background-color: #fcb33b;
   border-color: #fcb33b;
   border-radius: 2px;
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
 }
 .sum-total {
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   margin-top: 40px;
 }
 
 /*tambah-kelas page*/
 .nav li .button-nav-top {
-  font-family: Roboto Bold;
+  font-family: Ubuntu Bold;
   background-color: #eee;
   margin-right: 10px;
   padding: 5px 15px;
@@ -567,7 +576,7 @@ a.remove {
   margin: 30px auto 15px;
   border-radius: 2px;
   color: #333;
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
   font-size: 16px;
   padding: 10px;
   text-transform: uppercase;
@@ -631,7 +640,7 @@ a.remove {
 }
 #reponsible .info {
   color: #333;
-  font-family: Roboto;
+  font-family: Ubuntu;
   font-size: 13px;
   font-style: italic;
   vertical-align: text-top;
@@ -644,7 +653,7 @@ a.remove {
 }
 .section-title {
   color: #3a3a3a;
-  font-family: Roboto Condensed Bold;
+  font-family: Ubuntu Condensed Bold;
   font-size: 20px;
   margin: 0;
 }
@@ -921,7 +930,7 @@ a.remove {
     padding: 15px 0;
   }
   .section-row .col-sm-4 {
-    font-family: Roboto Bold;
+    font-family: Ubuntu Bold;
   }
   .section-row .col-sm-4:after {
     content: " :";
