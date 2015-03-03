@@ -131,8 +131,8 @@ $this->load->view('vendor/general/header2');
 			</div><!-- col-sm-4 -->
 <?php 
 			endif;
+			$i++;
 		endforeach;
-		$i++;
 	endif;
 ?>
 
