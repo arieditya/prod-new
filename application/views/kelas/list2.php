@@ -75,7 +75,7 @@ $this->load->view('vendor/general/header2');
 	$j = 0;
 	if(!empty($class)):
 		foreach($class as $kelas):
-			if($i>3) break;
+			if($i>=3) break;
 			if($i < 6) :
 				if($i % 3 == 0 && $i > 0){
 					$j++;
