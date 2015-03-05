@@ -87,6 +87,7 @@ $this->load->view('vendor/general/header');
 									</button>
 <?php
 	$ll = explode('||', $class->class_peta);
+	
 	$ll = $ll[0];
 ?>
 									<input id="class_maps" class="form-control" readonly="readonly" value="<?php echo $class->class_peta;?>" type="text" name="class_peta" placeholder="" style="margin-top: 5px;" />

@@ -203,14 +203,27 @@ class Kelas extends Vendor_Controller{
 				$attendance[$attendee->jadwal_id] = array(
 					'waktu'		=> $attendee->jadwal_waktu,
 					'topik'		=> $attendee->topik,
-					'peserta'	=> array()
+					'murid'	=> array(),
 				);
 			}
-	//		$attendance[$attendee->jadwal_id]['peserta'][$attendee->peserta_id] = $attendance;
+			$attendance[$attendee->jadwal_id]['murid'][] = array(
+				'pemesan'	=> array(
+					'nama'		=> $attendee->nama_pemesan,
+					'email'		=> $attendee->email_pemesan,
+					'phone'		=> $attendee->phone_pemesan,
+					'address'	=> $attendee->alamat_pemesan,
+				),
+				'peserta'	=> array(
+					'nama'		=> $attendee->nama_peserta,
+					'email'		=> $attendee->email_peserta,
+					'phone'		=> $attendee->phone_peserta,
+				),
+			);
 			
 		}
 		$this->data['schedule_attendance'] = $per_jadwal->result();
 		$this->data['attendance_data'] = $attendance_only;
+		$this->data['attendance'] = $attendance;
 		$this->data['sponsor_data'] = $sponsored;
 
 		$this->data['categories'] = $this->vendor_class_model->get_category_list();
@@ -224,7 +237,9 @@ class Kelas extends Vendor_Controller{
 		$this->data['summary'] = '';
 		$this->data['tags'] = $this->vendor_class_model->get_tags($id);
 		$this->data['tabs'] = $tabs;
-		$this->load->view('vendor/class/detail', $this->data);
+		$this->new_design?
+			$this->load->view('vendor/class/detail2', $this->data):
+			$this->load->view('vendor/class/detail1', $this->data);
 	}
 	
 	public function get_jadwal(){

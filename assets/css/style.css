@@ -534,6 +534,9 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   margin: 30px auto 15px;
   width: 200px;
 }
+.main-button.next-button {
+	width: 50%;
+}
 .main-button .fa {
   margin-right: 5px;
 }
@@ -1110,6 +1113,9 @@ a.remove {
 }
 #profile .section-heading {
   margin: 20px 0;
+}
+#profile .section-heading:first-child {
+  margin: 0 0 20px 0;
 }
 #profile table input {
   display: inline-block;
