@@ -157,7 +157,7 @@ $this->load->view('vendor/general/header2');
 	if(!empty($class->class_image)) {
 		$image = '<img src="'.base_url().'images/class/'.$class->id.'/'.$class->class_image.'" class="img-responsive" />';
 	} else {
-		$vid = 'Belum ada foto tersedia';
+		$image = 'Belum ada foto tersedia';
 	}
 ?>
 											<div class="section-row">
@@ -556,10 +556,12 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="Seo" class="col-sm-4 control-label">Alasan Mengikuti Kelas</label>
+												<label for="class_alasan" class="col-sm-4 control-label">Alasan Mengikuti Kelas</label>
 												<div class="col-sm-8">
 													<textarea class="form-control" 
 															  placeholder="Alasan mengapa sebaiknya murid mengikuti kelas ini" 
+															  name="class_alasan"
+															  id="class_alasan"
 															  rows="3"><?php echo $class->class_alasan;?></textarea>
 												</div>
 											</div>
@@ -592,6 +594,8 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<label for="tentang" class="col-sm-4 control-label">Catatan</label>
 												<div class="col-sm-8">
 													<textarea class="form-control" 
+															  name="class_catatan"
+															  id="class_catatan"
 															  placeholder="Adakah catatan yang ingin anda cantumkan" 
 															  rows="3"><?php echo $class->class_catatan;?></textarea>
 												</div>
@@ -601,16 +605,30 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<div class="col-sm-8">
 													<input type="text" 
 														   class="form-control" 
-														   id="Namakelas" 
+														   id="class_video" 
+														   name="class_video" 
+														   value="<?php echo $class->class_video;?>"
 														   placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds">
 												</div>
 											</div>
 											<div class="form-group">
 												<label for="attachment" class="col-sm-4 control-label">Foto / Image</label>
 												<div class="col-sm-8">
-													<input type="file" id="attachment">
+													<input type="file" id="class_image">
 												</div>
 											</div>
+<?php
+	if(!empty($class->class_image)) :
+		$image = '<img src="'.base_url().'images/class/'.$class->id.'/'.$class->class_image.'" class="img-responsive" />';
+?>
+											<div class="row">
+												<div class="col-sm-8">
+													<?php echo $image;?>
+												</div>
+											</div>
+<?php 
+	endif;
+?>
 <?php /*
 											<div class="form-group">
 												<label for="Namakelas" class="col-sm-4 control-label">Tags</label>
@@ -673,17 +691,20 @@ $i=0;
 														<td class="text-center">1</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
-																   placeholder="2015-02-11" />
+																   class="form-control jadwal_date" 
+																   data-date-format="DD MMM gggg" 
+																   placeholder="12 Feb 2015" />
 														</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
 																   placeholder="15:00" />
 														</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
 																   placeholder="16:30" />
 														</td>
 														<td class="text-center">
@@ -709,19 +730,22 @@ $i=0;
 														<td class="text-center">1</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
-																   value="<?php echo $jdwl->class_tanggal; ?>"
-																   placeholder="2015-02-11" />
+																   class="form-control jadwal_date" 
+																   data-date-format="DD MMM gggg" 
+																   value="<?php echo $tanggal; ?>"
+																   placeholder="12 Feb 2015" />
 														</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
 																   value="<?php echo $start; ?>"
 																   placeholder="15:00" />
 														</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
 																   value="<?php echo $end; ?>"
 																   placeholder="16:30">
 														</td>
@@ -749,19 +773,22 @@ $i=0;
 														<td class="text-center"><?php echo $i;?></td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
+																   class="form-control jadwal_date" 
+																   data-date-format="DD MMM gggg" 
 																   value="<?php echo $jdwl->class_tanggal; ?>"
-																   placeholder="2015-02-11" />
+																   placeholder="12 Feb 2015" />
 														</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
 																   value="<?php echo $start; ?>"
 																   placeholder="15:00" />
 														</td>
 														<td class="text-center">
 															<input type="text" 
-																   class="form-control" 
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
 																   value="<?php echo $end; ?>"
 																   placeholder="16:30">
 														</td>
@@ -1236,5 +1263,22 @@ $i=0;
 			</div>
 		</div>
 	</div> <!-- /container -->
+<script type="application/javascript">
+	$(document).ready(function(){
+		
+		$('.jadwal_date').datetimepicker({
+			pickTime		: false,
+			minDate			: todayDate.year+'-'+todayDate.month+'-'+todayDate.date,
+			showToday		: true
+		});
+		$('.jadwal_time').datetimepicker({
+			pickDate		: false,
+			useSeconds		: false,
+			minuteStepping	: 5,
+			use24hours		: true
+		});
+		
+	});
+</script>
 <?php
 $this->load->view('vendor/general/footer2');
