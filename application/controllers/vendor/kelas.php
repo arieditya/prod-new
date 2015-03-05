@@ -188,7 +188,7 @@ class Kelas extends Vendor_Controller{
 			show_404();
 		}
 		$class = $data->row();
-		$class->level = $this->vendor_class_model->get_class_level($id);
+		$class->level = $this->vendor_class_model->get_class_multiple_level($id);
 		$class->category = $this->vendor_class_model->get_class_category($id);
 		// for developer only
 		$status = 4;
