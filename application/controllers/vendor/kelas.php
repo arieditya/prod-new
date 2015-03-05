@@ -188,7 +188,7 @@ class Kelas extends Vendor_Controller{
 			show_404();
 		}
 		$class = $data->row();
-		$class->level = $this->vendor_class_model->get_class_level($id);
+		$class->level = $this->vendor_class_model->get_class_multiple_level($id);
 		$class->category = $this->vendor_class_model->get_class_category($id);
 		// for developer only
 		$status = 4;
@@ -239,7 +239,7 @@ class Kelas extends Vendor_Controller{
 		$this->data['tabs'] = $tabs;
 		$this->new_design?
 			$this->load->view('vendor/class/detail2', $this->data):
-			$this->load->view('vendor/class/detail1', $this->data);
+			$this->load->view('vendor/class/detail', $this->data);
 	}
 	
 	public function get_jadwal(){

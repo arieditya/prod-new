@@ -304,12 +304,23 @@ class Vendor_class_model extends MY_Model{
 		return $this->db->get('vendor_level_list');
 	}
 	
-	public function get_class_level($class_id) {
-		$level_id = $this->db->where(array('class_id'=>$class_id))->get('vendor_class_level')->row()->level_id;
+	public function get_class_multiple_level($class_id) {
+		$level_id = $this->db
+            ->select('GROUP_CONCAT(`level_id`) as level_ids', FALSE)
+            ->where(array('class_id'=>$class_id))
+            ->get('vendor_class_level')
+            ->row()->level_ids;
 		if(empty($level_id))
 			return FALSE;
-		return $this->db->where(array('id'=>$level_id))->get('vendor_level_list')->row();
+		return $this->db->where_in('id', explode(',',$level_id))->get('vendor_level_list')->result_array();
 	}
+
+    public function get_class_level($class_id) {
+        $level_id = $this->db->where(array('class_id'=>$class_id))->get('vendor_class_level')->row()->level_id;
+        if(empty($level_id))
+            return FALSE;
+        return $this->db->where(array('id'=>$level_id))->get('vendor_level_list')->row();
+    }
 	
 	public function add_class_price($class_id, $data){
 		if($this->db->where('class_id', $class_id)->get('vendor_class_price')->num_rows() > 0){

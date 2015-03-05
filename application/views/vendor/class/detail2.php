@@ -537,7 +537,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 <?php
 	if($levels->num_rows() > 0):
 		foreach($levels->result() as $level):
-			if($level->id == $class->level->id) $selected = TRUE;
+			if(!empty($class->level[$level->id])) $selected = TRUE;
 ?>
 													<div class="radio">
 														<label>
