@@ -807,20 +807,25 @@ $i=0;
 			endforeach;
 		endif;
 	endif;
+	if($class->class_paket != 0):
+?>
+													<tfoot>
+														<tr>
+															<td colspan="5">
+																<div class="form-group">
+																	<div class="col-sm-8 submit-form">
+																		<button class="btn btn-default main-button register">Tambah Sesi</button>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													</tfoot>
+<?php 
+	endif;
 ?>
 													</tbody>
+																
 												</table>
-<?php
-		if($class->class_paket != 0):
-?>
-												<div class="form-group">
-													<div class="col-sm-8 submit-form">
-														<button class="btn btn-default main-button register">Tambah Sesi</button>
-													</div>
-												</div>
-<?php 
-		endif;
-?>
 											</div><!-- table-responsive --><!-- section-content -->
 											<div class="form-group">
 												<div class="col-sm-offset-3 col-sm-9">
@@ -1063,7 +1068,7 @@ $i=0;
 									</div><!-- table-responsive -->
 								
 									<div class="section-heading"><h3 class="section-title">Buat Kode Baru</h3></div>
-									<form class="form-horizontal">
+									<form class="form-horizontal" method="post">
 										<div class="col-sm-12">
 											<h4 class="review-title">Tipe Kode Diskon</h4>
 											<div class="form-group">
