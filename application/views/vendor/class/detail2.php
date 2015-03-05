@@ -386,7 +386,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												</div>
 											</div>
 											<div class="form-group">
-												<div class="col-sm-offset-3 col-sm-9">
+												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
 													   href="#form_lokasi"
@@ -475,7 +475,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												</div>
 											</div>
 											<div class="form-group">
-												<div class="col-sm-offset-3 col-sm-9">
+												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
 													   href="#form_peserta"
@@ -566,7 +566,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												</div>
 											</div>
 											<div class="form-group">
-												<div class="col-sm-offset-3 col-sm-9">
+												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
 													   href="#form_info"
@@ -646,7 +646,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 											</div>
 // */ ?>
 											<div class="form-group">
-												<div class="col-sm-offset-3 col-sm-9">
+												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
 													   href="#form_schedule"
@@ -828,7 +828,7 @@ $i=0;
 												</table>
 											</div><!-- table-responsive --><!-- section-content -->
 											<div class="form-group">
-												<div class="col-sm-offset-3 col-sm-9">
+												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
 													   href="#form_payment"
@@ -913,7 +913,7 @@ $i=0;
 											</div>
 										</div>
 										<div class="form-group">
-											<div class="col-sm-offset-3 col-sm-9 submit-form">
+											<div class="col-sm-offset-2 col-sm-10 submit-form">
 												<button type="submit" class="btn btn-default main-button register">Simpan</button>
 												<button type="submit" class="btn btn-default cancel">Batal</button>
 											</div>
