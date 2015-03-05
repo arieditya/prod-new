@@ -239,7 +239,7 @@ class Kelas extends Vendor_Controller{
 		$this->data['tabs'] = $tabs;
 		$this->new_design?
 			$this->load->view('vendor/class/detail2', $this->data):
-			$this->load->view('vendor/class/detail1', $this->data);
+			$this->load->view('vendor/class/detail', $this->data);
 	}
 	
 	public function get_jadwal(){
