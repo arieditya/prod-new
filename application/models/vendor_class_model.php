@@ -366,12 +366,12 @@ class Vendor_class_model extends MY_Model{
 		return $return;
 	}
 
-    public function get_class_level($class_id) {
-        $level_id = $this->db->where(array('class_id'=>$class_id))->get('vendor_class_level')->row()->level_id;
-        if(empty($level_id))
-            return FALSE;
-        return $this->db->where(array('id'=>$level_id))->get('vendor_level_list')->row();
-    }
+	public function get_class_level($class_id) {
+		$level_id = $this->db->where(array('class_id'=>$class_id))->get('vendor_class_level')->row()->level_id;
+		if(empty($level_id))
+			return FALSE;
+		return $this->db->where(array('id'=>$level_id))->get('vendor_level_list')->row();
+	}
 	
 	public function add_class_level($class_id, $level_id) {
 		if(!is_array($level_id)) $level_id = array($level_id);

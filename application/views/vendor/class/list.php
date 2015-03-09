@@ -49,26 +49,26 @@ $this->load->view('vendor/general/header');
 									</tr>
 								</thead>
 							<tbody>
-								<?php
-									$i = 1;
-									foreach($classes as $class):
-									$status = '';
-									//* ON DEBUG
-									//		$class->class_status = '4';
-									// */
-									switch($class->class_status){
-										case		'0'		: $status = '<span class="label label-info">Pending</span>';break;
-										case		'1'		: $status = '<span class="label label-success">Approved</span>';break;
-										case		'-1'	: $status = '<span class="label label-danger">Rejected</span>';break;
-										case		'4'		: $status = '<span class="label label-warning">Request Edit</span>';break;
-									}
-									switch($class->class_paket){
-										case		'0'		: $type = '<span class="label label-default">Single</span>';break;
-										case		'1'		: $type = '<span class="label label-info">Series</span>';break;
-										case		'2'		: $type = '<span class="label label-success">Package</span>';break;
-									}
-									$editable = $class->active == 0?TRUE:FALSE;
-								?>
+<?php
+	$i = 1;
+	foreach($classes as $class):
+	$status = '';
+	//* ON DEBUG
+	//		$class->class_status = '4';
+	// */
+	switch($class->class_status){
+		case		'0'		: $status = '<span class="label label-info">Pending</span>';break;
+		case		'1'		: $status = '<span class="label label-success">Approved</span>';break;
+		case		'-1'	: $status = '<span class="label label-danger">Rejected</span>';break;
+		case		'4'		: $status = '<span class="label label-warning">Request Edit</span>';break;
+	}
+	switch($class->class_paket){
+		case		'0'		: $type = '<span class="label label-default">Single</span>';break;
+		case		'1'		: $type = '<span class="label label-info">Series</span>';break;
+		case		'2'		: $type = '<span class="label label-success">Package</span>';break;
+	}
+	$editable = $class->active == 0?TRUE:FALSE;
+?>
 								<tr>
 									<td><?php echo $i; ?></td>
 									<td><?php echo $class->class_nama; ?></td>

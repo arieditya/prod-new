@@ -31,7 +31,9 @@ class Kelas extends Vendor_Controller{
 			$list->participant = $participant->result();
 		}
 		$this->data['classes'] = $list_class;
-		$this->load->view('vendor/class/list', $this->data);
+		$this->new_design?
+			$this->load->view('vendor/class/list2', $this->data):
+			$this->load->view('vendor/class/list', $this->data);
 	}
 
 	public function baru() {
@@ -45,7 +47,9 @@ class Kelas extends Vendor_Controller{
 //		$this->load->view('header',$temp);
 		$this->data['categories'] = $this->vendor_class_model->get_category_list();
 		$this->data['levels'] = $this->vendor_class_model->get_class_level_list();
-		$this->load->view('vendor/class/create_new', $this->data);
+		$this->new_design?
+			$this->load->view('vendor/class/create_new_2', $this->data):
+			$this->load->view('vendor/class/create_new', $this->data);
 //		$this->load->view('footer');
 	}
 	

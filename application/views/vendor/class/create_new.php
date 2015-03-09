@@ -126,7 +126,8 @@ $this->load->view('vendor/general/header');
 <?php // */ ?>
 						<div class="radio">
 							<label>
-								<input type="radio" name="class_paket" value="single" /> <span>Hanya satu sesi <a href="#" title="Kelas yang hanya diadakan satu kali saja" class="tooltip">?</a></span>
+								<input type="radio" name="class_paket" value="single" /> 
+								<span>Hanya satu sesi <a href="#" title="Kelas yang hanya diadakan satu kali saja" class="tooltip">?</a></span>
 							</label>
 						</div>
 						<div class="radio">
