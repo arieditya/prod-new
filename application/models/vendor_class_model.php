@@ -62,11 +62,13 @@ class Vendor_class_model extends MY_Model{
 		return $id;
 	}
 
-	public function get_class($var=null) {
+	public function get_class($var=null, $page=1, $perpage=5) {
 		$where = array(
 				'class_status >='	=> 1,
 				'active'		=> 1
 			);
+		$this->db->limit($perpage, ($page-1)*$perpage);
+		
 //		if(is_string($var)){
 //			$where[] = $var;
 //		} else {
