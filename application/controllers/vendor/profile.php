@@ -19,13 +19,17 @@ class Profile extends Vendor_Controller{
 	
 	public function edit($sub='profile') {
 		$sub = strtolower($sub);
-		if(!in_array($sub, array('profile','penanggungjawab'))) $sub='profile';
+		if(!in_array($sub, array('profile','reponsible'))) $sub='profile';
+		if($sub=='reponsible') $sub = 'penanggungjawab';
 		$this->data['sub'] = $sub;
 		$this->data['vendor']['info'] = $this->vendor_model->get_info(array('vendor_id'=>$this->vendor->id))->row();
 		$this->data['bank_list'] = $this->vendor_model->get_bank_list();
 		$this->data['bank_account'] = $this->vendor_model->get_rekening($this->vendor->id);
 		$this->data['socmed'] = $this->vendor_model->get_socmed($this->vendor->id);
-		$this->load->view('vendor/profile/edit', $this->data);
+		$this->data['sidebar'] = $sub;
+		$this->new_design?
+			$this->load->view('vendor/profile/edit_2', $this->data):
+			$this->load->view('vendor/profile/edit', $this->data);
 	}
 	
 	public function update_profile(){

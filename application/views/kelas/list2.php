@@ -32,8 +32,9 @@ $this->load->view('vendor/general/header2');
 				});
 		return ret;
 	};
+	var c_filter = get_cookie['filter'];
 
-	var _filter_ = $.parseJSON(get_cookie('filter'));
+	var _filter_ = !c_filter?{}:$.parseJSON(get_cookie('filter'));
 	if(!_filter_) _filter_ = {};
 
 	var wait2second = null;

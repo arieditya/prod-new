@@ -15,38 +15,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/bootstrap-datetimepicker.min.js" ></script>
     <div class="container content kelas vendor">
         <div class="row">
-            <div class="col-md-3 col-sm-12">
-                <div class="sidebar">
-                    <div class="profile-image-wrap">
-                        <img src="<?php echo $vendor_logo;?>" alt="" 
-							 class="img-responsive">
-                        <a href="#"><span class="edit"><i class="fa fa-pencil"></i></span></a>
-                    </div>
-                    <h3 class="profile-name text-center"><?php echo $vendor['profile']->name?></h3>
-
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                        60% 
-                      </div>
-                    </div>
-
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation">
-                            <a href="#profil" aria-controls="profil" role="tab" data-toggle="tab"><i class="fa fa-user"></i> Profil</a>
-                        </li>
-                        <li role="presentation">
-                            <a href="#reponsible" aria-controls="reponsible" role="tab" data-toggle="tab"><i class="fa fa-male"></i> Penganggungjawab</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-users"></i> Kelas Anda</a>
-                        </li>
-                        <li class="active">
-                            <a href="#"><i class="fa fa-plus"></i> Tambah Kelas</a>
-                        </li>
-                    </ul>
-                </div><!-- sidebar -->
-            </div>
+<?php $this->load->view('vendor/general/sidebar')?>
             <div class="col-md-9 col-sm-12">
                 <div class="panel panel-default">
                     <h2 class="block-title text-uppercase">PROFIL PENYELENGGARA</h2>

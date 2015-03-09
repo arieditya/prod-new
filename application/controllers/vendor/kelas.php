@@ -30,6 +30,7 @@ class Kelas extends Vendor_Controller{
 			$list->participant_count = $participant->num_rows();
 			$list->participant = $participant->result();
 		}
+		$this->data['sidebar'] = 'daftar_kelas';
 		$this->data['classes'] = $list_class;
 		$this->new_design?
 			$this->load->view('vendor/class/list2', $this->data):
@@ -47,6 +48,7 @@ class Kelas extends Vendor_Controller{
 //		$this->load->view('header',$temp);
 		$this->data['categories'] = $this->vendor_class_model->get_category_list();
 		$this->data['levels'] = $this->vendor_class_model->get_class_level_list();
+		$this->data['sidebar'] = 'tambah_kelas';
 		$this->new_design?
 			$this->load->view('vendor/class/create_new_2', $this->data):
 			$this->load->view('vendor/class/create_new', $this->data);
@@ -242,6 +244,7 @@ class Kelas extends Vendor_Controller{
 		$this->data['summary'] = '';
 		$this->data['tags'] = $this->vendor_class_model->get_tags($id);
 		$this->data['tabs'] = $tabs;
+		$this->data['sidebar'] = 'daftar_kelas';
 		$this->new_design?
 			$this->load->view('vendor/class/detail2', $this->data):
 			$this->load->view('vendor/class/detail', $this->data);

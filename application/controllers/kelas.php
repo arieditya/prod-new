@@ -150,9 +150,14 @@ class Kelas extends MY_Controller {
 	
 	public function index(){
 		$data['kelas'] = $this->kelas_model->get_buka_kelas_all_front();
-		$this->load->view('vendor/general/header');
-		$this->load->view('front/kelas/index',$data);
-		$this->load->view('vendor/general/footer');
+		if($this->new_design)
+		{
+			$this->load->view('vendor/general/header');
+			$this->load->view('front/kelas/index',$data);
+			$this->load->view('vendor/general/footer');
+		}else
+			$this->load->view('kelas/list2',$data);
+
 	}
 
 	public function detil($kode){

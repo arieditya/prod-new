@@ -28,8 +28,11 @@ $this->load->view('vendor/general/header');
 			<div class="tab-content bg-section">
 				<div class="tab-pane active" id="profile">
 					<div class="panel-body">
-						<form class="form-horizontal" role="form" action="<?php echo base_url();
-						?>vendor/profile/update_profile" method="post" id="form-1" enctype="multipart/form-data">
+						<form class="form-horizontal" 
+							  role="form" action="<?php echo base_url();?>vendor/profile/update_profile" 
+							  method="post" 
+							  id="form-1" 
+							  enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="email" class="col-md-3 control-label">Email penyelenggara</label>
 								<div class="col-md-9 ">
@@ -104,7 +107,7 @@ $this->load->view('vendor/general/header');
 						<div class="form-group">
 							<label for="socmed_pt" class="col-md-5 control-label">Pinterest</label>
 							<div class="col-md-7">
-								<input type="text" name="socmed_pt" class="form-control" value="<?php echo empty($socmed->facebook)?'':$socmed->pinterest;?>" />
+								<input type="text" name="socmed_pt" class="form-control" value="<?php echo empty($socmed->pinterest)?'':$socmed->pinterest;?>" />
 							</div>
 						</div>
 						<div class="col-md-3"></div>
@@ -117,7 +120,12 @@ $this->load->view('vendor/general/header');
 				</div>
 				<div class="tab-pane" id="profile-2">
 				<div class="panel-body">
-					<form class="form-horizontal" role="form" action="<?php echo base_url();?>vendor/profile/update_info" method="post" id="form-2" enctype="multipart/form-data">
+					<form class="form-horizontal" 
+						  role="form" 
+						  action="<?php echo base_url();?>vendor/profile/update_info" 
+						  method="post" 
+						  id="form-2" 
+						  enctype="multipart/form-data">
 						<div class="panel-heading bold pink text-16">
 							Penanggungjawab penyelenggara
 							<p class="text-13"><i>* Data tidak bisa diakses secara umum</i></p>
