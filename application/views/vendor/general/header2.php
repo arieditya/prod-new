@@ -111,10 +111,10 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign In</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="https://ruangguru.com/murid/registrasi">sbg Murid</a>
+									<a class="fancybox" href="#inline1">sbg Murid</a>
 								</li>
 								<li>
-									<a href="https://ruangguru.com/guru/reg_guru">sbg Guru</a>
+									<a class="fancybox" href="#inline3">sbg Guru</a>
 								</li>
 								<li>
 									<a class="fancybox" href="#inline2">sbg Vendor</a>
@@ -125,13 +125,13 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Daftar</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a class="fancybox" href="#inline1">sbg Murid</a>
+									<a href="<?php echo base_url()?>murid/registrasi">sbg Murid</a>
 								</li>
 								<li>
-									<a class="fancybox" href="#inline3">sbg Guru</a>
+									<a href="<?php echo base_url()?>guru/reg_guru">sbg Guru</a>
 								</li>
 								<li>
-									<a class="fancybox" href="#inline2">sbg Vendor</a>
+									<a class="fancybox" href="#inline-reg">sbg Vendor</a>
 								</li>
 							</ul>
 						</li>
