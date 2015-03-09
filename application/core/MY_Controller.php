@@ -132,4 +132,12 @@ class Vendor_Controller extends MY_Controller {
 	}
 }
 
+class API_Controller extends MY_Controller {
+	public function __construct(){
+		parent::__construct();
+		header('Content-type: application/json');
+	}
+	
+}
+
 // END OF MY_Controller.php File

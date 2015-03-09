@@ -9,7 +9,7 @@
  */
 	$logo = 'header-logo.png';
 	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
-		$logo = 'logo-kelas-2.png';
+		$logo = 'kelas-logo-beta.png';
 		;
 
 ?><!DOCTYPE html>
@@ -94,9 +94,9 @@
 						<span class="icon-bar"></span>
 					</button>
 					<ul class="nav navbar-nav navbar-left">
-						<li class="active"><a href="#">Kelas</a></li>
-						<li><a href="#about">Privat</a></li>
-						<li><a href="#contact">FAQ</a></li>
+						<li><a href="<?php echo base_url()?>cari_guru">Belajar Privat</a></li>
+						<li class="active"><a href="http://kelas.ruangguru.com">Kelas Berkelompok</a></li>
+						<li><a href="#FAQ">FAQ</a></li>
 						<li><a href="#contact">Kontak</a></li>
 					</ul>
 <?php
