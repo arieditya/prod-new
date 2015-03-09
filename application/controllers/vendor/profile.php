@@ -17,7 +17,10 @@ class Profile extends Vendor_Controller{
 		$this->vendor->id = $this->session->userdata('user_type')=='vendor'?$this->session->userdata('user_id'):FALSE;
 	}
 	
-	public function edit() {
+	public function edit($sub='profile') {
+		$sub = strtolower($sub);
+		if(!in_array($sub, array('profile','penanggungjawab'))) $sub='profile';
+		$this->data['sub'] = $sub;
 		$this->data['vendor']['info'] = $this->vendor_model->get_info(array('vendor_id'=>$this->vendor->id))->row();
 		$this->data['bank_list'] = $this->vendor_model->get_bank_list();
 		$this->data['bank_account'] = $this->vendor_model->get_rekening($this->vendor->id);

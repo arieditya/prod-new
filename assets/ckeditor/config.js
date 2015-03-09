@@ -10,11 +10,10 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.toolbar = [
 		{ name: 'basicstyles', 	items: ['Bold','Italic','Underline','Strike','Subscript','Superscript'] },
-		{ name: 'paragraph', 	items: ['NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
 		{ name: 'clipboard', 	items: ['Cut','Copy','Paste','-','Undo','Redo'] },
-		'/',
-		{ name: 'styles',		items: [ 'Styles','Format','Font','FontSize' ] },
 		{ name: 'colors', 		items: [ 'TextColor','BGColor' ] },
-		{ name: 'insert', 		items: ['Image','Table','HorizontalRule','PageBreak'] }
+		{ name: 'paragraph', 	items: ['NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
+		{ name: 'insert', 		items: ['Image','Table','HorizontalRule','PageBreak'] },
+		{ name: 'styles',		items: [ 'Format','Font','FontSize' ] }
 	];
 };

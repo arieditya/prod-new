@@ -8,6 +8,12 @@
  * Proj: prod-new
  */
 $this->load->view('vendor/general/header2');
+$profile = $vendor['profile'];
+$info = $vendor['info'];
+if(!empty($info->vendor_logo))
+	$vendor_logo = "images/vendor/{$profile->id}/{$info->vendor_logo}";
+else
+	$vendor_logo = 'assets/images/user.png';
 ?>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-datetimepicker.min.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/jquery.tagsinput.css" type="text/css" />
@@ -24,10 +30,12 @@ $this->load->view('vendor/general/header2');
 			<div class="col-md-3 col-sm-12">
 				<div class="sidebar">
 					<div class="profile-image-wrap">
-						<img src="<?php echo base_url();?>assets/images/user.png" alt="" class="img-responsive">
+							<img src="<?php echo base_url().$vendor_logo;?>" 
+							 alt="" 
+							 class="img-responsive">
 						<a href="#"><span class="edit"><i class="fa fa-pencil"></i></span></a>
 					</div>
-					<h3 class="profile-name text-center">Nama Vendor</h3>
+					<h3 class="profile-name text-center"><?php echo $vendor['profile']->name;?></h3>
 
 					<div class="progress">
 					  <div class="progress-bar progress-bar-warning" 
@@ -144,7 +152,7 @@ $this->load->view('vendor/general/header2');
 <?php
 	if(!empty($class->class_video)) {
 		$code = str_replace('https://www.youtube.com/watch?v=', '',$class->class_video);
-		$vid = '<iframe src="www.youtube.com/embed/'.$code.'"></iframe>';
+		$vid = '<iframe src="https://www.youtube.com/embed/'.$code.'"></iframe>';
 	} else {
 		$vid = 'Belum ada video tersedia';
 	}
@@ -188,7 +196,7 @@ $i=0;
 	if($jadwal->num_rows() == 0):
 ?>
 														<tr>
-															<td class="text-center" colspan="5">
+															<td class="text-center" colspan="6">
 																<span>Belum ada jadwal tersedia</span>
 															</td>
 														</tr>
@@ -272,7 +280,13 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 									</div><!-- section-wrap -->
 								</div><!-- preview -->
 								<div role="tabpanel" class="tab-pane" id="profile">
-									<form class="form-horizontal">
+										<form method="post" 
+											  class="form-horizontal" 
+											  action="<?php echo base_url();?>vendor/kelas/update_profile_2">
+											<input type="hidden" 
+												   value="<?php echo $class->id;?>" 
+												   name="id" 
+												   id="id" />
 										<div class="section-heading">
 											<h3 class="section-title">
 												<a data-toggle="collapse" 
@@ -310,7 +324,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 											<div class="form-group">
 												<label for="tentang" class="col-sm-4 control-label">Tentang kelas</label>
 												<div class="col-sm-8">
-													<textarea class="form-control" 
+													<textarea class="form-control txt_message" 
 															  name="class_deskripsi"
 															  placeholder="Tentang kelas yang akan anda buat" 
 															  rows="3"><?php echo $class->class_deskripsi?></textarea>
@@ -369,7 +383,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 											<div class="form-group">
 												<label for="Seo" class="col-sm-4 control-label">Kategori</label>
 												<div class="col-sm-8">
-													<select class="form-control kategori" name="class_category">
+													<select class="form-control kategori" name="category_id">
 														<option>-- Pilih --</option>
 <?php
 	if($categories->num_rows() > 0):
@@ -537,14 +551,15 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 <?php
 	if($levels->num_rows() > 0):
 		foreach($levels->result() as $level):
+			$selected = FALSE;
 			if(!empty($class->level[$level->id])) $selected = TRUE;
 ?>
 													<div class="radio">
 														<label>
 															<input type="checkbox" 
-																   varlue=""
-																   <?php $selected?'checked="checked"':'';?>
-																   name="class_level[<?php echo $level->id?>]" /> 
+																   value="<?php echo $level->id?>"
+																   <?php echo $selected?'checked="checked"':'';?>
+																   name="level_id[<?php echo $level->id?>]" /> 
 															<?php echo ucwords($level->nama);?>
 															(<em><?php echo ucwords($level->name);?></em>)
 														</label>
@@ -614,7 +629,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 											<div class="form-group">
 												<label for="attachment" class="col-sm-4 control-label">Foto / Image</label>
 												<div class="col-sm-8">
-													<input type="file" id="class_image">
+													<input type="file" id="class_image" name="class_image" />
 												</div>
 											</div>
 <?php
@@ -684,42 +699,10 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 													</thead>
 													<tbody>
 <?php
-$i=0;
-	if($jadwal->num_rows() == 0):
-?>
-													<tr>
-														<td class="text-center">1</td>
-														<td class="text-center">
-															<input type="text" 
-																   class="form-control jadwal_date" 
-																   data-date-format="DD MMM gggg" 
-																   placeholder="12 Feb 2015" />
-														</td>
-														<td class="text-center">
-															<input type="text" 
-																   class="form-control jadwal_time" 
-																   data-date-format="HH:mm" 
-																   placeholder="15:00" />
-														</td>
-														<td class="text-center">
-															<input type="text" 
-																   class="form-control jadwal_time" 
-																   data-date-format="HH:mm" 
-																   placeholder="16:30" />
-														</td>
-														<td class="text-center">
-															<input type="text" 
-																   class="form-control" 
-																   style="width: 100%"
-																   placeholder="Topik untuk sesi ini" />
-														</td>
-														<td class="text-center">
-															<a href="#">delete</a>
-														</td>
-													</tr>
-<?php
-	elseif($jadwal->num_rows() > 0):
+	$i=0;
+	if($jadwal->num_rows() > 0):
 		if($class->class_paket == 0):
+			$i = 1;
 			$jdwl = $jadwal->row();
 			$tanggal = date('d M Y', strtotime($jdwl->class_tanggal));
 			$start = $jdwl->class_jam_mulai.':'.$jdwl->class_menit_mulai;
@@ -731,6 +714,7 @@ $i=0;
 														<td class="text-center">
 															<input type="text" 
 																   class="form-control jadwal_date" 
+																   name="class_tanggal[0]"
 																   data-date-format="DD MMM gggg" 
 																   value="<?php echo $tanggal; ?>"
 																   placeholder="12 Feb 2015" />
@@ -738,6 +722,7 @@ $i=0;
 														<td class="text-center">
 															<input type="text" 
 																   class="form-control jadwal_time" 
+																   name="class_jam_mulai[0]"
 																   data-date-format="HH:mm" 
 																   value="<?php echo $start; ?>"
 																   placeholder="15:00" />
@@ -745,6 +730,7 @@ $i=0;
 														<td class="text-center">
 															<input type="text" 
 																   class="form-control jadwal_time" 
+																   name="class_jam_selesai[0]"
 																   data-date-format="HH:mm" 
 																   value="<?php echo $end; ?>"
 																   placeholder="16:30">
@@ -753,6 +739,7 @@ $i=0;
 															<input type="text" 
 																   class="form-control" 
 																   style="width: 100%"
+																   name="class_topik[0]"
 																   value="<?php echo $topik; ?>"
 																   placeholder="Topik untuk sesi ini">
 														</td>
@@ -775,13 +762,15 @@ $i=0;
 															<input type="text" 
 																   class="form-control jadwal_date" 
 																   data-date-format="DD MMM gggg" 
-																   value="<?php echo $jdwl->class_tanggal; ?>"
+																   name="class_tanggal[<?php echo $i?>]"
+																   value="<?php echo $tanggal; ?>"
 																   placeholder="12 Feb 2015" />
 														</td>
 														<td class="text-center">
 															<input type="text" 
 																   class="form-control jadwal_time" 
 																   data-date-format="HH:mm" 
+																   name="class_jam_mulai[<?php echo $i?>]"
 																   value="<?php echo $start; ?>"
 																   placeholder="15:00" />
 														</td>
@@ -789,6 +778,7 @@ $i=0;
 															<input type="text" 
 																   class="form-control jadwal_time" 
 																   data-date-format="HH:mm" 
+																   name="class_jam_selesai[<?php echo $i?>]"
 																   value="<?php echo $end; ?>"
 																   placeholder="16:30">
 														</td>
@@ -796,6 +786,7 @@ $i=0;
 															<input type="text" 
 																   class="form-control" 
 																   style="width: 100%"
+																   name="class_topik[<?php echo $i?>]"
 																   value="<?php echo $topik; ?>"
 																   placeholder="Topik untuk sesi ini">
 														</td>
@@ -807,24 +798,86 @@ $i=0;
 			endforeach;
 		endif;
 	endif;
+	if($jadwal->num_rows() == 0 || $class->class_paket != 0):
+?>
+													<tr class="jadwal_next_row">
+														<td class="text-center">NEW</td>
+														<td class="text-center">
+															<input type="text" 
+																   name="class_tanggal[]"
+																   class="form-control jadwal_date" 
+																   data-date-format="DD MMM gggg" 
+																   placeholder="12 Feb 2015" />
+														</td>
+														<td class="text-center">
+															<input type="text" 
+																   name="class_jam_mulai[]"
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
+																   placeholder="15:00" />
+														</td>
+														<td class="text-center">
+															<input type="text" 
+																   name="class_jam_selesai[]"
+																   class="form-control jadwal_time" 
+																   data-date-format="HH:mm" 
+																   placeholder="16:30" />
+														</td>
+														<td class="text-center">
+															<input type="text" 
+																   name="class_topik[]"
+																   class="form-control" 
+																   style="width: 100%"
+																   placeholder="Topik untuk sesi ini" />
+														</td>
+														<td class="text-center">
+															<a href="#">delete</a>
+														</td>
+													</tr>
+<?php
+	endif;
+?>
+<script type="application/javascript">
+	var row_jadwal = <?php echo $i;?>;
+</script>
+<?php
 	if($class->class_paket != 0):
 ?>
-													<tfoot>
-														<tr>
-															<td colspan="5">
-																<div class="form-group">
-																	<div class="col-sm-8 submit-form">
-																		<button class="btn btn-default main-button register">Tambah Sesi</button>
-																	</div>
-																</div>
-															</td>
-														</tr>
-													</tfoot>
+<script type="application/javascript">
+	$(document).ready(function(){
+		function add_event() {
+			$('.jadwal_next_row:last input').on('focusin',add_another_row);
+		}
+		function remove_event() {
+			$('.jadwal_next_row:last input').off('focusin',add_another_row);
+		}
+		function add_another_row(){
+			var $clone = $('.jadwal_next_row:last').clone();
+			remove_event();
+			$('.jadwal_next_row').removeClass('jadwal_next_row');
+			$('.jadwal_date', $clone).datetimepicker({
+				pickTime		: false,
+				minDate			: todayDate.year+'-'+todayDate.month+'-'+todayDate.date,
+				showToday		: true
+			});
+			$('.jadwal_time', $clone).datetimepicker({
+				pickDate		: false,
+				useSeconds		: false,
+				minuteStepping	: 5,
+				use24hours		: true
+			});
+			$('#tbl_jadwal tbody').append($clone);
+			add_event();
+			row_jadwal++;
+			$(this).focus();
+		}
+		add_event();
+	});
+</script>
 <?php 
 	endif;
 ?>
 													</tbody>
-																
 												</table>
 											</div><!-- table-responsive --><!-- section-content -->
 											<div class="form-group">
@@ -868,6 +921,7 @@ $i=0;
 													<input type="number" 
 														   class="form-control" 
 														   id="harga_per_sesi" 
+														   name="price_per_session" 
 														   value="<?php echo $harga;?>"
 														   placeholder="Nama dari kelas yang akan diselenggarakan" />
 												</div>
@@ -887,6 +941,7 @@ $i=0;
 												<div class="col-sm-8">
 													<input type="number" 
 														   class="form-control" 
+														   name="discount" 
 														   id="harga_diskon" 
 														   value="<?php echo $diskon;?>"
 														   placeholder="0" />
@@ -940,7 +995,7 @@ $i=0;
 		
 		function check_price() {
 			var harga_per_sesi = parseInt($('#harga_per_sesi').val());
-			var jumlah_sesi = $('#tbl_jadwal tbody tr').length;
+			var jumlah_sesi = row_jadwal;
 			var total_harga = harga_per_sesi * jumlah_sesi; //parseInt($('#total_harga').val());
 			var harga_diskon = parseInt($('#harga_diskon').val());
 			var total_harga_paket = total_harga - harga_diskon;
@@ -1068,20 +1123,30 @@ $i=0;
 									</div><!-- table-responsive -->
 								
 									<div class="section-heading"><h3 class="section-title">Buat Kode Baru</h3></div>
-									<form class="form-horizontal" method="post">
+									<form class="form-horizontal" 
+										  method="post" 
+										  action="<?php echo base_url()?>vendor/kelas/add_discount" >
+										<input type="hidden" 
+											   value="<?php echo $class->id;?>" 
+											   name="id" 
+											   id="id" />
 										<div class="col-sm-12">
 											<h4 class="review-title">Tipe Kode Diskon</h4>
 											<div class="form-group">
 												<div class="radio diskon">
 													<div class="col-sm-3">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="scope" 
+																   value="target" checked="checked" />
 															Targeted 
 														</label>
 													</div>
 													<div class="col-sm-9">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="scope" 
+																   value="public" />
 															 Publik (Diskon terpasang untuk semua murid) 
 														</label>
 													</div>
@@ -1092,9 +1157,14 @@ $i=0;
 												<div class="col-sm-6">
 													<div class="radio jumlah">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="nominal_type" 
+																   id="nominal_type_idr"
+																   value="idr" />
 															Rp
-															<input type="number">
+															<input type="number" 
+																   id="nominal_value_idr" 
+																   class="nominal_value" />
 															atau
 														</label> 
 													</div>
@@ -1103,8 +1173,14 @@ $i=0;
 													<div class="radio jumlah">
 														<label>
 															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="nominal_type" 
+																   id="nominal_type_percent"
+																   value="percent" />
 															%
-															<input type="number"><br />
+															<input type="number" 
+																   id="nominal_value_percent" 
+																   class="nominal_value" />
 															dari harga yang terpasang
 														</label>
 													</div>
@@ -1118,7 +1194,9 @@ $i=0;
 												<div class="col-sm-5">
 													<div class="radio">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="begin" 
+																   value="*" >
 															Sejak awal pendaftaran
 														</label> 
 													</div>
@@ -1129,9 +1207,14 @@ $i=0;
 												<div class="col-sm-6">
 													<div class="radio">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="begin" 
+																   value="start" >
 															Tanggal
-															<input type="text">
+															<input type="text" 
+																   name="begin_date" 
+																   data-date-format="DD MMM gggg" 
+																   class="jadwal_date" />
 														</label>
 													</div>
 												</div>
@@ -1141,7 +1224,9 @@ $i=0;
 												<div class="col-sm-5">
 													<div class="radio">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="ended" 
+																   value="*" />
 															Sampai akhir pendaftaran
 														</label> 
 													</div>
@@ -1152,9 +1237,14 @@ $i=0;
 												<div class="col-sm-6">
 													<div class="radio">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="ended" 
+																   value="expire" />
 															Tanggal
-															<input type="text">
+															<input type="text" 
+																   name="ended_date" 
+																   data-date-format="DD MMM gggg" 
+																   class="jadwal_date" />
 														</label>
 													</div>
 												</div>
@@ -1164,8 +1254,14 @@ $i=0;
 											<h4 class="review-title">Masukkan Kode</h4>
 											<div class="form-inline">
 												<div class="form-group">
-													<input type="text" placeholder="Ketik Kode atau" id="kupon" class="form-control">
-													<button class="btn btn-default cek-button" type="submit">Auto Generate</button>
+													<input type="text" 
+														   placeholder="Ketik Kode atau" 
+														   id="code_discount" 
+														   name="code_discount" 
+														   class="form-control">
+													<button class="btn btn-default cek-button" 
+															id="generate_code"
+															type="button">Auto Generate</button>
 												</div>
 											</div>
 										</div>
@@ -1175,7 +1271,9 @@ $i=0;
 												<div class="col-sm-5">
 													<div class="radio">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+															<input type="radio" 
+																   name="jumlah" 
+																   value="*" />
 															Tidak terbatas 
 														</label>
 													</div>
@@ -1183,8 +1281,11 @@ $i=0;
 												<div class="col-sm-6">
 													<div class="radio">
 														<label>
-															<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-															<input type="number">  Penggunaan
+															<input type="radio" 
+																   name="optionsRadios" 
+																   id="optionsRadios1" 
+																   value="limited" />
+															<input type="number" name="usage_qty" />  Penggunaan
 														</label>
 													</div>
 												</div>
@@ -1215,28 +1316,35 @@ $i=0;
 											<label for="penerima" class="col-sm-2 control-label">Penerima</label>
 											<div class="col-sm-10">
 												<select class="form-control" name="penerima" id="penerima">
-													<option value="1">Murid</option>
-													<option value="2">Pemesan</option>
-													<option value="3">Murid dan Pemesan</option>
+													<option value="peserta">Murid</option>
+													<option value="pendaftar">Pemesan</option>
+													<option value="semua">Murid dan Pemesan</option>
 												</select>
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="subject" class="col-sm-2 control-label">Subject</label>
 											<div class="col-sm-10">
-												<input type="text" class="form-control" id="subject" placeholder="Subject">
+												<input type="text" 
+													   class="form-control" 
+													   id="subject" 
+													   name="subject" 
+													   placeholder="Subject">
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="message" class="col-sm-2 control-label">Message</label>
 											<div class="col-sm-10">
-												<textarea class="form-control" placeholder="Message" rows="3"></textarea>
+												<textarea class="form-control txt_message" 
+														  placeholder="Message" 
+														  name="message"
+														  rows="3"></textarea>
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="attachment" class="col-sm-2 control-label">Attachment</label>
 											<div class="col-sm-10">
-												<input type="file" id="attachment">
+												<input type="file" name="attach" />
 											</div>
 										</div>
 									  <div class="form-group">
@@ -1245,20 +1353,42 @@ $i=0;
 										</div>
 									  </div>
 									</form>
-
+<?php 
+foreach($sent_message as $sent):
+	$sent_time = date('d M Y H:i:s', strtotime($sent->sent_time));
+	$attachment = empty($sent->attachment)?
+			'':
+			base_url('documents/email_attach/kelas/'.$class->id.'/'.$sent->attachment);
+?>
 									<h4 class="review-title">
-										Pengumuman Mulai Kelas Jahit Tingkat Dasar (Sesi 1)
-										<span class="info"><em>Dikirim tanggal 15-02-2015</em></span>
+										<?php echo $sent->subject;?>
+										<span class="info"><em>Dikirim tanggal: <?php echo $sent_time;?></em></span>
 									</h4>
 
 									<div class="pesan-content">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime fuga expedita voluptatum at incidunt reiciendis commodi obcaecati nisi aperiam modi dicta sint qui iste repudiandae, tempore ut magni quidem sapiente! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est quisquam minus sapiente iusto corrupti architecto quasi, dolorum rem delectus eveniet veniam sequi perspiciatis nemo, nihil obcaecati voluptas iste temporibus laudantium.</p>
+										<p><?php echo $sent->message;?></p>
+<?php
+	if(!empty($attachment)):
+?>
+										<p>
+											<strong>Attachment:</strong>
+											<a href="<?php echo $attachment?>"><?php echo $sent->attachment;?></a>
+										</p>
+<?php
+	endif;
+	$resent_link = base_url()."vendor/kelas/resend_email?class_id={$class->id}&email_id={$sent->id}";
+?>
 									</div>
-
 									<div class="col-sm-offset-8 col-sm-4">
-										<button type="submit" class="btn btn-default main-button register">Kirim Ulang</button>
+										<a href="<?php echo $resent_link;?>">
+											<button type="button" class="btn btn-default main-button register">
+												Kirim Ulang
+											</button>
+										</a>
 									</div>
-
+<?php 
+endforeach;
+?>
 								</div><!-- komunikasi -->
 							</div><!-- tab-content -->
 
@@ -1270,7 +1400,7 @@ $i=0;
 	</div> <!-- /container -->
 <script type="application/javascript">
 	$(document).ready(function(){
-		
+		$('.txt_message').ckeditor();
 		$('.jadwal_date').datetimepicker({
 			pickTime		: false,
 			minDate			: todayDate.year+'-'+todayDate.month+'-'+todayDate.date,
@@ -1282,7 +1412,24 @@ $i=0;
 			minuteStepping	: 5,
 			use24hours		: true
 		});
-		
+		$('button#generate_code').click(function(e){
+			e.preventDefault();
+			$('#code_discount').val(hashGenerator());
+		});
+		$('input[name="nominal_type"]').click(function(){
+			var $type = $(this).val();
+			$('.nominal_value').removeAttr('name');
+			$('.nominal_value').attr('disabled','disabled');
+			$('#nominal_value_'+$type).removeAttr('disabled');
+			$('#nominal_value_'+$type).attr('name', 'nominal_value');
+		});
+		$('.nominal_value').focus(function(){
+			var $type = $(this).attr('id').replace('nominal_value_','');
+			$('.nominal_value').removeAttr('name');
+			$('.nominal_value').attr('disabled','disabled');
+			$('#nominal_value_'+$type).removeAttr('disabled');
+			$('#nominal_value_'+$type).attr('name', 'nominal_value');
+		});
 	});
 </script>
 <?php

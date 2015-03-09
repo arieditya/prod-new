@@ -140,7 +140,7 @@ class Kelas extends MY_Controller {
 		}
 		$this->load->helper('text');
 		$this->data['class'] = $classes;
-		$this->data['vendor'] = $data['vendor'];
+		$this->data['vendor'] = empty($data['vendor'])?NULL:$data['vendor'];
 		$this->data['show_filter'] = TRUE;
 //		var_dump($classes);exit;
 		$this->new_design?

@@ -45,7 +45,7 @@ class MY_Controller extends CI_Controller{
 			$new_design = TRUE;
 		}
 		if($new_design) {
-			$this->input->set_cookie('new_design','okeh', 600);
+			$this->input->set_cookie('new_design','okeh', 3600);
 			if(isset($_GET['stop_new_design'])) {
 				delete_cookie('new_design');
 				$new_design = FALSE;
@@ -118,6 +118,9 @@ class Vendor_Controller extends MY_Controller {
 			'email'	=> $this->data['user']['email'],
 			'id'	=> $this->data['user']['id']
 		));
+		$vendor_info = $this->vendor_model->get_info(array(
+			'vendor_id'	=> $this->data['user']['id']
+		))->row();
 		if($vendor->num_rows() != 1) {
 			$this->session->set_flashdata('status.warning', 'User authentication failed!');
 			redirect('vendor/auth/logreg');
@@ -125,6 +128,7 @@ class Vendor_Controller extends MY_Controller {
 		}
 		$this->vendor = $vendor->row();
 		$this->data['vendor']['profile'] = $this->vendor;
+		$this->data['vendor']['info'] = $vendor_info;
 	}
 }
 

@@ -225,6 +225,7 @@ class Kelas extends Vendor_Controller{
 		$this->data['attendance_data'] = $attendance_only;
 		$this->data['attendance'] = $attendance;
 		$this->data['sponsor_data'] = $sponsored;
+		$this->data['sent_message'] = $this->vendor_class_model->get_sent_message($id);
 
 		$this->data['categories'] = $this->vendor_class_model->get_category_list();
 		$this->load->model('discount_model');
@@ -389,6 +390,116 @@ class Kelas extends Vendor_Controller{
 		$this->vendor_class_model->update_class($data, array());
 		redirect('vendor/kelas/detil/'.$id.'/info');
 	}
+	
+	public function update_profile_2(){
+		$id = $this->input->post('id');
+		
+		if(empty($id)) {
+			show_404();
+		}
+		$table['vendor_class'] = array(
+			'class_uri','class_deskripsi','class_paket','class_include','class_catatan','class_lokasi','class_peta',
+			'class_perserta_target','class_peserta_min','class_peserta_max','class_harga','class_alasan',
+			'class_video'
+		);
+		$table['vendor_class_price'] = array(
+			'price_per_session','discount'
+		);
+		$table['vendor_class_jadwal'] = array(
+			'class_tanggal','class_jam_mulai','class_jam_selesai','class_topik'
+		);
+		$table['vendor_class_level'] = array(
+			'level_id'
+		);
+		$table['vendor_class_category'] = array(
+			'category_id'
+		);
+		$data = array();
+		$jadwal = array();
+		foreach($table as $tbl => $fields) {
+			foreach($fields as $field) {
+				$data[$tbl][$field] = $this->input->post($field);
+			}
+		}
+		$kelas_jadwal = $data['vendor_class_jadwal'];
+		foreach($kelas_jadwal['class_tanggal'] as $jadwal_ke => $kelas_tanggal) {
+			if(!empty($kelas_tanggal) 
+					&& !empty($kelas_jadwal['class_jam_mulai'][$jadwal_ke]) 
+					&& !empty($kelas_jadwal['class_jam_selesai'][$jadwal_ke])
+			){
+				$mulai = explode(':',$kelas_jadwal['class_jam_mulai'][$jadwal_ke]);
+				$tamat = explode(':',$kelas_jadwal['class_jam_selesai'][$jadwal_ke]);
+				$kelas_tanggal = date('Y-m-d', strtotime($kelas_tanggal));
+				$jadwal[] = array(
+					'class_id'				=> $id,
+					'jadwal_id'				=> $jadwal_ke,
+					'class_tanggal'			=> $kelas_tanggal,
+					'class_jam_mulai'		=> $mulai[0],
+					'class_menit_mulai'		=> $mulai[1],
+					'class_jam_selesai'		=> $tamat[0],
+					'class_menit_selesai'	=> $tamat[1],
+					'class_waktu'			=> 1,
+					'class_jadwal_topik'	=> $kelas_jadwal['class_topik'][$jadwal_ke]
+				);
+			}
+		}
+		$data['vendor_class']['id'] = $id;
+		$data['vendor_class'] = array_filter($data['vendor_class']);
+
+		$no_files = FALSE;
+		if(!empty($_FILES['class_image']) ) {
+			if($_FILES['class_image']['error'] > 0 || $_FILES['class_image']['size'] < 10){
+//				var_dump($_FILES);
+				$no_files = TRUE;
+			} else {
+				mkdir(rtrim(str_replace('\\','/',FCPATH), '/')."/images/class/{$id}/", 0777, TRUE);
+				$opt = array(
+					'file_name'		=> 'main_picture',
+					'upload_path'	=> rtrim(FCPATH, '/')."/images/class/{$id}/",
+					'allowed_types'	=> '*',
+					'is_image'		=> TRUE,
+					'overwrite'		=> TRUE
+				);
+				$this->load->library('upload', $opt);
+				if(!$this->upload->do_upload('class_image')){
+//					var_dump($this->upload->error_msg);
+					$no_files = TRUE;
+				} else {
+					$files = $this->upload->data();
+				}
+			}
+		} else {
+//			var_dump($_FILES);
+			$no_files = TRUE;
+		}
+
+		if(!$no_files && !empty($files) && !empty($files['file_name'])) {
+			$data['vendor_class']['class_image'] = $files['file_name'];
+//		} else {
+//			exit;
+//			$data['class_image'] = NULL;
+		}
+
+		$this->load->helper('url');
+		$data['vendor_class']['class_uri'] = url_title(strtolower($data['vendor_class']['class_uri']));
+//var_dump($jadwal);exit;
+		$this->vendor_class_model->update_class($data['vendor_class'], array());
+//		$this->vendor_class_model->update_class_schedule($id)
+		$this->vendor_class_model->clear_class_schedule($id);
+		foreach($jadwal as $sched) {
+			$this->vendor_class_model->add_update_class_schedule($sched);
+		}
+		$this->vendor_class_model->clear_class_level($id);
+		$this->vendor_class_model->clear_class_category($id);
+		$this->vendor_class_model->add_class_level($id, $data['vendor_class_level']['level_id']);
+		$this->vendor_class_model->add_class_category($id, $data['vendor_class_category']['category_id']);
+		
+//		echo '<pre>';
+//		var_dump($data);
+
+		redirect('vendor/kelas/detil/'.$id.'/info');
+	}
+	
 	public function update_info(){
 		$id = $this->input->post('id');
 
@@ -565,8 +676,12 @@ class Kelas extends Vendor_Controller{
 		$nominal_value = $this->input->post('nominal_value', TRUE);
 		$usage = $this->input->post('jumlah', TRUE) == '*'?'9999':$this->input->post('usage_qty');
 		
-		$start_time = $this->input->post('begin', TRUE) == '*'?'1971-01-01 00:00:00':$this->input->post('begin_date', TRUE);
-		$ended_time = $this->input->post('ended', TRUE) == '*'?'2200-01-01 00:00:00':$this->input->post('ended_date', TRUE);
+		$start_time = $this->input->post('begin', TRUE) == '*'?
+				'1971-01-01 00:00:00':
+				date('Y-m-d', strtotime($this->input->post('begin_date', TRUE)));
+		$ended_time = $this->input->post('ended', TRUE) == '*'?
+				'2200-01-01 00:00:00':
+				date('Y-m-d', strtotime($this->input->post('ended_date', TRUE)));
 		
 		//$session_ids = $this->input->post('session', TRUE);
 		$session_id = 0;
@@ -589,7 +704,6 @@ class Kelas extends Vendor_Controller{
 			'main'	=> $discount_main,
 			'value'	=> $discount_value,
 		);
-		
 		$this->load->model('discount_model');
 		$check = $this->discount_model->create_diskon($discount);
 		if($check) {
@@ -625,6 +739,22 @@ class Kelas extends Vendor_Controller{
 		$vendor = $this->vendor_model->get_profile(array('id'=>$this->data['user']['id']))->row();
 		$this->email_model->vendor_send_message_to($vendor, $id, $subject, $message, $reciever_type, $attachment?"{$uploads_dir}/{$name}":NULL);
 		redirect('vendor/kelas/detil/'.$id.'/email_blast');
+	}
+	
+	public function resend_email() {
+		$class_id = (int)$this->input->get('class_id', TRUE);
+		$email_id = (int)$this->input->get('email_id', TRUE);
+		$email_data = $this->vendor_class_model->get_sent_message($class_id, $email_id);
+		if(!empty($email_data)) {
+			$this->load->model('email_model');
+			$vendor = $this->vendor;
+			$this->email_model->vendor_send_message_to(
+				$vendor,$class_id,
+					'RESEND: '.$email_data->subject,
+				$email_data->message,$email_data->type,$email_data->attachment
+			);
+		}
+		redirect('vendor/kelas/detil/'.$class_id.'/email_blast');
 	}
 }
 

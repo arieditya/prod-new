@@ -30,7 +30,7 @@ class Vendor_class_model extends MY_Model{
 		return $id;
 	}
 
-	public function update_class($data, $data_ext) {
+	public function update_class($data, $data_ext = array()) {
 		$id = $data['id'];
 		unset($data['id']);
 		$this->db->where('id', $id);
@@ -154,17 +154,47 @@ class Vendor_class_model extends MY_Model{
 			return $title;
 		}
 	}
+	
+	public function remove_class_schedule($class_id) {
+		$this->db->where('class_id', $class_id);
+		$this->db->delete('vendor_class_jadwal');
+	}
 
 	public function add_class_schedule($class_id, $data){
 		$data['class_id'] = $class_id;
 		$this->db->insert('vendor_class_jadwal', $data);
+//		var_dump($this->db->last_query());exit;
 		return $this->db->insert_id();
+	}
+	
+	public function add_update_class_schedule($sched){
+		$count = $this->db
+				->from('vendor_class_jadwal')
+				->where(array(
+						'class_id'=>$sched['class_id'],
+						'jadwal_id'=>$sched['jadwal_id'],
+				))->get()->num_rows();
+		$jadwal_id = $sched['jadwal_id'];
+		$class_id = $sched['class_id'];
+		unset($sched['class_id']);
+		unset($sched['jadwal_id']);
+		var_dump($sched);
+		if($count) {
+			return !!$this->update_class_schedule($jadwal_id, $sched);
+		} else {
+			return !!$this->add_class_schedule($class_id, $sched);
+		}
 	}
 
 	public function update_class_schedule($sched_id, $data) {
 		$this->db->where(array('jadwal_id' => $sched_id));
 		$this->db->update('vendor_class_jadwal', $data);
 		return $this->db->affected_rows();
+	}
+	public function clear_class_schedule($class_id) {
+		$this->db->where(array('class_id' => $class_id));
+		$this->db->delete('vendor_class_jadwal');
+		return;
 	}
 	
 	public function check_schedule_exists($class_id, $sched_id) {
@@ -298,6 +328,20 @@ class Vendor_class_model extends MY_Model{
 		return $this->db->where(array('id'=>$category_id))->get('vendor_category_list')->row();
 	}
 	
+	public function add_class_category($class_id, $category_id) {
+		if(!is_array($category_id)) $category_id = array($category_id);
+		$affected_rows = 0;
+		foreach($category_id as $cat){
+			$this->db->insert('vendor_class_category', array('class_id'=>$class_id,'category_id'=>$cat));
+			if($this->db->affected_rows()) $affected_rows++;
+		}
+		return count($category_id) == $affected_rows;
+	}
+	
+	public function clear_class_category($class_id) {
+		$this->db->delete('vendor_class_category', array('class_id'=>$class_id));
+	}
+	
 	public function get_level($var = array()) {
 		$this->db->where($var);
 		$this->db->where(array('status'=>1));
@@ -312,7 +356,12 @@ class Vendor_class_model extends MY_Model{
             ->row()->level_ids;
 		if(empty($level_id))
 			return FALSE;
-		return $this->db->where_in('id', explode(',',$level_id))->get('vendor_level_list')->result_array();
+		$result = $this->db->where_in('id', explode(',',$level_id))->get('vendor_level_list')->result();
+		$return = array();
+		foreach($result as $rslt) {
+			$return[$rslt->id] = $rslt;
+		}
+		return $return;
 	}
 
     public function get_class_level($class_id) {
@@ -321,6 +370,20 @@ class Vendor_class_model extends MY_Model{
             return FALSE;
         return $this->db->where(array('id'=>$level_id))->get('vendor_level_list')->row();
     }
+	
+	public function add_class_level($class_id, $level_id) {
+		if(!is_array($level_id)) $level_id = array($level_id);
+		$affected_rows = 0;
+		foreach($level_id as $lvl){
+			$this->db->insert('vendor_class_level', array('class_id'=>$class_id,'level_id'=>$lvl));
+			if($this->db->affected_rows()) $affected_rows++;
+		}
+		return count($level_id) == $affected_rows;
+	}
+	
+	public function clear_class_level($class_id) {
+		$this->db->delete('vendor_class_level', array('class_id'=>$class_id));
+	}
 	
 	public function add_class_price($class_id, $data){
 		if($this->db->where('class_id', $class_id)->get('vendor_class_price')->num_rows() > 0){
@@ -961,6 +1024,12 @@ class Vendor_class_model extends MY_Model{
 			$ret[$result->id] = $result;
 		}
 		return $ret;
+	}
+	
+	public function get_sent_message($class_id, $email_id = NULL) {
+		if(!empty($email_id))
+			return $this->db->where(array('class_id'=>$class_id,'id'=>$email_id))->get('vendor_class_message')->row();
+		return $this->db->where('class_id', $class_id)->get('vendor_class_message')->result();
 	}
 	
 }

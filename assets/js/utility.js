@@ -26,6 +26,18 @@ var dateFromToday = function(day) {
 
 var todayDate = dateFromToday(0);
 
+var hashSeed = "23456789ABCDEFGHJKLMNPQRSTUVWXY";
+var hashGenerator = function(length) {
+	if( ! length) length = 8;
+	var i=0;
+	var hash='';
+	while(i++ < length) {
+		var pos = Math.floor((Math.random()*hashSeed.length));
+		hash += hashSeed.charAt(pos);
+	}
+	return hash;
+};
+
 // input type number
 $(document).ready(function(){
 	$('input[type=number]').keydown(function(e){
