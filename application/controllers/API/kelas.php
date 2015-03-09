@@ -13,6 +13,7 @@ class Kelas extends API_Controller{
 	{
 		parent::__construct();
 		$this->load->model('vendor_class_model');
+		$this->load->model('vendor_model');
 	}
 	
 	public function _remap($segment) {
@@ -28,8 +29,25 @@ class Kelas extends API_Controller{
 		if(empty($page)) $page = 1;
 		$perpage = (int) $this->input->get('row', TRUE);
 		if(empty($perpage)) $perpage = 5;
-		echo json_encode(array('status'=>'ok','data'=>$this->vendor_class_model->get_class(array(), $page, 
-						$perpage)->result()));
+		$classes = $this->vendor_class_model->get_class(array(), $page, $perpage)->result();
+		foreach($classes as &$class) {
+			$class->level = array_merge( $this->vendor_class_model->get_class_multiple_level($class->id));
+			unset($class->level_id);
+			unset($class->name);
+			unset($class->nama);
+			$class->class_paket = $class->class_paket==0?'single':($class->class_paket==1?'series':'package'); 
+			$class->class_image = !empty($class->class_image)?
+					base_url()."images/class/{$class->id}/{$class->class_image}":
+					'No Image / Foto'
+			;
+			$class->vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+			unset($class->vendor->password);
+			unset($class->class_harga);
+			$class->vendor->info = $this->vendor_model->get_info(array('vendor_id'=>$class->vendor_id))->row();
+			$class->vendor->info->vendor_logo = 
+					base_url()."images/vendor/{$class->vendor_id}/{$class->vendor->info->vendor_logo}";
+		}
+		echo json_encode(array('status'=>'ok','data'=>$classes));
 		
 	}
 	
@@ -40,6 +58,15 @@ class Kelas extends API_Controller{
 			echo json_encode(array('status'=>'KO', 'message'=>'No Class Found!'));
 			return;
 		}
+		$class->vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+		unset($class->vendor->password);
+		$class->class_image = !empty($class->class_image)?
+				base_url()."images/class/{$class->id}/{$class->class_image}":
+				'No Image / Foto'
+		;
+		$class->vendor->info = $this->vendor_model->get_info(array('vendor_id'=>$class->vendor_id))->row();
+		$class->vendor->info->vendor_logo = 
+				base_url()."images/vendor/{$class->vendor_id}/{$class->vendor->info->vendor_logo}";
 		echo json_encode(array(
 			'status'	=> 'OK',
 			'data'		=> $class
