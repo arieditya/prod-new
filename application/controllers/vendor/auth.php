@@ -24,7 +24,9 @@ class Auth extends MY_Controller{
 	public function logreg() {
 		$this->data['is_page'] = TRUE;
 		if($this->input->get('simple_form') == '1') $this->data['is_page'] = FALSE;
-		$this->load->view('vendor/auth/logreg', $this->data);
+		$this->new_design?
+			$this->load->view('vendor/auth/logreg2', $this->data):
+			$this->load->view('vendor/auth/logreg', $this->data);
 	}
 	
 	public function do_login() {
