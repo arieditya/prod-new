@@ -47,7 +47,11 @@ endif; ?>
 					<div class="col-md-offset-1 col-md-5 padbottom-10">
 						<ul class="btn-how-to">
 							<li class="btn-pinky shadow"><a href="#cara-kerja">Cara Kerja</a></li>
-							<li class="btn-pinky-active shadow"><a class="fancybox" href="#inline2">Daftar kelas pertama gratis!</a></li>
+							<li class="btn-pinky-active shadow">
+								<a class="fancybox" 
+								   href="#inline2">Selenggarakan kelas anda sekarang!
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>

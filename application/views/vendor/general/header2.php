@@ -104,7 +104,7 @@
 						<li><a href="#contact">Kontak</a></li>
 					</ul>
 <?php
-	if(empty($is_login) || !$is_login): // Not logged in
+	if(empty($vendor) || empty($vendor['profile']->id)): // Not logged in
 ?>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown sign-in">
@@ -240,10 +240,12 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 ?>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="user-login">
-							Hello, <a href="<?php echo base_url()?>vendor/profile">kelas</a>
+							Halo, <a href="<?php echo base_url()?>vendor/profile">
+								<?php echo $vendor['profile']->name;?>
+							</a>
 						</li>
 						<li class="sign-out">
-							<a href="#">Sign Out</a>
+							<a href="<?php echo base_url()?>vendor/auth/logout">Sign Out</a>
 						</li>
 					</ul>
 <?php

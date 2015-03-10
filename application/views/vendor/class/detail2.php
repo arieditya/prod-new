@@ -27,57 +27,20 @@ else
 </script>
 	<div class="container content kelas vendor">
 		<div class="row">
-			<div class="col-md-3 col-sm-12">
-				<div class="sidebar">
-					<div class="profile-image-wrap">
-							<img src="<?php echo base_url().$vendor_logo;?>" 
-							 alt="" 
-							 class="img-responsive">
-						<a href="#"><span class="edit"><i class="fa fa-pencil"></i></span></a>
-					</div>
-					<h3 class="profile-name text-center"><?php echo $vendor['profile']->name;?></h3>
-
-					<div class="progress">
-					  <div class="progress-bar progress-bar-warning" 
-						   role="progressbar" 
-						   aria-valuenow="60" 
-						   aria-valuemin="0" 
-						   aria-valuemax="100" 
-						   style="width: 60%">
-						60% 
-					  </div>
-					</div>
-
-					<!-- Nav tabs -->
-					<ul class="nav nav-tabs" role="tablist">
-						<li role="presentation">
-							<a href="#profil" aria-controls="profil" role="tab" data-toggle="tab"><i class="fa fa-user"></i> Profil</a>
-						</li>
-						<li role="presentation">
-							<a href="#reponsible" aria-controls="reponsible" role="tab" data-toggle="tab"><i class="fa fa-male"></i> Penganggungjawab</a>
-						</li>
-						<li class="active">
-							<a href="#"><i class="fa fa-users"></i> Kelas Anda</a>
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-plus"></i> Tambah Kelas</a>
-						</li>
-					</ul>
-				</div><!-- sidebar -->
-			</div>
+<?php $this->load->view('vendor/general/sidebar');?>
 			<div class="col-md-9 col-sm-12">
 				<div class="panel panel-default">
-					<h2 class="block-title text-uppercase">Edit Kelas</h2>
+					<h2 class="block-title text-uppercase">Kelas Anda</h2>
 					<div class="panel-body">
 						<div role="tabpanel" class="sub-vendor manage">
 
 							<!-- Nav tabs -->
-							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active">
-									<a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a>
+							<ul class="nav nav-tabs" role="tablist" class="active">
+								<li role="presentation">
+									<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
 								</li>
 								<li role="presentation">
-									<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profil Kelas</a>
+									<a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a>
 								</li>
 								<li role="presentation">
 									<a href="#murid" aria-controls="murid" role="tab" data-toggle="tab">Murid</a>
@@ -1074,12 +1037,12 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 										<table class="table table-bordered">
 											<thead class="text-center">
 												<tr>
-													<td>Kode<br />Discount</td>
-													<td>Type</td>
-													<td>Maks<br />Pengguna</td>
+													<td>Kode<br />Diskon</td>
+													<td>Tipe</td>
+													<td>Alokasi</td>
 													<td>Start</td>
 													<td>Expire</td>
-													<td>Value</td>
+													<td>Nilai<br />Diskon</td>
 												</tr>
 											</thead>
 											<tbody class="text-center">
@@ -1087,7 +1050,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 	if(count($discount) < 1):
 ?>
 												<tr>
-													<td colspan="5">
+													<td colspan="6">
 														Belum ada! <br />
 														Gunakan form dibawah untuk membuat discount!
 													</td>
