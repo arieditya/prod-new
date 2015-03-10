@@ -11,7 +11,9 @@
 	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
 		$logo = 'kelas-logo-beta.png';
 		;
-
+	$have_bar = FALSE;
+	if(!empty($show_filter) && $show_filter || !empty($show_vendor_menu))
+		$have_bar = TRUE;
 ?><!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -44,7 +46,7 @@
 		$('.fancybox').fancybox();
 	})
 	</script>
-	<body class="have-bar">
+	<body<?php echo $have_bar?' class="have-bar"':''?>>
 
 	<!-- Fixed navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
