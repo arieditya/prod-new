@@ -72,11 +72,11 @@ endif; ?>
 							</h3>
 								<p><?php echo $class->class_deskripsi;?></p>
 							<h5 class="title-class"> 
-								<span class="title-label">Target Peserta :</span><br />
+								<span class="title-label">Target Peserta :</span><br /><br />
 								<span class="content"><?php echo $class->class_perserta_target?></span>
 							</h5>
 							<h5 class="title-class">
-								<span class="title-label">Kapasitas :</span><br />
+								<span class="title-label">Kapasitas :</span><br /><br />
 								<span class="content">
 									<?php echo $class->class_peserta_max?> orang 
 								</span>
@@ -231,6 +231,7 @@ endif;
 	$rate = $rating->rate;
 //	$rate = 4;
 	$counter = $rating->counter;
+	if(empty($counter)):
 ?>
 						<span class="rate"><?php echo "{$rate} dari {$counter} ";?></span>
 						<div class="rating pull-left">
@@ -247,6 +248,10 @@ endif;
 <?php 
 		endif;
 	endfor;
+?>
+							<p>Belum memiliki rating</p>
+<?php
+	endif;
 ?>
 						</div><!-- rating -->
 					</div><!-- rating-wrap -->
@@ -280,7 +285,7 @@ endif;
 			<div class="col-md-4">
 				<div class="price-big-wrap detail-label label-yellow text-center">
 					<i class="fa fa-tag"></i>
-					<h3 class="entry-detail-label text-center">
+					<h3 class="entry-detail-label text-center text-20">
 						Rp <?php echo number_format($class->price_per_session*$schedule->num_rows(), 0, ',','.');?>,-
 					</h3>
 				</div><!-- detail-label -->
@@ -334,7 +339,6 @@ if(count($maps) == 1) {
 					<div class="panel-body">
 						<p>Peroleh informasi dan bantuan terkait kelas dari tim layanan konsumen kami! </p>
 						<h5 class="support"><a href="#"><i class="fa fa-phone-square"></i>021-9200-3040</a></h5>
-						<h5 class="support"><a href="#"><i class="fa fa-comments"></i>Ngobrol bersama kami!</a></h5>
 						<h5 class="support"><a href="#"><i class="fa fa-envelope"></i>kelas@ruangguru.com</a></h5>
 					</div>
 				</div><!-- panel -->

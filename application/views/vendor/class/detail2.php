@@ -268,19 +268,20 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
                                             <div class="col-sm-offset-4 col-sm-8 submit-form">
-                                                <?php if ($status->class_status == 0) { ?>
+<?php if ($status->class_status == 0) : ?>
                                                     <a href="vendor/kelas/"
                                                        class="btn btn-default main-button register">
-                                                        Request Published
+                                                        Request To Published
                                                     </a>
-                                                <?php
-                                                } else { ?>
+<?php
+else : ?>
                                                     <a href="#"
                                                        class="btn btn-default main-button register">
-                                                        Request Unpublished
+                                                        Request To Unpublished
                                                     </a>
-                                                <?php } ?>
-                                                ?>
+<?php 
+endif;
+?>
                                             </div>
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
@@ -300,7 +301,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												   href="#form_profile"
 												   aria-controls="form_profile"
 												   aria-expanded="true">
-													Detail Profile
+													Profil
 												</a>
 											</h3>
 										</div>
