@@ -447,7 +447,13 @@ class Vendor_class_model extends MY_Model{
 		$this->db->update('vendor_class', array('class_status'=>$status), array('id'=>$id));
 		return !! $this->db->affected_rows();
 	}
-	
+
+    public function get_status_class($id) {
+        $query = "SELECT class_status, active FROM vendor_class WHERE id = ?";
+        $result = $this->db->query($query, $id)->row();
+        return $result;
+    }
+
 	public function get_id_by_uri($uri) {
 		$return = $this->db->select('id')->from('vendor_class')->where('class_uri', $uri)->get()->row();
 		if(!empty($return->id)) return $return->id;

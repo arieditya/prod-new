@@ -30,7 +30,31 @@ else
 <?php $this->load->view('vendor/general/sidebar');?>
 			<div class="col-md-9 col-sm-12">
 				<div class="panel panel-default">
-					<h2 class="block-title text-uppercase">Kelas Anda</h2>
+					<h2 class="block-title text-uppercase">Kelas Anda / <?php echo $class->class_nama; ?></h2>
+                    <span class="info">Status:
+                        <i>
+                        <?php
+                            switch($status->class_status){
+                                case -1:
+                                    echo "rejected";
+                                    break;
+                                case 0:
+                                    echo "draft";
+                                    break;
+                                case 1:
+                                    echo "verifying";
+                                    break;
+                                case 4: {
+                                    if($status->active = 0)
+                                        echo "pending unpublished";
+                                    else
+                                        echo "pending published";
+                                    break;
+                                }
+                            }
+                        ?>
+                        </i>
+                    </span>
 					<div class="panel-body">
 						<div role="tabpanel" class="sub-vendor manage">
 
@@ -239,6 +263,9 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<div class="col-sm-4">Harga sudah meliputi</div>
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
+                                            <div class="col-sm-offset-4 col-sm-8 submit-form">
+                                                <button type="submit" class="btn btn-default main-button register">Request Publish</button>
+                                            </div>
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
 								</div><!-- preview -->

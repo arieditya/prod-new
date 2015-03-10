@@ -245,7 +245,8 @@ class Kelas extends Vendor_Controller{
 		$this->data['tags'] = $this->vendor_class_model->get_tags($id);
 		$this->data['tabs'] = $tabs;
 		$this->data['sidebar'] = 'daftar_kelas';
-		$this->new_design?
+		$this->data['status'] = $this->vendor_class_model->get_status_class($id);
+        $this->new_design?
 			$this->load->view('vendor/class/detail2', $this->data):
 			$this->load->view('vendor/class/detail', $this->data);
 	}
