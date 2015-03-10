@@ -149,7 +149,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   float: left;
 }
 .nav .title-filter {
-  padding-top: 7px;
+  padding-top: 3px;
 }
 .title-filter {
   /*font-family: Roboto Semibold; */
@@ -738,6 +738,9 @@ thead {
   left: -22px;
   position: absolute;
   top: 9px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
   transform: rotate(45deg);
   width: 43px;
   z-index: -1;
@@ -1820,4 +1823,23 @@ a.remove {
     list-style: outside none none;
     padding: 0 20px;
   }
+}
+
+.text-12, .text-12 * {
+	font-size: 12px !important;
+}
+.text-14, .text-14 * {
+	font-size: 14px !important;
+}
+.text-16, .text-16 * {
+	font-size: 16px !important;
+}
+.text-18, .text-18 * {
+	font-size: 18px !important;
+}
+.text-20, .text-20 * {
+	font-size: 20px !important;
+}
+.strike {
+	text-decoration: line-through;
 }

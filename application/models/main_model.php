@@ -24,6 +24,10 @@ class Main_model extends CI_Model {
         }
         return $this->db->get('matpel');
     }
+	
+	function get_provinsi_list() {
+		return $this->db->get('provinsi')->result();
+	}
     
     function get_lokasi($prov_id){
         $this->db->order_by('lokasi_title','asc');

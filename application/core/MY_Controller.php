@@ -51,6 +51,16 @@ class MY_Controller extends CI_Controller{
 				$new_design = FALSE;
 			}
 		}
+		$this->load->model('vendor_class_model');
+		$this->load->model('vendor_model');
+		$this->load->model('main_model');
+		$this->data['header_data'] = array(
+			'class_level'	=> $this->vendor_class_model->get_class_level_list()->result(),
+			'provinsi_list'	=> $this->main_model->get_provinsi_list(),
+			'class_category'=> $this->vendor_class_model->get_category_list()->result(),
+			
+		);
+		
 		$this->new_design = $new_design;
 	}
 	

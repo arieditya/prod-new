@@ -22,13 +22,13 @@ endforeach;
 			<div class="col-md-8">
 				<h2 class="entry-title"><?php echo $class->class_nama;?></h2>
 				<div class="add-info">
-					<span class="info-label text-uppercase">Tag : <a href="#">Code Igniter</a>
+					<span class="info-label text-uppercase">Tag :
 <?php
 	if(!empty($class->tag)):
 		$tags = explode(',', $class->tag);
 		foreach($tags as $tag):
 ?>
-						<a href="#"><?php echo $tag;?></a>&nbsp;
+						<a href="#<?php echo $tag;?>"><?php echo $tag;?></a>&nbsp;
 <?php
 		endforeach;
 	endif;
@@ -62,26 +62,42 @@ endif; ?>
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane active" id="kelas">
-							<h3><a href=""><?php echo $vendor['profile']->name;?></a></h3>
+							<h3>Penyelenggara: <a href=""><?php echo $vendor['profile']->name;?></a></h3>
 								<p><?php echo $class->class_deskripsi;?></p>
 							<h5 class="title-class"> 
-								<span class="title-label">Target Peserta :</span>
+								<span class="title-label">Target Peserta :</span><br />
 								<span class="content"><?php echo $class->class_perserta_target?></span>
 							</h5>
 							<h5 class="title-class">
-								<span class="title-label">Kapasitas :</span>
+								<span class="title-label">Kapasitas :</span><br />
 								<span class="content">
 									<?php echo $class->class_peserta_max?> orang 
-									(kelas terlaksana jika ada minimal <?php echo $class->class_peserta_min?> murid)
 								</span>
 							</h5>
 						</div><!-- #kelas -->
 						<div role="tabpanel" class="tab-pane" id="harga">
 							<h5 class="title-label">Harga per sesi</h5>
 							<p> Rp <?php echo number_format($class->price_per_session, 0, ',','.')?>,- </p>
-							<h5 class="title-label">Harga per paket</h5>
-							<p> Rp <?php echo number_format($class->price_per_session*$class->count_session, 0, ',',
-										'.')?>,- </p>
+<?php 
+if ($class->class_paket > 0):?>
+							<h5 class="title-label">Harga paket</h5>
+<?php 
+	if(!empty($class->discount)):?>
+							<p> Rp <?php echo number_format($class->price_per_session*$class->count_session, 0, ',','.')?>,- </p>
+<?php 
+	else: 
+		$ori_price = $class->price_per_session*$class->count_session;
+		$disc_price = $ori_price - $class->discount;
+?>
+							<p>
+								<span class="strike"><?php echo $ori_price;?></span>
+								<?php echo $disc_price;?>
+							</p>
+<?php 
+	endif;
+endif;
+?>
+										
 							<h5 class="title-label">Harga sudah termasuk</h5>
 							<p><?php echo nl2br($class->class_include);?></p>
 <?php 
@@ -136,8 +152,12 @@ endif;
 											<td>Topik</td>
 <?php 
 	endif;
+	if($class->class_paket==1):
 ?>
 											<td>Daftar</td>
+<?php 
+			endif; 
+?>
 										</tr>
 									</thead>
 									<tbody>
@@ -167,7 +187,7 @@ endif;
 												<td><?php echo $kelas_jadwal->class_jadwal_topik; ?></td>
 <?php 
 			endif;
-			if($class->class_paket==0):?>
+			if($class->class_paket==1):?>
 												<td><input type="checkbox" class="kurikulum_daftar" value="join" name="daftar[<?php echo $kelas_jadwal->jadwal_id;?>]" /></td>
 <?php 
 			endif; 
@@ -176,7 +196,7 @@ endif;
 <?php
 		endforeach;
 	else:
-		$cols = 3+($got_topic?1:0)+($class->class_paket==0?1:0);
+		$cols = 3+($got_topic?1:0)+($class->class_paket==1?1:0);
 ?>
 											<tr>
 												<td colspan="<?php echo $cols;?>">

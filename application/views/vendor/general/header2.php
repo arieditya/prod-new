@@ -266,8 +266,8 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 						<span class="icon-bar"></span>
 					</button>
 					<div class="col-sm-12">
-						<ul class="nav nav-pills">
-							<li class="title-filter text-16">Filter</li>
+						<ul class="nav nav-pills text-14">
+							<li class="title-filter">Filter</li>
 							<li id="cat_list" class="filter-select">
 								<select class="form-control input-sm">
 									<option value="0">Hari</option>
@@ -282,51 +282,58 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 							</li>
 							<li id="lev_list" class="filter-select">
 								<select class="form-control level input-sm">
-									<option value="0">Level</option>
-									<option value="1" class="level_check level_1">Basic</option>
-									<option value="2" class="level_check level_2">Beginner</option>
-									<option value="3" class="level_check level_3">Intermediate</option>
-									<option value="4" class="level_check level_4">Advance</option>
-									<option value="5" class="level_check level_5">Expert</option>
-									<option value="6" class="level_check level_6">Master</option>
+									<option value="*">Level</option>
+<?php
+	foreach($header_data['class_level'] as $level):
+?>
+									<option class="level_check" 
+											value="<?php echo $level->id?>"><?php echo $level->name?></option>
+<?php 
+	endforeach;
+?>
 								</select>
 							</li>
 							<li id="prov_list" class="filter-select">
 								<select class="form-control propinsi input-sm">
-									<option value="0">Provinsi</option>
+									<option value="*">Provinsi</option>
+<?php
+	foreach($header_data['provinsi_list'] as $provinsi):
+?>
+									<option value="<?php echo $provinsi->provinsi_id?>"><?php echo $provinsi->provinsi_title?></option>
+<?php 
+	endforeach;
+?>
 								</select>
 							</li>
 							<li id="tipe_list" class="filter-select">
 								<select class="form-control input-sm">
-									<option value="0">Tipe Kelas</option>
-									<option value="0">Paket</option>
+									<option value="*">Tipe Kelas</option>
+									<option value="1,2">Paket</option>
 									<option value="0">Satu Sesi</option>
 								</select>
 							</li>
 							<li id="harga_list" class="filter-select">
 								<select class="form-control kategori input-sm">
 									<option value="0">Kategori</option>
-									<option value="1">Bahasa</option>
-									<option value="2">Kewirausahaan</option>
-									<option value="3">Kuliner</option>
-									<option value="4">Olahraga</option>
-									<option value="5">Pelajaran Sekolah</option>
-									<option value="6">Pengembangan Diri</option>
-									<option value="7">Persiapan Tes</option>
-									<option value="8">Seni</option>
-									<option value="9">Lainnya</option>
+<?php
+	foreach($header_data['class_category'] as $category):
+?>
+									<option value="<?php echo $category->id?>"><?php echo $category->category_name?></option>
+<?php
+	endforeach;
+?>
 								</select>
 							</li>
 						</ul>
-						<ul class="sort nav">
+						<ul class="sort nav text-14">
 							
-							<li class="title-filter text-16 sort-list">Urutan</li>
+							<li class="title-filter sort-list">Urutan</li>
 							<li id="sort_by_list" class="sort-list">
 								<select class="form-control input-sm">
-									<option value="0">Harga Termurah</option>
-									<option value="1">On Going Class</option>
-									<option value="2">Upcoming Class</option>
-									<option value="3">Past Class</option>
+									<option value="price">Harga Termurah</option>
+									<option value="ongoing">Ongoing Class</option>
+									<option value="upcoming">Upcoming Class</option>
+									<option value="past">Past Class</option>
 								</select>
 							</li>
 						</ul>

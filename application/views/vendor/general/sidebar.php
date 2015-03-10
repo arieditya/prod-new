@@ -43,7 +43,7 @@ if(empty($sidebar)) $sidebar = 'profile';
 							   aria-controls="reponsible" 
 							   role="tab" 
 							   data-toggle="tab">
-								<i class="fa fa-male"></i> Penganggungjawab
+								<i class="fa fa-male"></i> Penanggungjawab
 							</a>
 						</li>
 <?php 
@@ -56,7 +56,7 @@ if(empty($sidebar)) $sidebar = 'profile';
 						</li>
 						<li role="presentation" <?php echo $sidebar=='penanggungjawab'?'class="active"':'';?>>
 							<a href="<?php echo base_url()?>vendor/profile/edit/reponsible" >
-								<i class="fa fa-male"></i> Penganggungjawab
+								<i class="fa fa-male"></i> Penanggungjawab
 							</a>
 						</li>
 <?php 

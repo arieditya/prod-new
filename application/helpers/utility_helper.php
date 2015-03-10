@@ -136,7 +136,7 @@ function hashgenerator($length = 20, $type = 'all', $case = 0){
 }
 
 function rupiah_format ($number) {
-	return 'Rp '.number_format($number,0).',-';
+	return 'Rp '.number_format($number,0,',','.').',-';
 }
 
 function double_digit($number) {

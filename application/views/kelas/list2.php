@@ -9,7 +9,6 @@
  */
 $this->load->helper('text');
 $this->load->view('vendor/general/header2');
-//var_dump($class);exit;
 ?>
 <script type="application/javascript">
 //	$.parseJSON();
@@ -80,13 +79,13 @@ $this->load->view('vendor/general/header2');
 	if(!empty($class)):
 		foreach($class as $kelas):
 			if($i < 6) :
-				if($i % 3 == 0 && $i > 0){
+				if($i % 3 == 0 && $i > 0):
 					$j++;
 ?>
         </div>
         <div class="row">
 <?php 
-				}
+				endif;
 				$imgparts = explode('.',$kelas->class_image);
 				$ext = array_pop($imgparts);
 				array_push($imgparts, $ext);
@@ -94,15 +93,15 @@ $this->load->view('vendor/general/header2');
 						.implode('.', $imgparts));
 				$price = (int)$kelas->price_per_session;
 				$disc = (int)$kelas->discount;
-				if(empty($price)){
-					$_price = '0,-';
+				if($kelas->class_paket == 2) {
+					$_price = rupiah_format($price * $kelas->count_session).' /paket';
 				} else {
-					$_price = number_format($price, 0, ',', '.').',-';
+					$_price = rupiah_format($price).' /sesi';
 				}
 ?>
 			<div class="col-sm-4">
 				<div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
-					<a href="#">
+					<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 						<div class="grid-top" style="background-image: url('<?php echo base_url().$img;?>');">
 							<div class="grid-title-wrap" style="width: 100%">
 								<h3 class="grid-title"><?php echo $kelas->class_nama?></h3>
@@ -110,7 +109,7 @@ $this->load->view('vendor/general/header2');
 						</div><!-- grid-top -->  
 					</a>
 					<div class="grid-bottom">
-						<span class="price">Rp. <?php echo $_price.' /sesi'; ?></span>
+						<span class="price"><?php echo $_price; ?></span>
 						<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 							<span class="details">Details</span>
 						</a>
