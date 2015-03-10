@@ -62,7 +62,9 @@ endif; ?>
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane active" id="kelas">
-							<h3>Penyelenggara: <a href=""><?php echo $vendor['profile']->name;?></a></h3>
+							<h3 class="text-20">
+								Penyelenggara: <a href=""><?php echo $vendor['profile']->name;?></a>
+							</h3>
 								<p><?php echo $class->class_deskripsi;?></p>
 							<h5 class="title-class"> 
 								<span class="title-label">Target Peserta :</span><br />
@@ -211,7 +213,9 @@ endif;
 								</table>
 							</div><!-- table-responsive -->
 						</div><!-- #jadwal -->
-						<a href="#" class="main-button register text-center"><i class="fa fa-user"></i> Daftar Sekarang</a>
+						<a href="#" 
+						   class="main-button register text-center register_class"
+								><i class="fa fa-user"></i> Daftar Sekarang</a>
 					</div><!-- tab-content -->
 				</div><!-- tabpanel -->
 				<div class="review-wrap">
@@ -275,16 +279,16 @@ endif;
 						Rp <?php echo number_format($class->price_per_session*$class->count_session, 0, ',','.');?>,-
 					</h3>
 				</div><!-- detail-label -->
-				<a href="#">
+				<a href="#" class="register_class">
 				<div class="detail-label label-yellow text-center">
 					<i class="fa fa-user"></i>
-					<h3 class="entry-detail-label">Daftar Sekarang</h3>
+					<h3 class="entry-detail-label text-20">Daftar Sekarang</h3>
 				</div><!-- detail-label -->
 				</a>
 				<a href="#">    
 				<div class="detail-label label-yellow text-center">
 					<i class="fa fa-magic"></i>
-					<h3 class="entry-detail-label">Jadikan Wishlist</h3>
+					<h3 class="entry-detail-label text-20">Jadikan Wishlist</h3>
 				</div><!-- detail-label -->
 				</a>
 <?php 
@@ -309,7 +313,10 @@ if(count($maps) == 1) {
 	$maps[1] = 'https://www.google.com/maps/place/'.$maps[0];
 }
 ?>
-					<div class="panel-heading heading-label text-center"><i class="fa fa-map-marker"></i> Lokasi</div>
+					<div class="panel-heading heading-label text-center ">
+						<i class="fa fa-map-marker"></i> 
+						<span class="entry-detail-label text-20">Lokasi</span>
+					</div>
 					<div class="panel-body">
 						<p><i class="fa fa-map-marker"></i>  <?php echo $class->class_lokasi?></p> 
 						<a href="<?php echo $maps[1];?>" target="_blank"><img class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?size=400x400&maptype=roadmap&markers=color:red%7C<?php echo $maps[0];?>"/></a>
@@ -337,5 +344,19 @@ if(count($maps) == 1) {
 			</div><!-- col-md-4 -->
 		</div><!-- row -->
 	</div> <!-- /container -->
+<script type="application/javascript">
+	$('.register_class').click(function(e){
+		e.preventDefault();
+		var avail = false;
+		cart.forEach(function(c){
+			if(c.id == class_id) avail = true;
+		});
+		if(!avail)
+		cart.push(dtCart);
+		$.cookie('cart', cart, {path:'/'});
+		window.location.href = base_url+'payment/transfer/step1';
+		return false;
+	});
+</script>
 <?php
 $this->load->view('vendor/general/footer2');
