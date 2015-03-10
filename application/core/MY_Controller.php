@@ -61,7 +61,8 @@ class MY_Controller extends CI_Controller{
 			
 		);
 		
-		$this->new_design = $new_design;
+//		$this->new_design = $new_design;
+		$this->new_design = TRUE;
 	}
 	
 	protected function exec_login($data) {
