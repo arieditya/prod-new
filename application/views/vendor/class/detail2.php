@@ -30,13 +30,13 @@ else
 <?php $this->load->view('vendor/general/sidebar');?>
 			<div class="col-md-9 col-sm-12">
 				<div class="panel panel-default">
-					<h2 class="block-title text-uppercase">Kelas Anda</h2>
+					<h2 class="block-title text-uppercase">Kelas Anda: <?php echo $class->class_nama;?></h2>
 					<div class="panel-body">
 						<div role="tabpanel" class="sub-vendor manage">
 
 							<!-- Nav tabs -->
-							<ul class="nav nav-tabs" role="tablist" class="active">
-								<li role="presentation">
+							<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active">
 									<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
 								</li>
 								<li role="presentation">
@@ -55,7 +55,7 @@ else
 				
 							<!-- Tab panes -->
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane active" id="preview">
+								<div role="tabpanel" class="tab-pane" id="preview">
 									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Profil</h3></div>
 										<div class="section-content">
@@ -242,7 +242,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
 								</div><!-- preview -->
-								<div role="tabpanel" class="tab-pane" id="profile">
+								<div role="tabpanel" class="tab-pane active" id="profile">
 										<form method="post" 
 											  class="form-horizontal" 
 											  action="<?php echo base_url();?>vendor/kelas/update_profile_2">
@@ -1264,14 +1264,16 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 
 								</div><!-- diskon -->
 								<div role="tabpanel" class="tab-pane" id="komunikasi">
-									<form class="form-horizontal">
+									<form class="form-horizontal" 
+										  action="<?php echo base_url()?>vendor/kelas/send_email" 
+										  enctype="multipart/form-data" 
+										  method="post">
 										<div class="form-group">
 											<label for="penerima" class="col-sm-2 control-label">Jenis Pesan</label>
 											<div class="col-sm-10">
 												<select class="form-control" name="jenis_pesan" id="jenis_pesan">
 													<option value="1">Pengumuman</option>
 													<option value="2">Pengingat</option>
-													<option value="3">Peringatan</option>
 												</select>
 											</div>
 										</div>
