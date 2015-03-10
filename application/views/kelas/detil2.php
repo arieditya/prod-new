@@ -15,6 +15,11 @@ foreach($schedule->result() as $jdwl):
 		break;
 	}
 endforeach;
+$sched = $schedule->result();
+$arr = array();
+foreach($sched as $s) {
+	$arr[] = $s->jadwal_id;
+}
 //var_dump($class);exit;
 ?>
 	<div class="container content">
@@ -85,10 +90,10 @@ if ($class->class_paket > 0):?>
 							<h5 class="title-label">Harga paket</h5>
 <?php 
 	if(!empty($class->discount)):?>
-							<p> Rp <?php echo number_format($class->price_per_session*$class->count_session, 0, ',','.')?>,- </p>
+							<p> Rp <?php echo number_format($class->price_per_session*$schedule->num_rows(), 0, ',','.')?>,- </p>
 <?php 
 	else: 
-		$ori_price = $class->price_per_session*$class->count_session;
+		$ori_price = $class->price_per_session*$schedule->num_rows();
 		$disc_price = $ori_price - $class->discount;
 ?>
 							<p>
@@ -275,8 +280,8 @@ endif;
 			<div class="col-md-4">
 				<div class="price-big-wrap detail-label label-yellow text-center">
 					<i class="fa fa-tag"></i>
-					<h3 class="entry-detail-label">
-						Rp <?php echo number_format($class->price_per_session*$class->count_session, 0, ',','.');?>,-
+					<h3 class="entry-detail-label text-center">
+						Rp <?php echo number_format($class->price_per_session*$schedule->num_rows(), 0, ',','.');?>,-
 					</h3>
 				</div><!-- detail-label -->
 				<a href="#" class="register_class">
@@ -345,6 +350,13 @@ if(count($maps) == 1) {
 		</div><!-- row -->
 	</div> <!-- /container -->
 <script type="application/javascript">
+	var class_id = <?php echo $class->id;?>;
+	var cart = $.cookie('cart');
+	var dtCart = {
+		'id': class_id,
+		'jadwal': [<?php echo implode(',',$arr);?>]
+	};
+	if(!cart) cart = [];
 	$('.register_class').click(function(e){
 		e.preventDefault();
 		var avail = false;

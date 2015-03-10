@@ -40,8 +40,11 @@
 	<script type="application/javascript" src="<?php echo base_url().'.'?>/assets/js/bootstrap.min.js"></script>
 	<script type="application/javascript" src="<?php echo base_url().'.'?>/js/jquery.fancybox.js"></script>
 	<script type="application/javascript" src="<?php echo base_url().'.'?>/js/jquery.fancybox-media.js?v=1.0.6"></script>
+	<script type="application/javascript" src="<?php echo base_url().'.'?>/assets/js/jquery.cookie.js"></script>
 	<script type="application/javascript" src="<?php echo base_url().'.'?>/assets/js/utility.js"></script>
 	<script type="application/javascript">
+	var base_url = "<?php echo base_url()?>";
+	$.cookie.json = true;
 	$(document).ready(function() {
 		$('.fancybox').fancybox();
 	})

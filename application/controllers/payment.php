@@ -427,7 +427,9 @@ class Payment extends MY_Controller {
 		);
 		
 		$this->session->set_userdata('transaction', json_encode($data));
-		$this->load->view('payment/transfer/step2', $data);
+		$this->new_design?
+			$this->load->view('payment/transfer/step2_2', $data):
+			$this->load->view('payment/transfer/step2', $data);
 	}
 	
 	public function t_step3free() {
