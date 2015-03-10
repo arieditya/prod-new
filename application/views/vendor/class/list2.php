@@ -18,7 +18,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 <?php $this->load->view('vendor/general/sidebar')?>
 			<div class="col-md-9 col-sm-12">
 				<div class="panel panel-default">
-					<h2 class="block-title text-uppercase">PROFIL PENYELENGGARA</h2>
+					<h2 class="block-title text-uppercase">KELAS ANDA</h2>
 					<div class="panel-body">
 						<div role="tabpanel" class="sub-vendor">
 

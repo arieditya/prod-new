@@ -30,7 +30,9 @@ else
 <?php $this->load->view('vendor/general/sidebar');?>
 			<div class="col-md-9 col-sm-12">
 				<div class="panel panel-default">
-					<h2 class="block-title text-uppercase">Kelas Anda / <?php echo $class->class_nama; ?></h2>
+					<h2 class="block-title text-uppercase">Kelas Anda:
+                        <?php echo $class->class_nama; ?>
+                    </h2>
                     <span class="info">Status:
                         <i>
                         <?php
@@ -42,13 +44,13 @@ else
                                     echo "draft";
                                     break;
                                 case 1:
-                                    echo "verifying";
+                                    if($status->active = 0) echo "Unpublished";
+                                    else echo "Published";
                                     break;
                                 case 4: {
-                                    if($status->active = 0)
-                                        echo "pending unpublished";
-                                    else
-                                        echo "pending published";
+                                    echo "Pending ";
+                                    if($status->active = 1) echo "Unpublished";
+                                    else echo "Published";
                                     break;
                                 }
                             }
@@ -60,10 +62,12 @@ else
 
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
+								<?php if($status->class_status <= 0){ ?>
+                                    <li role="presentation">
+                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
+                                    </li>
+                                <?php } ?>
 								<li role="presentation" class="active">
-									<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
-								</li>
-								<li role="presentation">
 									<a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a>
 								</li>
 								<li role="presentation">
@@ -79,7 +83,7 @@ else
 				
 							<!-- Tab panes -->
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane" id="preview">
+								<div role="tabpanel" class="tab-pane active" id="preview">
 									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Profil</h3></div>
 										<div class="section-content">
@@ -264,7 +268,19 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
                                             <div class="col-sm-offset-4 col-sm-8 submit-form">
-                                                <button type="submit" class="btn btn-default main-button register">Request Publish</button>
+                                                <?php if ($status->class_status == 0) { ?>
+                                                    <a href="vendor/kelas/"
+                                                       class="btn btn-default main-button register">
+                                                        Request Published
+                                                    </a>
+                                                <?php
+                                                } else { ?>
+                                                    <a href="#"
+                                                       class="btn btn-default main-button register">
+                                                        Request Unpublished
+                                                    </a>
+                                                <?php } ?>
+                                                ?>
                                             </div>
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
