@@ -125,9 +125,19 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('vendor_class_price.price_per_session');
 		$this->db->group_by('vendor_class.id');
 		$result = $this->db->get('vendor_class');
-//		$lq = $this->db->last_query();
-//		var_dump($lq);exit;
 		return $result;
+	}
+	
+	public function get_class_detail($var=null, $page=1, $perpage=5) {
+		$class = $this->get_class($var, $page, $perpage)->row();
+		unset($class->count_session);
+		unset($class->class_tanggal);
+		unset($class->class_jam_mulai);
+		unset($class->class_jam_selesai);
+		unset($class->class_menit_mulai);
+		unset($class->class_menit_selesai);
+		$jadwal = $this->get_class_schedule(array('class_id'=>$class->id))->result();
+		
 	}
 	
 	public function class_hits($id) {

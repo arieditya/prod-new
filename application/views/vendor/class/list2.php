@@ -49,7 +49,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 													<td>Tipe Kelas</td>
 													<td>Jumlah Murid</td>
 													<td>Status</td>
-													<td>Pengaturan</td>
+													<td>Edit</td>
 													<td>Go to web</td>
 												</tr>
 											</thead>
@@ -76,15 +76,23 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 	$editable = $class->active == 0?TRUE:FALSE;
 ?>
 												<tr>
-													<td><?php echo ++$i;?></td>
-													<td><?php echo $class->class_nama; ?></td>
-													<td><?php echo rupiah_format($class->class_harga);?></td>
+													<td><?php echo $i++;?></td>
+													<td>
+														<a href="<?php echo base_url()."vendor/kelas/detil/{$class->id}"?>">
+															<?php echo $class->class_nama; ?>
+														</a>
+													</td>
+													<td><?php echo number_format($class->class_harga,0,',','.');?></td>
 													<td><?php echo $class->jadwal_count; ?></td>
 													<td><?php echo $type;?></td>
-													<td><a href="#"><?php echo $class->participant_count; ?>&nbsp;orang</a></td>
+													<td>
+														<a href="#">
+															<?php echo $class->participant_count; ?>&nbsp;orang
+														</a>
+													</td>
 													<td class="status">
 														<span class="approved icon-circle" title="Approved"><i class="fa fa-check"></i></span>
-														<a href="#" class="unpublish icon-circle" title="Request Unpublish"><i class="fa fa-download"></i> </a>
+														<a href="#" class="unpublish icon-circle" title="Request To Unpublish"><i class="fa fa-download"></i> </a>
 													</td>
 													<td class="text-center">
 														<a href="<?php echo $manage_class_link?>" 
@@ -94,7 +102,12 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 														</a>
 													</td>
 													<td class="text-center">
-														<a href="#" class="link icon-circle" title="Link"><i class="fa fa-arrow-right"></i></a>
+														<a href="<?php echo base_url()?>kelas/<?php echo $class->class_uri;?>" 
+														   class="link icon-circle" 
+														   title="Link"
+														   target="_blank">
+															<i class="fa fa-arrow-right"></i>
+														</a>
 													</td>
 												</tr>
 <?php 
@@ -127,7 +140,8 @@ endforeach;
 										<p> Catatan: </p>
 										<ol>
 											<li>
-												Untuk kelas yang sudah live, Anda hanya dapat mengedit dengan mengubah foto. Jika Anda ingin mengubah detilnya, <a class="blue underline" href="mailto:info@ruangguru.com?Subject=Edit%20Kelas">hubungi kami</a>
+												Untuk kelas yang sudah live, Anda tidak dapat mengubah info lagi. Jika Anda ingin mengubah 
+												info, <a class="blue underline" href="mailto:info@ruangguru.com?Subject=Edit%20Kelas">hubungi kami</a>
 											</li>
 											<li>
 												Anda hanya dapat melihat daftar murid dan menghubungi mereka yang sudah melakukan pembayaran. Untuk melihat daftar murid , klik "<b>Jumlah Murid</b>"

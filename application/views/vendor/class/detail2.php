@@ -268,19 +268,30 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
                                             <div class="col-sm-offset-4 col-sm-8 submit-form">
+<<<<<<< HEAD
                                                 <?php if (($status->class_status == 0) || ($status->class_status == 1 && $status->active == 0)) { ?>
-                                                    <a href="vendor/kelas/"
+=======
+<?php if ($status->class_status == 0) : ?>
+>>>>>>> origin/master
+                                                    <a href="vendor/kelas/request_publish/<?php echo $id; ?>"
                                                        class="btn btn-default main-button register">
-                                                        Request Published
+                                                        Request To Published
                                                     </a>
+<<<<<<< HEAD
                                                 <?php
                                                 } else { ?>
-                                                    <a href="vendor/kelas/"
+                                                    <a href="vendor/kelas/request_unpublish/<?php echo $id; ?>"
+=======
+<?php
+else : ?>
+                                                    <a href="#"
+>>>>>>> origin/master
                                                        class="btn btn-default main-button register">
-                                                        Request Unpublished
+                                                        Request To Unpublished
                                                     </a>
-                                                <?php } ?>
-                                                ?>
+<?php 
+endif;
+?>
                                             </div>
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
@@ -300,7 +311,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												   href="#form_profile"
 												   aria-controls="form_profile"
 												   aria-expanded="true">
-													Detail Profile
+													Profil
 												</a>
 											</h3>
 										</div>

@@ -171,7 +171,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .content-grid {
   box-shadow: 0 2px 5px #999;
   margin-bottom: 30px;
-  min-height: 385px;
+  min-height: 353px;
   position: relative;
 }
 /*.content-grid.diskon:before {
@@ -301,12 +301,15 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   background-color: #fcb33b;
   border-radius: 0;
   color: #000;
-  height: 43px;
+  height: 42px;
   padding: 10px 20px;
   position: absolute;
   right: 0;
   text-transform: uppercase;
   top: 0;
+}
+.panel-heading .entry-detail-label {
+	padding-top: 10px;
 }
 .panel-body.sesi-wrap {
   padding: 10px;
@@ -320,8 +323,8 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .description {
   border-bottom: 1px solid #ddd;
-  min-height: 70px;
-  padding: 10px 15px;
+  min-height: 60px;
+  padding: 10px 15px 0;
 }
 .vendor-name {
     overflow: hidden;
@@ -398,8 +401,12 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .review {
   display: inline-block;
-  padding: 10px 15px;
+  padding: 10px 15px 0;
   width: 100%;
+}
+.description,
+.review {
+  background-color: #fff;
 }
 .rating {
   float: right;
@@ -606,8 +613,8 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .twitter {
   background-color: #00aced;
 }
-.title-class {
-  
+.title-class .content {
+  padding-top: 10px;
 }
 .title-class .fa {
   font-size: 18px;
@@ -767,6 +774,7 @@ thead {
   /*font-family: Roboto Bold;*/
   font-size: 20px;
   position: relative;
+  padding-top: 15px;
 }
 .panel-body {
   padding: 20px;
@@ -817,8 +825,8 @@ thead {
 }
 .price-big-wrap .entry-detail-label {
   font-size: 24px;
-  padding-right: 20px;
-/*  text-align: right; */
+  /*padding-right: 20px;*/
+  text-align: center; 
 }
 .daftar-label .entry-detail-label {
   display: inline-block;
@@ -836,8 +844,14 @@ thead {
   margin-top: 10px;
   width: 100%;
 }
+.panel-body a.more {
+	margin-top: 0;
+}
 .panel-body a.cke_button, .panel-body a.cke_combo_button {
   margin-top: 0;
+}
+h5.support {
+	height: 20px;
 }
 .support a {
   color: #3a3a3a;
@@ -867,7 +881,7 @@ thead {
 }
 .logo-vendor {
   border-bottom: 1px solid #3bc4e6;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   padding-bottom: 20px;
 }
 .panel-body .more {
@@ -913,9 +927,11 @@ textarea.form-control {
   font-size: 16px;
   margin: 5px 0;
 }
+a.add, a.remove {
+  margin: 0;
+}
 a.remove {
   color: #f75252;
-  margin: 0;
 }
 .sum-label {
   /*font-family: Roboto Bold;*/
@@ -1843,4 +1859,14 @@ a.remove {
 }
 .strike {
 	text-decoration: line-through;
+}
+.grey {
+	width: 100%;
+	background-color: rgba(200,200,200,0.9);
+	margin-bottom: -41px;
+	border-radius: 22px;
+	height: 45px;
+	z-index: 2000;
+	top: -60px;
+	position: relative;
 }
