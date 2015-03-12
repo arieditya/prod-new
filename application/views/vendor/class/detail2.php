@@ -136,10 +136,6 @@ else
 									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Info</h3></div>
 										<div class="section-content">
-											<div class="section-row">
-												<div class="col-sm-4">Catatan</div>
-												<div class="col-sm-8"><?php echo $class->class_catatan;?></div>
-											</div><!-- section-row -->
 <?php
 	if(!empty($class->class_video)) {
 		$code = str_replace('https://www.youtube.com/watch?v=', '',$class->class_video);
@@ -268,24 +264,14 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
                                             <div class="col-sm-offset-4 col-sm-8 submit-form">
-<<<<<<< HEAD
-                                                <?php if (($status->class_status == 0) || ($status->class_status == 1 && $status->active == 0)) { ?>
-=======
-<?php if ($status->class_status == 0) : ?>
->>>>>>> origin/master
+<?php if (($status->class_status == 0) || ($status->class_status == 1 && $status->active == 0)) : ?>
                                                     <a href="vendor/kelas/request_publish/<?php echo $id; ?>"
                                                        class="btn btn-default main-button register">
                                                         Request To Published
                                                     </a>
-<<<<<<< HEAD
-                                                <?php
-                                                } else { ?>
-                                                    <a href="vendor/kelas/request_unpublish/<?php echo $id; ?>"
-=======
 <?php
 else : ?>
-                                                    <a href="#"
->>>>>>> origin/master
+                                                    <a href="vendor/kelas/request_unpublish/<?php echo $id; ?>"
                                                        class="btn btn-default main-button register">
                                                         Request To Unpublished
                                                     </a>
@@ -588,16 +574,6 @@ endif;
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="class_alasan" class="col-sm-4 control-label">Alasan Mengikuti Kelas</label>
-												<div class="col-sm-8">
-													<textarea class="form-control" 
-															  placeholder="Alasan mengapa sebaiknya murid mengikuti kelas ini" 
-															  name="class_alasan"
-															  id="class_alasan"
-															  rows="3"><?php echo $class->class_alasan;?></textarea>
-												</div>
-											</div>
-											<div class="form-group">
 												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
@@ -622,16 +598,6 @@ endif;
 											</h3>
 										</div>
 										<div id="form_info" class="collapse">
-											<div class="form-group">
-												<label for="tentang" class="col-sm-4 control-label">Catatan</label>
-												<div class="col-sm-8">
-													<textarea class="form-control" 
-															  name="class_catatan"
-															  id="class_catatan"
-															  placeholder="Adakah catatan yang ingin anda cantumkan" 
-															  rows="3"><?php echo $class->class_catatan;?></textarea>
-												</div>
-											</div>
 											<div class="form-group">
 												<label for="Namakelas" class="col-sm-4 control-label">Video</label>
 												<div class="col-sm-8">
