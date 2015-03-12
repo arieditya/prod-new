@@ -104,7 +104,7 @@ class Profile extends Vendor_Controller{
 //			$data['class_image'] = NULL;
 		}
 		$this->vendor_model->update_info($update);
-		redirect('vendor/profile/edit');
+		redirect('vendor/profile/edit/responsible#rekbank');
 	}
 	
 	public function update_account() {
@@ -123,7 +123,7 @@ class Profile extends Vendor_Controller{
 		
 		$this->vendor_model->set_rekening($update);
 
-		redirect('vendor/profile/edit');
+		redirect('vendor/profile/edit/reponsible');
 	}
 	
 	public function update_socmed() {
@@ -136,7 +136,7 @@ class Profile extends Vendor_Controller{
 		);
 		$this->vendor_model->set_socmed($update);
 
-		redirect('vendor/profile/edit');
+		redirect('vendor/profile/edit/reponsible');
 
 	}
 }

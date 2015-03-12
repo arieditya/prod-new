@@ -147,3 +147,8 @@ function double_digit($number) {
 	return $number;
 }
 
+function unique_generator() {
+	$CI = &get_instance();
+	$q = 'SELECT CONCAT(UPPER(SHA1(UUID())),UPPER(SHA1(FLOOR(RAND()*10000000000)*FLOOR(RAND()*10000000000)))) as code';
+	return $CI->db->query($q)->row()->code;
+}

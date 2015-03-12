@@ -109,7 +109,7 @@
 						<li><a href="#contact">Kontak</a></li>
 					</ul>
 <?php
-	if(empty($vendor) || empty($vendor['profile']->id)): // Not logged in
+	if(empty($is_logged_in) || empty($user['id'])): // Not logged in
 ?>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown sign-in">
@@ -242,15 +242,29 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 
 <?php
 	else: // logged in
+		switch($user['type']):
+			case		'vendor':
+				$profile = base_url().'vendor/profile/edit';
+				$logout = base_url().'vendor/auth/logout';
+				break;
+			case		'guru':
+				$profile = base_url().'profile';
+				$logout = base_url().'guru/logout';
+				break;
+			case		'murid':
+				$profile = base_url().'murid';
+				$logout = base_url().'murid/logout';
+				break;
+		endswitch;
 ?>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="user-login">
-							Halo, <a href="<?php echo base_url()?>vendor/profile">
-								<?php echo $vendor['profile']->name;?>
+							Halo, <a href="<?php echo $profile?>">
+								<?php echo $user['name'];?>
 							</a>
 						</li>
 						<li class="sign-out">
-							<a href="<?php echo base_url()?>vendor/auth/logout">Sign Out</a>
+							<a href="<?php echo $logout;?>">Sign Out</a>
 						</li>
 					</ul>
 <?php

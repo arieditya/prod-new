@@ -119,6 +119,13 @@ class Guru extends MY_Controller {
             $this->session->set_userdata('guru_id',$guru->guru_id);
             $this->session->set_userdata('guru_nama',$this->guru_model->ses_get_nama());
             $this->session->set_userdata('is_logged_in',TRUE);
+			$user = array(
+				'type'	=> 'guru',
+				'name'	=> $this->guru_model->ses_get_nama(),
+				'email'	=> $input['email'],
+				'id'	=> $guru->guru_id
+			);
+			$this->exec_login($user);
             redirect('guru');
         }
     }
@@ -128,6 +135,7 @@ class Guru extends MY_Controller {
 	   $data['id_guru'] = $this->session->userdata('guru_id');
 	   $data['last_login'] = date("Y-m-d H:i:s");
 	   $this->guru_model->update_last_login($data);
+		$this->exec_logout(TRUE);
         $this->session->sess_destroy();
         redirect('main');
     }

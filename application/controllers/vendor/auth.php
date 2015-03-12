@@ -17,7 +17,7 @@ class Auth extends MY_Controller{
 	}
 	
 	public function logout() {
-		$this->exec_logout();
+		$this->exec_logout(TRUE);
 		redirect('vendor/main');
 	}
 	

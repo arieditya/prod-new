@@ -231,7 +231,7 @@ endif;
 	$rate = $rating->rate;
 //	$rate = 4;
 	$counter = $rating->counter;
-	if(empty($counter)):
+	if(!empty($counter)):
 ?>
 						<span class="rate"><?php echo "{$rate} dari {$counter} ";?></span>
 						<div class="rating pull-left">
@@ -249,11 +249,16 @@ endif;
 		endif;
 	endfor;
 ?>
-							<p>Belum memiliki rating</p>
+						</div><!-- rating -->
+<?php
+	else:
+?>
+							<p>Belum memiliki rating:<br />
+								<?php echo unique_generator()?>
+							</p>
 <?php
 	endif;
 ?>
-						</div><!-- rating -->
 					</div><!-- rating-wrap -->
 					<div class="testimonial-wrap review-item">
 						<h4 class="review-title">Testimonial</h4>

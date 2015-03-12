@@ -13,6 +13,7 @@ class Kelas extends Vendor_Controller{
 	{
 		parent::__construct();
 		$this->load->model('vendor_class_model');
+		var_dump($this->data['user']);
 	}
 	
 	public function index() {
@@ -117,7 +118,10 @@ class Kelas extends Vendor_Controller{
 		else $data['class_paket'] = 0;
 		$data['vendor_id'] = $this->vendor->id;
 		$id = $this->vendor_class_model->add_new_class($data, $data_ext);
-		redirect('vendor/kelas/detil/'.$id.'/info');
+		if(empty($id))
+			redirect('vendor/kelas/baru');
+		else
+			redirect('vendor/kelas/detil/'.$id.'/info');
 	}
 	
 	public function update($id){
@@ -189,8 +193,7 @@ class Kelas extends Vendor_Controller{
 				'class_status'=>NULL,
 				'active'=>NULL
 		));
-
-		if($data->num_rows() !== 1) {
+		if(empty($data) || $data->num_rows() !== 1) {
 			show_404();
 		}
 		$class = $data->row();

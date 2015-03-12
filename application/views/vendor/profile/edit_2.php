@@ -93,9 +93,18 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 							</div>
 						</form>
 				
-						<h4 class="review-title">Social Media</h4>
+						<h4 class="review-title">
+							<a name="socmed" id="socmed">
+							Social Media
+							</a>
+						</h4>
 				
-						<form class="form-horizontal">
+						<form class="form-horizontal" 
+							  role="form" 
+							  action="<?php echo base_url();?>vendor/profile/update_socmed" 
+							  method="post" 
+							  id="form-socmed" 
+							  enctype="application/x-www-form-urlencoded">
 							<div class="form-group">
 								<label for="facebook" class="col-sm-4 control-label">
 									Facebook&nbsp;&nbsp;http://facebook.com/
@@ -223,9 +232,18 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 							</div>
 						</form>
 				
-						<h4 class="review-title">Rekening Bank</h4>
+						<h4 class="review-title">
+							<a name="rekbank" id="rekbank">
+								Rekening Bank
+							</a>
+						</h4>
 				
-						<form class="form-horizontal">
+						<form class="form-horizontal" 
+							  role="form" 
+							  action="<?php echo base_url();?>vendor/profile/update_account" 
+							  method="post" 
+							  id="form-bank" 
+							  enctype="application/x-www-form-urlencoded">
 							<div class="form-group">
 								<label for="Seo" class="col-sm-4 control-label">Bank</label>
 								<div class="col-sm-8">

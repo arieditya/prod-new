@@ -58,9 +58,24 @@ class MY_Controller extends CI_Controller{
 			'class_level'	=> $this->vendor_class_model->get_class_level_list()->result(),
 			'provinsi_list'	=> $this->main_model->get_provinsi_list(),
 			'class_category'=> $this->vendor_class_model->get_category_list()->result(),
-			
+				
 		);
-		
+		$user['type'] = $this->session->userdata('user_type');
+		$user['name'] = $this->session->userdata('user_name');
+		$user['email'] = $this->session->userdata('user_email');
+		$user['id'] = $this->session->userdata('user_id');
+
+		$this->data['is_logged_in'] = FALSE;
+		$this->data['user'] = array();
+		if( TRUE 
+				&& !empty($user['type']) 
+				&& !empty($user['name']) 
+				&& !empty($user['email']) 
+				&& !empty($user['id']) 
+		){
+			$this->data['is_logged_in'] = TRUE;
+			$this->data['user'] = $user;
+		}
 //		$this->new_design = $new_design;
 		$this->new_design = TRUE;
 	}

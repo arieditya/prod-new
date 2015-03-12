@@ -24,7 +24,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 									<input type="text" 
 										   class="form-control" 
 										   name="class_nama" 
-										   id="Namakelas" 
+										   id="class_name" 
 										   placeholder="Nama dari kelas yang akan diselenggarakan" />
                                 </div>
                             </div>

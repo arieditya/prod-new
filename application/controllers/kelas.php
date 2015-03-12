@@ -163,6 +163,7 @@ class Kelas extends MY_Controller {
 	public function detil($kode){
 		$n = count($kode);
 		$hash = substr($kode, 4, $n);
+		$data = $this->data;
 		$data['class'] = @$this->vendor_class_model->get_class(array('vendor_class.id'=>$hash))->row();
 		if(empty($data['class'])) show_404();
 		$data['kelas'] = $this->kelas_model->get_buka_kelas_by_id($hash);
