@@ -268,14 +268,24 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
                                             <div class="col-sm-offset-4 col-sm-8 submit-form">
+<<<<<<< HEAD
+                                                <?php if (($status->class_status == 0) || ($status->class_status == 1 && $status->active == 0)) { ?>
+=======
 <?php if ($status->class_status == 0) : ?>
-                                                    <a href="vendor/kelas/"
+>>>>>>> origin/master
+                                                    <a href="vendor/kelas/request_publish/<?php echo $id; ?>"
                                                        class="btn btn-default main-button register">
                                                         Request To Published
                                                     </a>
+<<<<<<< HEAD
+                                                <?php
+                                                } else { ?>
+                                                    <a href="vendor/kelas/request_unpublish/<?php echo $id; ?>"
+=======
 <?php
 else : ?>
                                                     <a href="#"
+>>>>>>> origin/master
                                                        class="btn btn-default main-button register">
                                                         Request To Unpublished
                                                     </a>

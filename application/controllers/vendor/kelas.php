@@ -767,6 +767,24 @@ class Kelas extends Vendor_Controller{
 		}
 		redirect('vendor/kelas/detil/'.$class_id.'/email_blast');
 	}
+
+    public function request_publish($id) {
+        $status = $this->vendor_class_model->get_status_class($id);
+        if($status==4){
+            $this->vendor_class_model->set_published_class($id,1);
+            $this->vendor_class_model->set_status_class($id,1);
+            redirect('vendor/kelas/detil/'.$id);
+        }
+    }
+
+    public function request_unpublish($id) {
+        $status = $this->vendor_class_model->get_status_class($id);
+        if($status==4){
+            $this->vendor_class_model->set_published_class($id,0);
+            $this->vendor_class_model->set_status_class($id,1);
+            redirect('vendor/kelas/detil/'.$id);
+        }
+    }
 }
 
 // END OF kelas.php File
