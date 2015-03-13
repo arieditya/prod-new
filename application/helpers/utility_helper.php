@@ -142,9 +142,9 @@ function rupiah_format ($number) {
 function double_digit($number) {
 	$number = (int) $number;
 	if($number < 10) {
-		$number = '0'.$number;
+		$number = '0'.((string)$number);
 	}
-	return $number;
+	return (string)$number;
 }
 
 function unique_generator() {

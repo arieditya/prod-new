@@ -117,14 +117,14 @@ else
 			$str_lokasi = 'monumen+nasional';
 		}
 		$ll = $str_lokasi;
-		$link = 'https://www.google.com/maps/place/'+$str_lokasi;
+		$link = 'https://www.google.com/maps/place/'.$str_lokasi;
 	} else {
 		$peta = explode('||', $class->class_peta);
 		$ll = $peta[0];
 		if(count($peta) == 2) {
 			$link = $peta[1];
 		} else {
-			$link = 'https://www.google.com/maps/place/'+$peta[0];
+			$link = 'https://www.google.com/maps/place/'.$peta[0];
 		}
 	}
 ?>
@@ -377,9 +377,13 @@ endif;
 												<div class="col-sm-8">
 													<input type="text" 
 														   class="form-control" 
+<?php if($class->class_status > 0 && !empty($class->class_uri)): ?>
 														   id="class_uri" 
 														   name="class_uri"
 														   placeholder="Biarkan terisi secara automatis bila Anda ragu"
+<?php else: ?>
+														   disabled="disabled"
+<?php endif; ?>
 														   value="<?php echo $class->class_uri;?>" />
 												</div>
 											</div>
@@ -504,14 +508,14 @@ endif;
 			$str_lokasi = 'monumen+nasional';
 		}
 		$ll = $str_lokasi;
-		$link = 'https://www.google.com/maps/place/'+$str_lokasi;
+		$link = 'https://www.google.com/maps/place/'.$str_lokasi;
 	} else {
 		$peta = explode('||', $class->class_peta);
 		$ll = $peta[0];
 		if(count($peta) == 2) {
 			$link = $peta[1];
 		} else {
-			$link = 'https://www.google.com/maps/place/'+$peta[0];
+			$link = 'https://www.google.com/maps/place/'.$peta[0];
 		}
 	}
 ?>
