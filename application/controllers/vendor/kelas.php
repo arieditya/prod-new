@@ -92,6 +92,7 @@ class Kelas extends Vendor_Controller{
 	}
 	
 	public function submit_new(){
+//		var_dump($_POST);exit;
 		$fields = array(
 			'class_uri', 'class_nama', 'class_deskripsi', 'class_lokasi', 
 			'class_peserta_max', 'class_peserta_min', 'class_harga', 
@@ -118,10 +119,18 @@ class Kelas extends Vendor_Controller{
 		else $data['class_paket'] = 0;
 		$data['vendor_id'] = $this->vendor->id;
 		$id = $this->vendor_class_model->add_new_class($data, $data_ext);
-		if(empty($id))
+		if(is_string($id)) {
+			$this->session->set_flashdata('status.warning','Ada masalah dengan penambahan kelas baru:'.$id);
 			redirect('vendor/kelas/baru');
-		else
+			return;
+		}
+		if(empty($id)){
+			$this->session->set_flashdata('status.error','Gagal membuat kelas!');
+			redirect('vendor/kelas/baru');
+		}else{
+			$this->session->set_flashdata('status.notice','Berhasil membuat kelas baru!');
 			redirect('vendor/kelas/detil/'.$id.'/info');
+		}
 	}
 	
 	public function update($id){

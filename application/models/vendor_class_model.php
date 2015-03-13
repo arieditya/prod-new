@@ -17,16 +17,25 @@ class Vendor_class_model extends MY_Model{
 	public function add_new_class($data, $data_ext) {
 		$this->db->insert('vendor_class', $data);
 		$id = $this->db->insert_id();
+		if(empty($id)) {
+			return $this->db->last_query();
+		}
 		if(!empty($data_ext['class_category']))
 			$this->db->insert('vendor_class_category', array(
 				'class_id' 		=> $id,
 				'category_id'	=> $data_ext['class_category']
 			));
-		if(!empty($data_ext['class_level']))
-			$this->db->insert('vendor_class_level', array(
-				'class_id' 		=> $id,
-				'level_id'	=> $data_ext['class_level']
-			));
+		if(!empty($data_ext['class_level'])){
+			if(!is_array($data_ext['class_level'])) {
+				$data_ext['class_level'] = array($data_ext['class_level']);
+			}
+			foreach($data_ext['class_level'] as $level) {
+				$this->db->insert('vendor_class_level', array(
+					'class_id' 		=> $id,
+					'level_id'	=> $level
+				));
+			}
+		}
 		return $id;
 	}
 

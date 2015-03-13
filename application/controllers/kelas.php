@@ -35,12 +35,7 @@ class Kelas extends MY_Controller {
 	
 	public function _uri_($uri) {
 		$id = $this->vendor_class_model->get_id_by_uri($uri);
-//		var_dump($uri);exit;
-		if(empty($id)) {
-			show_404();
-			return;
-		}
-		$this->detil('XXXX'.$id);
+		$this->detil($id);
 	}
 	
 	
@@ -169,8 +164,7 @@ class Kelas extends MY_Controller {
 	}
 
 	public function detil($kode){
-		$n = count($kode);
-		$hash = substr($kode, 4, $n);
+		$hash = $kode;
 		$data = $this->data;
 		$data['class'] = @$this->vendor_class_model->get_class(array('vendor_class.id'=>$hash))->row();
 		if(empty($data['class'])) show_404();

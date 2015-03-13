@@ -71,10 +71,12 @@ endif; ?>
 								Penyelenggara: <a href=""><?php echo $vendor['profile']->name;?></a>
 							</h3>
 								<p><?php echo $class->class_deskripsi;?></p>
+<?php if(!empty($class->class_perserta_target)):?>
 							<h5 class="title-class"> 
 								<span class="title-label">Target Peserta :</span><br /><br />
 								<span class="content"><?php echo $class->class_perserta_target?></span>
 							</h5>
+<?php endif;?>
 							<h5 class="title-class">
 								<span class="title-label">Kapasitas :</span><br /><br />
 								<span class="content">

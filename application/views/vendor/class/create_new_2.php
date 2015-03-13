@@ -40,11 +40,12 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="Seo" class="col-sm-4 control-label">Tentang kelas</label>
+                                <label class="col-sm-4 control-label">Tentang kelas</label>
                                 <div class="col-sm-8">
-									<textarea class="form-control txt_message" 
+									<textarea class="form-control" 
 											  name="class_deskripsi" 
-											  placeholder="Deskripsi mengenai kelas Anda, pengajar, dan informasi lainnya yang perlu diketahui peserta kelas" rows="3"></textarea>
+											  placeholder="Deskripsi mengenai kelas Anda, pengajar, dan informasi lainnya yang perlu diketahui peserta kelas" 
+											  rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -125,6 +126,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 											  placeholder="Cantumkan alamat lengkap tempat kelas Anda diselenggarakan termasuk nama gedung atau institusi (jika ada)" ></textarea>
                                 </div>
                             </div>
+<?php /* ?>
                             <div class="form-group">
                                 <label for="Lokasi" class="col-sm-4 control-label">Peta Lokasi</label>
                                 <div class="col-sm-4">
@@ -147,6 +149,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 									<img id="img_preview" src="https://maps.googleapis.com/maps/api/staticmap?size=160x100&maptype=roadmap" />
 								</div>
                             </div>
+<?php // */ ?>
                             <div class="form-group">
                                 <label for="radio" class="col-sm-4 control-label">Tipe Kelas</label>
                                 <div class="col-sm-8">
