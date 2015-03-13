@@ -45,7 +45,7 @@ class Kelas extends MY_Controller {
 	
 	
 	
-	public function _new_index() {
+	public function _new_index($view='home') {
 		$set_filter = array();
 		$filter = $this->input->cookie('filter', TRUE);
 		if(!empty($filter)) {
@@ -148,9 +148,12 @@ class Kelas extends MY_Controller {
 		$this->data['show_filter'] = TRUE;
 //		var_dump($classes);exit;
 //        $this->data['vendor']->profile->name = word_limiter($this->data->vendor->profile->name,13);
-        $this->new_design?
+        if($view=='all') : $this->load->view('kelas/list_all', $this->data);
+        else :
+            $this->new_design?
 				$this->load->view('kelas/list2', $this->data):
 				$this->load->view('kelas/list', $this->data);
+        endif;
 	}
 	
 	public function index(){

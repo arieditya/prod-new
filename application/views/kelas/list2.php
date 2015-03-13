@@ -153,7 +153,7 @@ $this->load->view('vendor/general/header2');
 		</div>
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4">
-                <a href="#" class="main-button text-center">Lihat Semua Kelas</a>
+                <a href="<?php echo base_url()?>kelas/index/all" class="main-button text-center">Lihat Semua Kelas</a>
             </div>
         </div>
     </div> <!-- /container -->
@@ -242,7 +242,7 @@ $this->load->view('vendor/general/header2');
                 ?>
 
                 <div class="col-sm-4 col-sm-offset-4">
-                    <a href="#" class="main-button text-center">Lihat Semua Kelas</a>
+                    <a href="<?php echo base_url()?>kelas/index/all" class="main-button text-center">Lihat Semua Kelas</a>
                 </div>
             </div> <!-- /row -->
         </div> <!-- /container -->

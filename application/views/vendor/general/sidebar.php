@@ -68,14 +68,14 @@ if(empty($sidebar)) $sidebar = 'profile';
 <?php 
 	endif;
 ?>
-						<li role="presentation" <?php echo $sidebar=='daftar_kelas'?'class="active"':'';?>>
+                        <li role="presentation" <?php echo $sidebar=='tambah_kelas'?'class="active"':'';?>>
+                            <a href="<?php echo base_url()?>vendor/kelas/baru">
+                                <i class="fa fa-plus"></i> Tambah Kelas
+                            </a>
+                        </li>
+                        <li role="presentation" <?php echo $sidebar=='daftar_kelas'?'class="active"':'';?>>
 							<a href="<?php echo base_url()?>vendor/kelas/daftar">
 								<i class="fa fa-users"></i> Kelas Anda
-							</a>
-						</li>
-						<li role="presentation" <?php echo $sidebar=='tambah_kelas'?'class="active"':'';?>>
-							<a href="<?php echo base_url()?>vendor/kelas/baru">
-								<i class="fa fa-plus"></i> Tambah Kelas
 							</a>
 						</li>
 					</ul>

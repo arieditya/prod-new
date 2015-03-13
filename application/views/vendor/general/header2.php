@@ -218,7 +218,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					<p>
 						<label for="login_pass">Password: </label>
 						<input type="password" class="form-control" id="password" name="password" />
-                        <a class="normal-link" href="<?php echo base_url()?>/murid/reset_password">Lupa Password?</a>
+                        <a class="normal-link" href="<?php echo base_url()?>murid/reset_password">Lupa Password?</a>
 					</p>
 					<p>
 						<button type="submit" class="btn btn-success btn-lg">Masuk</button>
@@ -235,7 +235,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					<p>
 						<label for="login_pass">Password: </label>
 						<input type="password" class="form-control" id="login_password" name="password" />
-                        <a class="normal-link" href="<?php echo base_url();?>/vendor/auth/reset_password">Lupa Password?</a>
+                        <a class="normal-link" href="<?php echo base_url();?>vendor/auth/reset_password">Lupa Password?</a>
 					</p>
                     <p>
 						<button type="submit" class="btn btn-success btn-lg">Masuk</button>
@@ -252,7 +252,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					<p>
 						<label for="login_pass">Password: </label>
 						<input type="password" class="form-control" id="password" name="password" />
-                        <a class="normal-link" href="<?php echo base_url();?>/guru/reset_password">Lupa Password?</a>
+                        <a class="normal-link" href="<?php echo base_url();?>guru/reset_password">Lupa Password?</a>
 					</p>
 					<p>
 						<button type="submit" class="btn btn-success btn-lg">Masuk</button>
