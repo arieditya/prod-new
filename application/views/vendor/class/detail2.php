@@ -44,12 +44,12 @@ else
                                     echo "draft";
                                     break;
                                 case 1:
-                                    if($status->active = 0) echo "Unpublished";
+                                    if($status->active == 0) echo "Unpublished";
                                     else echo "Published";
                                     break;
                                 case 4: {
                                     echo "Pending ";
-                                    if($status->active = 1) echo "Unpublished";
+                                    if($status->active == 1) echo "Unpublished";
                                     else echo "Published";
                                     break;
                                 }
@@ -307,8 +307,8 @@ $total_bayar = $total_harga - $diskon;
 												<div class="col-sm-4">Harga sudah meliputi</div>
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
-                                            <div class="col-sm-offset-4 col-sm-8 submit-form">
 <?php if (($status->class_status == 0) || ($status->class_status == 1 && $status->active == 0)) : ?>
+                                            <div class="col-sm-offset-4 col-sm-8 submit-form">
                                                     <a href="<?php echo base_url();
 													?>vendor/kelas/request_publish/<?php 
 													echo 
@@ -320,8 +320,10 @@ $total_bayar = $total_harga - $diskon;
 													      ' data-data ini.')">
                                                         Request To Published
                                                     </a>
+                                            </div>
 <?php
-else : ?>
+elseif ($status->class_status == 1 && $status->active == 1) : ?>
+                                            <div class="col-sm-offset-4 col-sm-8 submit-form">
                                                     <a href="<?php echo base_url();
 													?>vendor/kelas/request_unpublish/<?php echo $class->id; ?>"
                                                        class="btn btn-default main-button register"
@@ -330,10 +332,11 @@ else : ?>
 													     'pengajuan anda.')">
                                                         Request To Unpublished
                                                     </a>
-<?php 
+                                            </div>
+<?php
+else : echo "<span class='info'>Kelas anda sedang dalam tahap verifikasi oleh pihak ruangguru</span>";
 endif;
 ?>
-                                            </div>
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
 								</div><!-- preview -->
