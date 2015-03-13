@@ -41,13 +41,21 @@ class Main_model extends CI_Model {
 					'title'		=>$locc->lokasi_title,
 				);
 			}
-			$data[] = $dt;
+			$data[$prov->provinsi_id] = $dt;
 		}
 		return $data;
 	}
 	
 	function get_provinsi_list() {
 		return $this->db->get('provinsi')->result();
+	}
+	
+	function get_provinsi_name($provinsi_id) {
+		return $this->db->where('provinsi_id',$provinsi_id)->get('provinsi')->row()->provinsi_title;
+	}
+    
+	function get_lokasi_name($lokasi_id) {
+		return $this->db->where('lokasi_id',$lokasi_id)->get('lokasi')->row()->lokasi_title;
 	}
     
     function get_lokasi($prov_id){

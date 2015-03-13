@@ -125,10 +125,10 @@ class Kelas extends Vendor_Controller{
 	}
 	
 	public function update($id){
-		
 		$fields = array(
 			'id','class_uri', 'class_nama', 'class_deskripsi', 'class_lokasi', 
-			'class_peserta', 'class_harga', 'class_paket','class_peta',
+			'class_peserta', 'class_harga', 'class_paket','class_peta','class_provinsi_id',
+			'class_lokasi_id'
 		);
 		
 		$ext = array(
@@ -185,7 +185,6 @@ class Kelas extends Vendor_Controller{
 	}
 	
 	public function detil($id, $tabs='profile') {
-		error_reporting(E_ALL);
 		$data = $this->vendor_class_model->get_class(array(
 				'id'=>$id, 
 				'vendor_id'=>$this->vendor->id, 
@@ -198,6 +197,12 @@ class Kelas extends Vendor_Controller{
 			show_404();
 		}
 		$class = $data->row();
+		$class->provinsi_title = empty($class->class_provinsi_id)?
+				'Belum dipilih':
+				$this->main_model->get_provinsi_name($class->class_provinsi_id);
+		$class->lokasi_title = empty($class->class_lokasi_id)?
+				'Belum dipilih':
+				$this->main_model->get_lokasi_name($class->class_lokasi_id);
 		$class->level = $this->vendor_class_model->get_class_multiple_level($id);
 		$class->category = $this->vendor_class_model->get_class_category($id);
 		// for developer only
@@ -412,7 +417,7 @@ class Kelas extends Vendor_Controller{
 		}
 		$table['vendor_class'] = array(
 			'class_name','class_uri','class_deskripsi','class_paket','class_catatan','class_lokasi',
-				'class_peta',
+				'class_peta','class_provinsi_id','class_lokasi_id',
 			'class_perserta_target','class_peserta_min','class_peserta_max','class_harga','class_alasan',
 			'class_video'
 		);

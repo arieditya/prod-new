@@ -105,6 +105,14 @@ else
 												<div class="col-sm-8"><?php echo $class->category->category_name;?></div>
 											</div><!-- section-row -->
 											<div class="section-row">
+												<div class="col-sm-4">Provinsi</div>
+												<div class="col-sm-8"><?php echo $class->provinsi_title;?></div>
+											</div><!-- section-row -->
+											<div class="section-row">
+												<div class="col-sm-4">Kota / Kabupaten</div>
+												<div class="col-sm-8"><?php echo $class->lokasi_title;?></div>
+											</div><!-- section-row -->
+											<div class="section-row">
 												<div class="col-sm-4">Alamat</div>
 												<div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
 											</div><!-- section-row -->
@@ -491,21 +499,58 @@ endif;
 										</div>
 										<div id="form_lokasi" class="collapse">
 											<div class="form-group">
-												<label for="Seo" class="col-sm-4 control-label"></label>
+												<label for="Seo" class="col-sm-4 control-label">Provinsi</label>
 												<div class="col-sm-8">
-													<select class="form-control kategori" name="class_provinsi_id">
-														<option>-- Pilih --</option>
+													<select class="form-control kategori" 
+															name="class_provinsi_id" 
+															id="class_provinsi_id">
 													</select>
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="Seo" class="col-sm-4 control-label"></label>
+												<label for="Seo" class="col-sm-4 control-label">Kota / Kabupaten</label>
 												<div class="col-sm-8">
-													<select class="form-control kategori" name="class_lokasi_id">
-														<option>-- Pilih --</option>
+													<select class="form-control kategori" 
+															name="class_lokasi_id" 
+															id="class_lokasi_id">
 													</select>
 												</div>
 											</div>
+<script type="application/javascript">
+	$(document).ready(function(){
+		$('#class_provinsi_id').change(function(){
+			var prov_id =$(this).val();
+			$('#class_lokasi_id')
+					.empty()
+					.append($(generate_location_select(prov_id)));
+		});
+	});
+	$('#class_provinsi_id')
+			.empty()
+			.append($(generate_provinsi_select()));
+<?php
+	$p_id = empty($class->class_provinsi_id)?1:$class->class_provinsi_id;
+?>
+	$('#class_lokasi_id')
+			.empty()
+			.append($(generate_location_select(<?php echo $p_id;?>)));
+<?php 
+	if(!empty($class->class_provinsi_id)):
+		$p_select = '[value="'.$p_id.'"]';
+	else:
+		$p_select = ':first';
+	endif;
+?>
+	$('#class_provinsi_id option<?php echo $p_select;?>').attr({'selected':'selected'});
+<?php 
+	if(!empty($class->class_lokasi_id)):
+		$l_select = '[value="'.$class->class_lokasi_id.'"]';
+	else:
+		$l_select = ':first';
+	endif;
+?>
+	$('#class_lokasi_id option<?php echo $l_select;?>').attr({'selected':'selected'});
+</script>
 											<div class="form-group">
 												<label for="tentang" class="col-sm-4 control-label">Alamat</label>
 												<div class="col-sm-8">

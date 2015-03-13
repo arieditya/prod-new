@@ -50,6 +50,26 @@
 	}
 	
 	var list_location = <?php echo json_encode($header_data['full_location_list'])?>;
+/*
+		<select class="form-control " name="class_provinsi_id">
+			<option>-- Pilih --</option>
+		</select>
+*/
+	function generate_provinsi_select(evnt_loc) {
+		var opt = '';
+		$.each(list_location, function(idx, dt){
+			opt += '<option value="'+dt.id+'">'+dt.title+'</option>';
+		});
+		return opt;
+	}
+	
+	function generate_location_select(prov_id) {
+		var opt = '';
+		$.each(list_location[prov_id].data, function(idx, dt){
+			opt += '<option value="'+dt.id+'">'+dt.title+'</option>';
+		});
+		return opt;
+	}
 	
 	var sTO = null;
 	$(document).ready(function() {
