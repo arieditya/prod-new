@@ -14,7 +14,7 @@
 </p>
 <p>
     <b>E-mail :</b> <?php echo $vendor->email;?><br/>
-    <b>Password Baru :</b> <?php echo $vendor_profile->new_pass;?><br/>
+    <b>Password Baru :</b> <?php echo $vendor->new_pass;?><br/>
 </p>
 <p>
     Jangan lupa untuk mengganti password Anda di

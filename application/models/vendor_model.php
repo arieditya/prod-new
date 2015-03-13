@@ -302,8 +302,8 @@ class Vendor_model extends MY_Model{
 
         $this->email->subject('Reset Password Guru Ruangguru');
         //assigning new pass to guru
-        $guru->new_pass = $new_pass;
-        $content = $this->load->view('vendor/auth',array('vendor'=>$vendor),TRUE);
+        $vendor->new_pass = $new_pass;
+        $content = $this->load->view('vendor/auth/reset_pass_email',array('vendor'=>$vendor),TRUE);
         $this->email->message($content);
 
         $this->email->send();
