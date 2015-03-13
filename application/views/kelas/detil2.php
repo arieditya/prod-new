@@ -175,9 +175,10 @@ endif;
 <?php
 	if($schedule->num_rows() > 0):
 	//var_dump($jadwal->result());
+		$i=0;
 		foreach($schedule->result() as $kelas_jadwal):
 			$i++;
-			if($i > 5 && $class->class_paket != 1) break;
+//			if($i > 5 && $class->class_paket != 1) break;
 			$mulai_jam = double_digit($kelas_jadwal->class_jam_mulai);
 			$mulai_menit = double_digit($kelas_jadwal->class_menit_mulai);
 			$mulai = $mulai_jam.':'.$mulai_menit;
