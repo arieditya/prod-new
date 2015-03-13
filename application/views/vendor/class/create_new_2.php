@@ -42,7 +42,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                             <div class="form-group">
                                 <label for="Seo" class="col-sm-4 control-label">Tentang kelas</label>
                                 <div class="col-sm-8">
-									<textarea class="form-control" 
+									<textarea class="form-control txt_message" 
 											  name="class_deskripsi" 
 											  placeholder="Deskripsi mengenai kelas Anda, pengajar, dan informasi lainnya yang perlu diketahui peserta kelas" rows="3"></textarea>
                                 </div>

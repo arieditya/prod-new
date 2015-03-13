@@ -20,8 +20,6 @@ else
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/moment.min.js" ></script>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/bootstrap-datetimepicker.min.js" ></script>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/jquery.tagsinput.min.js" ></script>
-<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js" ></script>
-<script type="application/javascript" src="<?php echo base_url();?>assets/ckeditor/adapters/jquery.js" ></script>
 <script type="application/javascript">
 	var class_type = <?php echo (int)$class->class_paket;?>;
 </script>
@@ -1529,7 +1527,6 @@ endforeach;
 	</div> <!-- /container -->
 <script type="application/javascript">
 	$(document).ready(function(){
-		$('.txt_message').ckeditor();
 		$('.jadwal_date').datetimepicker({
 			pickTime		: false,
 			minDate			: todayDate.date+' '+todayDate.monthWrd+' '+todayDate.year,
