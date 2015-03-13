@@ -83,22 +83,26 @@ endif; ?>
 							</h5>
 						</div><!-- #kelas -->
 						<div role="tabpanel" class="tab-pane" id="harga">
+<?php
+if($class->class_paket<2):
+?>
 							<h5 class="title-label">Harga per sesi</h5>
-							<p> Rp <?php echo number_format($class->price_per_session, 0, ',','.')?>,- </p>
+							<p> <?php echo rupiah_format($class->price_per_session)?></p>
 <?php 
+endif;
 if ($class->class_paket > 0):?>
 							<h5 class="title-label">Harga paket</h5>
 <?php 
 	if(!empty($class->discount)):?>
-							<p> Rp <?php echo number_format($class->price_per_session*$schedule->num_rows(), 0, ',','.')?>,- </p>
+							<p> <?php echo rupiah_format($class->price_per_session*$schedule->num_rows())?></p>
 <?php 
 	else: 
 		$ori_price = $class->price_per_session*$schedule->num_rows();
 		$disc_price = $ori_price - $class->discount;
 ?>
 							<p>
-								<span class="strike"><?php echo $ori_price;?></span>
-								<?php echo $disc_price;?>
+								<span class="strike"><?php echo rupiah_format($ori_price);?></span>
+								<?php echo rupiah_format($disc_price);?>
 							</p>
 <?php 
 	endif;
@@ -128,7 +132,7 @@ if(!empty($deals)):
 			$discount_amount = "untuk pendaftar ";
 		}
 		if($deal['value']->type == 'idr') {
-			$discount_value = 'Rp '.number_format($deal['value']->value,0,',','.');
+			$discount_value = rupiah_format($deal['value']->value);
 		} else {
 			$discount_value = "{$deal['value']->value}%";
 		}
@@ -175,14 +179,13 @@ endif;
 		foreach($schedule->result() as $kelas_jadwal):
 			$i++;
 			if($i > 5 && $class->class_paket != 1) break;
-			$mulai_jam = $kelas_jadwal->class_jam_mulai<10?('0'.$kelas_jadwal->class_jam_mulai):$kelas_jadwal->class_jam_mulai;
-			$mulai_menit = $kelas_jadwal->class_menit_mulai<10?('0'.$kelas_jadwal->class_menit_mulai):$kelas_jadwal->class_menit_mulai;
+			$mulai_jam = double_digit($kelas_jadwal->class_jam_mulai);
+			$mulai_menit = double_digit($kelas_jadwal->class_menit_mulai);
 			$mulai = $mulai_jam.':'.$mulai_menit;
 	
-			$selesai_jam = $kelas_jadwal->class_jam_selesai<10?('0'.$kelas_jadwal->class_jam_selesai):$kelas_jadwal->class_jam_selesai;
-			$selesai_menit = $kelas_jadwal->class_menit_selesai<10?('0'.$kelas_jadwal->class_menit_selesai):$kelas_jadwal->class_menit_selesai;
+			$selesai_jam = double_digit($kelas_jadwal->class_jam_selesai);
+			$selesai_menit = double_digit($kelas_jadwal->class_menit_selesai);
 			$selesai = $selesai_jam.':'.$selesai_menit;
-
 ?>
 											<tr>
 												<td><?php echo $i?></td>
@@ -253,9 +256,7 @@ endif;
 <?php
 	else:
 ?>
-							<p>Belum memiliki rating:<br />
-								<?php echo unique_generator()?>
-							</p>
+							<p>Belum memiliki rating</p>
 <?php
 	endif;
 ?>
@@ -291,7 +292,7 @@ endif;
 				<div class="price-big-wrap detail-label label-yellow text-center">
 					<i class="fa fa-tag"></i>
 					<h3 class="entry-detail-label text-center text-20">
-						Rp <?php echo number_format($class->price_per_session*$schedule->num_rows(), 0, ',','.');?>,-
+						<?php echo rupiah_format($class->price_per_session*$schedule->num_rows());?>
 					</h3>
 				</div><!-- detail-label -->
 				<a href="#" class="register_class">
@@ -322,20 +323,40 @@ endif;
 	endif;
 ?>
 				<div class="panel panel-default">
-<?php 
-$maps = explode('||',$class->class_peta);
-if(count($maps) == 1) {
-	$maps[1] = 'https://www.google.com/maps/place/'.$maps[0];
-}
+<?php
+	if(empty($class->class_peta)) {
+		if(!empty($class->class_lokasi)) {
+			$str_lokasi = preg_replace('/[\s\r\n]/','+',$class->class_lokasi);
+			$str_lokasi = str_replace('++','+', $str_lokasi);
+		} else {
+			$str_lokasi = 'monumen+nasional';
+		}
+		$ll = $str_lokasi;
+		$link = 'https://www.google.com/maps/place/'.$str_lokasi;
+	} else {
+		$peta = explode('||', $class->class_peta);
+		$ll = $peta[0];
+		if(count($peta) == 2) {
+			$link = $peta[1];
+		} else {
+			$link = 'https://www.google.com/maps/place/'.$peta[0];
+		}
+	}
 ?>
 					<div class="panel-heading heading-label text-center ">
 						<i class="fa fa-map-marker"></i> 
 						<span class="entry-detail-label text-20">Lokasi</span>
 					</div>
 					<div class="panel-body">
-						<p><i class="fa fa-map-marker"></i>  <?php echo $class->class_lokasi?></p> 
-						<a href="<?php echo $maps[1];?>" target="_blank"><img class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?size=400x400&maptype=roadmap&markers=color:red%7C<?php echo $maps[0];?>"/></a>
-						<a href="<?php echo $maps[1];?>" target="_blank" class="text-right">View on <span style="text-decoration: underline">Google Maps</span></a>
+						<p><i class="fa fa-map-marker"></i>  <?php echo nl2br($class->class_lokasi)?></p> 
+						<a href="<?php echo $link;?>" target="_blank">
+							<img class="img-responsive" 
+								 src="https://maps.googleapis.com/maps/api/staticmap?size=400x400&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>"/>
+						</a>
+						<a href="<?php echo $link;?>" 
+						   target="_blank" 
+						   class="text-right">View on <span style="text-decoration: underline">Google Maps</span>
+						</a>
 
 					</div>
 				</div><!-- panel -->
