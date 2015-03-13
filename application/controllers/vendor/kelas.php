@@ -467,7 +467,7 @@ class Kelas extends Vendor_Controller{
 //				var_dump($_FILES);
 				$no_files = TRUE;
 			} else {
-				mkdir(rtrim(str_replace('\\','/',FCPATH), '/')."/images/class/{$id}/", 0777, TRUE);
+				@mkdir(rtrim(str_replace('\\','/',FCPATH), '/')."/images/class/{$id}/", 0777, TRUE);
 				$opt = array(
 					'file_name'		=> 'main_picture',
 					'upload_path'	=> rtrim(FCPATH, '/')."/images/class/{$id}/",
@@ -496,7 +496,9 @@ class Kelas extends Vendor_Controller{
 		}
 
 		$this->load->helper('url');
-		$data['vendor_class']['class_uri'] = url_title(strtolower($data['vendor_class']['class_uri']));
+		if(!empty($data['vendor_class']['class_uri'])){
+			$data['vendor_class']['class_uri'] = url_title(strtolower($data['vendor_class']['class_uri']));
+		}
 //var_dump($jadwal);exit;
 		$this->vendor_class_model->update_class($data['vendor_class'], array());
 		if($this->vendor_class_model->add_class_price($id, $data['vendor_class_price']) === FALSE){

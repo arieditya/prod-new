@@ -48,6 +48,9 @@
 	function removeNotification() {
 		$('.notification').slideUp();
 	}
+	
+	var list_location = <?php echo json_encode($header_data['full_location_list'])?>;
+	
 	var sTO = null;
 	$(document).ready(function() {
 		$('.fancybox').fancybox();

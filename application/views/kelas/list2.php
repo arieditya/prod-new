@@ -215,8 +215,7 @@ $this->load->view('vendor/general/header2');
                                     ?>
                                     dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"
                                            class="pink">
-												<span class="link-sesi"><?php echo $kelas->count_session-1;?> sesi
-													lainnya</span>
+											<span class="link-sesi"><?php echo $kelas->count_session-1;?> sesi lainnya</span>
                                 </a>
                                 <?php else: ?>
                                     <br />

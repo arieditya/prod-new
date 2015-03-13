@@ -58,7 +58,7 @@ class MY_Controller extends CI_Controller{
 			'class_level'	=> $this->vendor_class_model->get_class_level_list()->result(),
 			'provinsi_list'	=> $this->main_model->get_provinsi_list(),
 			'class_category'=> $this->vendor_class_model->get_category_list()->result(),
-				
+			'full_location_list' => $this->main_model->get_location_full_list()
 		);
 		$user['type'] = $this->session->userdata('user_type');
 		$user['name'] = $this->session->userdata('user_name');

@@ -378,11 +378,11 @@ endif;
 													<input type="text" 
 														   class="form-control" 
 <?php if($class->class_status > 0 && !empty($class->class_uri)): ?>
+														   disabled="disabled"
+<?php else: ?>
 														   id="class_uri" 
 														   name="class_uri"
 														   placeholder="Biarkan terisi secara automatis bila Anda ragu"
-<?php else: ?>
-														   disabled="disabled"
 <?php endif; ?>
 														   value="<?php echo $class->class_uri;?>" />
 												</div>
@@ -490,6 +490,22 @@ endif;
 											</h3>
 										</div>
 										<div id="form_lokasi" class="collapse">
+											<div class="form-group">
+												<label for="Seo" class="col-sm-4 control-label"></label>
+												<div class="col-sm-8">
+													<select class="form-control kategori" name="class_provinsi_id">
+														<option>-- Pilih --</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="Seo" class="col-sm-4 control-label"></label>
+												<div class="col-sm-8">
+													<select class="form-control kategori" name="class_lokasi_id">
+														<option>-- Pilih --</option>
+													</select>
+												</div>
+											</div>
 											<div class="form-group">
 												<label for="tentang" class="col-sm-4 control-label">Alamat</label>
 												<div class="col-sm-8">

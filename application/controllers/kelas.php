@@ -43,6 +43,8 @@ class Kelas extends MY_Controller {
 		$this->detil('XXXX'.$id);
 	}
 	
+	
+	
 	public function _new_index() {
 		$set_filter = array();
 		$filter = $this->input->cookie('filter', TRUE);
@@ -124,13 +126,15 @@ class Kelas extends MY_Controller {
 		if(count($new_filter) > 0){
 			$where_class['id'] = array_merge($new_filter);
 //			$where_class .= '`vendor_class`.`id` IN ('.implode(',',$new_filter).')';
-			$classes = $this->vendor_class_model->get_class($where_class)->result();
+			$classes = $this->vendor_class_model->get_class($where_class, 1, 6)->result();
 		} else {
 			$classes = array();
 		}
 //		var_dump($where_class);
 		//print_r($classes);exit();
 		foreach($classes as &$cla){
+			$cnt = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cla->id))->num_rows();
+			$cla->count_session = $cnt;
 			$v['profile'] = $this->vendor_model->get_profile(array('id'=>$cla->vendor_id))->row();
 			$v['info'] = $this->vendor_model->get_info(array('vendor_id'=>$cla->vendor_id))->row();
 			$data['vendor']['profile'][]= $v['profile'];
