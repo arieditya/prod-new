@@ -169,12 +169,9 @@ endif;
 									</thead>
 									<tbody>
 <?php
-	$i = 0;
 	if($schedule->num_rows() > 0):
 	//var_dump($jadwal->result());
 		foreach($schedule->result() as $kelas_jadwal):
-			$i++;
-			if($i > 5 && $class->class_paket != 1) break;
 			$mulai_jam = $kelas_jadwal->class_jam_mulai<10?('0'.$kelas_jadwal->class_jam_mulai):$kelas_jadwal->class_jam_mulai;
 			$mulai_menit = $kelas_jadwal->class_menit_mulai<10?('0'.$kelas_jadwal->class_menit_mulai):$kelas_jadwal->class_menit_mulai;
 			$mulai = $mulai_jam.':'.$mulai_menit;
