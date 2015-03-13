@@ -174,7 +174,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .content-grid {
   box-shadow: 0 2px 5px #999;
   margin-bottom: 30px;
-  min-height: 353px;
+  min-height: 340px;
   position: relative;
 }
 /*.content-grid.diskon:before {
@@ -323,6 +323,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .review .tag {
   color: #e11667;
   text-decoration: underline;
+  width: 15px;
 }
 .description {
   border-bottom: 1px solid #ddd;
@@ -331,17 +332,16 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .vendor-name {
     overflow: hidden;
-    width: 260px;
+    width: 168px;
     height: 18px;
     line-height: 1.3;
+    float: left;
 }
 .icon {
   float: left;
   width: 10%;
 }
-.icon .tag {
-    height: 35px;
-}
+
 .gradient-white{
     position: absolute;
     height: 21px;
