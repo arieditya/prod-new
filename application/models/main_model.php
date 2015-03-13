@@ -25,6 +25,27 @@ class Main_model extends CI_Model {
         return $this->db->get('matpel');
     }
 	
+	function get_location_full_list() {
+		$provinsi = $this->get_provinsi_list();
+		$data = array();
+		foreach($provinsi as $prov) {
+			$loc = $this->get_lokasi($prov->provinsi_id)->result();
+			$dt = array(
+				'id'		=>(int)$prov->provinsi_id,
+				'title'		=>$prov->provinsi_title,
+				'data'		=>array()
+			);
+			foreach($loc as $locc) {
+				$dt['data'][] = array(
+					'id'		=>(int)$locc->lokasi_id,
+					'title'		=>$locc->lokasi_title,
+				);
+			}
+			$data[] = $dt;
+		}
+		return $data;
+	}
+	
 	function get_provinsi_list() {
 		return $this->db->get('provinsi')->result();
 	}
