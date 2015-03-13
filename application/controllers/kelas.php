@@ -133,8 +133,8 @@ class Kelas extends MY_Controller {
 		foreach($classes as &$cla){
 			$v['profile'] = $this->vendor_model->get_profile(array('id'=>$cla->vendor_id))->row();
 			$v['info'] = $this->vendor_model->get_info(array('vendor_id'=>$cla->vendor_id))->row();
-			$data['vendor']['profile'][]= $v['profile'];
-			$data['vendor']['info'][]= $v['info'];
+            $data['vendor']['profile'][]= $v['profile'];
+            $data['vendor']['info'][]= $v['info'];
 			$cla->rating = $this->vendor_class_model->get_class_rating($cla->vendor_id)->row();
 			$cla->vendor = $v;
 		}
@@ -143,7 +143,8 @@ class Kelas extends MY_Controller {
 		$this->data['vendor'] = empty($data['vendor'])?NULL:$data['vendor'];
 		$this->data['show_filter'] = TRUE;
 //		var_dump($classes);exit;
-		$this->new_design?
+//        $this->data['vendor']->profile->name = word_limiter($this->data->vendor->profile->name,13);
+        $this->new_design?
 				$this->load->view('kelas/list2', $this->data):
 				$this->load->view('kelas/list', $this->data);
 	}

@@ -125,6 +125,25 @@ class Auth extends MY_Controller{
 		$guru = $this->guru_model->check_login($data);
 		
 	}
+
+    public function reset_password(){
+        $temp['css'] = array(1=>'validation',2=>'guru');
+        $this->load->view('header',$temp);
+        $this->load->view('front/guru/reset_password');
+        $this->load->view('footer');
+    }
+
+    public function reset_password_submit(){
+        $email = $this->input->post('email');
+        $result = $this->vendor_model->reset_password($email);
+        if($result){
+            $this->session->set_flashdata('reset_pass_vendor_notif','Password baru Anda telah dikirimkan ke email: '.$email);
+        }else{
+            $this->session->set_flashdata('reset_pass_vendor_notif','Email yang Anda masukkan tidak terdaftar dalam sistem Ruangguru. Silahkan coba lagi');
+        }
+        redirect('guru/reset_password');
+    }
+
 }
 
 // END OF logreg.php File
