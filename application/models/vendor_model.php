@@ -242,8 +242,73 @@ class Vendor_model extends MY_Model{
 		foreach($keywords as $keyword)
 			$this->db->or_like('vendor_profile.name', $keyword);
 		return $this->db->get();
-
 	}
+
+    function get_vendor_by_email($email) {
+        $this->db->where('email',$email);
+        $result = $this->db->get('vendor_profile');
+        if($result->num_rows() > 0){
+            return $result->first_row();
+        }else{
+            return null;
+        }
+    }
+
+    /*** RESET PASSWORD VENDOR ***/
+    function reset_password($email){
+        $vendor = $this->get_vendor_by_email($email);
+        if(!empty($vendor)){
+            $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+            $pass = array();
+            $alphaLength = strlen($alphabet) - 1;
+            for ($i = 0; $i < 8; $i++) {
+                $n = rand(0, $alphaLength);
+                $pass[] = $alphabet[$n];
+            }
+            $new_pass = implode($pass);
+            //update password
+            if(!empty($vendor) && $vendor->id > 0){
+                $this->db->set('password',md5($new_pass));
+                $this->db->where('id',$vendor->id);
+                $this->db->update('vendor_profile');
+            }else{
+                return false;
+            }
+            //send email
+            $this->send_reset_password_email($vendor, $new_pass);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function send_reset_password_email($vendor,$new_pass){
+        $this->load->library('email');
+        $config['useragent'] = 'Ruangguru Web Service';
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'mail.ruangguru.com';
+        $config['smtp_port'] = 25;
+        $config['smtp_user'] = 'no-reply@ruangguru.com';
+        $config['smtp_pass'] = $this->config->item('smtp_password');
+        $config['priority'] = 1;
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'utf-8';
+        $config['wordwrap'] = TRUE;
+        $this->email->initialize($config);
+        $this->email->from('no-reply@ruangguru.com', 'Ruangguru.com');
+        $this->email->cc('registrasi@ruangguru.com');
+        $this->email->bcc('arie@ruangguru.com');
+        $this->email->to($vendor->email);
+
+        $this->email->subject('Reset Password Guru Ruangguru');
+        //assigning new pass to guru
+        $guru->new_pass = $new_pass;
+        $content = $this->load->view('vendor/auth',array('vendor'=>$vendor),TRUE);
+        $this->email->message($content);
+
+        $this->email->send();
+    }
+
 }
 
 // END OF vendor_model.php File
