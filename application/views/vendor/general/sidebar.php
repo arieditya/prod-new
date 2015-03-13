@@ -29,16 +29,16 @@ if(empty($sidebar)) $sidebar = 'profile';
 							 style="width: 60%">
 							<?php
                             $i=0;
-                            if(!empty($vendor['profile']->$vendor['profile']->email) &&
-                                !empty($vendor['profile']->$vendor['profile']->name) &&
-                                !empty($vendor['profile']->$vendor['profile']->main_phone) &&
-                                !empty($vendor['profile']->$vendor['profile']->address)):
+                            if(!empty($vendor['profile']->email) &&
+                                !empty($vendor['profile']->name) &&
+                                !empty($vendor['profile']->main_phone) &&
+                                !empty($vendor['profile']->address)):
                                     $i+=30;
                             elseif(!empty($vendor['info']->vendor_description)) :
                                 $i+=10;
                             elseif(!empty($vendor['info']->vendor_logo)):
                                 $i+=10;
-/**                            elseif(!empty($socmed->facebook) || !empty($socmed->pinterest) ||
+                            elseif(!empty($socmed->facebook) || !empty($socmed->pinterest) ||
                                 !empty($socmed->twitter) || !empty($socmed->instagram)):
                                 $i+=10;
                             elseif(!empty($vendor['info']->contact_person_name)):
@@ -51,7 +51,7 @@ if(empty($sidebar)) $sidebar = 'profile';
                                 $i+=5;
                             elseif(!empty($bank_account->bank_id) && !empty($bank_account->no_rek) && !empty($bank_account->atasnama)):
                                 $i+=20;
-*/                            endif;
+                            endif;
                             echo $i;
                             ?>
 						</div>
