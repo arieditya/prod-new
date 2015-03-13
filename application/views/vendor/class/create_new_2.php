@@ -44,7 +44,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                                 <div class="col-sm-8">
 									<textarea class="form-control" 
 											  name="class_deskripsi" 
-											  placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini." rows="3"></textarea>
+											  placeholder="Deskripsi mengenai kelas Anda, pengajar, dan informasi lainnya yang perlu diketahui peserta kelas" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -122,7 +122,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 									<textarea class="form-control" 
 											  name="class_lokasi" 
 											  rows="5"
-											  placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini." ></textarea>
+											  placeholder="Cantumkan alamat lengkap tempat kelas Anda diselenggarakan termasuk nama gedung atau institusi (jika ada)" ></textarea>
                                 </div>
                             </div>
                             <div class="form-group">

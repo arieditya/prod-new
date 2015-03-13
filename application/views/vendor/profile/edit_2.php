@@ -69,6 +69,24 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
+								<label for="alamat" class="col-sm-4 control-label">Alamat</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" 
+											  placeholder="Alamat" 
+											  rows="5"
+											  name="address"><?php echo 
+										$vendor['profile']->address;?></textarea><br />
+									<span>
+										<input type="checkbox" 
+											   name="show_address"
+											   value="yes"
+											   <?php echo 
+										$vendor['profile']->show_address==1?'checked="checked"':'';?>/> 
+										Tampilkan alamat di halaman profile anda
+									</span>
+								</div>
+							</div><!-- form-group -->
+							<div class="form-group">
 								<label for="deskipsi" class="col-sm-4 control-label">Deskripsi penyelenggara</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" 
@@ -216,15 +234,6 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
-								<label for="alamat" class="col-sm-4 control-label">Alamat</label>
-								<div class="col-sm-8">
-									<textarea class="form-control" 
-											  placeholder="Alamat" 
-											  rows="3"
-											  name="class_room_address"><?php echo $vendor['info']->class_room_address;?></textarea>
-								</div>
-							</div><!-- form-group -->
-							<div class="form-group">
 								<div class="col-sm-offset-4 col-sm-8 submit-form">
 									<button type="submit" class="btn btn-default main-button register">Simpan</button>
 									<button type="reset" class="btn btn-default cancel">Reset</button>
@@ -274,7 +283,7 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   name="account_number" 
 										   class="form-control" 
 										   value="<?php echo empty($bank_account->no_rek)?'':$bank_account->no_rek;?>" 
-										   placeholder="Nomor Tekening" />
+										   placeholder="Nomor Rekening" />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">

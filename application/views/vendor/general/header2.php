@@ -45,11 +45,54 @@
 	<script type="application/javascript">
 	var base_url = "<?php echo base_url()?>";
 	$.cookie.json = true;
+	function removeNotification() {
+		$('.notification').slideUp();
+	}
+	var sTO = null;
 	$(document).ready(function() {
 		$('.fancybox').fancybox();
-	})
+		if($('.notification').is('.on')) {
+			var timeout = $('.notification > div').is('.error')?
+					30000:$('.notification > div').is('.warning')?20000:10000;
+			sTO = setTimeout('removeNotification()', timeout);
+		}
+		$('.close-notif').click(function(e){
+			e.preventDefault();
+			clearTimeout(sTO);
+			removeNotification();
+		});
+	});
 	</script>
 	<body<?php echo $have_bar?' class="have-bar"':''?>>
+<?php
+$notice = strlen($this->session->flashdata('status.error'))?'error':
+		(strlen($this->session->flashdata('status.warning'))?'warning':
+				(strlen($this->session->flashdata('status.notice'))?'notice':''));
+?>
+	<div class="notification <?php echo !empty($notice)?'on':''?>">
+		<div class="<?php echo $notice;?>">
+			<div class="message">
+				<div class="row">
+					<div class="col-sm-7 col-sm-offset-2 col-xs-12">
+						<strong id="notification-title">
+							<?php echo ucfirst($notice) ;?>
+						</strong>
+						<span id="notification-message">
+							<?php echo $this->session->flashdata('status.'.$notice)?>
+						</span>
+						<span class="pull-right visible-xs-block close-notif">
+							<i class="fa fa-close"></i> Close
+						</span>
+					</div>
+					<div class="col-sm-1 hidden-xs close-notif" style="text-align: right">
+						<i class="fa fa-close"></i> Close
+					</div>
+					<div class="col-sm-offset-4">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Fixed navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -234,7 +277,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 					<div class="form-group">
 						<div class="col-md-offset-2 col-md-10">
 							<button type="submit" class="btn btn-success btn-lg">Daftar</button>&nbsp;&nbsp;
-							<button type="reset" class="btn btn-danger btn-sm">Reset</button>
+							<button type="reset" class="btn btn-default btn-lg">Reset</button>
 						</div>
 					</div>
 				</form>

@@ -91,8 +91,9 @@ class Vendor_model extends MY_Model{
 			'name'			=> NULL,
 			'main_phone'	=> NULL,
 			'address'		=> NULL,
-			'status'		=> NULL
-		));
+			'status'		=> NULL,
+			'show_address'	=> NULL
+		));	
 		if($this->db->update('vendor_profile', $data, array('id'=>$var['id']))) {
 			return !! $this->db->affected_rows();
 		}

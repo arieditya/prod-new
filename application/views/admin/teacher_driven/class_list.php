@@ -78,8 +78,13 @@ if ($this->session->flashdata('f_class_error')): ?>
 					<td><?php echo $g->session_count;?></td>
 					<td><?php if($g->class_status==1):?>
 							<span class="ok">Approved</span>
-						<?php elseif($g->class_status==4):?>
+						<?php elseif($g->class_status==4):
+								if($g->active==1):
+							?>
 							<span class="no">Request for Unpublish</span>
+						<?php elseif($g->active==0):?>
+							<span class="no">Request for Publish</span>
+						<?php endif;?>
 						<?php elseif($g->class_status==0):?>
 							<span class="no">Pending</span>
 						<?php else:?>
@@ -117,7 +122,9 @@ if ($this->session->flashdata('f_class_error')): ?>
 							?>admin/teacher_driven/deactivate_class/<?php
 							echo $g->id;?>">deactivate</a>
 						</span>
-<?php elseif($g->class_status==4):?>
+<?php elseif($g->class_status==4):
+	if($g->active==1):
+	?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/approve_unpublish_class/<?php echo $g->id;?>">accept</a>
@@ -126,7 +133,17 @@ if ($this->session->flashdata('f_class_error')): ?>
 							<a class="ico delete" href="<?php echo base_url();
 							?>admin/teacher_driven/reject_unpublish_class/<?php echo $g->id;?>">reject</a>
 						</span>
-<?php elseif($g->class_status==0):?>
+<?php elseif($g->active==0):?>
+						<span class="ok">
+							<a class="ico edit" href="<?php echo base_url();
+							?>admin/teacher_driven/approve_publish_class/<?php echo $g->id;?>">accept</a>
+						</span>
+						<span class="no">
+							<a class="ico delete" href="<?php echo base_url();
+							?>admin/teacher_driven/reject_publish_class/<?php echo $g->id;?>">reject</a>
+						</span>
+<?php endif;
+	elseif($g->class_status==0):?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/do_class_confirm/<?php echo $g->id;?>">accept</a>

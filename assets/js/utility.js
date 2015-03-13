@@ -15,12 +15,44 @@ var dateFromToday = function(day) {
 	var returnDate = now + daysInMilliSeconds;
 	var d = new Date(returnDate);
 	return {
-		'year'	: d.getFullYear(),
-		'month'	: addZero(d.getMonth()+1),
-		'date'	: addZero(d.getDate()),
-		'hour'	: addZero(d.getHours()),
-		'minute': addZero(d.getMinutes()),
-		'second': addZero(d.getSeconds())
+		'year'		: d.getFullYear(),
+		'month'		: addZero(d.getMonth()+1),
+		'date'		: addZero(d.getDate()),
+		'hour'		: addZero(d.getHours()),
+		'minute'	: addZero(d.getMinutes()),
+		'second'	: addZero(d.getSeconds()),
+		'monthWrd'	: monthWord(d.getMonth()+1)
+	}
+};
+
+var monthWord = function(digit) {
+	switch(digit) {
+		case		1 :
+			return		'Jan';
+		case		2 :
+			return		'Feb';
+		case		3 :
+			return		'Mar';
+		case		4 :
+			return		'Apr';
+		case		5 :
+			return		'May';
+		case		6 :
+			return		'Jun';
+		case		7 :
+			return		'Jul';
+		case		8 :
+			return		'Aug';
+		case		9 :
+			return		'Sep';
+		case		10 :
+			return		'Oct';
+		case		11 :
+			return		'Nov';
+		case		12 :
+			return		'Des';
+		default :
+			return;
 	}
 };
 

@@ -23,7 +23,8 @@ class Main extends MY_Controller{
 			$info[] = $this->vendor_model->get_info($par_profile);
 		}
 		$data['info'] = $info;
-		$this->load->view('vendor/landing', $data);
+		$this->load->view('vendor/landing_2', $this->data);
+//		$this->load->view('vendor/landing', $data);
 	}
 	
 	public function detail($id) {

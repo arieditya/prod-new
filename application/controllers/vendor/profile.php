@@ -34,25 +34,38 @@ class Profile extends Vendor_Controller{
 	
 	public function update_profile(){
 		$update = array();
+		$status = '';
+		$flag = 0;
+		$stat = TRUE;
+		$update['show_address'] = 0;
 		foreach($_POST as $k => $v) {
-			if(($k == "vendor_description") ||($k == "vendor_logo")){
-				$this->update_info();
-				$flag = 0;
+			if(($k == "vendor_description") ||($k == "vendor_logo") && $flag==0){
+				$this->update_info(TRUE);
+				$flag = 1;
 			}else{
 				if($k == "password"){
-					$update[$k]	= md5($this->input->post($k, TRUE));
+					$pass = trim($this->input->post($k, TRUE));
+					if(!empty($pass) )
+						$update[$k]	= md5($pass);
+				}elseif($k=='show_address') {
+					if($v == 'yes') $update[$k] = 1;
 				}else{
 					$update[$k]	= $this->input->post($k, TRUE);
 				}
-				$update['id'] = $this->vendor->id;
-				$this->vendor_model->update_profile($update);
-				$flag = 1;
 			}
 		}
+		$update['id'] = $this->vendor->id;
+		$stat = $this->vendor_model->update_profile($update);
+		if(!$stat) {
+			$status = 'Gagal update profile!';
+		}
+
+		if(!empty($status)) $this->session->set_flashdata('status.warning', $status);
+		else $this->session->set_flashdata('status.notice', 'Berhasil update data profile!');
 		redirect('vendor/profile/edit');
 	}
 	
-	public function update_info(){
+	public function update_info($flag=FALSE){
 		$update = array();
 		$desc = $this->input->post('vendor_description');
 		$logo = $this->input->post('vendor_logo');
@@ -63,7 +76,6 @@ class Profile extends Vendor_Controller{
 			}
 		}else{
 			$update['vendor_description'] = $this->input->post('vendor_description');
-			$update['vendor_logo'] = $this->input->post('vendor_logo');
 		}
 
 		$update['id'] = $this->session->userdata('user_type')=='vendor'?$this->session->userdata('user_id'):FALSE;
@@ -103,8 +115,13 @@ class Profile extends Vendor_Controller{
 		} else {
 //			$data['class_image'] = NULL;
 		}
-		$this->vendor_model->update_info($update);
-		redirect('vendor/profile/edit/responsible#rekbank');
+		$result = $this->vendor_model->update_info($update);
+		if($flag) return $result;
+		else {
+			if(!$result) $this->session->set_flashdata('status.warning', 'Gagal update info!');
+			else $this->session->set_flashdata('status.notice', 'Berhasil update info!');
+			redirect('vendor/profile/edit/responsible#rekbank');
+		}
 	}
 	
 	public function update_account() {
@@ -113,15 +130,18 @@ class Profile extends Vendor_Controller{
 			$bank = 0;
 		}
 		$update = array(
-			'id'		=> $this->vendor->id,
+			'vendor_id'		=> $this->vendor->id,
 			'bank_id'		=> $bank,
 			'bank_lain'		=> $this->input->post('bank_new', TRUE),
 			'no_rek'		=> $this->input->post('account_number', TRUE),
 			'atasnama'		=> $this->input->post('account_name', TRUE),
 			'cabang'		=> $this->input->post('account_branch', TRUE)
 		);
-		
-		$this->vendor_model->set_rekening($update);
+		if($this->vendor_model->set_rekening($update)) {
+			$this->session->set_flashdata('status.notice','Update akun bank berhasil');
+		} else {
+			$this->session->set_flashdata('status.warning','Update akun bank Gagal');
+		}
 
 		redirect('vendor/profile/edit/reponsible');
 	}

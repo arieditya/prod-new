@@ -189,6 +189,29 @@ class Teacher_driven extends MY_Controller{
 		redirect('admin/teacher_driven/'.$referer);
 	}
 	
+	public function approve_publish_class($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status1 = $this->vendor_class_model->set_published_class($id, 1);
+		if($status1) {
+			$status2 = $this->vendor_class_model->set_status_class($id, 1);
+			if($status2) $status = array('f_class'	=> 'Class is published!');
+			else $status = array('f_class_error'	=> 'Class unpublished but failed to change status!');
+		} else $status = array('f_class_error'	=> 'Class STILL Unpublished!');
+		$this->session->set_flashdata($status);
+		redirect('admin/teacher_driven/'.$referer);
+	}
+	
+	public function reject_publish_class($id) {
+		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$status = $this->vendor_class_model->set_status_class($id, 1);
+		if($status) $status = array('f_class'	=> 'Class Published Rejected!');
+		else $status = array('f_class_error'	=> 'Class Published FAILED to be rejected!');
+		$this->session->set_flashdata($status);
+		redirect('admin/teacher_driven/'.$referer);
+	}
+	
 	public function force_publish_class($id) {
 		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
 		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
@@ -217,14 +240,14 @@ class Teacher_driven extends MY_Controller{
 		$class = $this->vendor_class_model->get_class(array(
 				'class_status >='	=> NULL,
 				'active'		=> NULL
-		))->result();
-		
+		),0,0)->result();
 		foreach($class as &$cls) {
 			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
 			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
 					->category_name;
-			$cls->level_name = $this->vendor_class_model->get_level(array('id'=>$cls->level_id))->row()
-					->name;
+			$lvl = $this->vendor_class_model->get_level(array('id'=>$cls->level_id))->row();
+			if(!empty($lvl))$cls->level_name = $lvl->name;
+			else $cls->level_name = 'Level belum terpilih!';
 			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
 					->num_rows();
 //			var_dump($cls);exit;

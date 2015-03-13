@@ -62,7 +62,8 @@ else
 
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
-								<?php if($status->class_status <= 0){ ?>
+								<?php if(($status->class_status == 0 || $status->class_status == 1 )
+										&& $status->active == 0){ ?>
                                     <li role="presentation">
                                         <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
                                     </li>
@@ -101,7 +102,7 @@ else
 											</div><!-- section-row -->
 											<div class="section-row">
 												<div class="col-sm-4">Alamat</div>
-												<div class="col-sm-8"><?php echo $class->class_lokasi;?></div>
+												<div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
 											</div><!-- section-row -->
 <?php
 	if(empty($class->class_peta)) {
@@ -191,9 +192,9 @@ $i=0;
 	elseif($jadwal->num_rows() > 0):
 		if($class->class_paket == 0):
 			$jdwl = $jadwal->row();
-			$tanggal = date('d M Y', strtotime($jdwl->class_tanggal));
-			$start = $jdwl->class_jam_mulai.':'.$jdwl->class_menit_mulai;
-			$end = $jdwl->class_jam_selesai.':'.$jdwl->class_menit_selesai;
+			$tanggal = date('d\&\n\b\s\p\;M\&\n\b\s\p\;Y', strtotime($jdwl->class_tanggal));
+			$start = double_digit($jdwl->class_jam_mulai).':'.double_digit($jdwl->class_menit_mulai);
+			$end = double_digit($jdwl->class_jam_selesai).':'.double_digit($jdwl->class_menit_selesai);
 			$topik = $jdwl->class_jadwal_topik;
 ?>
 														<tr>
@@ -207,9 +208,9 @@ $i=0;
 		else:
 			foreach($jadwal->result() as $jdwl):
 				$i++;
-				$tanggal = date('d M Y', strtotime($jdwl->class_tanggal));
-				$start = $jdwl->class_jam_mulai.':'.$jdwl->class_menit_mulai;
-				$end = $jdwl->class_jam_selesai.':'.$jdwl->class_menit_selesai;
+				$tanggal = date('d\&\n\b\s\p\;M\&\n\b\s\p\;Y', strtotime($jdwl->class_tanggal));
+				$start = double_digit($jdwl->class_jam_mulai).':'.double_digit($jdwl->class_menit_mulai);
+				$end = double_digit($jdwl->class_jam_selesai).':'.double_digit($jdwl->class_menit_selesai);
 				$topik = $jdwl->class_jadwal_topik;
 ?>
 														<tr>
@@ -265,14 +266,25 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 											</div><!-- section-row -->
                                             <div class="col-sm-offset-4 col-sm-8 submit-form">
 <?php if (($status->class_status == 0) || ($status->class_status == 1 && $status->active == 0)) : ?>
-                                                    <a href="vendor/kelas/request_publish/<?php echo $id; ?>"
-                                                       class="btn btn-default main-button register">
+                                                    <a href="<?php echo base_url();
+													?>vendor/kelas/request_publish/<?php 
+													echo 
+													$class->id; ?>"
+                                                       class="btn btn-default main-button register"
+													   onclick="return confirm('Apakah anda sudah yakin data-data ' +
+													    'yang anda masukan sudah benar? Setelah ini data-data anda ' +
+													     'akan di verifikasi oleh admin dan tidak dapat mengubah lagi' +
+													      ' data-data ini.')">
                                                         Request To Published
                                                     </a>
 <?php
 else : ?>
-                                                    <a href="vendor/kelas/request_unpublish/<?php echo $id; ?>"
-                                                       class="btn btn-default main-button register">
+                                                    <a href="<?php echo base_url();
+													?>vendor/kelas/request_unpublish/<?php echo $class->id; ?>"
+                                                       class="btn btn-default main-button register"
+													   onclick="return confirm('Anda akan mengajukan permohonan ' +
+													    'untuk menurunkan kelas ini. Admin akan mengkonfirmasi ' +
+													     'pengajuan anda.')">
                                                         Request To Unpublished
                                                     </a>
 <?php 
@@ -285,6 +297,7 @@ endif;
 								<div role="tabpanel" class="tab-pane" id="profile">
 										<form method="post" 
 											  class="form-horizontal" 
+											  enctype="multipart/form-data"
 											  action="<?php echo base_url();?>vendor/kelas/update_profile_2">
 											<input type="hidden" 
 												   value="<?php echo $class->id;?>" 
@@ -308,8 +321,8 @@ endif;
 													<input type="text" 
 														   class="form-control" 
 														   id="Namakelas" 
+														   name="class_nama"
 														   placeholder="Nama dari kelas yang akan diselenggarakan" 
-														   disabled="disabled"
 														   value="<?php echo $class->class_nama;?>" />
 												</div>
 											</div>
@@ -329,7 +342,7 @@ endif;
 												<div class="col-sm-8">
 													<textarea class="form-control txt_message" 
 															  name="class_deskripsi"
-															  placeholder="Tentang kelas yang akan anda buat" 
+															  placeholder="Deskripsi mengenai kelas Anda, pengajar, dan informasi lainnya yang perlu diketahui peserta kelas" 
 															  rows="3"><?php echo $class->class_deskripsi?></textarea>
 												</div>
 											</div>
@@ -432,7 +445,7 @@ endif;
 												<div class="col-sm-8">
 													<textarea class="form-control" 
 															  name="class_lokasi"
-															  placeholder="Alamat dimana kelas akan diadakan." 
+															  placeholder="Cantumkan alamat lengkap tempat kelas Anda diselenggarakan termasuk nama gedung atau institusi (jika ada)" 
 															  rows="3"><?php echo $class->class_lokasi?></textarea>
 												</div>
 											</div>
@@ -688,11 +701,11 @@ endif;
 			$i = 1;
 			$jdwl = $jadwal->row();
 			$tanggal = date('d M Y', strtotime($jdwl->class_tanggal));
-			$start = $jdwl->class_jam_mulai.':'.$jdwl->class_menit_mulai;
-			$end = $jdwl->class_jam_selesai.':'.$jdwl->class_menit_selesai;
+			$start = double_digit($jdwl->class_jam_mulai).':'.double_digit($jdwl->class_menit_mulai);
+			$end = double_digit($jdwl->class_jam_selesai).':'.double_digit($jdwl->class_menit_selesai);
 			$topik = $jdwl->class_jadwal_topik;
-?>
-													<tr>
+	?>
+													<tr class="jadwal_row">
 														<td class="text-center">1</td>
 														<td class="text-center">
 															<input type="text" 
@@ -727,7 +740,7 @@ endif;
 																   placeholder="Topik untuk sesi ini">
 														</td>
 														<td class="text-center">
-															<a href="#">delete</a>
+															<a class="jadwal_delete" href="#">delete</a>
 														</td>
 													</tr>
 <?php
@@ -735,11 +748,11 @@ endif;
 			foreach($jadwal->result() as $jdwl):
 				$i++;
 				$tanggal = date('d M Y', strtotime($jdwl->class_tanggal));
-				$start = $jdwl->class_jam_mulai.':'.$jdwl->class_menit_mulai;
-				$end = $jdwl->class_jam_selesai.':'.$jdwl->class_menit_selesai;
+				$start = double_digit($jdwl->class_jam_mulai).':'.double_digit($jdwl->class_menit_mulai);
+				$end = double_digit($jdwl->class_jam_selesai).':'.double_digit($jdwl->class_menit_selesai);
 				$topik = $jdwl->class_jadwal_topik;
 ?>
-													<tr>
+													<tr class="jadwal_row">
 														<td class="text-center"><?php echo $i;?></td>
 														<td class="text-center">
 															<input type="text" 
@@ -774,7 +787,7 @@ endif;
 																   placeholder="Topik untuk sesi ini">
 														</td>
 														<td class="text-center">
-															<a href="#">delete</a>
+															<a href="#" class="jadwal_delete">delete</a>
 														</td>
 													</tr>
 <?php
@@ -783,7 +796,7 @@ endif;
 	endif;
 	if($jadwal->num_rows() == 0 || $class->class_paket != 0):
 ?>
-													<tr class="jadwal_next_row">
+													<tr class="jadwal_next_row jadwal_row">
 														<td class="text-center">NEW</td>
 														<td class="text-center">
 															<input type="text" 
@@ -814,7 +827,7 @@ endif;
 																   placeholder="Topik untuk sesi ini" />
 														</td>
 														<td class="text-center">
-															<a href="#">delete</a>
+															<a href="#" class="jadwal_delete">delete</a>
 														</td>
 													</tr>
 <?php
@@ -840,7 +853,7 @@ endif;
 			$('.jadwal_next_row').removeClass('jadwal_next_row');
 			$('.jadwal_date', $clone).datetimepicker({
 				pickTime		: false,
-				minDate			: todayDate.year+'-'+todayDate.month+'-'+todayDate.date,
+				minDate			: todayDate.date+' '+todayDate.monthWrd+' '+todayDate.year,
 				showToday		: true
 			});
 			$('.jadwal_time', $clone).datetimepicker({
@@ -849,12 +862,27 @@ endif;
 				minuteStepping	: 5,
 				use24hours		: true
 			});
+			$('.jadwal_delete', $clone).click(function(e){
+				e.preventDefault();
+				delete_jadwal_row($(this));
+				return false;
+			});
 			$('#tbl_jadwal tbody').append($clone);
 			add_event();
 			row_jadwal++;
 			$(this).focus();
 		}
 		add_event();
+		$('.jadwal_delete').click(function(e){
+			e.preventDefault();
+			delete_jadwal_row($(this));
+			return false;
+		});
+		function delete_jadwal_row(that) {
+			 var $tr = that.parent().parent();
+			row_jadwal--;
+			$($tr).remove();
+		}
 	});
 </script>
 <?php 
@@ -1388,7 +1416,8 @@ endforeach;
 		$('.txt_message').ckeditor();
 		$('.jadwal_date').datetimepicker({
 			pickTime		: false,
-			minDate			: todayDate.year+'-'+todayDate.month+'-'+todayDate.date,
+			minDate			: todayDate.date+' '+todayDate.monthWrd+' '+todayDate.year,
+//			minDate			: todayDate.year+'-'+todayDate.month+'-'+todayDate.date,
 			showToday		: true
 		});
 		$('.jadwal_time').datetimepicker({

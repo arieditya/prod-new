@@ -67,7 +67,11 @@ class Vendor_class_model extends MY_Model{
 				'class_status >='	=> 1,
 				'active'		=> 1
 			);
-		$this->db->limit($perpage, ($page-1)*$perpage);
+		if($page==0 && $perpage==0){
+			
+		} else {
+			$this->db->limit($perpage, ($page-1)*$perpage);
+		}
 		
 //		if(is_string($var)){
 //			$where[] = $var;
@@ -190,7 +194,7 @@ class Vendor_class_model extends MY_Model{
 		$class_id = $sched['class_id'];
 		unset($sched['class_id']);
 		unset($sched['jadwal_id']);
-		var_dump($sched);
+//		var_dump($sched);
 		if($count) {
 			return !!$this->update_class_schedule($jadwal_id, $sched);
 		} else {
@@ -223,6 +227,7 @@ class Vendor_class_model extends MY_Model{
 
 	public function get_class_schedule($var) {
 		$this->db->where($var);
+		$this->db->order_by('class_tanggal', 'ASC');
 		return $this->db->get('vendor_class_jadwal');
 	}
 	
@@ -457,7 +462,7 @@ class Vendor_class_model extends MY_Model{
 		$this->db->update('vendor_class', array('class_status'=>$status), array('id'=>$id));
 		return !! $this->db->affected_rows();
 	}
-
+	
     public function get_status_class($id) {
         $query = "SELECT class_status, active FROM vendor_class WHERE id = ?";
         $result = $this->db->query($query, $id)->row();

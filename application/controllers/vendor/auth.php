@@ -62,6 +62,15 @@ class Auth extends MY_Controller{
 		$data['name'] = $this->input->post('vendor_name', TRUE);
 		$data['main_phone'] = $this->input->post('vendor_phone', TRUE);
 		$data['address'] = $this->input->post('vendor_address', TRUE);
+		$vendor_exist = FALSE;
+		$v = $this->vendor_model->get_profile(array('email'=>$data['email']));
+		if(!empty($v))
+			$vendor_exist = !!$v->num_rows();
+		if($vendor_exist) {
+			$this->session->set_flashdata('status.error', 'Email sudah terdaftar!');
+			redirect('vendor/main');
+			return;
+		}
 		$id = $this->vendor_model->set_profile($data);
 		if($id) {
 			$this->load->model('email_model');
@@ -71,8 +80,7 @@ class Auth extends MY_Controller{
 			$this->exec_login($data);
 			redirect('vendor/profile/edit');
 		} else {
-			$this->session->set_flashdata('status.warning', 'Cannot create new vendor!');
-			$this->session->set_userdata('status.warning', 'Cannot create new vendor!');
+			$this->session->set_flashdata('status.warning', 'Gagal membuat vendor!');
 			redirect('vendor/main');
 		}
 	}

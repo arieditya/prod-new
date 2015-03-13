@@ -13,7 +13,7 @@ class Kelas extends Vendor_Controller{
 	{
 		parent::__construct();
 		$this->load->model('vendor_class_model');
-		var_dump($this->data['user']);
+//		var_dump($this->data['user']);
 	}
 	
 	public function index() {
@@ -193,6 +193,7 @@ class Kelas extends Vendor_Controller{
 				'class_status'=>NULL,
 				'active'=>NULL
 		));
+//		var_dump($stat);exit;
 		if(empty($data) || $data->num_rows() !== 1) {
 			show_404();
 		}
@@ -409,7 +410,8 @@ class Kelas extends Vendor_Controller{
 			show_404();
 		}
 		$table['vendor_class'] = array(
-			'class_uri','class_deskripsi','class_paket','class_include','class_catatan','class_lokasi','class_peta',
+			'class_name','class_uri','class_deskripsi','class_paket','class_include','class_catatan','class_lokasi',
+				'class_peta',
 			'class_perserta_target','class_peserta_min','class_peserta_max','class_harga','class_alasan',
 			'class_video'
 		);
@@ -768,22 +770,34 @@ class Kelas extends Vendor_Controller{
 		redirect('vendor/kelas/detil/'.$class_id.'/email_blast');
 	}
 
-    public function request_publish($id) {
-        $status = $this->vendor_class_model->get_status_class($id);
-        if($status==4){
-            $this->vendor_class_model->set_published_class($id,1);
-            $this->vendor_class_model->set_status_class($id,1);
-            redirect('vendor/kelas/detil/'.$id);
-        }
-    }
+	public function request_publish($id) {
+		$status = $this->vendor_class_model->get_status_class($id);
+		if($status->active == 0 && $status->class_status != 4) {
+			$this->vendor_class_model->set_status_class($id,4);
+			$this->session->set_flashdata('status.notice', 'Kelas anda akan melewati proses verifikasi admin. Terima kasih');
+		} else {
+			if($status->active == 1) {
+				$this->session->set_flashdata('status.warning', 'Kelas anda sudah di publish.');
+			} elseif($status->class_status == 4) {
+				$this->session->set_flashdata('status.warning', 'Kelas anda sudah dalam proses verifikasi admin.');
+			}
+		}
+		redirect('vendor/kelas/detil/'.$id);
+	}
 
     public function request_unpublish($id) {
-        $status = $this->vendor_class_model->get_status_class($id);
-        if($status==4){
-            $this->vendor_class_model->set_published_class($id,0);
-            $this->vendor_class_model->set_status_class($id,1);
-            redirect('vendor/kelas/detil/'.$id);
-        }
+		$status = $this->vendor_class_model->get_status_class($id);
+		if($status->active == 1 && $status->class_status != 4) {
+			$this->vendor_class_model->set_status_class($id,4);
+			$this->session->set_flashdata('status.notice', 'Anda akan dihubungi oleh admin kami untuk proses unpublish');
+		} else {
+			if($status->active == 0) {
+				$this->session->set_flashdata('status.warning', 'Kelas anda sudah di dalam draft.');
+			} elseif($status->class_status == 4) {
+				$this->session->set_flashdata('status.warning', 'Kelas anda sudah dalam proses verifikasi admin.');
+			}
+		}
+		redirect('vendor/kelas/detil/'.$id);
     }
 }
 
