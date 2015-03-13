@@ -56,11 +56,12 @@ class Profile extends Vendor_Controller{
 		}
 		$update['id'] = $this->vendor->id;
 		$stat = $this->vendor_model->update_profile($update);
-		if(!$stat) {
+		if($stat === FALSE) {
 			$status = 'Gagal update profile!';
 		}
 
 		if(!empty($status)) $this->session->set_flashdata('status.warning', $status);
+		elseif($stat==0) $this->session->set_flashdata('status.warning', 'Data profile tidak ada yang berubah!');
 		else $this->session->set_flashdata('status.notice', 'Berhasil update data profile!');
 		redirect('vendor/profile/edit/reponsible');
 	}
@@ -118,7 +119,8 @@ class Profile extends Vendor_Controller{
 		$result = $this->vendor_model->update_info($update);
 		if($flag) return $result;
 		else {
-			if(!$result) $this->session->set_flashdata('status.warning', 'Gagal update info!');
+			if($result === FALSE) $this->session->set_flashdata('status.warning', 'Gagal update info!');
+			elseif($result==0) $this->session->set_flashdata('status.warning', 'Data info tidak berubah!');
 			else $this->session->set_flashdata('status.notice', 'Berhasil update info!');
 			redirect('vendor/profile/edit/responsible#rekbank');
 		}
@@ -137,13 +139,17 @@ class Profile extends Vendor_Controller{
 			'atasnama'		=> $this->input->post('account_name', TRUE),
 			'cabang'		=> $this->input->post('account_branch', TRUE)
 		);
-		if($this->vendor_model->set_rekening($update)) {
-			$this->session->set_flashdata('status.notice','Update akun bank berhasil');
-		} else {
+		$status = $this->vendor_model->set_rekening($update);
+		if($status === FALSE) {
 			$this->session->set_flashdata('status.warning','Update akun bank Gagal');
+			redirect('vendor/profile/edit/responsible#rekbank');
+		} elseif($status == 0) {
+			$this->session->set_flashdata('status.warning', 'Data akun bank tidak berubah!');
+			redirect('vendor/profile/edit/responsible#rekbank');
+		} else {
+			$this->session->set_flashdata('status.notice','Update akun bank berhasil');
+			redirect('vendor/kelas/daftar');
 		}
-
-		redirect('vendor/kelas/daftar');
 	}
 	
 	public function update_socmed() {
@@ -154,9 +160,17 @@ class Profile extends Vendor_Controller{
 			'instagram'		=> $this->input->post('socmed_ig', TRUE),
 			'pinterest'		=> $this->input->post('socmed_pt', TRUE),
 		);
-		$this->vendor_model->set_socmed($update);
-
-		redirect('vendor/profile/edit/reponsible');
+		$status = $this->vendor_model->set_socmed($update);
+		if($status === FALSE) {
+			$this->session->set_flashdata('status.warning','Update data sosial media Gagal');
+			redirect('vendor/profile/edit/profile#socmed');
+		} elseif($status == 0) {
+			$this->session->set_flashdata('status.warning', 'Data sosial media tidak berubah!');
+			redirect('vendor/profile/edit/profile#socmed');
+		} else {
+			$this->session->set_flashdata('status.notice','Update data sosial media berhasil');
+			redirect('vendor/profile/edit/reponsible');
+		}
 
 	}
 }

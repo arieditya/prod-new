@@ -95,7 +95,7 @@ class Vendor_model extends MY_Model{
 			'show_address'	=> NULL
 		));	
 		if($this->db->update('vendor_profile', $data, array('id'=>$var['id']))) {
-			return !! $this->db->affected_rows();
+			return $this->db->affected_rows();
 		}
 		return FALSE;
 	}
@@ -113,7 +113,7 @@ class Vendor_model extends MY_Model{
 		$id = $var['id'];
 		unset($var['id']);
 		if($this->db->update('vendor_info', $var, array('vendor_id'=>$id))) {
-			return !! $this->db->affected_rows();
+			return $this->db->affected_rows();
 		}
 		return FALSE;
 	}
@@ -128,7 +128,7 @@ class Vendor_model extends MY_Model{
 			unset($var['id']);
 			$this->db->update('vendor_rekening', $var, array('vendor_id'=> $id));
 		}
-		return !! $this->db->affected_rows();
+		return $this->db->affected_rows();
 	}
 	
 	public function get_bank_list(){
@@ -147,7 +147,7 @@ class Vendor_model extends MY_Model{
 			unset($var['id']);
 			$this->db->update('vendor_socmed', $var, array('vendor_id'=> $id));
 		}
-		return !! $this->db->affected_rows();
+		return $this->db->affected_rows();
 	}
 	
 	public function get_socmed($id){

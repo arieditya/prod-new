@@ -175,7 +175,7 @@ class Payment extends MY_Controller {
 		}
 		$type = $this->session->userdata('user_type');
 		$murid = null;
-		if(!empty($type) && $type == 'student' ) {
+		if(!empty($type) && $type == 'murid' ) {
 			$this->load->model('murid_model');
 			$murid = $this->murid_model->get_murid_by_email($this->session->userdata('user_email'));
 		}
