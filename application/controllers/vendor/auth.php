@@ -134,7 +134,7 @@ class Auth extends MY_Controller{
         $email = $this->input->post('email');
         $result = $this->vendor_model->reset_password($email);
         if($result){
-            $this->session->set_flashdata('status.notice','Password baru Anda telah dikirimkan ke email: '.$email;
+            $this->session->set_flashdata('status.notice','Password baru Anda telah dikirimkan ke email: '.$email);
         }else{
             $this->session->set_flashdata('status.notice','Email yang Anda masukkan tidak terdaftar dalam sistem Ruangguru. Silahkan coba lagi');
         }
