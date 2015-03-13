@@ -128,9 +128,7 @@ class Auth extends MY_Controller{
 
     public function reset_password(){
         $temp['css'] = array(1=>'validation',2=>'guru');
-        $this->load->view('header',$temp);
-        $this->load->view('front/guru/reset_password');
-        $this->load->view('footer');
+        $this->load->view('vendor/auth/reset_password');
     }
 
     public function reset_password_submit(){
