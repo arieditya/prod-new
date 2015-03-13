@@ -275,7 +275,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 													    'yang anda masukan sudah benar? Setelah ini data-data anda ' +
 													     'akan di verifikasi oleh admin dan tidak dapat mengubah lagi' +
 													      ' data-data ini.')">
-                                                        Request To Published
+                                                        Request To Publish
                                                     </a>
                                             </div>
 <?php
@@ -287,7 +287,7 @@ elseif ($status->class_status == 1 && $status->active == 1) : ?>
 													   onclick="return confirm('Anda akan mengajukan permohonan ' +
 													    'untuk menurunkan kelas ini. Admin akan mengkonfirmasi ' +
 													     'pengajuan anda.')">
-                                                        Request To Unpublished
+                                                        Request To Unpublish
                                                     </a>
                                             </div>
 <?php

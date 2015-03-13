@@ -143,7 +143,7 @@ class Profile extends Vendor_Controller{
 			$this->session->set_flashdata('status.warning','Update akun bank Gagal');
 		}
 
-		redirect('vendor/profile/edit/reponsible');
+		redirect('vendor/profile/edit/profile');
 	}
 	
 	public function update_socmed() {
