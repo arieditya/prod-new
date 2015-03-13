@@ -404,19 +404,20 @@ class Kelas extends Vendor_Controller{
 	}
 	
 	public function update_profile_2(){
+		error_reporting(E_ALL);
 		$id = $this->input->post('id');
 		
 		if(empty($id)) {
 			show_404();
 		}
 		$table['vendor_class'] = array(
-			'class_name','class_uri','class_deskripsi','class_paket','class_include','class_catatan','class_lokasi',
+			'class_name','class_uri','class_deskripsi','class_paket','class_catatan','class_lokasi',
 				'class_peta',
 			'class_perserta_target','class_peserta_min','class_peserta_max','class_harga','class_alasan',
 			'class_video'
 		);
 		$table['vendor_class_price'] = array(
-			'price_per_session','discount'
+			'price_per_session','class_include','discount'
 		);
 		$table['vendor_class_jadwal'] = array(
 			'class_tanggal','class_jam_mulai','class_jam_selesai','class_topik'
@@ -429,6 +430,7 @@ class Kelas extends Vendor_Controller{
 		);
 		$data = array();
 		$jadwal = array();
+		$error_status = array();
 		foreach($table as $tbl => $fields) {
 			foreach($fields as $field) {
 				$data[$tbl][$field] = $this->input->post($field);
@@ -497,15 +499,29 @@ class Kelas extends Vendor_Controller{
 		$data['vendor_class']['class_uri'] = url_title(strtolower($data['vendor_class']['class_uri']));
 //var_dump($jadwal);exit;
 		$this->vendor_class_model->update_class($data['vendor_class'], array());
+		if($this->vendor_class_model->add_class_price($id, $data['vendor_class_price']) === FALSE){
+			$error_status[] = 'harga kelas';
+		}
 //		$this->vendor_class_model->update_class_schedule($id)
 		$this->vendor_class_model->clear_class_schedule($id);
 		foreach($jadwal as $sched) {
-			$this->vendor_class_model->add_update_class_schedule($sched);
+			if($this->vendor_class_model->add_update_class_schedule($sched)===FALSE) {
+				if(!in_array('jadwal kelas', $error_status)) $error_status[] = 'jadwal kelas';
+			}
 		}
 		$this->vendor_class_model->clear_class_level($id);
 		$this->vendor_class_model->clear_class_category($id);
-		$this->vendor_class_model->add_class_level($id, $data['vendor_class_level']['level_id']);
-		$this->vendor_class_model->add_class_category($id, $data['vendor_class_category']['category_id']);
+		if(!$this->vendor_class_model->add_class_level($id, $data['vendor_class_level']['level_id'])){
+			$error_status[] = 'level kelas';
+		}
+		if(!$this->vendor_class_model->add_class_category($id, $data['vendor_class_category']['category_id'])){
+			$error_status[] = 'kategori kelas';
+		}
+		if(!empty($error_status)) {
+			$this->session->set_flashdata('status.warning', 'Gagal dalam update: '.implode(', ',$error_status));
+		} else {
+			$this->session->set_flashdata('status.notice', 'Update kelas berhasil!');
+		}
 		
 //		echo '<pre>';
 //		var_dump($data);

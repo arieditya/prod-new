@@ -196,9 +196,9 @@ class Vendor_class_model extends MY_Model{
 		unset($sched['jadwal_id']);
 //		var_dump($sched);
 		if($count) {
-			return !!$this->update_class_schedule($jadwal_id, $sched);
+			return $this->update_class_schedule($jadwal_id, $sched);
 		} else {
-			return !!$this->add_class_schedule($class_id, $sched);
+			return $this->add_class_schedule($class_id, $sched);
 		}
 	}
 
@@ -406,12 +406,12 @@ class Vendor_class_model extends MY_Model{
 		if($this->db->where('class_id', $class_id)->get('vendor_class_price')->num_rows() > 0){
 			$this->db->where('class_id', $class_id)->delete('vendor_class_price');
 		}
-		$include = $data['include'];
-		unset($data['include']);
+		$include = $data['class_include'];
+		unset($data['class_include']);
 		$this->update_class(array('id'=>$class_id, 'class_include'=>$include), array());
 		$data['class_id'] = $class_id;
 		$this->db->insert('vendor_class_price', $data);
-		return !! $this->db->affected_rows();
+		return $this->db->affected_rows();
 	}
 	
 	public function get_price($vars) {

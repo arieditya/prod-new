@@ -101,6 +101,10 @@ else
 												<div class="col-sm-8"><?php echo $class->class_deskripsi;?></div>
 											</div><!-- section-row -->
 											<div class="section-row">
+												<div class="col-sm-4">Category</div>
+												<div class="col-sm-8"><?php echo $class->category->category_name;?></div>
+											</div><!-- section-row -->
+											<div class="section-row">
 												<div class="col-sm-4">Alamat</div>
 												<div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
 											</div><!-- section-row -->
@@ -128,7 +132,7 @@ else
 												<div class="col-sm-4">Peta</div>
 												<div class="col-sm-8">
 													<a target="_blank" href="<?php echo $link;?>">
-														<img id="img_preview" src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
+														<img src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
 													</a>
 												</div>
 											</div><!-- section-row -->
@@ -160,6 +164,42 @@ else
 												<div class="col-sm-4">Foto</div>
 												<div class="col-sm-8"> 
 													<?php echo $image;?>
+												</div>
+											</div><!-- section-row -->
+										</div><!-- section-content -->
+									</div><!-- section-wrap --> 
+									<div class="section-wrap">
+										<div class="section-heading"><h3 class="section-title">Peserta</h3></div>
+										<div class="section-content">
+											<div class="section-row">
+												<div class="col-sm-4">Target Peserta</div>
+												<div class="col-sm-8">
+													<?php echo nl2br($class->class_perserta_target);?>
+												</div>
+											</div><!-- section-row -->
+											<div class="section-row">
+												<div class="col-sm-4">Jumlah Peserta Minimal</div>
+												<div class="col-sm-8"> 
+													<?php echo $class->class_peserta_min;?>
+												</div>
+											</div><!-- section-row -->
+											<div class="section-row">
+												<div class="col-sm-4">Jumlah Peserta Maksimal</div>
+												<div class="col-sm-8">
+													<?php echo $class->class_peserta_max;?>
+												</div>
+											</div><!-- section-row -->
+											<div class="section-row">
+												<div class="col-sm-4">Tingkat Keahlian</div>
+												<div class="col-sm-8"> 
+<?php
+$lvl = '';
+foreach($class->level as $cls_lvl): 
+	if(!empty($lvl)) $lvl .= '<br />';
+	$lvl .= "{$cls_lvl->nama} (<em>{$cls_lvl->name}</em>)";
+endforeach;
+?>
+													<?php echo $lvl;?>
 												</div>
 											</div><!-- section-row -->
 										</div><!-- section-content -->
@@ -232,14 +272,17 @@ $i=0;
 									</div><!-- section-wrap -->
 									<div class="section-wrap">
 <?php 
-$harga = (int) empty($price->price_per_session)?$class->class_harga:$price->price_per_session;
-$diskon = (int) empty($price->discount)?0:$price->discount
+$pertemuan = $jadwal->num_rows();
+$harga = (int) empty($biaya->price_per_session)?$class->class_harga:$biaya->price_per_session;
+$total_harga = $harga * $pertemuan;
+$diskon = (int) empty($biaya->discount)?0:$biaya->discount;
+$total_bayar = $total_harga - $diskon;
 ?>
 										<div class="section-heading"><h3 class="section-title">Biaya</h3></div>
 										<div class="section-content">
 											<div class="section-row">
 												<div class="col-sm-4">Jumlah pertemuan (sesi)</div>
-												<div class="col-sm-8"><?php echo $i;?> x pertemuan</div>
+												<div class="col-sm-8"><?php echo $pertemuan;?> x pertemuan</div>
 											</div><!-- section-row -->
 											<div class="section-row">
 												<div class="col-sm-4">Harga per sesi</div>
@@ -247,7 +290,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 											</div><!-- section-row -->
 											<div class="section-row">
 												<div class="col-sm-4">Total</div>
-												<div class="col-sm-8"><?php echo rupiah_format($i * $harga)?></div>
+												<div class="col-sm-8"><?php echo rupiah_format($total_harga)?></div>
 											</div><!-- section-row -->
 											<div class="section-row">
 												<div class="col-sm-4">Potongan harga</div>
@@ -257,7 +300,7 @@ $diskon = (int) empty($price->discount)?0:$price->discount
 											</div><!-- section-row -->
 											<div class="section-row">
 												<div class="col-sm-4">Total sesudah diskon</div>
-												<div class="col-sm-8"><?php echo rupiah_format(($i*$harga)-$diskon); ?>
+												<div class="col-sm-8"><?php echo rupiah_format($total_bayar); ?>
 												</div> 
 											</div><!-- section-row -->
 											<div class="section-row">
@@ -476,13 +519,13 @@ endif;
 														<div class="col-sm-6">
 															<input type="text" 
 																   class="form-control" 
-																   id="class_peta_search"
+																   id="class_map_search"
 																   name="class_peta_search"
 																   placeholder="Masukkan area / lokasi" />
 															<br />
 															<input type="text" 
 																   class="form-control" 
-																   id="class_peta"
+																   id="class_maps"
 																   name="class_peta"
 																   readonly="readonly"
 																   value="<?php echo $class->class_peta;?>"
@@ -490,6 +533,7 @@ endif;
 														</div>
 														<div class="col-sm-6">
 															<button type="button" 
+																	id="btn_search_maps"
 																	class="btn btn-default cek-button search">
 																<i class="fa fa-search"></i>
 															</button>
@@ -922,12 +966,13 @@ endif;
 													<input type="number" 
 														   class="form-control" 
 														   id="jumlah_sesi" 
+														   value="<?php echo $pertemuan;?>"
 														   readonly="readonly"
 														   placeholder="" />
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="Namakelas" class="col-sm-4 control-label">Harga per Sesi</label>
+												<label class="col-sm-4 control-label">Harga per Sesi</label>
 												<div class="col-sm-8">
 													<input type="number" 
 														   class="form-control" 
@@ -938,12 +983,13 @@ endif;
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="Namakelas" class="col-sm-4 control-label">Total</label>
+												<label class="col-sm-4 control-label">Total</label>
 												<div class="col-sm-8">
 													<input type="number" 
 														   class="form-control" 
 														   readonly="readonly"
 														   id="total_harga" 
+														   value="<?php echo $total_harga;?>"
 														   placeholder="" />
 												</div>
 											</div>
@@ -966,6 +1012,7 @@ endif;
 														   class="form-control" 
 														   readonly="readonly"
 														   id="total_harga_paket" 
+														   value="<?php echo $total_bayar?>"
 														   placeholder="" />
 												</div>
 											</div>
@@ -973,6 +1020,7 @@ endif;
 												<label for="tentang" class="col-sm-4 control-label">Harga termasuk</label>
 												<div class="col-sm-8">
 													<textarea class="form-control" 
+															  name="class_include"
 															  placeholder="Harga diatas sudah termasuk" 
 															  rows="3"><?php echo $class->class_include;?></textarea>
 												</div>
