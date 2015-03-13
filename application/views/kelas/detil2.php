@@ -173,7 +173,6 @@ endif;
 									</thead>
 									<tbody>
 <?php
-	$i = 0;
 	if($schedule->num_rows() > 0):
 	//var_dump($jadwal->result());
 		foreach($schedule->result() as $kelas_jadwal):

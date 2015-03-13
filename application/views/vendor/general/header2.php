@@ -156,7 +156,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 ?>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown sign-in">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sign In</a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Masuk</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
 									<a class="fancybox" href="#inline1">sbg Murid</a>
@@ -186,10 +186,10 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					</ul>
 <!-- Fancy Log -->
 			<div id="inline1" style="width:400px;display: none;">
-				<p class="text-14 bold">Sign In sebagai Murid</p>
+				<p class="text-14 bold">Masuk sebagai Murid</p>
 				<form id="login_form_murid" name="login_form_murid" method="post" action="https://ruangguru.com/murid/login_submit">
 					<p>
-						<label for="login_name">Login: </label>
+						<label for="login_name">Masuk: </label>
 						<input type="email" class="form-control" id="email" name="email" placeholder="emailanda@email.com" />
 					</p>
 					<p>
@@ -197,15 +197,15 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 						<input type="password" class="form-control" id="password" name="password" />
 					</p>
 					<p>
-						<button type="submit" class="btn btn-success btn-lg">Sign In</button>
+						<button type="submit" class="btn btn-success btn-lg">Masuk</button>
 					</p>
 				</form>
 			</div>
 			<div id="inline2" style="width:400px;display: none;">
-				<p class="text-14 bold">Sign In sebagai Vendor</p>
+				<p class="text-14 bold">Masuk sebagai Vendor</p>
 				<form id="login_form" name="login_form" method="post" action="<?php echo base_url().'vendor/auth/do_login';?>">
 					<p>
-						<label for="login_name">Login: </label>
+						<label for="login_name">Masuk: </label>
 						<input type="email" class="form-control" id="login_email" name="email" placeholder="emailanda@email.com" />
 					</p>
 					<p>
@@ -213,15 +213,15 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 						<input type="password" class="form-control" id="login_password" name="password" />
 					</p>
 					<p>
-						<button type="submit" class="btn btn-success btn-lg">Sign In</button>
+						<button type="submit" class="btn btn-success btn-lg">Masuk</button>
 					</p>
 				</form>
 			</div>
 			<div id="inline3" style="width:400px;display: none;">
-				<p class="text-14 bold">Sign In sebagai Guru</p>
+				<p class="text-14 bold">Masuk sebagai Guru</p>
 				<form id="login_form_murid" name="login_form_murid" method="post" action="https://ruangguru.com/guru/login_submit">
 					<p>
-						<label for="login_name">Login: </label>
+						<label for="login_name">Masuk: </label>
 						<input type="email" class="form-control" id="email" name="email" placeholder="emailanda@email.com" />
 					</p>
 					<p>
@@ -229,7 +229,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 						<input type="password" class="form-control" id="password" name="password" />
 					</p>
 					<p>
-						<button type="submit" class="btn btn-success btn-lg">Sign In</button>
+						<button type="submit" class="btn btn-success btn-lg">Masuk</button>
 					</p>
 				</form>
 			</div>
@@ -307,7 +307,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 							</a>
 						</li>
 						<li class="sign-out">
-							<a href="<?php echo $logout;?>">Sign Out</a>
+							<a href="<?php echo $logout;?>">Logout</a>
 						</li>
 					</ul>
 <?php

@@ -62,7 +62,7 @@ class Profile extends Vendor_Controller{
 
 		if(!empty($status)) $this->session->set_flashdata('status.warning', $status);
 		else $this->session->set_flashdata('status.notice', 'Berhasil update data profile!');
-		redirect('vendor/profile/edit');
+		redirect('vendor/profile/edit/reponsible');
 	}
 	
 	public function update_info($flag=FALSE){
@@ -143,7 +143,7 @@ class Profile extends Vendor_Controller{
 			$this->session->set_flashdata('status.warning','Update akun bank Gagal');
 		}
 
-		redirect('vendor/profile/edit/reponsible');
+		redirect('vendor/kelas/daftar');
 	}
 	
 	public function update_socmed() {
