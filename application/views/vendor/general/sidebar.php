@@ -37,7 +37,7 @@ if(empty($sidebar)) $sidebar = 'profile';
                             elseif(!empty($vendor['info']->vendor_description)) :
                                 $i+=10;
                             elseif(!empty($vendor['info']->vendor_logo)):
-                                $i+=10;
+                                $i=$i+10;
                             elseif(!empty($socmed->facebook) || !empty($socmed->pinterest) ||
                                 !empty($socmed->twitter) || !empty($socmed->instagram)):
                                 $i+=10;
