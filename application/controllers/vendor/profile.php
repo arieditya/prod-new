@@ -148,7 +148,7 @@ class Profile extends Vendor_Controller{
 			redirect('vendor/profile/edit/responsible#rekbank');
 		} else {
 			$this->session->set_flashdata('status.notice','Update akun bank berhasil');
-			redirect('vendor/kelas/daftar');
+			redirect('vendor/kelas/baru');
 		}
 	}
 	
