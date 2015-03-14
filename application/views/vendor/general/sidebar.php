@@ -28,7 +28,7 @@ if(empty($sidebar)) $sidebar = 'profile';
 							 aria-valuemax="100" 
 							 title="Progres kelengkapan Profil Vendor"
 							 style="width: <?php echo $progress; ?>%">
-							<?php echo $progress; ?>
+							<?php echo $progress; ?>%
 						</div>
 					</div>
 	
