@@ -155,6 +155,31 @@ class Vendor_Controller extends MY_Controller {
 		$this->vendor = $vendor->row();
 		$this->data['vendor']['profile'] = $this->vendor;
 		$this->data['vendor']['info'] = $vendor_info;
+        $progress=0;
+        if(!empty($this->vendor->email) &&
+            !empty($this->vendor->name) &&
+            !empty($this->vendor->main_phone) &&
+            !empty($this->vendor->address)):
+            $progress+=30;
+        elseif(!empty($vendor_info->vendor_description)) :
+            $progress+=10;
+        elseif(!empty($vendor_info->vendor_logo)):
+            $progress+=10;
+        elseif(!empty($socmed->facebook) || !empty($socmed->pinterest) ||
+            !empty($socmed->twitter) || !empty($socmed->instagram)):
+            $progress+=10;
+        elseif(!empty($vendor_info->contact_person_name)):
+            $progress+=5;
+        elseif(!empty($vendor_info->contact_person_phone)):
+            $progress+=5;
+        elseif(!empty($vendor_info->contact_person_mobile)):
+            $progress+=5;
+        elseif(!empty($vendor_info->contact_person_email)):
+            $progress+=5;
+        elseif(!empty($bank_account->bank_id) && !empty($bank_account->no_rek) && !empty($bank_account->atasnama)):
+            $progress+=20;
+        endif;
+        $this->data['progress'] = $progress;
 	}
 }
 
