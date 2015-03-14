@@ -147,7 +147,7 @@ class Vendor_Controller extends MY_Controller {
 		$vendor_info = $this->vendor_model->get_info(array(
 			'vendor_id'	=> $this->data['user']['id']
 		))->row();
-		if($vendor->num_rows() != 1) {
+        if($vendor->num_rows() != 1) {
 			$this->session->set_flashdata('status.warning', 'User authentication failed!');
 			redirect('vendor/auth/logreg');
 			return;
@@ -155,6 +155,8 @@ class Vendor_Controller extends MY_Controller {
 		$this->vendor = $vendor->row();
 		$this->data['vendor']['profile'] = $this->vendor;
 		$this->data['vendor']['info'] = $vendor_info;
+        $socmed = $this->vendor_model->get_socmed($this->vendor->id);
+        $rekening = $this->vendor_model->get_rekening($this->vendor->id);
         $progress=0;
         if(!empty($this->vendor->email) &&
             !empty($this->vendor->name) &&
@@ -165,8 +167,7 @@ class Vendor_Controller extends MY_Controller {
             $progress+=10;}
         if(!empty($vendor_info->vendor_logo)){
             $progress+=10;}
-        if(!empty($socmed->facebook) || !empty($socmed->pinterest) ||
-            !empty($socmed->twitter) || !empty($socmed->instagram)){
+        if(!empty($socmed)){
             $progress+=10;}
         if(!empty($vendor_info->contact_person_name)){
             $progress+=5;}
@@ -176,7 +177,7 @@ class Vendor_Controller extends MY_Controller {
             $progress+=5;}
         if(!empty($vendor_info->contact_person_email)){
             $progress+=5;}
-        if(!empty($bank_account->bank_id) && !empty($bank_account->no_rek) && !empty($bank_account->atasnama)){
+        if(!empty($rekening)){
             $progress+=20;}
         $this->data['progress'] = $progress;
 	}
