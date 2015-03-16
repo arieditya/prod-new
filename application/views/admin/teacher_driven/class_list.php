@@ -88,7 +88,7 @@ if ($this->session->flashdata('f_class_error')): ?>
 						<?php elseif($g->class_status==0):?>
 							<span class="no">Pending</span>
 						<?php else:?>
-							<span class="no">REJECTED</span>
+							<span class="no">BANNED!</span>
 						<?php endif;?>
 					</td>
 					<td><?php if($g->active==1):?>
@@ -120,7 +120,9 @@ if ($this->session->flashdata('f_class_error')): ?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/deactivate_class/<?php
-							echo $g->id;?>">deactivate</a>
+							echo $g->id;?>"
+							onclick="return confirm('WARNING!\nThis action CANNOT BE UNDO!\nAre you sure?');"
+								>BAN!!</a>
 						</span>
 <?php elseif($g->class_status==4):
 	if($g->active==1):
@@ -152,11 +154,11 @@ if ($this->session->flashdata('f_class_error')): ?>
 							<a class="ico delete" href="<?php echo base_url();
 							?>admin/teacher_driven/reject_class_confirm/<?php echo $g->id;?>"
 							   onclick="return confirm('WARNING!\nThis action CANNOT BE UNDO!\nAre you sure?');"
-									>reject</a>
+									>BAN!!</a>
 						</span>
 <?php else:?>
 						<span class="no">
-							REJECTED
+							BANNED!
 						</span>
 <?php endif;?>
 					</td>

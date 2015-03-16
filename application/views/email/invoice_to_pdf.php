@@ -150,7 +150,6 @@
 		</table>
 		Setelah melakukan transfer anda dapat melakukan konfirmasi di: <?php echo anchor('payment/transfer/confirm', '','title="Confirm"'); ?> 
 		<hr />
-		<i class="fa fa-check"></i> Yuu
 <?php 
 	endforeach;
 ?>

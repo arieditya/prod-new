@@ -149,7 +149,15 @@ class Teacher_driven extends MY_Controller{
 	public function deactivate_class($id) {
 		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
 		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
-		$status = $this->vendor_class_model->set_status_class($id, 0);
+		$this->vendor_class_model->set_published_class($id, 0);
+		$status = $this->vendor_class_model->set_status_class($id, -1);
+		if($status) {
+			$class = $this->vendor_class_model->get_class(array('id'=>$id, 
+																'class_status >=' => NULL, 
+																'active'=>NULL))->row();
+			$vendor = $this->vendor_model->get_vendor_detail($class->vendor_id);
+			$this->email_model->vendor_create_class_rejected($vendor, $class);
+		}
 		$this->session->set_flashdata($status?
 				array('f_class'=>'Class deactivated!')
 				:array('f_class_error'=>'Class NOT deactivated!'));
@@ -159,7 +167,15 @@ class Teacher_driven extends MY_Controller{
 	public function reject_class_confirm($id) {
 		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
 		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
+		$this->vendor_class_model->set_published_class($id, 0);
 		$status = $this->vendor_class_model->set_status_class($id, -1);
+		if($status) {
+			$class = $this->vendor_class_model->get_class(array('id'=>$id, 
+																'class_status >=' => NULL, 
+																'active'=>NULL))->row();
+			$vendor = $this->vendor_model->get_vendor_detail($class->vendor_id);
+			$this->email_model->vendor_create_class_rejected($vendor, $class);
+		}
 		$this->session->set_flashdata($status?
 				array('f_class'=>'Class rejected!')
 				:array('f_class_error'=>'Class NOT rejected!'));
@@ -195,7 +211,14 @@ class Teacher_driven extends MY_Controller{
 		$status1 = $this->vendor_class_model->set_published_class($id, 1);
 		if($status1) {
 			$status2 = $this->vendor_class_model->set_status_class($id, 1);
-			if($status2) $status = array('f_class'	=> 'Class is published!');
+			if($status2) {
+				$status = array('f_class'	=> 'Class is published!');
+				$class = $this->vendor_class_model->get_class(array('id'=>$id, 
+																	'class_status >=' => NULL, 
+																	'active'=>NULL))->row();
+				$vendor = $this->vendor_model->get_vendor_detail($class->id);
+				$this->email_model->vendor_class_published($vendor, $class);
+			}
 			else $status = array('f_class_error'	=> 'Class unpublished but failed to change status!');
 		} else $status = array('f_class_error'	=> 'Class STILL Unpublished!');
 		$this->session->set_flashdata($status);
@@ -315,7 +338,7 @@ class Teacher_driven extends MY_Controller{
 			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
 			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
 					->category_name;
-			$cls->level_name = $this->vendor_class_model->get_level(array('id'=>$cls->level_id))->row()
+			$cls->level_name = $this->vendor_class_model->get_level_name(array('id'=>$cls->level_id))->row()
 					->name;
 			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
 					->num_rows();
@@ -374,8 +397,15 @@ class Teacher_driven extends MY_Controller{
 	
 	public function do_payment_confirm($code) {
 		$this->load->model('email_model');
-		
 		if($this->email_model->send_admin_confirmed_payment_message($code)){
+			//$this->vendor_class_model->get_class_empty_seat()
+			foreach($this->vendor_class_model->get_class_from_invoice($code) as $class) {
+				if($this->vendor_class_model->get_class_empty_seat($class) == 0) {
+					$vendor = $this->vendor_model->get_vendor_detail($class);
+					$cls = $this->vendor_class_model->get_class(array('id'=>$class))->row();
+					$this->email_model->vendor_class_soldout($vendor, $cls);
+				}
+			}
 			$this->session->set_flashdata('f_class', 'Payment Confirmed!');
 		} else {
 			$this->session->set_flashdata('f_class_error', 'Failed To Confirm Payment!');

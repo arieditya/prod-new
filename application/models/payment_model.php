@@ -80,7 +80,11 @@ class Payment_model extends MY_Model {
 				'invoice_code'		=> $code
 			));
 			
-			$class = $this->CI->vendor_class_model->get_class(array('id'	=> $kls->class_id))->row();
+			$class = $this->CI->vendor_class_model->get_class(array(
+					'id'	=> $kls->class_id,
+				'class_status >='	=> NULL,
+				'active'		=> NULL,
+			))->row();
 			
 			$data_kelas = array(
 				'ticket_code'			=> $ticket_code,

@@ -194,12 +194,15 @@ class Kelas extends Vendor_Controller{
 	}
 	
 	public function detil($id, $tabs='profile') {
-		$data = $this->vendor_class_model->get_class(array(
+		$where = array(
 				'id'=>$id, 
 				'vendor_id'=>$this->vendor->id, 
 				'class_status >='=>NULL,
 				'class_status'=>NULL,
 				'active'=>NULL
+		);
+//		if($this->)
+		$data = $this->vendor_class_model->get_class(array(
 		));
 //		var_dump($stat);exit;
 		if(empty($data) || $data->num_rows() !== 1) {
@@ -806,6 +809,10 @@ class Kelas extends Vendor_Controller{
 		$status = $this->vendor_class_model->get_status_class($id);
 		if($status->active == 0 && $status->class_status != 4) {
 			$this->vendor_class_model->set_status_class($id,4);
+			$vendor = $this->vendor_model->get_vendor_detail($this->vendor->id);
+			$class = $this->vendor_class_model->get_class(array('id'=>$id,'class_status >=' => NULL,
+																'active'=>NULL))->row();
+			$this->email_model->vendor_create_class_success($vendor, $class);
 			$this->session->set_flashdata('status.notice', 'Kelas anda akan melewati proses verifikasi admin. Terima kasih');
 		} else {
 			if($status->active == 1) {

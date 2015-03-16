@@ -112,20 +112,19 @@ class Vendor_model extends MY_Model{
 	public function update_info($var) {
 		$id = $var['id'];
 		unset($var['id']);
-		if($this->db->update('vendor_info', $var, array('vendor_id'=>$id))) {
-			return $this->db->affected_rows();
-		}
-		return FALSE;
+		if(empty($var)) return 0;
+		$this->db->update('vendor_info', $var, array('vendor_id'=>$id));
+		return $this->db->affected_rows();
 	}
 	
 	public function set_rekening($var){
-		$id = $var['id'];
+		$id = $var['vendor_id'];
 		$row = $this->db->where(array('vendor_id'=> $id))->get('vendor_rekening')->num_rows();
 
 		if(empty($row)) {
 			$this->db->insert('vendor_rekening', $var);
 		} else {
-			unset($var['id']);
+			unset($var['vendor_id']);
 			$this->db->update('vendor_rekening', $var, array('vendor_id'=> $id));
 		}
 		return $this->db->affected_rows();

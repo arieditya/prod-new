@@ -38,10 +38,15 @@ class Profile extends Vendor_Controller{
 		$flag = 0;
 		$stat = TRUE;
 		$update['show_address'] = 0;
+
+		$info = $this->update_info(TRUE);
+		if( $info === FALSE) {
+			$status .= ' Gagal update deskripsi/logo! ';
+		}
+
 		foreach($_POST as $k => $v) {
 			if(($k == "vendor_description") ||($k == "vendor_logo") && $flag==0){
-				$this->update_info(TRUE);
-				$flag = 1;
+//				$flag = 1;
 			}else{
 				if($k == "password"){
 					$pass = trim($this->input->post($k, TRUE));
@@ -57,37 +62,25 @@ class Profile extends Vendor_Controller{
 		$update['id'] = $this->vendor->id;
 		$stat = $this->vendor_model->update_profile($update);
 		if($stat === FALSE) {
-			$status = 'Gagal update profile!';
+			$status .= ' Gagal update profile!';
 		}
 
 		if(!empty($status)) $this->session->set_flashdata('status.warning', $status);
-		elseif($stat==0) $this->session->set_flashdata('status.warning', 'Data profile tidak ada yang berubah!');
+		elseif($stat===0 && $info==-1) $this->session->set_flashdata('status.warning', 
+				'Data profile tidak ada yang berubah!');
 		else $this->session->set_flashdata('status.notice', 'Berhasil update data profile!');
-		redirect('vendor/profile/edit/reponsible');
+		redirect('vendor/profile/edit/profile#socmed');
 	}
 	
-	public function update_info($flag=FALSE){
-		$update = array();
-		$desc = $this->input->post('vendor_description');
-		$logo = $this->input->post('vendor_logo');
-		
-		if((empty($desc)) && (empty($logo))){
-			foreach($_POST as $k => $v) {
-				$update[$k]	= $this->input->post($k, TRUE);
-			}
-		}else{
-			$update['vendor_description'] = $this->input->post('vendor_description');
-		}
-
-		$update['id'] = $this->session->userdata('user_type')=='vendor'?$this->session->userdata('user_id'):FALSE;
-
+	protected function upload_logo_vendor() {
 		$no_files = FALSE;
+		$file_error = '';
 		if(!empty($_FILES['vendor_logo']) ) {
 			if($_FILES['vendor_logo']['error'] > 0 || $_FILES['vendor_logo']['size'] < 10){
 				$no_files = TRUE;
 			} else {
 				$exts = explode('|','gif|jpg|jpeg|png');
-				$name = $_FILES['vendor_logo']['name'];
+				$name = $_FILES['vendor_logo']['name'];	
 				$ext = array_pop(explode('.',$name));
 				if(in_array($ext, $exts)) {
 					@mkdir(rtrim(str_replace('\\','/',FCPATH), '/')."/images/vendor/{$this->vendor->id}/", 0777, TRUE);
@@ -112,17 +105,38 @@ class Profile extends Vendor_Controller{
 			$no_files = TRUE;
 		}
 		if(!$no_files) {
-			$update['vendor_logo'] = $files['file_name'];
+			return $files['file_name'];
 		} else {
-//			$data['class_image'] = NULL;
+			return FALSE;
 		}
+	}
+	
+	public function update_info($flag=FALSE){
+		$update = array();
+		$desc = $this->input->post('vendor_description');
+		$logo = null;
+		
+		if(($logo = $this->upload_logo_vendor()) !== FALSE){
+			$update['vendor_logo'] = $logo;
+		}
+		
+		if((empty($desc)) && (empty($logo))){
+			foreach($_POST as $k => $v) {
+				$update[$k]	= $this->input->post($k, TRUE);
+			}
+		}else{
+			$update['vendor_description'] = $this->input->post('vendor_description');
+		}
+
+		$update['id'] = $this->session->userdata('user_type')=='vendor'?$this->session->userdata('user_id'):FALSE;
+
 		$result = $this->vendor_model->update_info($update);
 		if($flag) return $result;
 		else {
-			if($result === FALSE) $this->session->set_flashdata('status.warning', 'Gagal update info!');
-			elseif($result==0) $this->session->set_flashdata('status.warning', 'Data info tidak berubah!');
+			if($result === FALSE) $this->session->set_flashdata('status.warning', 'Gagal update info! ');
+			elseif($result==0) $this->session->set_flashdata('status.warning', 'Data info tidak berubah! ');
 			else $this->session->set_flashdata('status.notice', 'Berhasil update info!');
-			redirect('vendor/profile/edit/responsible#rekbank');
+			redirect('vendor/profile/edit/reponsible#rekbank');
 		}
 	}
 	
@@ -142,10 +156,10 @@ class Profile extends Vendor_Controller{
 		$status = $this->vendor_model->set_rekening($update);
 		if($status === FALSE) {
 			$this->session->set_flashdata('status.warning','Update akun bank Gagal');
-			redirect('vendor/profile/edit/responsible#rekbank');
+			redirect('vendor/profile/edit/reponsible#rekbank');
 		} elseif($status == 0) {
 			$this->session->set_flashdata('status.warning', 'Data akun bank tidak berubah!');
-			redirect('vendor/profile/edit/responsible#rekbank');
+			redirect('vendor/profile/edit/reponsible#rekbank');
 		} else {
 			$this->session->set_flashdata('status.notice','Update akun bank berhasil');
 			redirect('vendor/kelas/daftar');

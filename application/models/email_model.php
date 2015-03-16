@@ -1,5 +1,9 @@
 <?php if(!defined('BASEPATH')) die('Die!');
 
+/**
+	@property $vendor_class_model Vendor_class_model 
+ */
+
 class Email_model extends MY_Model
 {
 	var $email;
@@ -102,12 +106,14 @@ class Email_model extends MY_Model
 		}
 		
 		//* STAGING
-		$this->bcc('arie@ruangguru.com');
-		$this->bcc('iman@ruangguru.com');
+//		$this->bcc('arie@ruangguru.com');
+//		$this->bcc('iman@ruangguru.com');
+//		$this->bcc('daniel@ruangguru.com');
 		// */
 
 		$this->email->from($this->from);
 		$this->email->to($this->to);
+		if(!empty($this->reply_to)) $this->email->reply_to($this->reply_to);
 		if(!empty($this->cc)) $this->email->cc($this->cc);
 		if(!empty($this->bcc)) $this->email->bcc($this->bcc);
 		$this->email->subject($this->subject);
@@ -456,5 +462,224 @@ Terima kasih
 ";
 		$this->text_content($txt);
 		$this->send();
+	}
+	
+	public function vendor_register_success($vendor) {
+		$data = array(
+			'penyelenggara'			=> $vendor->name,
+			'email'					=> $vendor->email
+		);
+		$this->html_content('vendor/1_register_success', $data);
+		$this->subject('Register Vendor Berhasil');
+		$this->from = 'kelas@ruangguru.com';
+		$this->to($vendor->email);
+		$this->send();
+	}
+
+	public function vendor_create_class_success($vendor, $class) {
+		$data = array(
+			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penyelenggara'				=> $vendor->name,
+			'class_name'				=> $class->class_nama,
+			'class_id'					=> $class->id,
+		);
+		$this->html_content('vendor/2_create_class_success', $data);
+		$this->subject('Kelas telah dibuat');
+		$this->from = 'kelas@ruangguru.com';
+		$this->to($vendor->email);
+		$this->cc($vendor->contact_person_email);
+		$this->send();
+	}
+
+	public function vendor_create_class_rejected($vendor, $class) {
+		$data = array(
+			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penyelenggara'				=> $vendor->name,
+			'class_name'				=> $class->class_nama,
+			'class_id'					=> $class->id,
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('vendor/3_create_class_rejected', $data);
+		$this->subject('Kelas anda ditolak oleh admin');
+		$this->to($vendor->email);
+		$this->cc($vendor->contact_person_email);
+		$this->send();
+	}
+	
+	public function vendor_class_published($vendor, $class) {
+		$data = array(
+			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penyelenggara'				=> $vendor->name,
+			'class_name'				=> $class->class_nama,
+			'class_id'					=> $class->id,
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('vendor/4_class_published', $data);
+		$this->subject('Kelas anda telah diterbitkan');
+	$this->to($vendor->email);
+		$this->cc($vendor->contact_person_email);
+		$this->send();
+	}
+
+	public function vendor_class_3day_reminder($vendor, $class) {
+		$data = array(
+			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penyelenggara'				=> $vendor->name,
+			'class_name'				=> $class->class_nama,
+			'class_id'					=> $class->id,
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('vendor/5_class_3day_reminder', $data);
+		$this->subject('Pengingat: Kelas akan mulai');
+		$this->to($vendor->email);
+		$this->cc($vendor->contact_person_email);
+		$this->send();
+	}
+
+	public function vendor_class_soldout($vendor, $class) {
+		$data = array(
+			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penyelenggara'				=> $vendor->name,
+			'class_name'				=> $class->class_nama,
+			'class_id'					=> $class->id,
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('vendor/6_class_soldout', $data);
+		$this->subject('Tiket telah habis terjual!');
+		$this->to($vendor->email);
+		$this->cc($vendor->contact_person_email);
+		$this->send();
+	}
+
+	public function vendor_class_feedback($vendor, $class) {
+		$data = array(
+			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penyelenggara'				=> $vendor->name,
+			'class_name'				=> $class->class_nama,
+			'class_id'					=> $class->id,
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('vendor/7_class_feedback', $data);
+		$this->subject('Feedback untuk kelas');
+		$this->to($vendor->email);
+		$this->cc($vendor->contact_person_email);
+		$this->send();
+	}
+
+	public function vendor_class_admin_update_notification($vendor, $class, $admin) {
+		$data = array(
+			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penyelenggara'				=> $vendor->name,
+			'class_name'				=> $class->class_nama,
+			'class_id'					=> $class->id,
+			'reason'					=> $admin->reason,
+			'detail'					=> $admin->detail
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('vendor/8_class_admin_update_notification',$data);
+		$this->subject('Pemberitahuan: Admin mengubah data kelas anda');
+		$this->to($vendor->email);
+		$this->cc($vendor->contact_person_email);
+		$this->send();
+	}
+	
+	public function student_payment_step3($code) {
+		$this->CI->load->model('vendor_class_model');
+		$invoice_raw = $this->CI->vendor_class_model->get_new_invoice_data($code);
+		
+		$invoice_class = array();
+		$email_data = array(
+			'murid_name'	=> $invoice_raw['pemohon']->name,
+			'class'			=> array(),
+			'total_pay'		=> $invoice_raw['transaction']->total
+		);
+		foreach($invoice_raw['class'] as $class) {
+			$email_data['class'][] = array(
+				'class_nama'		=> $class['profile']->class_nama,
+				'vendor_name'		=> $class['vendor']->name
+			);
+			foreach($class['jadwal'] as $jadwal) {
+				$i_class = array(
+					'topik'	=> $jadwal->class_jadwal_topik,
+					'jadwal'=> date('d M Y', strtotime($jadwal->class_tanggal))
+							.' '.double_digit($jadwal->class_jam_mulai.':'.double_digit($jadwal->class_menit_mulai))
+							.'-'.double_digit($jadwal->class_jam_selesai.':'.double_digit($jadwal->class_menit_selesai)),
+					'harga' => $class['profile']->price_per_session
+				);
+				$invoice_class[] = $i_class;
+			}
+		}
+		
+		$invoice_data = array(
+			'code'		=> $code,
+			'pemohon'	=> (array)$invoice_raw['pemohon'],
+			'murid'		=> (array)$invoice_raw['peserta'],
+			'class'		=> $invoice_class,
+			'subtotal'	=> $invoice_raw['transaction']->subtotal,
+			'discount'	=> $invoice_raw['transaction']->discount,
+			'total'		=> $invoice_raw['transaction']->total,
+		);
+		
+
+		$path1 = substr($code, 0,1);
+		$path2 = substr($code, 1,1);
+		$docs_path = "documents/invoice/{$path1}/{$path2}/";
+
+		$content = $this->CI->load->view('email/documents/invoice', $invoice_data, TRUE);
+
+		if(!is_dir(FCPATH.$docs_path))
+			mkdir(FCPATH.$docs_path, 0775, TRUE);
+		$this->CI->load->library('html2pdf');
+		$this->CI->html2pdf->pdf->SetTitle('INVOICE - '.$code);
+		$this->CI->html2pdf->pdf->SetAuthor('Ruangguru.com');
+		$this->CI->html2pdf->WriteHTML($content);
+		
+		$this->CI->html2pdf->Output(FCPATH.$docs_path.$code.'.pdf', 'F');
+		
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('murid/2_payment_step3',$email_data);
+		$this->subject('Tagihan ');
+		$this->to($invoice_raw['pemohon']->email);
+		
+		$this->attach(FCPATH.$docs_path.$code.'.pdf');
+		
+		$this->send();
+	}
+
+	public function student_payment_step4($murid, $class, $vendor, $ticket) {
+		$data = array(
+			'murid_name'		=> '',
+			'class_name'		=> '',
+			'vendor_name'		=> '',
+			'ticket_code'		=> '',
+			
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('murid/3_payment_step4',$data);
+		$this->subject('');
+	}
+
+	public function student_24hour_reminder($murid, $class, $vendor, $ticket) {
+		$data = array(
+			'murid_name'		=> '',
+			'class_name'		=> '',
+			'vendor_name'		=> '',
+			'ticket_code'		=> '',
+			
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('murid/4_24hour_reminder',$data);
+		$this->subject('');
+	}
+
+	public function student_class_feedback($murid, $class, $vendor) {
+		$data = array(
+			'murid_name'		=> '',
+			'class_name'		=> '',
+			'vendor_name'		=> '',
+		);
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('murid/5_class_feedback',$data);
+		$this->subject('');
 	}
 }

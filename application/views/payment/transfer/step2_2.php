@@ -207,7 +207,7 @@ if($total > 0):
 	} catch(Exception $e) {
 ?>
 <script type="application/javascript">
-	console.error('Cannot connect to payment gateway server!');
+	console.error('Cannot connect to Veritrans payment gateway server!');
 </script>
 <?php
 							$not_connect = TRUE;
@@ -221,38 +221,32 @@ if($total > 0):
 							<div class="text-14">Anda tidak akan dikenakan biaya tambahan!</div>
 							
 							<div class="row">
-								<a href="<?php echo $vtweb_url;?>" target="_blank">
 								<div class="col-md-4 payment-howto">
 									<div class="btn-payment2" id="payment_cc">
 										<img src="<?php echo base_url();?>/images/payment/visa-mastercard.png" width="25px"/>
 										Kartu Kredit
 									</div>
 								</div>
-								</a>
 								<div class="col-md-4 payment-howto">
 									<button class="btn-payment2" id="payment_atm">
 										<img src="<?php echo base_url();?>/images/payment/atm-bersama.png" width="25px"/>
 										Bank Transfer
 									</button>
 								</div>
-								<a href="<?php echo $vtweb_url_cimb;?>" target="_blank">
 								<div class="col-md-4 payment-howto">
 									<div class="btn-payment2" id="payment_cimb">
 										<img src="<?php echo base_url();?>/images/payment/cimb-click.png" width="60px"/>
 										CIMB Clicks
 									</div>
 								</div>
-								</a>
 							</div>
 							<div class="row">
-								<a href="<?php echo $vtweb_url_mandiri;?>" target="_blank">
 								<div class="col-md-4 payment-howto">
 									<div class="btn-payment2" id="payment_mandiri">
 										<img src="<?php echo base_url();?>/images/payment/mandiri-clickpay.png" width="30px"/>
 										Mandiri Clickpay
 									</div>
 								</div>
-								</a>
 								<div class="col-md-4 payment-howto">
 									<button class="btn-payment2" id="payment_cash">
 										<img src="<?php echo base_url();?>/images/payment/uang.png" width="30px"/>
@@ -411,6 +405,8 @@ endif;
     </div> <!-- /container -->
     <script type="application/javascript">
 	var code = '<?php echo $code; ?>';
+	var _vt_payment_type = false;
+	var _vt_link = '';
 	$(document).ready(function(){
 		$('#curtain').hide();
 		$('.payment_info').hide();
@@ -422,26 +418,25 @@ endif;
 			switch($id) {
 				case		'payment_atm':
 					$('#transfer_info').show();
+					_vt_payment_type = false;
 					e.preventDefault();
 					return false;
 					break;
 				case		'payment_cash':
 					$('#cash_info').show();
+					_vt_payment_type = false;
 					e.preventDefault();
 					return false;
 					break;
 				default:
-					if(!$('#iagree').is(':checked')) {
-						e.preventDefault();
-						$(this).removeClass('active');
-						alert('Mohon centang persetujuan anda\n' +
-								'dengan persyaratan dan ketentuan kami\n' +
-								'yang berlaku terlebih dahulu.\n' +
-								'Terima kasih.');
-						return false;
-					} else {
-						return true;
+					if($id == 'payment_cc') {
+						_vt_link = '<?php echo $vtweb_url;?>';
+					} else if($id == 'payment_cimb') {
+						_vt_link = '<?php echo $vtweb_url_cimb;?>';
+					} else if($id == 'payment_mandiri') {
+						_vt_link = '<?php echo $vtweb_url_mandiri;?>';
 					}
+					_vt_payment_type = true;
 			}
 		});
 <?php 
@@ -450,6 +445,19 @@ if($total > 0):
 ?>
 		$('#btn_next').click(function(e){
 			e.preventDefault();
+			if(!$('#iagree').is(':checked')) {
+				e.preventDefault();
+				$(this).removeClass('active');
+				alert('Mohon centang persetujuan anda\n' +
+						'dengan persyaratan dan ketentuan kami\n' +
+						'yang berlaku terlebih dahulu.\n' +
+						'Terima kasih.');
+				return false;
+			}
+			if(_vt_payment_type) {
+				window.location.href = _vt_link;
+				return;
+			}
 			$('#curtain').show().css({
 				'width'				: window.screen.width+200+'px',
 				'height'			: window.screen.height+200+'px',
@@ -484,7 +492,7 @@ if($total > 0):
 					var result_container = $('<div id="result_container"></div>');
 					result_container.css(cssOpt);
 					result_container.css({
-						'height'		: '180px',
+						'height'		: '250px',
 						'width'			: '465px',
 						'backgroundColor': '#eee',
 						'text-align'	: 'left',
@@ -498,7 +506,7 @@ if($total > 0):
 				},
 				'success': function(dt){
 					var cssOpt = {
-						'top'				: Math.floor(window.screen.height/2)+'px',
+						'top'				: Math.floor(window.screen.height/2)-(90)+'px',
 						'left'				: Math.floor(window.screen.width/2)-(233)+'px',
 						'position'			: 'absolute',
 						'color'				: '#fff'
@@ -506,7 +514,7 @@ if($total > 0):
 					var result_container = $('<div id="result_container"></div>');
 					result_container.css(cssOpt);
 					result_container.css({
-						'height'		: '230px',
+						'height'		: '250px',
 						'width'			: '500px',
 						'backgroundColor': '#eee',
 						'color'			: '#333',
@@ -521,6 +529,7 @@ if($total > 0):
 					$('#roller').remove();
 					$('#curtain').append(result_container);
 					$.removeCookie('cart', {'path':'/'});
+					clear_screen(base_url+'kelas');
 				}
 			};
 			$.ajax(base_url+'payment/transfer/step3', opt);
@@ -568,6 +577,7 @@ else:
 							var notice = $(notification);
 							$('#curtain').append($(notice));
 							$.removeCookie('cart', {'path':'/'});
+							clear_screen(base_url+'kelas');
 						}
 					},
 					'json'
@@ -577,10 +587,14 @@ else:
 <?php 
 endif;
 ?>
-		$('#curtain').click(function(e){
-			e.preventDefault();
-			$('#curtain').empty().hide();
-		});
+		function clear_screen(redirect) {
+			$('#curtain').click(function(e){
+				e.preventDefault();
+				$('#curtain').empty().hide();
+				if(typeof redirect != 'undefined')
+					window.location.href = redirect;
+			});
+		}
 		$('#btn_next, #btn_free').attr('disabled','disabled');
 		var warning = false;
 		$('#iagree').click(function(){

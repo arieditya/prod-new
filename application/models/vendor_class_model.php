@@ -375,6 +375,14 @@ class Vendor_class_model extends MY_Model{
 		return $this->db->get('vendor_level_list');
 	}
 	
+	public function get_level_name($var = array()) {
+		$this->db->select('GROUP_CONCAT(name) as name', FALSE);
+		$this->db->where($var);
+		$this->db->where(array('status'=>1));
+		$this->db->group_by('name');
+		return $this->db->get('vendor_level_list');
+	}
+	
 	public function get_class_multiple_level($class_id) {
 		$level_id = $this->db
             ->select('GROUP_CONCAT(`level_id`) as level_ids', FALSE)
@@ -392,7 +400,10 @@ class Vendor_class_model extends MY_Model{
 	}
 
 	public function get_class_level($class_id) {
-		$level_id = $this->db->where(array('class_id'=>$class_id))->get('vendor_class_level')->row()->level_id;
+		$level = $this->db->where(array('class_id'=>$class_id))->get('vendor_class_level')->row();
+		if(!empty($level)){
+			$level_id = $level->level_id;
+		}
 		if(empty($level_id))
 			return FALSE;
 		return $this->db->where(array('id'=>$level_id))->get('vendor_level_list')->row();
@@ -606,13 +617,20 @@ class Vendor_class_model extends MY_Model{
 	
 	public function get_class_empty_seat($class_id) {
 		$seat = (int) @$this->db
-				->select('class_peserta')
+				->select('class_peserta_max')
 				->from('vendor_class')
 				->where('id', $class_id)
 				->get()
 				->row()
 				->class_peserta;
-		$query =  "SELECT COUNT(student_id) AS participant FROM vendor_class_participant WHERE 1 AND class_id = ?";
+		$query =  "
+	SELECT
+		COUNT(*) AS participant
+	FROM
+		(SELECT DISTINCT 
+			participant_id 
+		FROM vendor_class_participant a
+		WHERE 1 AND class_id = ?) b";
 		$participant = (int) @$this->db
 				->query($query, $class_id)
 				->row()
@@ -861,8 +879,7 @@ class Vendor_class_model extends MY_Model{
 				'harga'			=> $datas->price_per_session
 			);
 		}
-		return $class;
-	}
+		return $class;	}
 	
 	public function invalidate_invoice() {
 		
@@ -917,6 +934,15 @@ class Vendor_class_model extends MY_Model{
 			$result[$code] = $trx;
 		}
 		return $result;
+	}
+	
+	public function get_class_from_invoice($code) {
+		$cls = $this->db->select('class_id')->from('vendor_class_participant')->where('code', $code)->get()->result();
+		$class = array();
+		foreach($cls as $cl) {
+			$class[] = $cl->class_id;
+		}
+		return $class;
 	}
 	
 	public function get_bank($id) {
@@ -1065,6 +1091,54 @@ class Vendor_class_model extends MY_Model{
 		return $this->db->where('class_id', $class_id)->get('vendor_class_message')->result();
 	}
 	
+	public function get_new_invoice_data($code) {
+		$transaction = $this->db
+				->where('code',$code)
+				->get('vendor_class_transaction')->row();
+		$participants = $this->db
+				->where('code',$code)
+				->get('vendor_class_participant')->result();
+		$class = array();
+		$peserta = NULL;
+		$pemohon = NULL;
+		foreach($participants as $participant) {
+			if(empty($peserta)) {
+				$peserta = $this->db
+						->where('id', $participant->participant_id)
+						->get('vendor_class_student')->row();
+			}
+			if(empty($pemohon)) {
+				$pemohon = $this->db
+						->where('id', $participant->pemesan_id)
+						->get('vendor_class_pemesan')->row();
+			}
+			if(empty($class[$participant->class_id])) {
+				$class_data = $this->db
+						->where('id', $participant->class_id)
+						->join('vendor_class_price', 'vendor_class_price.class_id = vendor_class.id', 'left')
+						->get('vendor_class')->row();
+				$vendor = $this->db
+						->where('id', $class_data->vendor_id)
+						->get('vendor_profile')->row();
+				$class[$participant->class_id] = array(
+					'profile'	=> $class_data,
+					'vendor'	=> $vendor,
+					'jadwal'	=> array()
+				);
+			}
+			$jadwal = $this->db
+				->where('jadwal_id', $participant->jadwal_id)
+				->get('vendor_class_jadwal')->result();
+			$class[$participant->class_id]['jadwal'] = $jadwal;
+			
+		}
+		return array(
+			'transaction'	=> $transaction,
+			'peserta'		=> $peserta,
+			'pemohon'		=> $pemohon,
+			'class'			=> $class
+		);
+	}
 }
 
 // END OF vendor_class_model.php File

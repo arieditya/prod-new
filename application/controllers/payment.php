@@ -107,11 +107,17 @@ class Payment extends MY_Controller {
 	}
 
 	public function t_step1() {
-		if(!$this->input->cookie('cart', TRUE)) show_404();
+		if(!$this->input->cookie('cart', TRUE)) {
+			$this->session->set_flashdata('status.warning','Tidak ada kelas yang didaftarkan. Silahkan daftar kelas.');
+			redirect('kelas');
+			return;
+		}
 //		var_dump();exit;
 		$cart = json_decode($this->input->cookie('cart', TRUE));
 		if(empty($cart)) {
-			show_404();
+			$this->session->set_flashdata('status.warning','Tidak ada kelas yang didaftarkan. Silahkan daftar kelas.');
+			redirect('kelas');
+			return;
 		}
 
 		$class_ids = array();
@@ -130,29 +136,34 @@ class Payment extends MY_Controller {
 			$this->load->model('discount_model');
 			$kode_diskon = json_decode($kode_diskon);
 			
+			$new_diskon = array();
 			foreach($kode_diskon as $disk) {
 				if(!empty($disk)) {
 					$diskon = $this->discount_model->detail_code($class_ids, $disk);
-					if(empty($percent_class[$diskon->class_id]))
-						$percent_class[$diskon->class_id] = array();
-					$value = $this->discount_model->detail_value($diskon->id);
-					if($value->type == 'idr') {
-						$disc = $value->value;
-						$discount += $disc;
-						$kode[$disk] = $disc;
-						$nominal_class[$diskon->class_id][] = array(
-							'code'	=> $disk,
-							'value' => $value->value,
-						);
-					} else {
-//						$discount_percent += $value->value;
-						$percent_class[$diskon->class_id][] = array(
-							'code'	=> $disk,
-							'value'	=> $value->value
-						);
+					if(!empty($diskon)){
+						$new_diskon[] = $disk;
+						if(empty($percent_class[$diskon->class_id]))
+							$percent_class[$diskon->class_id] = array();
+						$value = $this->discount_model->detail_value($diskon->id);
+						if($value->type == 'idr') {
+							$disc = $value->value;
+							$discount += $disc;
+							$kode[$disk] = $disc;
+							$nominal_class[$diskon->class_id][] = array(
+								'code'	=> $disk,
+								'value' => $value->value,
+							);
+						} else {
+	//						$discount_percent += $value->value;
+							$percent_class[$diskon->class_id][] = array(
+								'code'	=> $disk,
+								'value'	=> $value->value
+							);
+						}
 					}
 				}
 			}
+			$this->session->set_userdata('kode_diskon', json_encode($new_diskon));
 		} else {
 			
 		}
@@ -179,6 +190,7 @@ class Payment extends MY_Controller {
 			$this->load->model('murid_model');
 			$murid = $this->murid_model->get_murid_by_email($this->session->userdata('user_email'));
 		}
+		
 		$data = array(
 				'in_cart'					=>$class, 
 				'student'					=>$murid, 
@@ -187,6 +199,7 @@ class Payment extends MY_Controller {
 				'potongan_diskon_nominal'	=>$nominal_class,
 				'whostudent'=>$whostudent
 		);
+		$data = array_merge($this->data, $data);
 		$this->new_design?
 				$this->load->view('payment/transfer/step1_2', $data):
 				$this->load->view('payment/transfer/step1',$data);
@@ -426,6 +439,7 @@ class Payment extends MY_Controller {
 			)
 		);
 		
+		$data = array_merge($this->data, $data);
 		$this->session->set_userdata('transaction', json_encode($data));
 		$this->new_design?
 			$this->load->view('payment/transfer/step2_2', $data):
@@ -481,7 +495,9 @@ class Payment extends MY_Controller {
 			$this->vendor_class_model->update_transaction($code, array('status_2'=>date('Y-m-d H:i:s')));
 			$pemesan_id = $row->pemesan_id;
 			$this->load->model('email_model');
-			$this->email_model->send_invoice($code);
+
+//			$this->email_model->send_invoice($code);
+			$this->email_model->student_payment_step3($code);
 
 //			$this->mail_sender($trx['pemesan']['email'], 'Tagihan dari ruangguru.com', $email_message);
 			// kirim email
@@ -622,7 +638,6 @@ class Payment extends MY_Controller {
 				$pemesan = $this->vendor_class_model->get_class_pemesan($trx->pemesan_id);
 				$peserta = $this->vendor_class_model->get_class_peserta($trx->student_id);
 				$participant = $this->vendor_class_model->get_class_participant($code);
-				
 
 				$email_data = array(
 					'code'		=> $code,
@@ -642,7 +657,10 @@ class Payment extends MY_Controller {
 				foreach($participant->result() as $part) {
 					$sched = $this->vendor_class_model->get_class_schedule(array('jadwal_id' => $part->jadwal_id))->row();
 					if(empty($class[$part->class_id]))
-						$class[$part->class_id] = $this->vendor_class_model->get_class(array('id'=>$part->class_id))->row();
+						$class[$part->class_id] = $this->vendor_class_model->get_class(array(
+								'id'=>$part->class_id,
+								'class_status >=' => NULL, 
+								'active'=>NULL))->row();
 //					var_dump($class);exit;
 					$kelas = $class[$part->class_id];
 					$waktu = $sched->class_tanggal.', '.$sched->class_jam_mulai.':'.$sched->class_menit_mulai.' s/d '.$sched->class_jam_selesai.':'.$sched->class_menit_selesai;
@@ -799,24 +817,24 @@ DETIL TRANSAKSI:
         $this->load->view('footer');
     }    
 
-    public function notification(){
-    
-    //file_put_contents(FCPATH.'test.payment.log', print_r($_POST, TRUE) );exit;
-    file_put_contents('php://input', print_r($_POST, TRUE) );exit;
-    
-        $this->load->view('header');
-        $this->load->view('front/payment/notification');
-        $this->load->view('footer');
-    }
-    
-    public function check_notification() {
-	//$data = file_get_contents(FCPATH.'test.payment.log');
-	//var_dump($data);
+	public function notification(){
 	
-	$inputJSON = file_get_contents('php://input');
-	$input= json_decode( $inputJSON, TRUE );
+		//file_put_contents(FCPATH.'test.payment.log', print_r($_POST, TRUE) );exit;
+		file_put_contents('php://input', print_r($_POST, TRUE) );exit;
 	
-	var_dump($input);
+		$this->load->view('header');
+		$this->load->view('front/payment/notification');
+		$this->load->view('footer');
+	}
+	
+	public function check_notification() {
+		//$data = file_get_contents(FCPATH.'test.payment.log');
+		//var_dump($data);
+		
+		$inputJSON = file_get_contents('php://input');
+		$input= json_decode( $inputJSON, TRUE );
+		
+		var_dump($input);
     }
     
      public function finish(){

@@ -53,15 +53,13 @@ $wait = json_decode($wait);
 										   id="pemesan_phone"
 										   name="pemesan_phone"
 										   placeholder="Contoh: 08123456789" 
-										   value="<?php echo !empty($student)?$student->murid_phone:'';?>" 
-										   <?php echo !empty($student)?'readonly="readonly"':'';?> />
+										   value="<?php echo !empty($student)?$student->murid_phone:'';?>" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="alamat">Alamat Lengkap *</label>
 								<textarea class="form-control" 
 										  placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini." 
-										  <?php echo !empty($student)?'readonly="readonly"':'';?>
 										  name="pemesan_address"
 										  rows="3"><?php echo !empty($student)?$student->murid_phone:'';?></textarea>
 							</div>
@@ -238,7 +236,7 @@ $wait = json_decode($wait);
 				$value_diskon = $nominal_diskon['value'];
 ?>
 							<h5 class="sum-label">
-								<?php echo $persen_diskon['code']?>
+								<?php echo $nominal_diskon['code']?>
 								<span class="sum-price pull-right"><?php echo rupiah_format($value_diskon)?></span>
 							</h5>
 <?php

@@ -152,3 +152,12 @@ function unique_generator() {
 	$q = 'SELECT CONCAT(UPPER(SHA1(UUID())),UPPER(SHA1(FLOOR(RAND()*10000000000)*FLOOR(RAND()*10000000000)))) as code';
 	return $CI->db->query($q)->row()->code;
 }
+
+function krg() {
+	echo "<strong>Kelas.</strong>Ruangguru.com";
+}
+
+function kls_url() {
+	$base_url = base_url();
+	if(strpos($_SERVER['HTTP_HOST'],'kelas.') === FALSE) $base_url = 'http:';
+}
