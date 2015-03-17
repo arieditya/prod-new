@@ -421,7 +421,6 @@ class Kelas extends Vendor_Controller{
 	}
 	
 	public function update_profile_2(){
-		error_reporting(E_ALL);
 		$id = $this->input->post('id');
 		
 		if(empty($id)) {
@@ -453,6 +452,9 @@ class Kelas extends Vendor_Controller{
 		$error_status = array();
 		foreach($table as $tbl => $fields) {
 			foreach($fields as $field) {
+				if($field == 'class_tags')
+					$data[$tbl][$field] = explode(',',$this->input->post($field));
+				else
 				$data[$tbl][$field] = $this->input->post($field);
 			}
 		}
@@ -506,6 +508,15 @@ class Kelas extends Vendor_Controller{
 		} else {
 //			var_dump($_FILES);
 			$no_files = TRUE;
+		}
+		
+		$ori_tags = explode(',',$this->vendor_class_model->get_tags($id));
+		foreach($ori_tags as $o_t) {
+			$this->vendor_class_model->delete_tags($id, $o_t);
+		}
+		
+		foreach($data['vendor_class_tag']['class_tags'] as $tag) {
+			$this->vendor_class_model->set_tags($id, $tag);
 		}
 
 		if(!$no_files && !empty($files) && !empty($files['file_name'])) {

@@ -27,9 +27,11 @@ foreach($sched as $s) {
 			<div class="col-md-8">
 				<h2 class="entry-title"><?php echo $class->class_nama;?></h2>
 				<div class="add-info">
-					<span class="info-label text-uppercase">Tag :
 <?php
 	if(!empty($class->tag)):
+?>
+					<span class="info-label text-uppercase">Tag :
+<?php
 		$tags = explode(',', $class->tag);
 		foreach($tags as $tag):
 ?>

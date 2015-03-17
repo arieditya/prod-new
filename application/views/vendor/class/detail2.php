@@ -180,6 +180,12 @@ $profile = $vendor['profile'];
 													<?php echo $image;?>
 												</div>
 											</div><!-- section-row -->
+											<div class="section-row">
+												<div class="col-sm-4">Tags</div>
+												<div class="col-sm-8"> 
+													<?php echo !empty($tags)?$tags:'Belum ada tag';?>
+												</div>
+											</div><!-- section-row -->
 										</div><!-- section-content -->
 									</div><!-- section-wrap --> 
 									<div class="section-wrap">
@@ -765,6 +771,7 @@ endif;
 														   id="class_tags" 
 														   data-role="tagsinput"
 														   class="input-tags form-control"
+														   value="<?php echo !empty($tags)?$tags:'';?>"
 														   style="width: 100%;"
 														   name="class_tags" />
 												</div>
