@@ -16,10 +16,10 @@ else
 	$vendor_logo = 'assets/images/user.png';
 ?>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-datetimepicker.min.css" type="text/css" />
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/jquery.tagsinput.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo base_url();?>assets/tagsinput/bootstrap.tagsinput.css" type="text/css" />
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/moment.min.js" ></script>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/bootstrap-datetimepicker.min.js" ></script>
-<script type="application/javascript" src="<?php echo base_url();?>assets/js/jquery.tagsinput.min.js" ></script>
+<script type="application/javascript" src="<?php echo base_url();?>assets/tagsinput/bootstrap.tagsinput.min.js" ></script>
 <script type="application/javascript">
 	var class_type = <?php echo (int)$class->class_paket;?>;
 </script>
@@ -745,6 +745,16 @@ endif;
 											<div class="row">
 												<div class="col-sm-8">
 													<?php echo $image;?>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="attachment" class="col-sm-4 control-label">Tags</label>
+												<div class="col-sm-8">
+													<input type="text" 
+														   id="class_tags" 
+														   data-role="tagsinput"
+														   class="input-tags"
+														   name="class_tags" />
 												</div>
 											</div>
 <?php 

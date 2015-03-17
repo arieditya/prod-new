@@ -202,9 +202,8 @@ class Kelas extends Vendor_Controller{
 				'active'=>NULL
 		);
 //		if($this->)
-		$data = $this->vendor_class_model->get_class(array(
-		));
-//		var_dump($stat);exit;
+		$data = $this->vendor_class_model->get_class($where);
+//		var_dump($data->row());exit;
 		if(empty($data) || $data->num_rows() !== 1) {
 			show_404();
 		}
