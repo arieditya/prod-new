@@ -8,13 +8,15 @@
  * Proj: prod-new
  */
 $this->load->view('vendor/general/header2');
+if(!$this->is_admin) {
 $profile = $vendor['profile'];
-$info = $vendor['info'];
-if(!empty($info->vendor_logo))
-	$vendor_logo = "images/vendor/{$profile->id}/{$info->vendor_logo}";
-else
-	$vendor_logo = 'assets/images/user.png';
-?>
+	$info = $vendor['info'];
+	if(!empty($info->vendor_logo))
+		$vendor_logo = "images/vendor/{$profile->id}/{$info->vendor_logo}";
+	else
+		$vendor_logo = 'assets/images/user.png';
+}
+	?>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-datetimepicker.min.css" type="text/css" />
 <link rel="stylesheet" href="<?php echo base_url();?>assets/tagsinput/bootstrap.tagsinput.css" type="text/css" />
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/moment.min.js" ></script>
@@ -60,8 +62,9 @@ else
 
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
-								<?php if(($status->class_status == 0 || $status->class_status == 1 )
-										&& $status->active == 0){ ?>
+								<?php if(	$this->is_admin || (
+											($status->class_status == 0 || $status->class_status == 1 )
+												&& $status->active == 0) ) { ?>
                                     <li role="presentation">
                                         <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
                                     </li>

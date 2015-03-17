@@ -327,6 +327,10 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 				$profile = base_url().'murid';
 				$logout = base_url().'murid/logout';
 				break;
+			case		'admin':
+				$profile = base_url().'admin/user_profile';
+				$logout = base_url().'4dm1nzqu/logout';
+				break;
 		endswitch;
 ?>
 					<ul class="nav navbar-nav navbar-right">

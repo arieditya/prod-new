@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class User extends CI_Controller {
+class User extends MY_Controller {
     private $id;
 
     public function __construct() {
@@ -39,6 +39,13 @@ class User extends CI_Controller {
         }else{
             $this->session->set_userdata('admin_id',$admin->admin_id);
             $this->session->set_userdata('admin_username',$admin->admin_username);
+			$user_name = array_shift(explode('@',$admin->admin_username));
+			$this->exec_login(array(
+				'type'		=> 'admin',
+				'name'		=> $user_name,
+				'email'		=> $admin->admin_username,
+				'id'		=> $admin->admin_id
+			));
             redirect('admin/guru');
         }
    }

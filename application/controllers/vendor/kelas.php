@@ -196,12 +196,13 @@ class Kelas extends Vendor_Controller{
 	public function detil($id, $tabs='profile') {
 		$where = array(
 				'id'=>$id, 
-				'vendor_id'=>$this->vendor->id, 
 				'class_status >='=>NULL,
 				'class_status'=>NULL,
 				'active'=>NULL
 		);
-//		if($this->)
+		if(!$this->is_admin) {
+			$where['vendor_id']=$this->vendor->id;
+		}
 		$data = $this->vendor_class_model->get_class($where);
 //		var_dump($data->row());exit;
 		if(empty($data) || $data->num_rows() !== 1) {

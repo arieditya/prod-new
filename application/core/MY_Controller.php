@@ -31,6 +31,7 @@ class MY_Controller extends CI_Controller{
 	
 	var $data = array();
 	var $new_design = FALSE;
+	var $is_admin = FALSE;
 	public function __construct()
 	{
 		parent::__construct();
@@ -109,6 +110,7 @@ class Admin_Controller extends MY_Controller {
 	var $admin_id;
 	public function __construct(){
 		parent::__construct();
+		$this->is_admin = TRUE;
 	}
 }
 
@@ -140,21 +142,30 @@ class Vendor_Controller extends MY_Controller {
 			return;
 		}
 		$this->load->model('vendor_model');
-		$vendor = $this->vendor_model->get_profile(array(
-			'email'	=> $this->data['user']['email'],
-			'id'	=> $this->data['user']['id']
-		));
-		$vendor_info = $this->vendor_model->get_info(array(
-			'vendor_id'	=> $this->data['user']['id']
-		))->row();
-		if($vendor->num_rows() != 1) {
-			$this->session->set_flashdata('status.warning', 'User authentication failed!');
-			redirect('vendor/auth/logreg');
-			return;
+		if($this->data['user']['type'] == 'vendor') {
+			$vendor = $this->vendor_model->get_profile(array(
+				'email'	=> $this->data['user']['email'],
+				'id'	=> $this->data['user']['id']
+			));
+			$vendor_info = $this->vendor_model->get_info(array(
+				'vendor_id'	=> $this->data['user']['id']
+			))->row();
+			if($vendor->num_rows() != 1) {
+				$this->session->set_flashdata('status.warning', 'User authentication failed!');
+				redirect('vendor/auth/logreg');
+				return;
+			}
+			$this->vendor = $vendor->row();
+			$this->data['vendor']['profile'] = $this->vendor;
+			$this->data['vendor']['info'] = $vendor_info;
+		} elseif($this->data['user']['type'] == 'admin' && $this->data['user']['id'] != 1) {
+			$this->is_admin = TRUE;
+			$this->session->set_flashdata('status.warning', 'You are entering this page AS ADMIN!!');
+		} else {
+				$this->session->set_flashdata('status.warning', 'User authentication failed!');
+				redirect('vendor/auth/logreg');
+				return;
 		}
-		$this->vendor = $vendor->row();
-		$this->data['vendor']['profile'] = $this->vendor;
-		$this->data['vendor']['info'] = $vendor_info;
 	}
 }
 

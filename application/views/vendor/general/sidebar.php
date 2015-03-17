@@ -7,6 +7,7 @@
  * Time: 3:46 PM
  * Proj: prod-new
  */
+if(!$this->is_admin):
 $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info']->vendor_logo}";
 if(empty($sidebar)) $sidebar = 'profile';
 ?>
@@ -107,3 +108,12 @@ if(empty($sidebar)) $sidebar = 'profile';
 					</ul>
 				</div><!-- sidebar -->
 			</div>
+<?php
+else:
+	
+?>
+			<div class="col-md-3 col-sm-12">
+				YOU ARE LOGGED IN AS ADMIN!
+			</div>
+<?php
+endif;
