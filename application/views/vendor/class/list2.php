@@ -57,23 +57,14 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 <?php
 	$i = 1;
 	foreach($classes as $class):
-	$status = '';
-	//* ON DEBUG
-	//		$class->class_status = '4';
-	// */
-	switch($class->class_status){
-		case		'0'		: $status = '<span class="label label-info">Pending</span>';break;
-		case		'1'		: $status = '<span class="label label-success">Approved</span>';break;
-		case		'-1'	: $status = '<span class="label label-danger">Rejected</span>';break;
-		case		'4'		: $status = '<span class="label label-warning">Request Edit</span>';break;
-	}
-	switch($class->class_paket){
-		case		'0'		: $type = '<span class="label label-default">Single</span>';break;
-		case		'1'		: $type = '<span class="label label-info">Series</span>';break;
-		case		'2'		: $type = '<span class="label label-success">Package</span>';break;
-	}
-	$manage_class_link = base_url().'vendor/kelas/detil/'.$class->id;
-	$editable = $class->active == 0?TRUE:FALSE;
+        switch($class->class_paket){
+            case		'0'		: $type = '<span class="label label-default">Satu Sesi</span>';break;
+            case		'1'		: $type = '<span class="label label-info">Kelas Berseri</span>';break;
+            case		'2'		: $type = '<span class="label label-success">Paket</span>';break;
+        }
+        $manage_class_link = base_url().'vendor/kelas/detil/'.$class->id;
+        $editable = $class->active == 0?TRUE:FALSE;
+        if($class->active == 1):
 ?>
 												<tr>
 													<td><?php echo $i++;?></td>
@@ -91,8 +82,15 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 														</a>
 													</td>
 													<td class="status">
-														<span class="approved icon-circle" title="Approved"><i class="fa fa-check"></i></span>
-														<a href="#" class="unpublish icon-circle" title="Request To Unpublish"><i class="fa fa-download"></i> </a>
+														<?php if($class->class_status == 1) : ?>
+                                                            <span class="approved icon-circle" title="Approved"><i class="fa fa-check"></i></span>
+                                                        <?php else : ?>
+                                                            <span class="label label-info">Pending</span>
+                                                        <?php endif;
+                                                        /**
+                                                        <a href="#" class="unpublish icon-circle" title="Request To Unpublish"><i class="fa fa-download"></i> </a>
+                                                         */
+                                                        ?>
 													</td>
 													<td class="text-center">
 														<a href="<?php echo $manage_class_link?>" 
@@ -110,8 +108,9 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 														</a>
 													</td>
 												</tr>
-<?php 
-endforeach;
+<?php
+        endif;
+    endforeach;
 ?>
 <?php /* ?>
 												<tr>
@@ -149,7 +148,90 @@ endforeach;
 										</ol>
 									</div>
 								</div><!-- published -->
-								<div role="tabpanel" class="tab-pane" id="draft">Kelas tidak tersedia </div><!-- draft -->
+
+                                <!-- Tab panes -->
+                                    <div role="tabpanel" class="tab-pane" id="draft">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr class="text-center">
+                                                    <td>ID</td>
+                                                    <td>Nama Kelas</td>
+                                                    <td>Harga Kelas (Rp)</td>
+                                                    <td>Jumlah Sesi</td>
+                                                    <td>Tipe Kelas</td>
+                                                    <td>Jumlah Murid</td>
+                                                    <td>Status</td>
+                                                    <td>Edit</td>
+                                                    <td>Go to web</td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+<?php
+$i = 1;
+foreach($classes as $class):
+    switch($class->class_paket){
+        case		'0'		: $type = '<span class="label label-default">Satu Sesi</span>';break;
+        case		'1'		: $type = '<span class="label label-info">Kelas Berseri</span>';break;
+        case		'2'		: $type = '<span class="label label-success">Paket</span>';break;
+    }
+    $manage_class_link = base_url().'vendor/kelas/detil/'.$class->id;
+    $editable = $class->active == 0?TRUE:FALSE;
+    if($class->class_status != -1 && $class->active == 0):
+?>
+                                                        <tr>
+                                                            <td><?php echo $i++;?></td>
+                                                            <td>
+                                                                <a href="<?php echo base_url()."vendor/kelas/detil/{$class->id}"?>">
+                                                                    <?php echo $class->class_nama; ?>
+                                                                </a>
+                                                            </td>
+                                                            <td><?php echo number_format($class->class_harga,0,',','.');?></td>
+                                                            <td><?php echo $class->jadwal_count; ?></td>
+                                                            <td><?php echo $type;?></td>
+                                                            <td>
+                                                                <a href="#">
+                                                                    <?php echo $class->participant_count; ?>&nbsp;orang
+                                                                </a>
+                                                            </td>
+                                                            <td class="status">
+                                                                <?php if($class->class_status == 4) : ?>
+                                                                    <span class="label label-info">Pending</span>
+                                                                <?php endif; ?>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a href="<?php echo $manage_class_link?>"
+                                                                   class="manage icon-circle"
+                                                                   title="Pengaturan">
+                                                                    <i class="fa fa-gears"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a href="<?php echo base_url()?>kelas/<?php echo $class->class_uri;?>"
+                                                                   class="link icon-circle"
+                                                                   title="Link"
+                                                                   target="_blank">
+                                                                    <i class="fa fa-arrow-right"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+<?php
+        endif;
+    endforeach;
+?>
+                                                </tbody>
+                                            </table>
+                                        </div><!-- table-responsive -->
+                                        <div id="class-notes">
+                                            <p> Catatan: </p>
+                                            <ol>
+                                                <li>
+                                                    Untuk setiap kelas yang sudah dilakukan publish masih butuh ada proses terlebih dahulu dari kami,
+                                                    jika ada pertanyaan <a class="blue underline" href="mailto:info@ruangguru.com?Subject=Edit%20Kelas">hubungi kami</a>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                    </div><!-- draft -->
 								<div role="tabpanel" class="tab-pane" id="past">Kelas tidak tersedia </div><!-- past -->
 							</div><!-- tab-content -->
 

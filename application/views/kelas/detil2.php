@@ -305,12 +305,6 @@ endif;
 					<h3 class="entry-detail-label text-20">Daftar Sekarang</h3>
 				</div><!-- detail-label -->
 				</a>
-				<a href="#">    
-				<div class="detail-label label-yellow text-center">
-					<i class="fa fa-magic"></i>
-					<h3 class="entry-detail-label text-20">Jadikan Wishlist</h3>
-				</div><!-- detail-label -->
-				</a>
 <?php 
 	if(!empty($next_session)):
 ?>
@@ -376,7 +370,7 @@ endif;
 					<div class="panel-heading heading-label text-center"><i class="fa fa-male"></i> Penyelenggara</div>
 					<div class="panel-body">
 						<img src="<?php echo base_url("images/vendor/{$vendor['profile']->id}/{$vendor['info']->vendor_logo}")?>" class="img-responsive logo-vendor" alt="">
-						<p><?php echo substr($vendor['info']->vendor_description,0, 100).'... ';?> </p>
+						<p><?php echo substr($vendor['info']->vendor_description,0, 200).'... ';?> </p>
 						<a href="#" class="more text-right">More..</a>
 					</div>
 				</div><!-- panel -->
