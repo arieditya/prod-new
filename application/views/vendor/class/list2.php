@@ -68,9 +68,9 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 		case		'4'		: $status = '<span class="label label-warning">Request Edit</span>';break;
 	}
 	switch($class->class_paket){
-		case		'0'		: $type = '<span class="label label-default">Single</span>';break;
-		case		'1'		: $type = '<span class="label label-info">Series</span>';break;
-		case		'2'		: $type = '<span class="label label-success">Package</span>';break;
+		case		'0'		: $type = '<span class="label label-default">Satu Sesi</span>';break;
+		case		'1'		: $type = '<span class="label label-info">Kelas Berseri</span>';break;
+		case		'2'		: $type = '<span class="label label-success">Paket</span>';break;
 	}
 	$manage_class_link = base_url().'vendor/kelas/detil/'.$class->id;
 	$editable = $class->active == 0?TRUE:FALSE;

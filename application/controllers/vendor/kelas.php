@@ -115,8 +115,6 @@ class Kelas extends Vendor_Controller{
 				$data_ext[$key] = $dt;
 			}
 		}
-		if(!empty($data['class_paket']) && $data['class_paket'] == 'ya') $data['class_paket'] = 1;
-		else $data['class_paket'] = 0;
 		$data['vendor_id'] = $this->vendor->id;
 		$id = $this->vendor_class_model->add_new_class($data, $data_ext);
 		if(is_string($id)) {
@@ -156,9 +154,7 @@ class Kelas extends Vendor_Controller{
 				$data_ext[$key] = $dt;
 			}
 		}
-		if(!empty($data['class_paket']) && $data['class_paket'] == 'ya') $data['class_paket'] = 1;
-		else $data['class_paket'] = 0;
-		
+
 		$no_files = FALSE;
 		if(!empty($_FILES['class_image']) ) {
 			if($_FILES['class_image']['error'] > 0 || $_FILES['class_image']['size'] < 10){
@@ -401,8 +397,6 @@ class Kelas extends Vendor_Controller{
 		if(empty($id)) {
 			show_404();
 		}
-		$class_paket = $this->input->post('class_paket', TRUE);
-		$class_paket = $class_paket=='single'?0:($class_paket=='series'?1:($class_paket=='package'?2:NULL));
 		$data = array(
 			'id'	=> $this->input->post('id', TRUE),
 			'class_deskripsi' => $this->input->post('class_deskripsi', TRUE),
@@ -411,7 +405,7 @@ class Kelas extends Vendor_Controller{
 			'class_peserta_max' => $this->input->post('class_peserta_max', TRUE),
 			'class_perserta_target' => $this->input->post('class_perserta_target', TRUE),
 			'class_harga' => $this->input->post('class_harga', TRUE),
-			'class_paket' => $class_paket,
+			'class_paket' => $this->input->post('class_paket', TRUE),
 			'class_peta' => $this->input->post('class_peta', TRUE),
 			'class_alasan' => $this->input->post('class_alasan', TRUE)
 		);

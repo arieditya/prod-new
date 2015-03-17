@@ -155,8 +155,8 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                                 <div class="col-sm-8">
                                     <div class="radio">
                                         <label>
-											<input type="radio" name="class_paket" value="single" /> 
-                                            Hanya satu sesi 
+											<input type="radio" name="class_paket" value="0" />
+                                            Satu Sesi
 											<i class="fa fa-question-circle" 
 											   data-toggle="tooltip" 
 											   data-placement="right" 
@@ -165,15 +165,15 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                                     </div>
                                     <div class="radio">
                                         <label>
-											<input type="radio" name="class_paket" value="series" /> 
-                                            Kelas Berseri 
+											<input type="radio" name="class_paket" value="1" />
+                                            Kelas Berseri
 											<i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Kelas yang dibuat dalam beberapa sesi dan akan berkelanjutan"></i>
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-											<input type="radio" name="class_paket" value="package" /> 
-                                            Satu Paket <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Kelas yang terdiri dari beberapa sesi namun harus diikuti semua sesinya oleh murid"></i>
+											<input type="radio" name="class_paket" value="2" />
+                                            Paket <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Kelas yang terdiri dari beberapa sesi namun harus diikuti semua sesinya oleh murid"></i>
                                         </label>
                                     </div>
                                 </div>
