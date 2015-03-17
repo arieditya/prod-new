@@ -142,6 +142,7 @@ class Vendor_Controller extends MY_Controller {
 			return;
 		}
 		$this->load->model('vendor_model');
+/// <<<<<<< HEAD
 		if($this->data['user']['type'] == 'vendor') {
 			$vendor = $this->vendor_model->get_profile(array(
 				'email'	=> $this->data['user']['email'],
@@ -158,6 +159,31 @@ class Vendor_Controller extends MY_Controller {
 			$this->vendor = $vendor->row();
 			$this->data['vendor']['profile'] = $this->vendor;
 			$this->data['vendor']['info'] = $vendor_info;
+			$socmed = $this->vendor_model->get_socmed($this->vendor->id);
+			$rekening = $this->vendor_model->get_rekening($this->vendor->id);
+			$progress=0;
+			if(!empty($this->vendor->email) &&
+				!empty($this->vendor->name) &&
+				!empty($this->vendor->main_phone) &&
+				!empty($this->vendor->address)){
+				$progress+=30;}
+			if(!empty($vendor_info->vendor_description)) {
+				$progress+=10;}
+			if(!empty($vendor_info->vendor_logo)){
+				$progress+=10;}
+			if(!empty($socmed)){
+				$progress+=10;}
+			if(!empty($vendor_info->contact_person_name)){
+				$progress+=5;}
+			if(!empty($vendor_info->contact_person_phone)){
+				$progress+=5;}
+			if(!empty($vendor_info->contact_person_mobile)){
+				$progress+=5;}
+			if(!empty($vendor_info->contact_person_email)){
+				$progress+=5;}
+			if(!empty($rekening)){
+				$progress+=20;}
+			$this->data['progress'] = $progress;
 		} elseif($this->data['user']['type'] == 'admin' && $this->data['user']['id'] != 1) {
 			$this->is_admin = TRUE;
 			$this->session->set_flashdata('status.warning', 'You are entering this page AS ADMIN!!');

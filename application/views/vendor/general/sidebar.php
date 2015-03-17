@@ -9,6 +9,7 @@
  */
 if(!$this->is_admin):
 $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info']->vendor_logo}";
+
 if(empty($sidebar)) $sidebar = 'profile';
 ?>
 			<div class="col-md-3 col-sm-12">
@@ -23,38 +24,12 @@ if(empty($sidebar)) $sidebar = 'profile';
 					<div class="progress">
 						<div class="progress-bar progress-bar-warning" 
 							 role="progressbar" 
-							 aria-valuenow="60" 
+							 aria-valuenow="<?php echo $progress; ?>"
 							 aria-valuemin="0" 
 							 aria-valuemax="100" 
 							 title="Progres kelengkapan Profil Vendor"
-							 style="width: 60%">
-							<?php
-                            $i=0;
-                            if(!empty($vendor['profile']->email) &&
-                                !empty($vendor['profile']->name) &&
-                                !empty($vendor['profile']->main_phone) &&
-                                !empty($vendor['profile']->address)):
-                                    $i+=30;
-                            elseif(!empty($vendor['info']->vendor_description)) :
-                                $i+=10;
-                            elseif(!empty($vendor['info']->vendor_logo)):
-                                $i=$i+10;
-                            elseif(!empty($socmed->facebook) || !empty($socmed->pinterest) ||
-                                !empty($socmed->twitter) || !empty($socmed->instagram)):
-                                $i+=10;
-                            elseif(!empty($vendor['info']->contact_person_name)):
-                                $i+=5;
-                            elseif(!empty($vendor['info']->contact_person_phone)):
-                                $i+=5;
-                            elseif(!empty($vendor['info']->contact_person_mobile)):
-                                $i+=5;
-                            elseif(!empty($vendor['info']->contact_person_email)):
-                                $i+=5;
-                            elseif(!empty($bank_account->bank_id) && !empty($bank_account->no_rek) && !empty($bank_account->atasnama)):
-                                $i+=20;
-                            endif;
-                            echo $i;
-                            ?>
+							 style="width: <?php echo $progress; ?>%">
+							<?php echo $progress; ?>%
 						</div>
 					</div>
 	

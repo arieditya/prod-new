@@ -323,7 +323,8 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .review .tag {
   color: #e11667;
   text-decoration: underline;
-  width: 15px;
+  width: 17px;
+  text-align: left;
 }
 .description {
   border-bottom: 1px solid #ddd;
