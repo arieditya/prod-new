@@ -445,6 +445,9 @@ class Kelas extends Vendor_Controller{
 		$table['vendor_class_category'] = array(
 			'category_id'
 		);
+		$table['vendor_class_tag'] = array(
+			'class_tags'
+		);
 		$data = array();
 		$jadwal = array();
 		$error_status = array();
@@ -594,6 +597,9 @@ class Kelas extends Vendor_Controller{
 		}
 
 		$this->vendor_class_model->update_class($data, array());
+		
+		$ori_tags = explode(',',$this->vendor_class_model->get_tags($id));
+		
 		
 		$tags = $this->input->post('class_tags', TRUE);
 		$tags = explode(',', $tags);

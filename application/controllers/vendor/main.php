@@ -15,6 +15,10 @@ class Main extends MY_Controller{
 		$this->load->model('vendor_model');
 	}
 	
+	public function _remap() {
+		
+	}
+	
 	public function index() {
 		$par = array('status' => 1);
 		$data['profile'] = $this->vendor_model->get_profile($par);

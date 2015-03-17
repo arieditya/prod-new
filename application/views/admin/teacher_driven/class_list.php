@@ -59,7 +59,9 @@ if ($this->session->flashdata('f_class_error')): ?>
 				($i/20); 
 				?>">
 					<td class="column_id">
-						<?php echo $g->id;?>
+						<a href="<?php echo base_url()?>vendor/kelas/detil/<?php echo $g->id;?>" target="_blank">
+							<?php echo $g->id;?>
+						</a>
 					</td>
 					<td>
 						<?php echo $g->class_nama; ?> (<?php echo $g->class_uri;?>)

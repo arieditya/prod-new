@@ -453,7 +453,7 @@ class Vendor_class_model extends MY_Model{
 	
 	public function delete_tags($id, $data) {
 		$data = strtolower($data);
-		$this->db->query("DELETE FROM vendor_class_tag WHERE vendor_id = ? AND tag_words = ?", array($id, $data));
+		$this->db->query("DELETE FROM vendor_class_tag WHERE class_id = ? AND tag_words = ?", array($id, $data));
 		if($this->db->affected_rows() > 0) {
 			$this->db->query("UPDATE vendor_tag_collections SET counter = counter - 1 WHERE tag_words = ?", array($data));
 		}
@@ -461,13 +461,13 @@ class Vendor_class_model extends MY_Model{
 	
 	public function get_tags($id) {
 		$query = "
-		SELECT GROUP_CONCAT(tag_words) AS tags FROM vendor_class_tag WHERE 1 AND vendor_id = ?
+		SELECT GROUP_CONCAT(tag_words) AS tags FROM vendor_class_tag WHERE 1 AND class_id = ?
 		";
-		$result = $this->db->query($query, array($id))->row();
-		if(empty($result)) {
-			$tags = '';
+		$result = $this->db->query($query, array($id));
+		if(!empty($result) && $result->num_rows() > 0) {
+			$tags = $result->row()->tags;
 		} else {
-			$tags = $result->tags;
+			$tags = '';
 		}
 		return $tags;
 	}

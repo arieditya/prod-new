@@ -18,10 +18,15 @@ $profile = $vendor['profile'];
 }
 	?>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-datetimepicker.min.css" type="text/css" />
-<link rel="stylesheet" href="<?php echo base_url();?>assets/tagsinput/bootstrap.tagsinput.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo base_url();?>assets/tagsinput/bootstrap-tagsinput.css" type="text/css" />
+<style type="text/css" >
+	.bootstrap-tagsinput {
+		width: 100% !important; /* override default */
+	}
+</style>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/moment.min.js" ></script>
 <script type="application/javascript" src="<?php echo base_url();?>assets/js/bootstrap-datetimepicker.min.js" ></script>
-<script type="application/javascript" src="<?php echo base_url();?>assets/tagsinput/bootstrap.tagsinput.min.js" ></script>
+<script type="application/javascript" src="<?php echo base_url();?>assets/tagsinput/bootstrap-tagsinput.min.js" ></script>
 <script type="application/javascript">
 	var class_type = <?php echo (int)$class->class_paket;?>;
 </script>
@@ -750,19 +755,20 @@ endif;
 													<?php echo $image;?>
 												</div>
 											</div>
+<?php 
+	endif;
+?>
 											<div class="form-group">
-												<label for="attachment" class="col-sm-4 control-label">Tags</label>
+												<label class="col-sm-4 control-label">Tags</label>
 												<div class="col-sm-8">
 													<input type="text" 
 														   id="class_tags" 
 														   data-role="tagsinput"
-														   class="input-tags"
+														   class="input-tags form-control"
+														   style="width: 100%;"
 														   name="class_tags" />
 												</div>
 											</div>
-<?php 
-	endif;
-?>
 <?php /*
 											<div class="form-group">
 												<label for="Namakelas" class="col-sm-4 control-label">Tags</label>
