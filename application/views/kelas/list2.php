@@ -132,7 +132,10 @@ $this->load->view('vendor/general/header2');
                             <?php else: ?>
                                 <br />
                             <?php endif; ?>
-						</div><!-- description -->
+                            <?php if(!empty($kelas->class_lokasi_id)): ?>
+                                <span> | Kota <?php echo $kelas->class_lokasi_id;?></span>
+                            <?php endif; ?>
+                        </div><!-- description -->
 						<div class="review">
                             <div class="vendor-name">
                                 <div class="icon tag"><i class="fa fa-shopping-cart"></i></div>
@@ -220,6 +223,9 @@ $this->load->view('vendor/general/header2');
                                 </a>
                                 <?php else: ?>
                                     <br />
+                                <?php endif; ?>
+                                <?php if(!empty($kelas->class_lokasi_id)): ?>
+                                    <span> | Kota <?php echo $kelas->class_lokasi_id;?></span>
                                 <?php endif; ?>
                             </div><!-- description -->
                             <div class="review">
