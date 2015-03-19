@@ -98,6 +98,9 @@ $this->load->view('vendor/general/header2');
 				} else {
 					$_price = rupiah_format($price).' /sesi';
 				}
+                if($price==0) {
+                    $_price = "GRATIS";
+                }
 ?>
 			<div class="col-sm-4">
 				<div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
@@ -151,11 +154,6 @@ $this->load->view('vendor/general/header2');
 ?>
 
 		</div>
-        <div class="row">
-            <div class="col-sm-4 col-sm-offset-4">
-                <a href="<?php echo base_url()?>kelas/index/all" class="main-button text-center">Lihat Semua Kelas</a>
-            </div>
-        </div>
     </div> <!-- /container -->
     <div class="related">
         <div class="container">
@@ -184,10 +182,14 @@ $this->load->view('vendor/general/header2');
                     .implode('.', $imgparts));
                 $price = (int)$kelas->price_per_session;
                 $disc = (int)$kelas->discount;
-                if(empty($price)){
-                    $_price = '0,-';
+                $disc = (int)$kelas->discount;
+                if($kelas->class_paket == 2) {
+                    $_price = rupiah_format($price * $kelas->count_session).' /paket';
                 } else {
-                    $_price = number_format($price, 0, ',', '.').',-';
+                    $_price = rupiah_format($price).' /sesi';
+                }
+                if($price==0) {
+                    $_price = "GRATIS";
                 }
                 ?>
                 <div class="col-sm-4">
@@ -200,7 +202,7 @@ $this->load->view('vendor/general/header2');
                             </div><!-- grid-top -->
                         </a>
                         <div class="grid-bottom">
-                            <span class="price">Rp. <?php echo $_price.' /sesi'; ?></span>
+                            <span class="price"><?php echo $_price;?></span>
                             <a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
                                 <span class="details">Details</span>
                             </a>

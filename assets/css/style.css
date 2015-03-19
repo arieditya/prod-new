@@ -127,11 +127,9 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   text-decoration: none;
 }
 .below-nav {
-  background-color: #FAFAFA;
-  border-top: 1px solid #C3C3C3;
-  border-bottom: 1px solid #EAEAEA;
-  height: 52px;
-  padding: 9px 0;
+  background-color: #fcb33b;
+  height: 42px;
+  padding: 5px 0;
   position: fixed;
   width: 100%;
   z-index: 1000;
