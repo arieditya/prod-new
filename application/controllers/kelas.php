@@ -122,6 +122,7 @@ class Kelas extends MY_Controller {
 			$where_class['id'] = array_merge($new_filter);
 //			$where_class .= '`vendor_class`.`id` IN ('.implode(',',$new_filter).')';
 			$classes = $this->vendor_class_model->get_class($where_class, 1, 6)->result();
+//			var_dump($classes);exit;//->result()
 		} else {
 			$classes = array();
 		}
