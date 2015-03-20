@@ -194,16 +194,15 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 						 id="reponsible">
 						<h2 class="block-title text-uppercase">
 							Penanggungjawab penyelenggara
-                            <span class="info">* Data tidak bisa diakses secara umum</span>
-                        </h2>
-                        <div class="info col-md-12">
-                            <span class="copy-icon">
-                                <a href="<?php echo base_url();?>vendor/profile/copy">
+                            <div class="info">
+                                <span>* Data tidak bisa diakses secara umum</span>
+                                <span class="info"><a href="<?php echo base_url();?>vendor/profile/copy">
                                     <i class="fa fa-files-o fa-3"></i>
-                                    copy biodata penyelengara
+                                    Klik di sini jika data penyelenggara dan penanggungjawab adalah sama
                                 </a>
-                            </span>
-                        </div>
+                                </span>
+                            </div>
+                        </h2>
                         <form class="form-horizontal"
 							  role="form" 
 							  action="<?php echo base_url();?>vendor/profile/update_info" 
