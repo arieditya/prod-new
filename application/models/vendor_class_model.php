@@ -137,7 +137,8 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('vendor_class_jadwal.class_menit_selesai');
 		$this->db->select('vendor_class_price.discount');
 		$this->db->select('vendor_class_price.price_per_session');
-		$this->db->order_by('vendor_class.id','DESC');
+        $this->db->select('lokasi.lokasi_title');
+        $this->db->order_by('vendor_class.id','DESC');
 		$this->db->group_by('vendor_class.id');
 		$result = $this->db->get('vendor_class');
 		return $result;
