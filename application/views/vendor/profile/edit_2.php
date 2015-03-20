@@ -196,6 +196,12 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 							Penanggungjawab penyelenggara 
 							<span class="info">* Data tidak bisa diakses secara umum</span>
 						</h2>
+                        <span>
+                            <input type="checkbox"
+                                   id="vendor_individu"
+                                />
+                            Penyelenggara adalah individu (Copy data vendor)
+						</span>
 						<form class="form-horizontal" 
 							  role="form" 
 							  action="<?php echo base_url();?>vendor/profile/update_info" 
@@ -342,6 +348,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
         });
         $('#bank_select').change();
     });
+    if (document.getElementById('vendor_individu').checked) {
+
+    }
 </script>
 <?php
 $this->load->view('vendor/general/footer2');
