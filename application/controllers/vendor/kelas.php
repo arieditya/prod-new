@@ -215,7 +215,7 @@ class Kelas extends Vendor_Controller{
 		$class->category = $this->vendor_class_model->get_class_category($id);
 		// for developer only
 		$status = 4;
-		if($tabs == 'profile' && $class->active > 0) $tabs = 'summary';
+		if($tabs == 'profile' && $class->active > 0) $tabs = 'preview';
 
 		$per_jadwal = $this->vendor_class_model->get_class_per_sched_participant_full($id, $status);
 		$attendance_only = $this->vendor_class_model->get_class_attendance_full($id, $status)->result();
