@@ -25,11 +25,12 @@ class Profile extends MY_Controller {
 			$ext = explode('.',$img);
 			$images = $tmp_img;
 			if($flag == 1){
-				$new_images = $this->id.'.'.jpg;
+				$new_images = $this->id.'.jpg';
 			} else {
-				$new_images = $this->id.'-'.time().'.'.jpg;
+				$new_images = $this->id.'-'.time().'.jpg';
 			}
 			copy($tmp_img,$path.$img);
+			copy($tmp_img,$path.'real-'.$img);
 			$width=$w; //*** Fix Width & Heigh (Auto caculate) ***//
 			$size=GetimageSize($images);
 			$height=round($width*$size[1]/$size[0]);

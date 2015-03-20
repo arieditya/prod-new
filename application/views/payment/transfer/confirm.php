@@ -7,7 +7,7 @@
  * Time: 3:30 PM
  * Proj: private-development
  */
-$this->load->view('general/header-bootstrap');
+$this->load->view('vendor/general/header2');
 ?>
 <link href="<?php echo base_url();?>/assets/css/payment-transfer.css" type="text/css" rel="stylesheet">
 <div class="main-content">
@@ -138,4 +138,4 @@ $this->load->view('general/header-bootstrap');
 	});
 </script>
 <?php 
-$this->load->view('vendor/general/footer');
+$this->load->view('vendor/general/footer2');

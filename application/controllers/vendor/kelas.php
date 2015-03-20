@@ -448,8 +448,10 @@ class Kelas extends Vendor_Controller{
 			foreach($fields as $field) {
 				if($field == 'class_tags')
 					$data[$tbl][$field] = explode(',',$this->input->post($field));
+				elseif($field == 'class_paket')
+					$data[$tbl][$field] = (string)$this->input->post($field);
 				else
-				$data[$tbl][$field] = $this->input->post($field);
+					$data[$tbl][$field] = $this->input->post($field);
 			}
 		}
 		$kelas_jadwal = $data['vendor_class_jadwal'];
@@ -475,7 +477,7 @@ class Kelas extends Vendor_Controller{
 			}
 		}
 		$data['vendor_class']['id'] = $id;
-		$data['vendor_class'] = array_filter($data['vendor_class']);
+		$data['vendor_class'] = array_filter($data['vendor_class'],'strlen');
 
 		$no_files = FALSE;
 		if(!empty($_FILES['class_image']) ) {

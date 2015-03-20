@@ -57,8 +57,29 @@ class Vendor_model extends MY_Model{
 		return $this->db->get('vendor_profile');
 	}
 	
+	public function get_empty_uri_profile() {
+		return $this->db->query("SELECT * FROM vendor_profile WHERE uri IS NULL OR uri = ''")->result();
+	}
+	
 	public function get_class_id_by_uri($uri) {
 		return $this->db->select('id')->where('class_uri', $uri)->get('vendor_class')->scalar();
+	}
+	
+	public function generate_uri($uri) {
+		$uri = url_title_2($uri);
+		if($this->get_profile(array('uri'=>$uri))->num_rows()) {
+			$uris = explode('-',$uri);
+			$num = array_pop($uris);
+			if(is_numeric($num)) {
+				$num = (int)$num;
+				$num++;
+			} else {
+				$num .= '-1';
+			}
+			array_push($uris, $num);
+			$uri = $this->generate_uri(implode(',',$uris));
+		}
+		return $uri;
 	}
 	
 	public function set_profile($var) {
@@ -67,10 +88,11 @@ class Vendor_model extends MY_Model{
 			'email'			=> NULL,
 			'password'		=> NULL,
 			'name'			=> NULL,
+			'uri'			=> NULL,
 			'main_phone'	=> NULL,
 			'address'		=> NULL
 		));
-		
+
 		if(isset($var['id'])) {
 			$this->db->update('vendor_profile', $data, array('id'=>$var['id']));
 			$this->set_info(array('vendor_id'=>$var['id'], 'is_institute'=>1));
@@ -89,10 +111,13 @@ class Vendor_model extends MY_Model{
 			'email'			=> NULL,
 			'password'		=> NULL,
 			'name'			=> NULL,
+			'uri'			=> NULL,
 			'main_phone'	=> NULL,
 			'address'		=> NULL,
 			'status'		=> NULL,
-			'show_address'	=> NULL
+			'show_address'	=> NULL,
+			'show_phone'	=> NULL,
+			'show_email'	=> NULL,
 		));	
 		if($this->db->update('vendor_profile', $data, array('id'=>$var['id']))) {
 			return $this->db->affected_rows();

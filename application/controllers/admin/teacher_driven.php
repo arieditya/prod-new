@@ -397,19 +397,42 @@ class Teacher_driven extends MY_Controller{
 	
 	public function do_payment_confirm($code) {
 		$this->load->model('email_model');
+		$this->load->model('vendor_class_model');
+
+		if(!$this->vendor_class_model->set_confirm_payment_transfer($code)) {
+			$this->session->set_flashdata('f_class_error', 'Failed To Confirm Payment!');
+			redirect('admin/teacher_driven/payment_confirm');
+			return FALSE;
+		}
+		$this->payment_model->create_ticket($code);
+		$trx = (array)$this->vendor_class_model->get_transaction($code);
+
+		$pemohon = (array)$this->vendor_class_model->get_sponsor($trx['pemesan_id']);
+		$murid = (array)$this->vendor_class_model->get_participant($trx['student_id']);
+
+		$tickets = $this->payment_model->get_ticket_by_invoice($code);
+		foreach($tickets as $ticket) {
+			$tix = $this->payment_model->get_class_by_ticket($ticket->ticket_code);
+			$class = $this->vendor_class_model->get_class(array('id'=>$tix))->row();
+			$vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+			$this->email_model->student_payment_step4((object)$murid, $class, $vendor, $ticket->ticket_code);
+			if($pemohon['email']!= $murid['email'])
+				$this->email_model->student_payment_step4((object)$pemohon, $class, $vendor, $ticket->ticket_code);
+			if($this->vendor_class_model->get_class_empty_seat($class->id) == 0) {
+				$vendor = $this->vendor_model->get_vendor_detail($class);
+				$this->email_model->vendor_class_soldout($vendor, $class);
+			}
+		}
+		$this->session->set_flashdata('f_class', 'Payment Confirmed!');
+/*
 		if($this->email_model->send_admin_confirmed_payment_message($code)){
 			//$this->vendor_class_model->get_class_empty_seat()
 			foreach($this->vendor_class_model->get_class_from_invoice($code) as $class) {
-				if($this->vendor_class_model->get_class_empty_seat($class) == 0) {
-					$vendor = $this->vendor_model->get_vendor_detail($class);
-					$cls = $this->vendor_class_model->get_class(array('id'=>$class))->row();
-					$this->email_model->vendor_class_soldout($vendor, $cls);
-				}
 			}
-			$this->session->set_flashdata('f_class', 'Payment Confirmed!');
 		} else {
 			$this->session->set_flashdata('f_class_error', 'Failed To Confirm Payment!');
 		}
+// */
 		redirect('admin/teacher_driven/payment_confirm');
 	}
 	

@@ -214,12 +214,20 @@ $profile = $vendor['profile'];
 												<div class="col-sm-8"> 
 <?php
 $lvl = '';
-foreach($class->level as $cls_lvl): 
-	if(!empty($lvl)) $lvl .= '<br />';
-	$lvl .= "{$cls_lvl->nama} (<em>{$cls_lvl->name}</em>)";
-endforeach;
+if(!empty($class->level)) :
+	foreach($class->level as $cls_lvl): 
+		if(!empty($lvl)) $lvl .= '<br />';
+		$lvl .= "{$cls_lvl->nama} (<em>{$cls_lvl->name}</em>)";
+	endforeach;
 ?>
 													<?php echo $lvl;?>
+<?php 
+else:
+?>
+													Anda belum memilih tingkat keahlian peserta!
+<?php
+endif;
+?>
 												</div>
 											</div><!-- section-row -->
 										</div><!-- section-content -->

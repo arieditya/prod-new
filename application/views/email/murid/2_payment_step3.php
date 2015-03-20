@@ -28,8 +28,8 @@
 
 	<ul>
 <?php foreach($class as $cls): ?>
-		<li>Nama kelas		: <?php echo $cls->class_nama;?></li>
-		<li>Penyelenggara	: <?php echo $cls->vendor_name;?></li>
+		<li>Nama kelas		: <?php echo $cls['class_nama'];?></li>
+		<li>Penyelenggara	: <?php echo $cls['vendor_name'];?></li>
 <?php endforeach; ?>
 		<li>Biaya pendaftaran	: <?php echo rupiah_format($total_pay);?></li>
 	</ul>

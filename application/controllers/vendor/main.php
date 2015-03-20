@@ -15,10 +15,6 @@ class Main extends MY_Controller{
 		$this->load->model('vendor_model');
 	}
 	
-	public function _remap() {
-		
-	}
-	
 	public function index() {
 		$par = array('status' => 1);
 		$data['profile'] = $this->vendor_model->get_profile($par);
@@ -31,11 +27,19 @@ class Main extends MY_Controller{
 //		$this->load->view('vendor/landing', $data);
 	}
 	
-	public function detail($id) {
-		$par_profile = array('vendor_id' => $id);
-		$data['info'] = $this->vendor_model->get_info($par_profile);
-		$this->load->view('vendor/detail', $data);
+	public function detail($uri) {
+		$vendor = $this->vendor_model->get_profile(array('uri'=>$uri));
+		if(empty($vendor) || $vendor->num_rows() ==0) {
+			show_404();
+			return;
+		}
+		$vendor = $vendor->row();
+		$this->data['vendor_data'] = $vendor;
+		$this->data['vendor_info'] = $this->vendor_model->get_info(array('vendor_id'=>$vendor->id))->row();
+		$this->data['vendor_socmed'] = $this->vendor_model->get_socmed($vendor->id);
+		$this->load->view('vendor/detail2', $this->data);
 	}
+	
 }
 
 // END OF main.php File

@@ -14,6 +14,14 @@ if(!function_exists('arr_uniq')) {
 	}
 }
 
+if(!function_exists('url_title_2')) {
+	function url_title_2($url) {
+		$url = preg_replace('/[^a-z0-9]/','-', strtolower($url));
+		$url = str_replace('--', '-', $url);
+		return $url;
+	}
+}
+
 if(!function_exists('mime_content_type')) {
 
 	function mime_content_type($filename) {
@@ -160,4 +168,24 @@ function krg() {
 function kls_url() {
 	$base_url = base_url();
 	if(strpos($_SERVER['HTTP_HOST'],'kelas.') === FALSE) $base_url = 'http:';
+}
+
+function create_pdf($html, $filepath='', $return=TRUE) {
+	$CI = &get_instance();
+	$CI->load->library('dompdf');
+	$CI->load->helper('file');
+	$dompdf = new DOMPDF();
+	$dompdf->load_html($html);
+//	$CI->dompdf->load_html($html);
+	$dompdf->render();
+//	$CI->dompdf->render();
+	$data = $dompdf->output();
+	if(!empty($filepath)) {
+		$filepath = array_shift(explode('.pdf', $filepath));
+		write_file($filepath.'.pdf', $data);
+	}
+	if($return) {
+		return $data;
+	}
+	return;
 }

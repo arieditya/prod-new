@@ -1,13 +1,24 @@
+# NEW
+application/config
+!application/config/routes.php
+application/cache
+documents/
+images/
+files/
+~*
+_*
+
+# TRYING TO DEPRECATE
 # Ignore all files AND directories
-*
+# *
 # but not this file!
-!.gitignore
+# !.gitignore
 # Next, Unignore Application and Assets folder and all it's content
 # First, application...
-!application/controllers/
-!application/models/
-!application/views/
+# !application/controllers/
+# !application/models/
+# !application/views/
 # And then the assets...
-!assets/
+# !assets/
 # Updated, add database folder...
-!database/
+# !database/

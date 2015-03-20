@@ -270,6 +270,10 @@ class Payment extends MY_Controller {
 		if(!$this->input->cookie('cart', TRUE)) show_404();
 //		var_dump();exit;
 		$cart = json_decode($this->input->cookie('cart', TRUE));
+		if(empty($cart)) {
+			delete_cookie('cart','.');
+			show_404();
+		}
 
 		$pemesan_id = $this->vendor_class_model->add_class_pemesan($pemesan);
 		$peserta_id = $this->vendor_class_model->add_class_peserta($peserta);
@@ -361,6 +365,7 @@ class Payment extends MY_Controller {
 			$class_discount = 0;
 			$schedules = $this->vendor_class_model->get_class_schedule(array('class_id'=>$c->id))->num_rows();
 			$class = $this->vendor_class_model->get_class(array('id'=>$c->id))->row();
+			if(empty($class)) continue;
 			$full_session_discount = (int)$class->discount;
 			$i = 0;
 			$vt_qty = 0;
@@ -459,6 +464,7 @@ class Payment extends MY_Controller {
 		}
 		$this->load->model('payment_model');
 		$this->load->model('email_model');
+
 		$this->vendor_class_model->set_participant_status($code, 4);
 		$this->vendor_class_model->update_transaction($code, 
 				array(
@@ -467,17 +473,79 @@ class Payment extends MY_Controller {
 					'status_4'=>date('Y-m-d H:i:s')
 				)
 		);
-		$tikets = $this->payment_model->create_ticket($code);
-		$this->email_model->send_ticket($trx['pemesan']['email'], $code);
+		$this->payment_model->create_ticket($code);
+
+		$trx = (array)$this->vendor_class_model->get_transaction($code);
+
+		$pemohon = (array)$this->vendor_class_model->get_sponsor($trx['pemesan_id']);
+		$murid = (array)$this->vendor_class_model->get_participant($trx['student_id']);
+
+		$tickets = $this->payment_model->get_ticket_by_invoice($code);
+		foreach($tickets as $ticket) {
+			$tix = $this->payment_model->get_class_by_ticket($ticket->ticket_code);
+			$class = $this->vendor_class_model->get_class(array('id'=>$tix))->row();
+			$vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+			$this->email_model->student_payment_step4((object)$murid, $class, $vendor, $ticket->ticket_code);
+			if($pemohon['email']!= $murid['email'])
+				$this->email_model->student_payment_step4((object)$pemohon, $class, $vendor, $ticket->ticket_code);
+			if($this->vendor_class_model->get_class_empty_seat($class->id) == 0) {
+				$vendor = $this->vendor_model->get_vendor_detail($class);
+				$this->email_model->vendor_class_soldout($vendor, $class);
+			}
+		}
+
+		//$this->email_model->send_ticket($trx['pemesan']['email'], $code);
 		$this->session->unset_userdata('transaction');
 		set_status_header(200);
 		echo json_encode(array(
 			'status'		=> 'OK',
 			'data'			=> $trx,
-			'tiket'			=> $tikets
+			'tiket'			=> $tickets
 		));
 		return;
 	}
+	
+	public function t_step3vt() {
+		$code = $this->input->post('code', TRUE);
+		$trx = json_decode($this->session->userdata('transaction'), TRUE);
+		if($code != $trx['code']) {
+			set_status_header(401);
+			echo json_encode(array(
+				'status'		=> 'KO',
+				'data'			=> $trx
+			));
+			return;
+		}
+		$method = $this->input->post('method', TRUE);
+		switch($method) {
+			case 'mandiri'		:
+				$bank = 'vt-mandiri';
+				break;
+			case 'cimb'			:
+				$bank = 'vt-cimb';
+				break;
+			case 'cc'			:
+				$bank = 'vt-cc';
+				break;
+			default:
+				$bank = NULL;
+				break;
+		}
+		$this->vendor_class_model->set_participant_status($code, 2);
+		$this->vendor_class_model->update_transaction($code, array('status_2'=>date('Y-m-d H:i:s')));
+		$this->load->model('email_model');
+
+		$this->email_model->student_payment_step3($code, $bank);
+		$this->session->unset_userdata('transaction');
+		$this->session->set_userdata('payment_method', $bank);
+		
+		header('Content-type: application/json');
+		echo json_encode(array(
+			'status'		=> 'OK',
+			'method'		=> $method
+		));
+	}
+	
 	public function t_step3() {
 		$code = $this->input->post('code', TRUE);
 		$trx = json_decode($this->session->userdata('transaction'), TRUE);
@@ -497,19 +565,29 @@ class Payment extends MY_Controller {
 			$this->load->model('email_model');
 
 //			$this->email_model->send_invoice($code);
-			$this->email_model->student_payment_step3($code);
+			$this->session->unset_userdata('transaction');
+			if($this->email_model->student_payment_step3($code)) {
+				echo json_encode(array(
+					'status'		=> 'OK',
+					'data'			=> array(
+						'code'			=> $code,
+						'email'			=> $trx['pemesan']['email']
+					)
+				));
+			} else {
+				echo json_encode(array(
+					'status'		=> 'OK',
+					'data'			=> array(
+						'code'			=> $code,
+						'email'			=> $trx['pemesan']['email'],
+						'warning'		=> 'Failed on delivery!'
+					)
+				));
+			}
 
 //			$this->mail_sender($trx['pemesan']['email'], 'Tagihan dari ruangguru.com', $email_message);
 			// kirim email
-			$this->session->unset_userdata('transaction');
-			echo json_encode(array(
-				'status'		=> 'OK',
-				'data'			=> array(
-					'code'			=> $code,
-					'email'			=> $trx['pemesan']['email']
-				)
-			));
-			exit;
+			return;
 		} else {
 			set_status_header(400);
 			echo json_encode(array(
@@ -712,6 +790,7 @@ DETIL TRANSAKSI:
 			'status'=> $status
 		);
 		$data['bank_list'] = $this->vendor_model->get_bank_list();
+		$data = array_merge($this->data, $data);
 		$this->load->view('payment/transfer/confirm', $data);
 	}
 	
@@ -818,13 +897,73 @@ DETIL TRANSAKSI:
     }    
 
 	public function notification(){
+		header('Content-type: application/json');
+		$this->load->helper('file');
+		$this->load->model('email_model');
+		$data = json_decode(file_get_contents('php://input'));
+		if(empty($data) || empty($data->order_id)){
+			set_status_header(400, 'Format not right!');
+			echo json_encode(array(
+				'status'		=> 'KO',
+				'message'		=> 'Notification format not right!!'
+			));
+			return;
+		}
+		$code = $data->order_id;
+		$path1 = substr($code, 0,1);
+		$path2 = substr($code, 1,1);
+		$docs_path = "documents/invoice/{$path1}/{$path2}/";
+		if(!is_dir(FCPATH.$docs_path))
+			mkdir(FCPATH.$docs_path, 0775, TRUE);
+
+		if(write_file(FCPATH.$docs_path.'vt-'.$code.'.json',json_encode($data),'w')) {
+
+		} else {
+
+		}
+		
+		if($this->vendor_class_model->set_participant_status($code, 4)){
+			$update_data = array(
+					'status_4'=>date('Y-m-d H:i:s'),
+					'status_3_upload_file'=>'vt-'.$code.'.json',
+					'status_4_approval'=>1
+			);
+			$this->vendor_class_model->update_transaction($code, $update_data);
+
+			$this->payment_model->create_ticket($code);
+			$trx = (array)$this->vendor_class_model->get_transaction($code);
 	
-		//file_put_contents(FCPATH.'test.payment.log', print_r($_POST, TRUE) );exit;
-		file_put_contents('php://input', print_r($_POST, TRUE) );exit;
+			$pemohon = (array)$this->vendor_class_model->get_sponsor($trx['pemesan_id']);
+			$murid = (array)$this->vendor_class_model->get_participant($trx['student_id']);
 	
-		$this->load->view('header');
-		$this->load->view('front/payment/notification');
-		$this->load->view('footer');
+			$tickets = $this->payment_model->get_ticket_by_invoice($code);
+			foreach($tickets as $ticket) {
+				$tix = $this->payment_model->get_class_by_ticket($ticket->ticket_code);
+				$class = $this->vendor_class_model->get_class(array('id'=>$tix))->row();
+				$vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+				$this->email_model->student_payment_step4((object)$murid, $class, $vendor, $ticket->ticket_code);
+				if($pemohon['email']!= $murid['email'])
+					$this->email_model->student_payment_step4((object)$pemohon, $class, $vendor, $ticket->ticket_code);
+				if($this->vendor_class_model->get_class_empty_seat($class->id) == 0) {
+					$vendor = $this->vendor_model->get_vendor_detail($class);
+					$this->email_model->vendor_class_soldout($vendor, $class);
+				}
+			}
+			echo json_encode(array(
+				'status'		=> 'OK'
+			));
+		} else {
+			set_status_header(404, 'Invoice code not found');
+			echo json_encode(array(
+				'status'		=> 'KO',
+				'message'		=> 'Invoice code not found!'
+			));
+		}
+		
+	
+//		$this->load->view('header');
+//		$this->load->view('front/payment/notification');
+//		$this->load->view('footer');
 	}
 	
 	public function check_notification() {
@@ -835,13 +974,34 @@ DETIL TRANSAKSI:
 		$input= json_decode( $inputJSON, TRUE );
 		
 		var_dump($input);
-    }
+	    }
     
-     public function finish(){
-        $this->load->view('header');
-        $this->load->view('front/payment/finish');
-        $this->load->view('footer');
-    }
+	public function finish(){
+		$code = $this->input->get('order_id', TRUE);
+		$trx_code = $this->input->get('status_code',TRUE);
+		$transaction_status = $this->input->get('transaction_status', TRUE);
+		
+		$this->data['code'] = $code;
+		$this->data['trx_code'] = $code;
+		$this->data['transaction_status'] = $transaction_status;
+		$bank = $this->session->userdata('payment_method');
+
+		if($this->vendor_class_model->set_participant_status($code, 3)){
+			$update_data = array(
+					'status_3'=>date('Y-m-d H:i:s'),
+					'status_3_bank_from'=>0,
+					'status_3_bank_from_other'=>$bank,
+					'status_3_bank_to'=>0,
+					'status_3_upload_file'=>!empty($file)?$file:''
+			);
+			$this->vendor_class_model->update_transaction($code, $update_data);
+			
+	        $this->load->view('front/payment/finish2', $this->data);
+		} else {
+			show_error('Data has already saved!',500, 'Transaction code exists!');
+		}
+
+	}
     
      public function unfinish(){
         $this->load->view('header');

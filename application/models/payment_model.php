@@ -72,7 +72,7 @@ class Payment_model extends MY_Model {
 			}
 			//
 			$ticket_code = hashgenerator(12, 'safe', 1);
-			$ticket_code = $ticket_code[1];
+			$ticket_code = str_replace(' ','.',$ticket_code[1]);
 			
 			$this->db->insert('vendor_class_ticket', array(
 				'ticket_code'		=> $ticket_code,
@@ -122,12 +122,16 @@ class Payment_model extends MY_Model {
 			try {
 				if(!is_dir(FCPATH.$docs_path))
 					mkdir(FCPATH.$docs_path, 0777, TRUE);
+/*
 				$this->CI->load->library('html2pdf');
 				$this->CI->html2pdf->pdf->SetTitle('TICKET - '.$ticket_code);
 				$this->CI->html2pdf->pdf->SetAuthor('Ruangguru.com');
 				$this->CI->html2pdf->WriteHTML($content);
 				
 				$this->CI->html2pdf->Output(FCPATH.$docs_path.$ticket_code.'.pdf', 'F');
+*/
+				create_pdf($content, FCPATH.$docs_path.$ticket_code.'.pdf', FALSE);
+
 			} catch(Exception $e) {
 				echo "ERROR!<br /><pre>";
 				var_dump($e->getMessage());
@@ -138,6 +142,20 @@ class Payment_model extends MY_Model {
 		}
 		
 		return $tickets;
+	}
+	
+	public function get_class_by_ticket($ticket_code) {
+		return @$this->db
+				->select('class_id')
+				->where('ticket_code', $ticket_code)
+				->get('vendor_class_ticket')->row()->class_id;
+	}
+	
+	public function get_ticket_by_invoice($invoice_code) {
+		return $this->db
+				->select('ticket_code')
+				->where('invoice_code', $invoice_code)
+				->get('vendor_class_ticket')->result();
 	}
    
 }

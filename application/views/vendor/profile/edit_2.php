@@ -34,6 +34,12 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   value="<?php echo $vendor['profile']->email;?>"
 										   disabled="disabled"
 										   name="email" />
+									<input type="checkbox" 
+										   name="show_email"
+										   value="yes"
+										   <?php echo 
+									$vendor['profile']->show_phone==1?'checked="checked"':'';?>/> 
+									Tampilkan email di halaman profile anda
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -66,6 +72,12 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   name="main_phone"
 										   value="<?php echo $vendor['profile']->main_phone;?>"
 										   placeholder="Nomor Telepon">
+									<input type="checkbox" 
+										   name="show_phone"
+										   value="yes"
+										   <?php echo 
+									$vendor['profile']->show_phone==1?'checked="checked"':'';?>/> 
+									Tampilkan nomor telepon di halaman profile anda
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">

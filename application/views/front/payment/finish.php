@@ -14,9 +14,10 @@
 							<div class="blank" style="height: 20px;"></div>
 							<div class="bfc-wrap">
 								<div class="bfc-title">
-									<p class="bold center">
+									<p class="bold center"></p>
 									<p>ID Pemesanan Anda: <?php echo $_GET['order_id'];?><br/>
-										Status Pemesanan Anda: <?php if($_GET['transaction_status']=="settlement"){ echo "Berhasil";} elseif($_GET['transaction_status']=="capture"){ echo "Menunggu Approval dari Bank";}?>
+										Status Pemesanan Anda: <?php if($_GET['transaction_status']=="settlement"){ echo "Berhasil";} 
+										elseif($_GET['transaction_status']=="capture"){ echo "Menunggu Approval dari Bank";}?>
 									</p>
 									<p>Terima kasih sudah melakukan <i>request</i> di Ruangguru.com</p>
 									</p>

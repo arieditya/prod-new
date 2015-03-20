@@ -91,13 +91,6 @@ $this->load->view('vendor/general/header2');
 							</div>
 						</div>
                 </div><!-- panel -->
-				<div class="checkbox bottom-30">
-					<label>
-						<input type="checkbox" id="iagree" />
-						Data pemesan, murid dan rincian pemesanan sudah sesuai.<br/>
-						Saya menyepakati <a href="http://ruangguru.com/kebijakan" class="blue underline">persyaratan dan ketentuan</a> yang berlaku
-					</label>
-				</div>
 <?php 
 if($total > 0):
 	$not_connect = FALSE;
@@ -319,13 +312,30 @@ if($total > 0):
 								</div>
 							</div>
 						</div>
+						<div class="checkbox bottom-30">
+							<label>
+								<input type="checkbox" id="iagree" />
+								Data pemesan, murid dan rincian pemesanan sudah sesuai.<br/>
+								Saya menyepakati <a href="http://ruangguru.com/kebijakan" class="blue underline">persyaratan dan ketentuan</a> yang berlaku
+							</label>
+						</div>
 						<div class="agreefirst">
 							<button class="btn-orange" id="btn_next">Lanjutkan</button>
 							<div class="grey"></div>
 						</div>
 <?php 
 else:
+							$vtweb_url = 
+							$vtweb_url_cimb = 
+							$vtweb_url_mandiri = '';
 ?>
+						<div class="checkbox bottom-30">
+							<label>
+								<input type="checkbox" id="iagree" />
+								Data pemesan, murid dan rincian pemesanan sudah sesuai.<br/>
+								Saya menyepakati <a href="http://ruangguru.com/kebijakan" class="blue underline">persyaratan dan ketentuan</a> yang berlaku
+							</label>
+						</div>
 						<div class="agreefirst">
 							<button class="btn-orange" id="btn_free">Ambil Tiket Gratis!</button>
 							<div class="grey"></div>
@@ -407,6 +417,7 @@ endif;
 	var code = '<?php echo $code; ?>';
 	var _vt_payment_type = false;
 	var _vt_link = '';
+	var _vt_method = '';
 	$(document).ready(function(){
 		$('#curtain').hide();
 		$('.payment_info').hide();
@@ -437,6 +448,7 @@ endif;
 						_vt_link = '<?php echo $vtweb_url_mandiri;?>';
 					}
 					_vt_payment_type = true;
+					_vt_method = $id;
 			}
 		});
 <?php 
@@ -455,6 +467,13 @@ if($total > 0):
 				return false;
 			}
 			if(_vt_payment_type) {
+				$.post(
+						base_url+'payment/transfer/step3vt',
+						{'code': code, 'method': _vt_method},
+						function(dt) {
+							
+						}
+				);
 				window.location.href = _vt_link;
 				return;
 			}
@@ -542,6 +561,7 @@ else:
 ?>
 		$('#btn_free').click(function(e){
 			e.preventDefault();
+			console.log('free!');
 			$.post(
 					base_url+'payment/transfer/step3free',
 					{'code': code},
@@ -562,7 +582,8 @@ else:
 							var notification = $('<div></div>');
 							notification.append('<p>Terima kasih anda telah mengikuti kelas ini.</p>' +
 									'<p>Kami telah mengirim Tiket kelas ini ke email anda.</p>' +
-									'<p>Atau anda dapat juga mendownloadnya di: <br />' + links + '</p>');
+									'<p>Apabila anda tidak menerima email, coba periksa folder spam anda.</p>' +
+									'<p>Hubungi customer service kami untuk bantuan lebih lanjut.</p>');
 							$(notification).css({
 								'height'			: '230px',
 								'width'				: '500px',

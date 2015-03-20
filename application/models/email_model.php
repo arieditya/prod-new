@@ -102,6 +102,7 @@ class Email_model extends MY_Model
 			$this->email->message($this->html_content);
 			$this->email->set_alt_message($this->text_content);
 		} else {
+			log_message('error','Email Content return error');
 			return FALSE;
 		}
 		
@@ -143,7 +144,10 @@ class Email_model extends MY_Model
 				return TRUE;
 			}
 		} catch(Exception $e) {
+			log_message('error','Email Send throw Exception');
 		}
+		log_message('error','Email Send return FALSE or throw Exception');
+		log_message('error', "EMAIL RESULT:\n".$this->email->print_debugger());
 		$this->reset();
 		return FALSE;
 	}
@@ -537,8 +541,9 @@ Terima kasih
 	}
 
 	public function vendor_class_soldout($vendor, $class) {
+		$vendor_info = $this->vendor_model->get_info(array('vendor_id'=>$vendor->id));
 		$data = array(
-			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penanggungjawab'			=> $vendor_info->contact_person_name,
 			'penyelenggara'				=> $vendor->name,
 			'class_name'				=> $class->class_nama,
 			'class_id'					=> $class->id,
@@ -547,13 +552,13 @@ Terima kasih
 		$this->html_content('vendor/6_class_soldout', $data);
 		$this->subject('Tiket telah habis terjual!');
 		$this->to($vendor->email);
-		$this->cc($vendor->contact_person_email);
+		$this->cc($vendor_info->contact_person_email);
 		$this->send();
 	}
 
 	public function vendor_class_feedback($vendor, $class) {
 		$data = array(
-			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penanggungjawab'			=> $vendor->contact_person_name,
 			'penyelenggara'				=> $vendor->name,
 			'class_name'				=> $class->class_nama,
 			'class_id'					=> $class->id,
@@ -568,7 +573,7 @@ Terima kasih
 
 	public function vendor_class_admin_update_notification($vendor, $class, $admin) {
 		$data = array(
-			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penanggungjawab'			=> $vendor->contact_person_name,
 			'penyelenggara'				=> $vendor->name,
 			'class_name'				=> $class->class_nama,
 			'class_id'					=> $class->id,
@@ -583,7 +588,7 @@ Terima kasih
 		$this->send();
 	}
 	
-	public function student_payment_step3($code) {
+	public function student_payment_step3($code, $method = NULL) {
 		$this->CI->load->model('vendor_class_model');
 		$invoice_raw = $this->CI->vendor_class_model->get_new_invoice_data($code);
 		
@@ -611,6 +616,7 @@ Terima kasih
 		}
 		
 		$invoice_data = array(
+			'method'	=> $method,
 			'code'		=> $code,
 			'pemohon'	=> (array)$invoice_raw['pemohon'],
 			'murid'		=> (array)$invoice_raw['peserta'],
@@ -629,57 +635,64 @@ Terima kasih
 
 		if(!is_dir(FCPATH.$docs_path))
 			mkdir(FCPATH.$docs_path, 0775, TRUE);
+
+		create_pdf($content, FCPATH.$docs_path.$code, FALSE);
+/*
 		$this->CI->load->library('html2pdf');
 		$this->CI->html2pdf->pdf->SetTitle('INVOICE - '.$code);
 		$this->CI->html2pdf->pdf->SetAuthor('Ruangguru.com');
 		$this->CI->html2pdf->WriteHTML($content);
-		
+
 		$this->CI->html2pdf->Output(FCPATH.$docs_path.$code.'.pdf', 'F');
-		
+*/
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/2_payment_step3',$email_data);
-		$this->subject('Tagihan ');
+		$this->subject('Tagihan Kelas.Ruangguru');
 		$this->to($invoice_raw['pemohon']->email);
 		
 		$this->attach(FCPATH.$docs_path.$code.'.pdf');
 		
-		$this->send();
+		return $this->send();
 	}
 
 	public function student_payment_step4($murid, $class, $vendor, $ticket) {
 		$data = array(
-			'murid_name'		=> '',
-			'class_name'		=> '',
-			'vendor_name'		=> '',
-			'ticket_code'		=> '',
-			
+			'murid_name'		=> $murid->name,
+			'class_name'		=> $class->class_nama,
+			'vendor_name'		=> $vendor->name,
+			'ticket_code'		=> $ticket,
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/3_payment_step4',$data);
-		$this->subject('');
+		$this->subject('Pembayaran untuk kelas '.$class->class_nama.' selesai!');
+		$this->to($murid->email);
+		$this->send();
 	}
 
 	public function student_24hour_reminder($murid, $class, $vendor, $ticket) {
 		$data = array(
-			'murid_name'		=> '',
-			'class_name'		=> '',
-			'vendor_name'		=> '',
-			'ticket_code'		=> '',
-			
+			'murid_name'		=> $murid->name,
+			'class_name'		=> $class->class_nama,
+			'vendor_name'		=> $vendor->name,
+			'ticket_code'		=> $ticket,
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/4_24hour_reminder',$data);
-		$this->subject('');
+		$this->subject('Pengingat: Kelas '.$class->class_nama.' akan dimulai besok!');
+		$this->to($murid->email);
+		$this->send();
 	}
 
 	public function student_class_feedback($murid, $class, $vendor) {
 		$data = array(
-			'murid_name'		=> '',
-			'class_name'		=> '',
-			'vendor_name'		=> '',
+			'murid_name'		=> $murid->name,
+			'class_name'		=> $class->class_nama,
+			'vendor_name'		=> $vendor->name,
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/5_class_feedback',$data);
-		$this->subject('');
+		$this->subject('Feedback untuk kelas '.$class->class_nama);
+		$this->to($murid->email);
+		$this->send();
 	}
 }

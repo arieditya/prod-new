@@ -8,31 +8,44 @@
  * Proj: private-development
  */
 $this->load->view('vendor/general/header2');
+$logo = base_url().(empty($vendor_info->vendor_logo)
+				?'assets/images/user.png'
+				:('images/vendor/'.$vendor_data->id.'/'.$vendor_info->vendor_logo));
 ?>
 	<div class="container content vendor-detail">
 		<div class="row">
 			<div class="col-md-8">
 				<div class="panel panel-default">
-					<div class="panel-heading heading-label">Sirclo</div>
+					<div class="panel-heading heading-label"><?php echo $vendor_data->name; ?></div>
 					<div class="panel-body">
 						<div class="col-md-4 img-profile">
-							<img src="assets/images/user.png" alt="" class="img-responsive">
+							<img src="<?php echo $logo?>" alt="Vendor Logo" class="img-responsive">
 						</div>
 						<div class="col-md-8 profile-desc">
-							<p>SIRCLO adalah sebuah perusahaan teknologi yang menyediakan platform untuk pembuatan e-commerce. memiliki visi untuk membantu para wirausahawan yang membutuhkan. Di kelas ini kamu akan belajar tentang seluk beluk e-commerce, mendengarkan cerita dari para pelaku usaha online, hingga belajar membuat website sendiri. Untuk mengikuti kelas. Di kelas ini kamu akan belajar tentang seluk beluk e-commerce, mendengarkan cerita dari para pelaku usaha online, hingga belajar membuat website sendiri. Untuk mengikuti kelas.</p>
-							<p>Di kelas ini kamu akan belajar tentang seluk beluk e-commerce, mendengarkan cerita dari para pelaku usaha online, hingga belajar membuat website sendiri. Untuk mengikuti kelas. Di kelas ini kamu akan belajar tentang seluk beluk e-commerce, mendengarkan cerita dari para pelaku usaha online, hingga belajar membuat website sendiri. Untuk mengikuti kelas.</p>
+							<?php echo nl2br($vendor_info->vendor_description); ?>
 						</div>
 					</div>
 				</div><!-- hero-detail -->
 				<div class="review-wrap">
 					<div class="rating-wrap review-item">
 						<h4 class="review-title">Rating</h4>
+<?php if(FALSE): ?>
 						<div class="rating pull-left">
 							<span class="rating-info"> <i class="fa fa-star"></i><b>4.5</b> dari <b>10</b> review</span>
 						</div>
+<?php
+	else:
+?>
+						<div class="testimonial-item">
+							Belum ada rating
+						</div>
+<?php
+	endif;
+?>
 					</div><!-- rating-wrap -->
 					<div class="testimonial-wrap review-item">
 						<h4 class="review-title">Testimonial</h4>
+<?php if(FALSE): ?>
 						<div class="testimonial-item">
 							<div class="icon-wrap">
 								<img src="assets/images/user.png" alt="" class="img-responsive">
@@ -64,10 +77,20 @@ $this->load->view('vendor/general/header2');
 								</a>
 							</li>
 						</ul>
+<?php
+	else:
+?>
+						<div class="testimonial-item">
+							Belum ada testimonial
+						</div>
+<?php
+	endif;
+?>
 					</div><!-- testimonial-wrap -->
 				</div><!-- review-wrap -->    
 			</div><!-- col-md-8 -->
 			<div class="col-md-4">
+<?php if(FALSE): ?>
 				<div class="panel panel-default">
 					<div class="panel-heading heading-label text-center"><i class="fa fa-camera"></i> Foto</div>
 					<div class="panel-body">
@@ -84,29 +107,100 @@ $this->load->view('vendor/general/header2');
 						</div>
 					</div>
 				</div><!-- panel -->
+<?php
+	endif;
+?>
 				<div class="panel panel-default">
 					<div class="panel-heading heading-label text-center"><i class="fa fa-map-marker"></i> Kontak</div>
 					<div class="panel-body">
-						<p><i class="fa fa-map-marker"></i>  Jalan Tebet Raya 32 A Jakarta Selatan, Indonesia 12820</p> 
-						<h5 class="support"><a href="#"><i class="fa fa-phone-square"></i>021-9200-3040</a></h5>
-						<h5 class="support"><a href="#"><i class="fa fa-envelope"></i>info@sirclo.com</a></h5>
-						<h5 class="support"><a href="#"><i class="fa fa-facebook"></i>/sirclo</a></h5>
-						<h5 class="support"><a href="#"><i class="fa fa-twitter"></i>@sirclo</a></h5>
-
+<?php if($vendor_data->show_address==1 && !empty($vendor_data->address)): ?>
+						<p>
+							<i class="fa fa-map-marker"></i>&nbsp;<?php echo nl2br($vendor_data->address);?>
+						</p> 
+<?php
+	endif;
+	if($vendor_data->show_phone==1 && !empty($vendor_data->main_phone)):
+		$phone = preg_replace('/[^0-9]/','',$vendor_data->main_phone);
+?>
+						<h5 class="support">
+							<a href="tel:<?php echo $phone;?>">
+								<i class="fa fa-phone-square"></i><?php echo $vendor_data->main_phone;?></a>
+						</h5>
+<?php
+	endif;
+	if($vendor_data->show_email==1 && !empty($vendor_data->email)):
+?>
+						<h5 class="support">
+							<a href="mailto:<?php echo $vendor_data->email;?>">
+								<i class="fa fa-envelope"></i>&nbsp<?php echo $vendor_data->email;?>
+							</a>
+						</h5>
+<?php
+	endif;
+?>
+<?php if(!empty($vendor_socmed->facebook)): ?>
+						<h5 class="support">
+							<a target="_blank"
+							   rel="nofollow"
+							   href="http://fb.me/<?php echo $vendor_socmed->facebook;?>">
+								<i class="fa fa-facebook"></i>&nbsp<?php echo $vendor_socmed->facebook;?>
+							</a>
+						</h5>
+<?php endif; 
+if(!empty($vendor_socmed->twitter)):
+?>
+						<h5 class="support">
+							<a target="_blank"
+							   rel="nofollow"
+							   href="http://twitter.com/<?php echo $vendor_socmed->twitter;?>">
+								<i class="fa fa-twitter"></i>&nbsp<?php echo $vendor_socmed->twitter;?>
+							</a>
+						</h5>
+<?php endif; 
+if(!empty($vendor_socmed->instagram)):
+?>
+						<h5 class="support">
+							<a target="_blank"
+							   rel="nofollow"
+							   href="https://instagram/<?php echo $vendor_socmed->instagram;?>">
+								<i class="fa fa-instagram"></i>&nbsp@<?php echo $vendor_socmed->instagram;?>
+							</a>
+						</h5>
+<?php endif; 
+if(!empty($vendor_socmed->pinterest)):
+?>
+						<h5 class="support">
+							<a target="_blank"
+							   rel="nofollow"
+							   href="https://www.pinterest.com/<?php echo $vendor_socmed->pinterest;?>">
+								<i class="fa fa-pinterest"></i>&nbsp<?php echo $vendor_socmed->pinterest;?>
+							</a>
+						</h5>
+<?php endif; 
+?>
 					</div>
 				</div><!-- panel -->
 				<div class="panel panel-default">
 					<div class="panel-heading heading-label text-center"><i class="fa fa-question-circle"></i> Pertanyaan</div>
 					<div class="panel-body">
 						<p>Peroleh informasi dan bantuan terkait kelas dari tim layanan konsumen kami! </p>
-						<h5 class="support"><a href="#"><i class="fa fa-phone-square"></i>021-9200-3040</a></h5>
-						<h5 class="support"><a href="#"><i class="fa fa-envelope"></i>kelas@ruangguru.com</a></h5>
+						<h5 class="support">
+							<a href="tel:+622192003040"><i class="fa fa-phone-square"></i>021-9200-3040</a>
+						</h5>
+						<h5 class="support">
+							<a href="mailto:kelas@ruangguru.com?Subject=Vendor%20Landing%20<?php echo 
+							rawurlencode($vendor_data->name)?>">
+								<i class="fa fa-envelope"></i>
+								kelas@ruangguru.com
+							</a>
+						</h5>
 					</div>
 				</div><!-- panel -->
 			</div><!-- col-md-4 -->
+<?php /* ?>
 			<div class="col-sm-12">
 				<div class="related-wrap">
-					<h2 class="block-title text-uppercase">Kelas yang diadakan Sirclo</h2>
+					<h2 class="block-title text-uppercase">Kelas yang diadakan <?php echo $vendor_data->name;?></h2>
 					<div class="row">
 						<div class="col-md-4 col-sm-6">
 							<div class="content-grid diskon">
@@ -278,6 +372,7 @@ $this->load->view('vendor/general/header2');
 					</div>
 				</div>
 			</div>
+<?php // */ ?>
 		</div><!-- row -->
 	</div> <!-- /container -->
 <?php

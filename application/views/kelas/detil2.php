@@ -70,7 +70,9 @@ endif; ?>
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane active" id="kelas">
 							<h3 class="text-20">
-								Penyelenggara: <a href=""><?php echo $vendor['profile']->name;?></a>
+								Penyelenggara: <a href="<?php echo base_url()."vendor/detail/{$vendor['profile']->uri}"?>">
+									<?php echo $vendor['profile']->name;?>
+								</a>
 							</h3>
 								<p><?php echo $class->class_deskripsi;?></p>
 <?php if(!empty($class->class_perserta_target)):?>
@@ -362,8 +364,16 @@ endif;
 					<div class="panel-heading heading-label text-center"><i class="fa fa-question-circle"></i> Butuh Bantuan ?</div>
 					<div class="panel-body">
 						<p>Peroleh informasi dan bantuan terkait kelas dari tim layanan konsumen kami! </p>
-						<h5 class="support"><a href="#"><i class="fa fa-phone-square"></i>021-9200-3040</a></h5>
-						<h5 class="support"><a href="#"><i class="fa fa-envelope"></i>kelas@ruangguru.com</a></h5>
+						<h5 class="support">
+							<a href="tel:+622192003040">
+								<i class="fa fa-phone-square"></i>021-9200-3040
+							</a>
+						</h5>
+						<h5 class="support">
+							<a href="mailto:kelas@ruangguru.com">
+								<i class="fa fa-envelope"></i>kelas@ruangguru.com
+							</a>
+						</h5>
 					</div>
 				</div><!-- panel -->
 				<div class="panel panel-default">
@@ -371,7 +381,7 @@ endif;
 					<div class="panel-body">
 						<img src="<?php echo base_url("images/vendor/{$vendor['profile']->id}/{$vendor['info']->vendor_logo}")?>" class="img-responsive logo-vendor" alt="">
 						<p><?php echo substr($vendor['info']->vendor_description,0, 200).'... ';?> </p>
-						<a href="#" class="more text-right">More..</a>
+						<a href="<?php echo base_url()."vendor/detail/{$vendor['profile']->uri}"?>" class="more text-right">More..</a>
 					</div>
 				</div><!-- panel -->
 			</div><!-- col-md-4 -->

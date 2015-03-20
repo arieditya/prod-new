@@ -38,6 +38,8 @@ class Profile extends Vendor_Controller{
 		$flag = 0;
 		$stat = TRUE;
 		$update['show_address'] = 0;
+		$update['show_phone'] = 0;
+		$update['show_email'] = 0;
 
 		$info = $this->update_info(TRUE);
 		if( $info === FALSE) {

@@ -279,7 +279,9 @@ class Vendor_class_model extends MY_Model{
 	}
 	
 	public function get_class_schedule_availability($sched_id) {
-		$class_id = $this->get_class_schedule(array('jadwal_id'=>$sched_id))->row()->class_id;
+		$class = $this->get_class_schedule(array('jadwal_id'=>$sched_id))->row();
+		if(!empty($class)) $class_id = $class->class_id;
+		else return 0;
 //		var_dump($this->get_class(array('vendor_class.id'=>$class_id, 'active'=>NULL, 'class_status'=>NULL))->row());exit;
 		$max = $this->get_class(array('id'=>$class_id,'active'=>NULL, 'class_status'=>NULL))->row()->class_peserta_max;
 		$participant = $this->get_class_schedule_participant(array('jadwal_id'=>$sched_id,'status >'=>0))->num_rows();
@@ -946,7 +948,8 @@ class Vendor_class_model extends MY_Model{
 	}
 	
 	public function get_bank($id) {
-		return $this->db->where('bank_id', $id)->get('bank')->row()->bank_title;
+		$bank = $this->db->where('bank_id', $id)->get('bank')->row();
+		return empty($bank)?'':$bank->bank_title;
 	}
 	
 	public function get_class_participant_full($class_id=0, $status=4) {
@@ -1128,8 +1131,8 @@ class Vendor_class_model extends MY_Model{
 			}
 			$jadwal = $this->db
 				->where('jadwal_id', $participant->jadwal_id)
-				->get('vendor_class_jadwal')->result();
-			$class[$participant->class_id]['jadwal'] = $jadwal;
+				->get('vendor_class_jadwal')->row();
+			$class[$participant->class_id]['jadwal'][] = $jadwal;
 			
 		}
 		return array(
