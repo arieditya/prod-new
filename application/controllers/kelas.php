@@ -170,14 +170,19 @@ class Kelas extends MY_Controller {
 		$where = array('vendor_class.id'=>$hash);
 		$is_vendor = FALSE;
 		
-		if(!empty($this->data['user'])&&$this->data['user']['type'] == 'vendor') {
+		
+		
+		if(TRUE 
+				&& !empty($this->data['user'])
+				&& $this->data['user']['type'] == 'vendor'
+		) {
 			$where['class_status >='] = NULL;
 			$where['active'] = NULL;
 			$is_vendor = TRUE;
 		}
 		$data['class'] = @$this->vendor_class_model->get_class($where)->row();
 		if(empty($data['class'])) show_404();
-		if($is_vendor && $data['class']->vendor_id != $this->data['user']['id']) show_404();
+		if($data['class']->active != 1 && $data['class']->vendor_id != $this->data['user']['id']) show_404();
 
 		$data['kelas'] = $this->kelas_model->get_buka_kelas_by_id($hash);
 		$data['vendor'] = array();

@@ -336,31 +336,27 @@ $total_bayar = $total_harga - $diskon;
 												<div class="col-sm-8"><?php echo $class->class_include;?></div>
 											</div><!-- section-row -->
 <?php if (($status->class_status == 0) || ($status->class_status == 1 && $status->active == 0)) : ?>
-                                            <div class="col-sm-offset-4 col-sm-8 submit-form">
-                                                    <a href="<?php echo base_url();
-													?>vendor/kelas/request_publish/<?php 
-													echo 
-													$class->id; ?>"
-                                                       class="btn btn-default main-button register"
-													   onclick="return confirm('Apakah anda sudah yakin data-data ' +
+											<div class="col-sm-offset-4 col-sm-8 submit-form">
+												<a href="<?php echo base_url()."vendor/kelas/request_publish/{$class->id}";?>"
+												   class="btn btn-default main-button register"
+												   onclick="return confirm('Apakah anda sudah yakin data-data ' +
 													    'yang anda masukan sudah benar? Setelah ini data-data anda ' +
-													     'akan di verifikasi oleh admin dan tidak dapat mengubah lagi' +
-													      ' data-data ini.')">
+													    'akan di verifikasi oleh admin dan tidak dapat mengubah lagi' +
+													    ' data-data ini.')">
                                                         Request To Publish
                                                     </a>
                                             </div>
 <?php
 elseif ($status->class_status == 1 && $status->active == 1) : ?>
-                                            <div class="col-sm-offset-4 col-sm-8 submit-form">
-                                                    <a href="<?php echo base_url();
-													?>vendor/kelas/request_unpublish/<?php echo $class->id; ?>"
-                                                       class="btn btn-default main-button register"
+											<div class="col-sm-offset-4 col-sm-8 submit-form">
+													<a href="<?php echo base_url()."vendor/kelas/request_unpublish/$class->id";?>"
+													   class="btn btn-default main-button register"
 													   onclick="return confirm('Anda akan mengajukan permohonan ' +
 													    'untuk menurunkan kelas ini. Admin akan mengkonfirmasi ' +
-													     'pengajuan anda.')">
-                                                        Request To Unpublish
-                                                    </a>
-                                            </div>
+													    'pengajuan anda.')">
+														Request To Unpublish
+													</a>
+											</div>
 <?php
 else : echo "<span class='info'>Kelas anda sedang dalam tahap verifikasi oleh pihak ruangguru</span>";
 endif;
