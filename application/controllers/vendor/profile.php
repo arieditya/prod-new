@@ -38,7 +38,7 @@ class Profile extends Vendor_Controller{
         $this->data['bank_list'] = $this->vendor_model->get_bank_list();
         $this->data['bank_account'] = $this->vendor_model->get_rekening($this->vendor->id);
         $this->data['socmed'] = $this->vendor_model->get_socmed($this->vendor->id);
-        $this->data['sidebar'] = $sub;
+        $this->data['sidebar'] = "penaggungjawab";
         $this->new_design?
             $this->load->view('vendor/profile/edit_2', $this->data):
             $this->load->view('vendor/profile/edit', $this->data);
