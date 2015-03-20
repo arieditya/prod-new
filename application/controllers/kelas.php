@@ -37,7 +37,7 @@ class Kelas extends MY_Controller {
 		$id = $this->vendor_class_model->get_id_by_uri($uri);
 		$this->detil($id);
 	}
-	
+
 	
 	
 	public function _new_index($view='home') {

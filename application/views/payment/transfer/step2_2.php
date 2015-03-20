@@ -48,15 +48,6 @@ $this->load->view('vendor/general/header2');
 										   value="<?php echo $pemesan['phone'];?>" />
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="alamat">Alamat Lengkap *</label>
-								<textarea class="form-control" 
-										  placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini." 
-										  <?php echo !empty($student)?'readonly="readonly"':'';?>
-										  name="pemesan_address"
-										  readonly="readonly"
-										  rows="3"><?php echo $pemesan['address'];?></textarea>
-							</div>
 						</div>
 						<div class="panel-body" id="student_other">
 							<h4 class="review-title">Data Peserta</h4>
