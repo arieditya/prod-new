@@ -90,7 +90,7 @@ $profile = $vendor['profile'];
 				
 							<!-- Tab panes -->
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile" || $tabs=="new"){ echo "active"; }?>" id="preview">
+								<div role="tabpanel" class="tab-pane <?php if($tabs=="preview"){ echo "active"; }?>" id="preview">
 									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Profil</h3></div>
 										<div class="section-content">
@@ -368,7 +368,7 @@ endif;
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
 								</div><!-- preview -->
-								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile"){ echo "active"; }?>" id="profile">
+								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile" || $tabs=="new"){ echo "active"; }?>" id="profile">
 										<form method="post" 
 											  class="form-horizontal" 
 											  enctype="multipart/form-data"
