@@ -132,8 +132,8 @@ $this->load->view('vendor/general/header2');
                             <?php else: ?>
                                 <br />
                             <?php endif; ?>
-                            <?php if(!empty($kelas->class_lokasi_id)): ?>
-                                <span> | Kota <?php echo $kelas->class_lokasi_id;?></span>
+                            <?php if(!empty($kelas->lokasi_title)): ?>
+                                <span> | <?php echo $kelas->lokasi_title;?></span>
                             <?php endif; ?>
                         </div><!-- description -->
 						<div class="review">
@@ -226,8 +226,8 @@ $this->load->view('vendor/general/header2');
                                 <?php else: ?>
                                     <br />
                                 <?php endif; ?>
-                                <?php if(!empty($kelas->class_lokasi_id)): ?>
-                                    <span> | Kota <?php echo $kelas->class_lokasi_id;?></span>
+                                <?php if(!empty($kelas->lokasi_title)): ?>
+                                    <span> | <?php echo $kelas->lokasi_title;?></span>
                                 <?php endif; ?>
                             </div><!-- description -->
                             <div class="review">
