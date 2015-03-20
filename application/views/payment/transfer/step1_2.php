@@ -57,13 +57,6 @@ $wait = json_decode($wait);
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="alamat">Alamat Lengkap *</label>
-								<textarea class="form-control" 
-										  placeholder="Alamat sesuai dengan alamat domisili saat ini. Cantumkan juga kota tempat tinggal saat ini." 
-										  name="pemesan_address"
-										  rows="3"><?php echo !empty($student)?$student->murid_phone:'';?></textarea>
-							</div>
-							<div class="form-group">
 								<label for="radio">Data Murid</label>
 								<div class="radio">
 									<label>

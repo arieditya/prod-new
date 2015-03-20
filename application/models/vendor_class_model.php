@@ -115,7 +115,7 @@ class Vendor_class_model extends MY_Model{
 		$this->db->join('vendor_level_list', 'vendor_level_list.id=vendor_class_level.level_id AND vendor_level_list.status=1', 'left');
 		$this->db->join('vendor_class_price', 'vendor_class_price.class_id=vendor_class.id', 'left');
 		$this->db->join('vendor_class_jadwal', 'vendor_class_jadwal.class_id=vendor_class.id', 'left');
-        $this->db->join('lokasi', 'lokasi.lokasi_id=vendor_class.lokasi_id', 'left');
+        $this->db->join('lokasi', 'lokasi.lokasi_id=vendor_class.class_lokasi_id', 'left');
 		$this->db->where($where);
 		if(!empty($wherein)) {
 			foreach($wherein as $k=>$v)

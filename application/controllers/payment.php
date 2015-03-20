@@ -253,12 +253,10 @@ class Payment extends MY_Controller {
 			'name'			=> $this->input->post('pemesan_name', TRUE),
 			'email'			=> $this->input->post('pemesan_email', TRUE),
 			'phone'			=> $this->input->post('pemesan_phone', TRUE),
-			'address'		=> $this->input->post('pemesan_address', TRUE)
 		);
 		$whostudent = $this->input->post('whostudent',TRUE);
 		if($whostudent == 'me') {
 			$peserta = $pemesan;
-			unset($peserta['address']);
 		} else {
 			$peserta = array(
 				'name'			=> $this->input->post('peserta_name', TRUE),
