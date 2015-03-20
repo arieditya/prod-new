@@ -1,10 +1,18 @@
 # NEW
-application/config
+application/config/*
 !application/config/routes.php
-application/cache
-documents/
-images/
-files/
+application/cache/*
+documents/*
+images/*
+!assets/*
+assets/images/
+files/*
+system/*
+application/logs/*
+application/errors/*
+application/database/*
+log*
+!application/controllers/
 ~*
 _*
 
