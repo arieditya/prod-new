@@ -193,16 +193,18 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 						 class="tab-pane <?php echo empty($sidebar)||$sidebar=='penanggungjawab'?'active':'';?>" 
 						 id="reponsible">
 						<h2 class="block-title text-uppercase">
-							Penanggungjawab penyelenggara 
-							<span class="info">* Data tidak bisa diakses secara umum</span>
-						</h2>
-                        <span>
-                            <input type="checkbox"
-                                   id="vendor_individu"
-                                />
-                            Penyelenggara adalah individu (Copy data vendor)
-						</span>
-						<form class="form-horizontal" 
+							Penanggungjawab penyelenggara
+                            <span class="info">* Data tidak bisa diakses secara umum</span>
+                        </h2>
+                        <div class="info col-md-12">
+                            <span class="copy-icon">
+                                <a href="<?php echo base_url();?>vendor/profile/copy">
+                                    <i class="fa fa-files-o fa-3"></i>
+                                    copy biodata penyelengara
+                                </a>
+                            </span>
+                        </div>
+                        <form class="form-horizontal"
 							  role="form" 
 							  action="<?php echo base_url();?>vendor/profile/update_info" 
 							  method="post" 

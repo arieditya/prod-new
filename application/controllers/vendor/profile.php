@@ -31,6 +31,18 @@ class Profile extends Vendor_Controller{
 			$this->load->view('vendor/profile/edit_2', $this->data):
 			$this->load->view('vendor/profile/edit', $this->data);
 	}
+
+    public function copy() {
+        $this->data['sub'] = "penaggungjawab";
+        $this->data['vendor']['info'] = $this->vendor_model->get_info(array('vendor_id'=>$this->vendor->id))->row();
+        $this->data['bank_list'] = $this->vendor_model->get_bank_list();
+        $this->data['bank_account'] = $this->vendor_model->get_rekening($this->vendor->id);
+        $this->data['socmed'] = $this->vendor_model->get_socmed($this->vendor->id);
+        $this->data['sidebar'] = $sub;
+        $this->new_design?
+            $this->load->view('vendor/profile/edit_2', $this->data):
+            $this->load->view('vendor/profile/edit', $this->data);
+    }
 	
 	public function update_profile(){
 		$update = array();
