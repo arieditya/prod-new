@@ -196,7 +196,7 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 							Penanggungjawab penyelenggara
                             <div class="info">
                                 <span>* Data tidak bisa diakses secara umum</span>
-                                <span class="info"><a href="<?php echo base_url();?>vendor/profile/copy">
+                                <span class="info"><a href="<?php echo base_url();?>vendor/profile/copy_profile_to_info">
                                     <i class="fa fa-files-o fa-3"></i>
                                     Klik di sini jika data penyelenggara dan penanggungjawab adalah sama
                                 </a>
@@ -239,7 +239,7 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   name="contact_person_mobile" 
 										   class="form-control" 
 										   value="<?php echo $vendor['info']->contact_person_mobile;?>" 
-										   placeholder="Nomor HP" />
+										   placeholder="Nomor HP"/>
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">

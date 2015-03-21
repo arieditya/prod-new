@@ -32,9 +32,9 @@ class Profile extends Vendor_Controller{
 			$this->load->view('vendor/profile/edit', $this->data);
 	}
 
-    public function copy() {
+    public function copy_profile_to_info() {
         $this->profile = $this->vendor_model->get_profile(array('id'=>$this->vendor->id))->row();
-        $this->vendor_model->update_info(array('vendor_id'=>$this->vendor->id, 'contact_person_email'=>$profile['email'], 'contact_person_name'=>$profile['name'], 'contact_person_phone'=>$profile['main_phone']));
+        $this->vendor_model->update_info(array('id'=>$this->vendor->id, 'contact_person_email'=>$this->profile->email, 'contact_person_name'=>$this->profile->name, 'contact_person_phone'=>$this->profile->main_phone));
         redirect("vendor/profile/edit/reponsible");
     }
 	
