@@ -70,7 +70,7 @@ $profile = $vendor['profile'];
 								<?php if(	$this->is_admin || (
 											($status->class_status == 0 || $status->class_status == 1 )
 												&& $status->active == 0) ) { ?>
-                                    <li role="presentation" <?php if($tabs=="profile" || $tabs=="new") { echo "class='active'"; }?> >
+                                    <li role="presentation" <?php if($tabs=="profile" || $tabs=="info") { echo "class='active'"; }?> >
                                         <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
                                     </li>
                                 <?php } ?>
@@ -368,7 +368,7 @@ endif;
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
 								</div><!-- preview -->
-								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile" || $tabs=="new"){ echo "active"; }?>" id="profile">
+								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile" || $tabs=="info"){ echo "active"; }?>" id="profile">
 										<form method="post" 
 											  class="form-horizontal" 
 											  enctype="multipart/form-data"
@@ -497,9 +497,9 @@ endif;
 												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
-													   href="#form_lokasi"
+													   href="#form_info"
 													   class="btn btn-default main-button next-button"
-													   aria-controls="form_lokasi"
+													   aria-controls="form_info"
 													   aria-expanded="true">
 														Lanjut
 													</a>
@@ -517,7 +517,7 @@ endif;
                                                     </a>
                                                 </h3>
                                             </div>
-                                            <div id="form_info" class="collapse <?php if($tabs=="new") { echo "in"; }?>">
+                                            <div id="form_info" class="collapse <?php if($tabs=="info") { echo "in"; }?>">
                                                 <div class="form-group">
                                                     <label for="Namakelas" class="col-sm-4 control-label">Video</label>
                                                     <div class="col-sm-8">
@@ -526,7 +526,9 @@ endif;
                                                                id="class_video"
                                                                name="class_video"
                                                                value="<?php echo $class->class_video;?>"
-                                                               placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds">
+                                                               placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds"
+                                                               <?php if($tabs=='info') echo "autofocus"?>
+                                                            >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -579,7 +581,7 @@ endif;
                                                            data-parent="#profile"
                                                            href="#form_lokasi"
                                                            class="btn btn-default main-button next-button"
-                                                           aria-controls="form_schedule"
+                                                           aria-controls="form_lokasi"
                                                            aria-expanded="true">
                                                             Lanjut
                                                         </a>
@@ -802,93 +804,9 @@ endif;
 												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
-<?php/*/ * ?> CONFLICT!
-													   href="#form_info"
-													   class="btn btn-default main-button next-button"
-													   aria-controls="form_info"
-													   aria-expanded="true">
-														Lanjut
-													</a>
-												</div>
-											</div>
-										</div>
-										<div class="section-heading">
-											<h3 class="section-title">
-												<a data-toggle="collapse" 
-												   data-parent="#profile" 
-												   href="#form_info"
-												   aria-controls="form_info"
-												   aria-expanded="false">
-													Info
-												</a>
-											</h3>
-										</div>
-										<div id="form_info" class="collapse">
-											<div class="form-group">
-												<label for="Namakelas" class="col-sm-4 control-label">Video</label>
-												<div class="col-sm-8">
-													<input type="text" 
-														   class="form-control" 
-														   id="class_video" 
-														   name="class_video" 
-														   value="<?php echo $class->class_video;?>"
-														   placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds">
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="attachment" class="col-sm-4 control-label">Foto / Image</label>
-												<div class="col-sm-8">
-													<input type="file" id="class_image" name="class_image" />
-												</div>
-											</div>
-<?php
-	if(!empty($class->class_image)) :
-		$image = '<img src="'.base_url().'images/class/'.$class->id.'/'.$class->class_image.'" class="img-responsive" />';
-?>
-											<div class="row">
-												<div class="col-sm-8">
-													<?php echo $image;?>
-												</div>
-											</div>
-<?php 
-	endif;
-?>
-											<div class="form-group">
-												<label class="col-sm-4 control-label">Tags</label>
-												<div class="col-sm-8">
-													<input type="text" 
-														   id="class_tags" 
-														   data-role="tagsinput"
-														   class="input-tags form-control"
-														   value="<?php echo !empty($tags)?$tags:'';?>"
-														   style="width: 100%;"
-														   name="class_tags" />
-												</div>
-											</div>
-<?php /*
-											<div class="form-group">
-												<label for="Namakelas" class="col-sm-4 control-label">Tags</label>
-												<div class="col-sm-8">
-													<select class="form-control level">
-														<option value="0">Dasar</option>
-														<option value="1">Pemula</option>
-														<option value="2">Menengah</option>
-														<option value="3">Mahir</option>
-														<option value="4">Ahli</option>
-														<option value="5">Master</option>
-													</select>
-													<em>* Pisahkan dengan tanda koma diantara tag</em>
-												</div>
-											</div>
-// * / ?>
-											<div class="form-group">
-												<div class="col-sm-offset-4 col-sm-8">
-													<a data-toggle="collapse" 
-													   data-parent="#profile" 
-<?php // */ ?>
 													   href="#form_schedule"
 													   class="btn btn-default main-button next-button"
-													   aria-controls="form_info"
+													   aria-controls="form_schedule"
 													   aria-expanded="true">
 														Lanjut
 													</a>

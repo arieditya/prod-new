@@ -127,7 +127,7 @@ class Kelas extends Vendor_Controller{
 			redirect('vendor/kelas/baru');
 		}else{
 			$this->session->set_flashdata('status.notice','Berhasil membuat kelas baru!');
-			redirect('vendor/kelas/detil/'.$id.'/new');
+			redirect('vendor/kelas/detil/'.$id.'/info');
 		}
 	}
 	
