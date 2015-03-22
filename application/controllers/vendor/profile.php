@@ -19,14 +19,29 @@ class Profile extends Vendor_Controller{
 	
 	public function edit($sub='profile') {
 		$sub = strtolower($sub);
-		if(!in_array($sub, array('profile','reponsible'))) $sub='profile';
-		if($sub=='reponsible') $sub = 'penanggungjawab';
-		$this->data['sub'] = $sub;
+        $sidebar = $sub;
+        if(in_array($sidebar, array('reponsible', 'copied', 'rekbank'))) {
+            $sidebar = 'penanggungjawab';
+        }else {
+            $sidebar = 'profile';
+        }
+
+        if($sub=='copied') {
+            $autofocus = 'nohp';
+        }elseif($sub=='rekbank') {
+            $autofocus = 'rekbank';
+        }elseif($sub=='socmed') {
+            $autofocus = 'socmed';
+        }else {
+            $autofocus = $sidebar;
+        }
+		$this->data['sub'] = $sidebar;
+        $this->data['autofocus'] = $autofocus;
 		$this->data['vendor']['info'] = $this->vendor_model->get_info(array('vendor_id'=>$this->vendor->id))->row();
 		$this->data['bank_list'] = $this->vendor_model->get_bank_list();
 		$this->data['bank_account'] = $this->vendor_model->get_rekening($this->vendor->id);
 		$this->data['socmed'] = $this->vendor_model->get_socmed($this->vendor->id);
-		$this->data['sidebar'] = $sub;
+		$this->data['sidebar'] = $sidebar;
 		$this->new_design?
 			$this->load->view('vendor/profile/edit_2', $this->data):
 			$this->load->view('vendor/profile/edit', $this->data);
@@ -35,7 +50,7 @@ class Profile extends Vendor_Controller{
     public function copy_profile_to_info() {
         $this->profile = $this->vendor_model->get_profile(array('id'=>$this->vendor->id))->row();
         $this->vendor_model->update_info(array('id'=>$this->vendor->id, 'contact_person_email'=>$this->profile->email, 'contact_person_name'=>$this->profile->name, 'contact_person_phone'=>$this->profile->main_phone));
-        redirect("vendor/profile/edit/reponsible");
+        redirect("vendor/profile/edit/copied");
     }
 	
 	public function update_profile(){
@@ -77,7 +92,7 @@ class Profile extends Vendor_Controller{
 		elseif($stat===0 && $info==-1) $this->session->set_flashdata('status.warning', 
 				'Data profile tidak ada yang berubah!');
 		else $this->session->set_flashdata('status.notice', 'Berhasil update data profile!');
-		redirect('vendor/profile/edit/profile#socmed');
+		redirect('vendor/profile/edit/socmed');
 	}
 	
 	protected function upload_logo_vendor() {
@@ -144,7 +159,7 @@ class Profile extends Vendor_Controller{
 			if($result === FALSE) $this->session->set_flashdata('status.warning', 'Gagal update info! ');
 			elseif($result==0) $this->session->set_flashdata('status.warning', 'Data info tidak berubah! ');
 			else $this->session->set_flashdata('status.notice', 'Berhasil update info!');
-			redirect('vendor/profile/edit/reponsible#rekbank');
+			redirect('vendor/profile/edit/rekbank');
 		}
 	}
 	
@@ -164,10 +179,10 @@ class Profile extends Vendor_Controller{
 		$status = $this->vendor_model->set_rekening($update);
 		if($status === FALSE) {
 			$this->session->set_flashdata('status.warning','Update akun bank Gagal');
-			redirect('vendor/profile/edit/reponsible#rekbank');
+			redirect('vendor/profile/edit/rekbank');
 		} elseif($status == 0) {
 			$this->session->set_flashdata('status.warning', 'Data akun bank tidak berubah!');
-			redirect('vendor/profile/edit/reponsible#rekbank');
+			redirect('vendor/profile/edit/rekbank');
 		} else {
 			$this->session->set_flashdata('status.notice','Update akun bank berhasil');
 			redirect('vendor/kelas/baru');
@@ -185,15 +200,14 @@ class Profile extends Vendor_Controller{
 		$status = $this->vendor_model->set_socmed($update);
 		if($status === FALSE) {
 			$this->session->set_flashdata('status.warning','Update data sosial media Gagal');
-			redirect('vendor/profile/edit/profile#socmed');
+			redirect('vendor/profile/edit/socmed');
 		} elseif($status == 0) {
 			$this->session->set_flashdata('status.warning', 'Data sosial media tidak berubah!');
-			redirect('vendor/profile/edit/profile#socmed');
+			redirect('vendor/profile/edit/socmed');
 		} else {
 			$this->session->set_flashdata('status.notice','Update data sosial media berhasil');
 			redirect('vendor/profile/edit/reponsible');
 		}
-
 	}
 }
 

@@ -60,7 +60,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   id="namapenyelenggara" 
 										   name="name"
 										   value="<?php echo $vendor['profile']->name;?>"
-										   placeholder="Nama">
+										   placeholder="Nama"
+                                           <?php if($autofocus=='profile') echo "autofocus"; ?>
+                                        >
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -144,7 +146,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   class="form-control" 
 										   id="facebook" name="socmed_fb"
 										   value="<?php echo empty($socmed->facebook)?'':$socmed->facebook;?>"
-										   placeholder="Facebook" />
+										   placeholder="Facebook"
+                                           <?php if($autofocus=='socmed') echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -217,7 +221,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   id="nama" 
 										   name="contact_person_name" 
 										   value="<?php echo $vendor['info']->contact_person_name;?>" 
-										   placeholder="Nama" />
+										   placeholder="Nama"
+                                           <?php if($autofocus=="penanggungjawab") echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -239,7 +245,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   name="contact_person_mobile" 
 										   class="form-control" 
 										   value="<?php echo $vendor['info']->contact_person_mobile;?>" 
-										   placeholder="Nomor HP"/>
+										   placeholder="Nomor HP"
+                                           <?php if($autofocus=='nohp') echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -302,7 +310,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   name="account_number" 
 										   class="form-control" 
 										   value="<?php echo empty($bank_account->no_rek)?'':$bank_account->no_rek;?>" 
-										   placeholder="Nomor Rekening" />
+										   placeholder="Nomor Rekening"
+                                           <?php if($autofocus=="rekbank") echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
