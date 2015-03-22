@@ -298,7 +298,15 @@ endif;
 				<div class="price-big-wrap detail-label label-yellow text-center">
 					<i class="fa fa-tag"></i>
 					<h3 class="entry-detail-label text-center text-20">
-						<?php echo rupiah_format($class->price_per_session*$schedule->num_rows());?>
+						<?php
+                        $price=$class->price_per_session*$schedule->num_rows();
+                        if($price==0) {
+                            echo "GRATIS";
+                        }
+                        else {
+                            echo rupiah_format($class->price_per_session*$schedule->num_rows());
+                        }
+                        ?>
 					</h3>
 				</div><!-- detail-label -->
 				<a href="#" class="register_class">
