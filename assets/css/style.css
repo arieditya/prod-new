@@ -909,7 +909,6 @@ h5.support {
 .panel-body .form-control {
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: none;
   padding: 6px 12px;
 }
 textarea.form-control {
