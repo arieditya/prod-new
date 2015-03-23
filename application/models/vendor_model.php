@@ -56,7 +56,7 @@ class Vendor_model extends MY_Model{
 		$this->db->where($var);
 		return $this->db->get('vendor_profile');
 	}
-	
+
 	public function get_empty_uri_profile() {
 		return $this->db->query("SELECT * FROM vendor_profile WHERE uri IS NULL OR uri = ''")->result();
 	}
@@ -136,6 +136,7 @@ class Vendor_model extends MY_Model{
 	public function set_info($var) {
 		$this->db->insert('vendor_info', $var);
 	}
+
 	public function update_info($var) {
 		$id = $var['id'];
 		unset($var['id']);

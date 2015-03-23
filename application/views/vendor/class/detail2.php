@@ -70,7 +70,7 @@ $profile = $vendor['profile'];
 								<?php if(	$this->is_admin || (
 											($status->class_status == 0 || $status->class_status == 1 )
 												&& $status->active == 0) ) { ?>
-                                    <li role="presentation" <?php if($tabs=="profile" || $tabs=="new") { echo "class='active'"; }?> >
+                                    <li role="presentation" <?php if($tabs=="profile" || $tabs=="info") { echo "class='active'"; }?> >
                                         <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
                                     </li>
                                 <?php } ?>
@@ -90,7 +90,7 @@ $profile = $vendor['profile'];
 				
 							<!-- Tab panes -->
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile" || $tabs=="new"){ echo "active"; }?>" id="preview">
+								<div role="tabpanel" class="tab-pane <?php if($tabs=="preview"){ echo "active"; }?>" id="preview">
 									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Profil</h3></div>
 										<div class="section-content">
@@ -364,7 +364,7 @@ endif;
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
 								</div><!-- preview -->
-								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile"){ echo "active"; }?>" id="profile">
+								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile" || $tabs=="info"){ echo "active"; }?>" id="profile">
 										<form method="post" 
 											  class="form-horizontal" 
 											  enctype="multipart/form-data"
@@ -493,9 +493,9 @@ endif;
 												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
-													   href="#form_lokasi"
+													   href="#form_info"
 													   class="btn btn-default main-button next-button"
-													   aria-controls="form_lokasi"
+													   aria-controls="form_info"
 													   aria-expanded="true">
 														Lanjut
 													</a>
@@ -513,7 +513,7 @@ endif;
                                                     </a>
                                                 </h3>
                                             </div>
-                                            <div id="form_info" class="collapse <?php if($tabs=="new") { echo "in"; }?>">
+                                            <div id="form_info" class="collapse <?php if($tabs=="info") { echo "in"; }?>">
                                                 <div class="form-group">
                                                     <label for="Namakelas" class="col-sm-4 control-label">Video</label>
                                                     <div class="col-sm-8">
@@ -522,7 +522,9 @@ endif;
                                                                id="class_video"
                                                                name="class_video"
                                                                value="<?php echo $class->class_video;?>"
-                                                               placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds">
+                                                               placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds"
+                                                               <?php if($tabs=='info') echo "autofocus"?>
+                                                            >
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -575,7 +577,7 @@ endif;
                                                            data-parent="#profile"
                                                            href="#form_lokasi"
                                                            class="btn btn-default main-button next-button"
-                                                           aria-controls="form_schedule"
+                                                           aria-controls="form_lokasi"
                                                            aria-expanded="true">
                                                             Lanjut
                                                         </a>
@@ -798,11 +800,9 @@ endif;
 												<div class="col-sm-offset-4 col-sm-8">
 													<a data-toggle="collapse" 
 													   data-parent="#profile" 
-<?php /*/ * ?> CONFLICT!
-*/ ?>
 													   href="#form_schedule"
 													   class="btn btn-default main-button next-button"
-													   aria-controls="form_info"
+													   aria-controls="form_schedule"
 													   aria-expanded="true">
 														Lanjut
 													</a>

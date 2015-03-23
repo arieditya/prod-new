@@ -138,7 +138,7 @@ $this->load->view('vendor/general/header2');
 						</div><!-- description -->
 						<div class="review">
 							<div class="vendor-name">
-								<div class="icon tag"><i class="fa fa-shopping-cart"></i></div>
+								<div class="icon tag"><i class="fa fa-user fa-2"></i></div>
 								<a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>">
 									<?php echo character_limiter($kelas->vendor['profile']->name,12);?>
 								</a>

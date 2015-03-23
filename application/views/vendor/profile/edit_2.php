@@ -60,7 +60,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   id="namapenyelenggara" 
 										   name="name"
 										   value="<?php echo $vendor['profile']->name;?>"
-										   placeholder="Nama">
+										   placeholder="Nama"
+                                           <?php if($autofocus=='profile') echo "autofocus"; ?>
+                                        >
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -144,7 +146,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   class="form-control" 
 										   id="facebook" name="socmed_fb"
 										   value="<?php echo empty($socmed->facebook)?'':$socmed->facebook;?>"
-										   placeholder="Facebook" />
+										   placeholder="Facebook"
+                                           <?php if($autofocus=='socmed') echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -200,12 +204,25 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
                         <div class="info col-md-12">
                             <span class="copy-icon">
                                 <a href="<?php echo base_url();?>vendor/profile/copy">
+=======
+                            <div class="info">
+                                <span>* Data tidak bisa diakses secara umum</span>
+                                <span class="info"><a href="<?php echo base_url();?>vendor/profile/copy_profile_to_info">
+>>>>>>> 7a808d34557d311eb82a11f250abb290bc7df66c
                                     <i class="fa fa-files-o fa-3"></i>
-                                    copy biodata penyelengara
+                                    Klik di sini jika data penyelenggara dan penanggungjawab adalah sama
                                 </a>
+<<<<<<< HEAD
                             </span>
                         </div>
-// */ ?>
+
+=======
+                                 </span>
+                            </div>
+                        </h2>
+>>>>>>> 7a808d34557d311eb82a11f250abb290bc7df66c
+
+ // */ ?>
                         <form class="form-horizontal"
 							  role="form" 
 							  action="<?php echo base_url();?>vendor/profile/update_info" 
@@ -220,7 +237,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   id="nama" 
 										   name="contact_person_name" 
 										   value="<?php echo $vendor['info']->contact_person_name;?>" 
-										   placeholder="Nama" />
+										   placeholder="Nama"
+                                           <?php if($autofocus=="penanggungjawab") echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -242,7 +261,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   name="contact_person_mobile" 
 										   class="form-control" 
 										   value="<?php echo $vendor['info']->contact_person_mobile;?>" 
-										   placeholder="Nomor HP" />
+										   placeholder="Nomor HP"
+                                           <?php if($autofocus=='nohp') echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -305,7 +326,9 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   name="account_number" 
 										   class="form-control" 
 										   value="<?php echo empty($bank_account->no_rek)?'':$bank_account->no_rek;?>" 
-										   placeholder="Nomor Rekening" />
+										   placeholder="Nomor Rekening"
+                                           <?php if($autofocus=="rekbank") echo "autofocus"; ?>
+                                        />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
