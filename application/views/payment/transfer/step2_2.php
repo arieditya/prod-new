@@ -129,7 +129,7 @@ if($total > 0):
 							$billing_address = array(
 								'first_name'    => $pemesan['name'],
 								'last_name'     => " ",
-								'address'       => $pemesan['address'],
+//								'address'       => $pemesan['address'],
 								'phone'         => $pemesan['phone'],
 								'country_code'  => 'IDN'
 							);
@@ -358,8 +358,8 @@ endif;
 		$diskon = TRUE;
 			$i++;
 			$date = date('j M y', strtotime($sched->class_tanggal));
-			$start = $sched->class_jam_mulai.':'.$sched->class_menit_mulai;
-			$end = $sched->class_jam_selesai.':'.$sched->class_menit_selesai;
+			$start = double_digit($sched->class_jam_mulai).':'.double_digit($sched->class_menit_mulai);
+			$end = double_digit($sched->class_jam_selesai).':'.double_digit($sched->class_menit_selesai);
 			$followed = FALSE;
 //			$sched->available_seat = 0;
 			$text = $sched->class_jadwal_topik;

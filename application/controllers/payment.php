@@ -483,15 +483,15 @@ class Payment extends MY_Controller {
 			$tix = $this->payment_model->get_class_by_ticket($ticket->ticket_code);
 			$class = $this->vendor_class_model->get_class(array('id'=>$tix))->row();
 			$vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
-			$this->email_model->student_payment_step4((object)$murid, $class, $vendor, $ticket->ticket_code);
-			if($pemohon['email']!= $murid['email'])
-				$this->email_model->student_payment_step4((object)$pemohon, $class, $vendor, $ticket->ticket_code);
+			$this->email_model->student_payment_step4($ticket->ticket_code);
 			if($this->vendor_class_model->get_class_empty_seat($class->id) == 0) {
 				$vendor = $this->vendor_model->get_vendor_detail($class);
 				$this->email_model->vendor_class_soldout($vendor, $class);
 			}
 		}
 
+		$this->load->helper('cookie');
+		set_cookie('cart', NULL, '', '', '/');
 		//$this->email_model->send_ticket($trx['pemesan']['email'], $code);
 		$this->session->unset_userdata('transaction');
 		set_status_header(200);
@@ -534,9 +534,12 @@ class Payment extends MY_Controller {
 		$this->load->model('email_model');
 
 		$this->email_model->student_payment_step3($code, $bank);
-		$this->session->unset_userdata('transaction');
 		$this->session->set_userdata('payment_method', $bank);
-		
+
+		$this->session->unset_userdata('transaction');
+		$this->load->helper('cookie');
+		set_cookie('cart', NULL, '', '', '/');
+
 		header('Content-type: application/json');
 		echo json_encode(array(
 			'status'		=> 'OK',
@@ -896,6 +899,7 @@ DETIL TRANSAKSI:
 
 	public function notification(){
 		header('Content-type: application/json');
+		$this->session->unset_userdata('transaction');
 		$this->load->helper('file');
 		$this->load->model('email_model');
 		$data = json_decode(file_get_contents('php://input'));
@@ -920,7 +924,17 @@ DETIL TRANSAKSI:
 
 		}
 		
-		if($this->vendor_class_model->set_participant_status($code, 4)){
+		$invoice = $this->vendor_class_model->get_invoice_status($code);
+		if(empty($invoice)) {
+			set_status_header(404, 'Invoice code not found');
+			echo json_encode(array(
+				'status'		=> 'KO',
+				'message'		=> 'Invoice code not found!'
+			));
+			return;
+		}
+		
+		$this->vendor_class_model->set_participant_status($code, 4);
 			$update_data = array(
 					'status_4'=>date('Y-m-d H:i:s'),
 					'status_3_upload_file'=>'vt-'.$code.'.json',
@@ -936,12 +950,15 @@ DETIL TRANSAKSI:
 	
 			$tickets = $this->payment_model->get_ticket_by_invoice($code);
 			foreach($tickets as $ticket) {
+
+				$this->email_model->student_payment_step4($ticket->ticket_code);
+				
+				
+
 				$tix = $this->payment_model->get_class_by_ticket($ticket->ticket_code);
 				$class = $this->vendor_class_model->get_class(array('id'=>$tix))->row();
 				$vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
-				$this->email_model->student_payment_step4((object)$murid, $class, $vendor, $ticket->ticket_code);
-				if($pemohon['email']!= $murid['email'])
-					$this->email_model->student_payment_step4((object)$pemohon, $class, $vendor, $ticket->ticket_code);
+				$this->email_model->student_payment_step4($ticket->ticket_code);
 				if($this->vendor_class_model->get_class_empty_seat($class->id) == 0) {
 					$vendor = $this->vendor_model->get_vendor_detail($class);
 					$this->email_model->vendor_class_soldout($vendor, $class);
@@ -950,13 +967,6 @@ DETIL TRANSAKSI:
 			echo json_encode(array(
 				'status'		=> 'OK'
 			));
-		} else {
-			set_status_header(404, 'Invoice code not found');
-			echo json_encode(array(
-				'status'		=> 'KO',
-				'message'		=> 'Invoice code not found!'
-			));
-		}
 		
 	
 //		$this->load->view('header');
@@ -994,7 +1004,11 @@ DETIL TRANSAKSI:
 			);
 			$this->vendor_class_model->update_transaction($code, $update_data);
 			
-	        $this->load->view('front/payment/finish2', $this->data);
+			$this->session->unset_userdata('transaction');
+			$this->load->helper('cookie');
+			set_cookie('cart', NULL, '', '', '/');
+
+			$this->load->view('front/payment/finish2', $this->data);
 		} else {
 			show_error('Data has already saved!',500, 'Transaction code exists!');
 		}

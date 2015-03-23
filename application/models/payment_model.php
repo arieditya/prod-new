@@ -144,6 +144,78 @@ class Payment_model extends MY_Model {
 		return $tickets;
 	}
 	
+	public function get_ticket_detail($ticket_code) {
+		$this->CI->load->model('vendor_model');
+
+		$this->db->where('ticket_code', $ticket_code);
+		$ticket = $this->db->get('vendor_class_ticket')->row();
+		if(empty($ticket)) {
+			log_message('error', '$payment_model->get_ticket_detail() => Ticket NOT Found!');
+			return FALSE;
+		}
+		$this->db->where('id', $ticket->class_id);
+		$class = $this->db->get('vendor_class')->row();
+		if(empty($class)) {
+			log_message('error', '$payment_model->get_ticket_detail() => Class NOT Found!');
+			return FALSE;
+		}
+		$this->db->where('id', $class->vendor_id);
+		$vendor = $this->db->get('vendor_profile')->row();
+		if(empty($vendor)) {
+			log_message('error', '$payment_model->get_ticket_detail() => Vendor NOT Found!');
+			return FALSE;
+		}
+		$this->db->where('code', $ticket->invoice_code);
+		$transaction = $this->db->get('vendor_class_transaction')->row();
+		if(empty($transaction)) {
+			log_message('error', '$payment_model->get_ticket_detail() => Trx NOT Found!');
+			return FALSE;
+		}
+		$this->db->where('id', $transaction->student_id);
+		$murid = $this->db->get('vendor_class_student')->row();
+		if(empty($murid)) {
+			log_message('error', '$payment_model->get_ticket_detail() => Student NOT Found!');
+			return FALSE;
+		}
+		$this->db->where('id', $transaction->pemesan_id);
+		$pemesan = $this->db->get('vendor_class_pemesan')->row();
+		if(empty($pemesan)) {
+			log_message('error', '$payment_model->get_ticket_detail() => Sponsors NOT Found!');
+			return FALSE;
+		}
+		$this->db->where('code', $ticket->invoice_code);
+		$this->db->where('class_id', $class->id);
+		$participant = $this->db->get('vendor_class_participant')->result();
+		if(empty($participant)) {
+			log_message('error', '$payment_model->get_ticket_detail() => Participant NOT Found!');
+			return FALSE;
+		}
+		$jadwal = array();
+		foreach($participant as $part) {
+			$this->db->where('jadwal_id', $part->jadwal_id);
+			$jdwl = $this->db->get('vendor_class_jadwal')->row();
+			$jadwal[] = array(
+				'topik'	=> $jdwl->class_jadwal_topik,
+				'jadwal'=> date('d M Y', strtotime($jdwl->class_tanggal))
+						.' '.double_digit($jdwl->class_jam_mulai.':'.double_digit($jdwl->class_menit_mulai))
+						.'-'.double_digit($jdwl->class_jam_selesai.':'.double_digit($jdwl->class_menit_selesai)),
+			);
+		}
+		$data = array(
+			'murid'			=> (array)$murid,
+			'pemohon' 		=> (array)$pemesan,
+			'class'			=> (array)$class,
+			'vendor'		=> (array)$vendor,
+			'transaction'	=> (array)$transaction,
+			'ticket'		=> (array)$ticket,
+			'jadwal'		=> (array)$jadwal,
+		);
+		return $data;
+	}
+	
+	public function get_detail_participant() {
+	}
+	
 	public function get_class_by_ticket($ticket_code) {
 		return @$this->db
 				->select('class_id')

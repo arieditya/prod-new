@@ -196,6 +196,7 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 							Penanggungjawab penyelenggara
                             <span class="info">* Data tidak bisa diakses secara umum</span>
                         </h2>
+<?php /*
                         <div class="info col-md-12">
                             <span class="copy-icon">
                                 <a href="<?php echo base_url();?>vendor/profile/copy">
@@ -204,6 +205,7 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
                                 </a>
                             </span>
                         </div>
+// */ ?>
                         <form class="form-horizontal"
 							  role="form" 
 							  action="<?php echo base_url();?>vendor/profile/update_info" 

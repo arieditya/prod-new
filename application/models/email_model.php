@@ -490,6 +490,7 @@ Terima kasih
 		$this->html_content('vendor/2_create_class_success', $data);
 		$this->subject('Kelas telah dibuat');
 		$this->from = 'kelas@ruangguru.com';
+		$this->bcc = array('kelas@ruangguru.com');
 		$this->to($vendor->email);
 		$this->cc($vendor->contact_person_email);
 		$this->send();
@@ -596,7 +597,8 @@ Terima kasih
 		$email_data = array(
 			'murid_name'	=> $invoice_raw['pemohon']->name,
 			'class'			=> array(),
-			'total_pay'		=> $invoice_raw['transaction']->total
+			'total_pay'		=> $invoice_raw['transaction']->total,
+			'code'			=> $code,
 		);
 		foreach($invoice_raw['class'] as $class) {
 			$email_data['class'][] = array(
@@ -655,18 +657,85 @@ Terima kasih
 		return $this->send();
 	}
 
-	public function student_payment_step4($murid, $class, $vendor, $ticket) {
-		$data = array(
-			'murid_name'		=> $murid->name,
-			'class_name'		=> $class->class_nama,
-			'vendor_name'		=> $vendor->name,
-			'ticket_code'		=> $ticket,
-		);
+	public function student_payment_step4($ticket) {
+		$this->CI->load->model('vendor_class_model');
+		$this->CI->load->model('payment_model');
+		$tix = $this->CI->payment_model->get_ticket_detail($ticket);
+		
+		$path1 = substr($ticket, 0,1);
+		$path2 = substr($ticket, 1,1);
+
+		$docs_path = "documents/ticket/{$path1}/{$path2}/";
+
+		$content = $this->CI->load->view('email/documents/ticket', $tix, TRUE);
+		
+		if(!is_dir(FCPATH.$docs_path))
+			mkdir(FCPATH.$docs_path, 0775, TRUE);
+
+		create_pdf($content, FCPATH.$docs_path.$ticket, FALSE);
 		$this->from = 'kelas@ruangguru.com';
-		$this->html_content('murid/3_payment_step4',$data);
-		$this->subject('Pembayaran untuk kelas '.$class->class_nama.' selesai!');
-		$this->to($murid->email);
+		$this->html_content('murid/3_payment_step4',$tix);
+		$this->subject('Tiket Kelas.Ruangguru');
+		$this->to($tix['murid']['email']);
+
+		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');
+
 		$this->send();
+
+/**
+		$invoice_raw = $this->CI->vendor_class_model->get_new_invoice_data($code);
+		
+		$invoice_class = array();
+		$email_data = array(
+			'murid_name'	=> $invoice_raw['pemohon']->name,
+			'class'			=> array(),
+			'total_pay'		=> $invoice_raw['transaction']->total,
+			'code'			=> $code,
+		);
+		$email_data['ticket_code'] = $ticket;
+		foreach($invoice_raw['class'] as $class) {
+			$email_data['class_name'] 		= $class['profile']->class_nama;
+			$email_data['vendor_name']		= $class['vendor']->name;
+			$i_class = array();
+			foreach($class['jadwal'] as $jadwal) {
+				$i_class[] = array(
+					'topik'	=> $jadwal->class_jadwal_topik,
+					'jadwal'=> date('d M Y', strtotime($jadwal->class_tanggal))
+							.' '.double_digit($jadwal->class_jam_mulai.':'.double_digit($jadwal->class_menit_mulai))
+							.'-'.double_digit($jadwal->class_jam_selesai.':'.double_digit($jadwal->class_menit_selesai)),
+				);
+
+			}
+			$invoice_data = array(
+				'method'	=> NULL,
+				'code'		=> $code,
+				'ticket_code'=> $ticket,
+				'pemohon'	=> (array)$invoice_raw['pemohon'],
+				'murid'		=> (array)$invoice_raw['peserta'],
+				'class'		=> $i_class,
+			);
+			$path1 = substr($ticket, 0,1);
+			$path2 = substr($ticket, 1,1);
+	
+			$docs_path = "documents/ticket/{$path1}/{$path2}/";
+	
+			$content = $this->CI->load->view('email/documents/ticket', $invoice_data, TRUE);
+	
+			if(!is_dir(FCPATH.$docs_path))
+				mkdir(FCPATH.$docs_path, 0775, TRUE);
+	
+			create_pdf($content, FCPATH.$docs_path.$ticket, FALSE);
+
+			$this->from = 'kelas@ruangguru.com';
+			$this->html_content('murid/3_payment_step4',$email_data);
+			$this->subject('Tiket Kelas.Ruangguru');
+			$this->to($invoice_raw['peserta']->email);
+
+			$this->attach(FCPATH.$docs_path.$ticket.'.pdf');
+
+			$this->send();
+		}
+// */
 	}
 
 	public function student_24hour_reminder($murid, $class, $vendor, $ticket) {

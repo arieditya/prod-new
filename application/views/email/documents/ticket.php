@@ -3,8 +3,8 @@
  * Created by :
  * 
  * User: AndrewMalachel
- * Date: 3/16/15
- * Time: 1:48 AM
+ * Date: 3/20/15
+ * Time: 6:42 PM
  * Proj: prod-new
  */?><!DOCTYPE html>
 <html>
@@ -31,7 +31,7 @@
 		}
 		body {
 			font-size: 10pt;
-			font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+			font-family: Arial, Trebuchet MS, Tahoma, Verdana, sans-serif;
 		}
 		.text16 {
 			font-size: 16pt;
@@ -122,9 +122,10 @@
 				<td style="width:35%">
 					<div style="text-align: left;left: auto; right: auto;">
 						<div class="text16" style="text-decoration: underline;">
-							<strong>INVOICE</strong>
+							<strong>Tiket</strong>
 						</div>
-						<div><span style="font-size: 10pt;">Kode&nbsp;Pemesanan:&nbsp;<?php echo $code?></span></div>
+						<div><span style="font-size: 10pt;">Kode&nbsp;Konfirmasi:&nbsp;<?php echo 
+								$ticket['ticket_code']?></span></div>
 					</div>
 				</td>
 			</tr>
@@ -196,11 +197,10 @@
 				<tr class="bluebar">
 					<td style="width: 10%;text-align: center;">No</td>
 					<td style="width: 70%">Sesi</td>
-					<td style="width: 20%" style="text-align: center;" colspan="2">Harga</td>
 				</tr>
 <?php
 	$i=0;
-	foreach($class as $sesi):
+	foreach($jadwal as $sesi):
 ?>
 				<tr style="" class="line">
 					<td style="text-align: center;"><?php echo ++$i;?></td>
@@ -208,171 +208,14 @@
 						<?php echo empty($sesi['topik'])?'':($sesi['topik'].'<br />');?> 
 						<span class="small-font"><?php echo $sesi['jadwal']?></span>
 					</td>
-					<td>Rp.</td>
-					<td style="text-align: right">
-						<?php echo number_format($sesi['harga'],'0',',','.');?>,-</td>
 				</tr>
 <?php
 	endforeach;
 ?>
-				<tr>
-					<td></td>
-					<td><span class="blue-font">Subtotal Harga</span></td>
-					<td>Rp.</td>
-					<td><span class="blue-font">
-							<?php echo number_format($subtotal,'0',',','.')?>,-</span></td>
-				</tr>
-				<tr class="line" style="border-bottom: solid 1px #000000">
-					<td></td>
-					<td>Potongan Harga</td>
-					<td>Rp.</td>
-					<td><?php echo number_format($discount,'0',',','.')?>,-</td>
-				</tr>
-				<tr style="border-bottom: solid 1px #000000" class="redbar line">
-					<td colspan="2">Total</td>
-					<td>Rp.</td>
-					<td><?php echo number_format($total,'0',',','.')?>,-</td>
-				</tr>
 			</table>
 			<br />
-			<ul>
-				<li>
-					<span style="font-weight: bold;margin-top: 50px;">Anda memiliki waktu 24 jam untuk melakukan 
-						pembayaran.
-					</span>
-					<br />
-				</li>
-				<li>
-					<span>Dengan melakukan pembayaran ini, Anda menyepakati syarat dan ketentuan yang berlaku.</span><br />
-				</li>
-				<li>
-					<span>Setelah melakukan transfer, Anda dapat melakukan konfirmasi di: 
-						<a href="<?php echo base_url()?>konfirmasi/<?php echo $code?>">
-							<?php echo base_url();?>konfirmasi/<?php echo $code?>
-						</a>
-					</span>
-				</li>
-			</ul>
+			<span class="text14">Status Pembayaran: Terkonfirmasi</span>
 		</div>
-	</div>
-	<div class="page">
-		<p>&nbsp;</p>
-		<p class="text14"><strong>Kebijakan Pembayaran Kelas.Ruangguru</strong></p>
-		<ol style="list-style-type: upper-alpha; font-weight: bold;" class="text12">
-			<li>
-				Mekanisme Pembayaran<br />
-				<br />
-				<span class="text10">Mekanisme Pembayaran Murid</span><br />
-				<br />
-				<ol style="list-style-type: decimal; font-weight: normal" class="text10">
-					<li>
-						Pembayaran biaya pemesanan kelas yang terdaftar di Kelas.Ruangguru dilakukan melalui Ruangguru.com. 
-						Calon murid diberi waktu hingga <strong>1x24 jam</strong> dari waktu pemesanan. 
-						Jika pembayaran tiket tidak dilakukan dalam jangka waktu yang diberikan maka pemesanan 
-						dianggap batal.<br />
-						<br />
-					</li>
-					<li>
-						Pembayaran untuk semua produk/ jasa yang ditawarkan oleh Ruangguru.com dapat dilakukan 
-						melalui:<br />
-						<br />
-						<ul style="list-style-type: circle;">
-							<li>
-								<strong>Transfer melalui Bank</strong><br />
-								Semua akun Bank yang dimiliki oleh Ruangguru menggunakan nama<br />
-								<strong>PT. Ruang Raya Indonesia.</strong><br />
-								Anda dapat melakukan transfer pembayaran ke salah satu rekening berikut:<br />
-								<br />
-								<ul style="list-style-type: square">
-									<li>
-										Bank BCA No. Rekening: 2611-3655-11
-									</li>
-									<li>
-										Bank Mandiri No. Rekening: 157-00-0398209-8
-									</li>
-									<li>
-										Bank BNI No. Rekening: 033-1469330
-									</li>
-									<li>
-										Bank BRI No. Rekening: 2080-01-000124-30-3
-									</li>
-									<li>
-										Bank Permata No. Rekening: 411-0463893
-									</li>
-								</ul>
-								<br />
-							</li>
-							<li>
-								<strong>Kartu Kredit (Visa dan Master Card) dan Internet Banking (Mandiri Click Pay 
-								dan CIMB Click)</strong><br />
-								Akses untuk pembayaran akan diberikan setelah Anda memilih metode pembayaran dengan 
-								menggunakan kartu kredit/internet banking saat mendaftar.<br />
-								<br />
-							</li>
-							<li>
-								<strong>Pembayaran Tunai</strong><br />
-								Pembayaran tunai dapat dibayarkan langsung ke kantor Ruangguru.com, d/a di 
-								Jalan Tebet Raya 32 A Jakarta Selatan (hanya buka pada Senin-Jumat, 
-								pukul 09.00 - 18.00 WIB)<br />
-								<br />
-							</li>
-						</ul>
-					</li>
-					<li>
-						Murid tidak diperkenankan untuk melakukan pembayaran secara langsung (dalam bentuk apapun) 
-						kepada penyelenggara kelas. Jika kemudian diketahui adanya pelanggaran ini, maka baik murid dan 
-						penyelenggara kelas akan di-<em>blacklist</em> dari penggunaan jasa Ruangguru.com untuk seluruh 
-						produk.<br />
-						<br />
-					</li>
-				</ol>
-			</li>
-			<div class="page"></div><p>&nbsp;</p>
-			<li>
-				Kebijakan Penggantian Biaya <em>(Refund Policy)</em><br />
-				<br />
-				<span class="text10">Mekanisme Penggantian Biaya bagi Murid</span><br />
-				<br />
-				<ol style="list-style-type: decimal; font-weight: normal" class="text10">
-					<li>
-						Ruangguru.com memiliki kebijakan <strong>100% money back-guarantee</strong> (garansi uang kembali 100%). Penggantian 
-						100% dapat dilakukan jika kelas tidak terlaksana karena pembatalan dilakukan oleh 
-						Penyelenggara Kelas.<br />
-						<br />
-					</li>
-					<li>
-							Dalam beberapa situasi tertentu (ditentukan oleh penyelenggara kelas), 
-						Anda dapat memindahkan hak tiket tersebut kepada orang lain. 
-						Dalam kondisi ini, Anda harus menginformasikan perubahan nama pengguna tiket kepada kami. 
-						Penggantian nama hanya dapat dilakukan maksimal 1x24 jam sebelum kelas berlangsung dan 
-						dilaporkan melalui email <a href="mailto:kelas@ruangguru.com">kelas@ruangguru.com</a><br />
-						<br />
-					</li>
-					<li>
-							<em>Refund Policy</em> hanya berlaku jika kelas batal terlaksana karena Penyelengara 
-							Kelas. 
-							Jika pembatalan kelas dilakukan oleh murid dalam jangka waktu 3x24 jam sebelum kelas berlangsung, 
-							maka murid tidak akan mendapatkan penggantian biaya.<br />
-						<br />
-					</li>
-					<li>
-							Jika anda batal hadir 3x24 jam sebelum kelas diselengarakan, 
-							kami akan mencoba membantu sebisa kami untuk menjual kembali tiket Anda. Namun, 
-							tidak ada jaminan bahwa tiket tersebut akan laku terjual. 
-							Jika terjual, Anda akan mendapatkan uang anda kembali secara penuh (dipotong dengan biaya transaksi - jika ada). 
-							Terkait hal ini anda dapat menghubungi kami melalui refund@ruangguru.com atau telepon 021-9200-3040. 
-							Dalam komunikasi, Anda wajib menyampaikan nomor tiket Anda.<br />
-						<br />
-					</li>
-					<li>
-						Jika pembatalan kelas diakibatkan oleh force majour, maka kelas akan ditunda pelaksanaannya. 
-						Jika murid berhalangan untuk hadir pada waktu yang ditetapkan kemudian, 
-						pihak Ruangguru.com akan melakukan penggantian biaya 100%.<br />
-						<br />
-					</li>
-				</ol>
-			</li>
-		</ol>
 	</div>
 </body>
 <!-- Insert JS here -->

@@ -62,6 +62,7 @@ class Auth extends MY_Controller{
 		$data['name'] = $this->input->post('vendor_name', TRUE);
 		$data['main_phone'] = $this->input->post('vendor_phone', TRUE);
 		$data['address'] = $this->input->post('vendor_address', TRUE);
+		$data['uri'] = $this->vendor_model->generate_uri($data['name']);
 		$vendor_exist = FALSE;
 		$v = $this->vendor_model->get_profile(array('email'=>$data['email']));
 		if(!empty($v))

@@ -414,10 +414,7 @@ class Teacher_driven extends MY_Controller{
 		foreach($tickets as $ticket) {
 			$tix = $this->payment_model->get_class_by_ticket($ticket->ticket_code);
 			$class = $this->vendor_class_model->get_class(array('id'=>$tix))->row();
-			$vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
-			$this->email_model->student_payment_step4((object)$murid, $class, $vendor, $ticket->ticket_code);
-			if($pemohon['email']!= $murid['email'])
-				$this->email_model->student_payment_step4((object)$pemohon, $class, $vendor, $ticket->ticket_code);
+			$this->email_model->student_payment_step4($ticket->ticket_code);
 			if($this->vendor_class_model->get_class_empty_seat($class->id) == 0) {
 				$vendor = $this->vendor_model->get_vendor_detail($class);
 				$this->email_model->vendor_class_soldout($vendor, $class);

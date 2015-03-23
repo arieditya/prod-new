@@ -80,8 +80,8 @@
 	<ul>
 		<li>
 			Link konfirmasi pembayaran:<br />
-			<a href="<?php echo base_url().'payment/transfer/confirm'?>">
-				<?php echo base_url().'payment/transfer/confirm'?>
+			<a href="<?php echo base_url().'konfirmasi/'.$code?>">
+				<?php echo base_url().'konfirmasi/'.$code?>
 			</a>
 		</li>
 		<li>

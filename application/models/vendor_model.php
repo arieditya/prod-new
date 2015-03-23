@@ -93,6 +93,7 @@ class Vendor_model extends MY_Model{
 			'address'		=> NULL
 		));
 
+		if(empty($data['uri'])) $data['uri'] = $this->generate_uri($data['name']); 
 		if(isset($var['id'])) {
 			$this->db->update('vendor_profile', $data, array('id'=>$var['id']));
 			$this->set_info(array('vendor_id'=>$var['id'], 'is_institute'=>1));
@@ -102,6 +103,7 @@ class Vendor_model extends MY_Model{
 			$this->set_info(array('vendor_id'=>$id, 'is_institute'=>1));
 			return $id;
 		}
+		log_message('error', $this->db->last_query());
 		return FALSE;
 		
 	}

@@ -19,7 +19,7 @@
 	</p>
 
 	<p>
-		<strong>Halo <?php echo $murid_name;?>,</strong>
+		<strong>Halo <?php echo $murid['name'];?>,</strong>
 	</p>
 
 	<p>
@@ -27,8 +27,8 @@
 	</p>
 
 	<ul>
-		<li>Nama kelas		: <?php echo $class_name;?></li>
-		<li>Penyelenggara	: <?php echo $vendor_name;?></li>
+		<li>Nama kelas		: <?php echo $class['class_nama'];?></li>
+		<li>Penyelenggara	: <?php echo $vendor['name'];?></li>
 	</ul>
 
 	<p>
@@ -36,7 +36,7 @@
 		Anda juga dapat mencatat nomor konfirmasi tiket berikut:
 	</p>
 
-	<p><strong>Nomor konfirmasi Anda: <?php echo $ticket_code?></strong></p>
+	<p><strong>Nomor konfirmasi Anda: <?php echo $ticket['ticket_code']?></strong></p>
 
 	<p>Selamat belajar dan kami berharap kelas Anda menyenangkan!</p>
 

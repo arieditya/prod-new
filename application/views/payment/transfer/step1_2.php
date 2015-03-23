@@ -53,7 +53,7 @@ $wait = json_decode($wait);
 										   id="pemesan_phone"
 										   name="pemesan_phone"
 										   placeholder="Contoh: 08123456789" 
-										   value="<?php echo !empty($student)?$student->murid_phone:'';?>" />
+										   value="<?php echo !empty($student)?$student->murid_hp:'';?>" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -145,8 +145,8 @@ $wait = json_decode($wait);
 		foreach($cart_list['schedule'] as $sched):
 			$i++;
 			$date = date('j M y', strtotime($sched->class_tanggal));
-			$start = $sched->class_jam_mulai.':'.$sched->class_menit_mulai;
-			$end = $sched->class_jam_selesai.':'.$sched->class_menit_selesai;
+			$start = double_digit($sched->class_jam_mulai).':'.double_digit($sched->class_menit_mulai);
+			$end = double_digit($sched->class_jam_selesai).':'.double_digit($sched->class_menit_selesai);
 			$followed = FALSE;
 //			$sched->available_seat = 0;
 			if(in_array($sched->jadwal_id, $cart_list['followed']) && $sched->available_seat > 0) {
