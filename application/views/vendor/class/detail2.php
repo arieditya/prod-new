@@ -104,7 +104,13 @@ $profile = $vendor['profile'];
                                             <div class="section-row">
                                                 <div class="col-sm-4">Tipe Kelas</div>
                                                 <div class="col-sm-8">
-                                                    <?php echo $class->class_paket;?>
+                                                    <?php
+                                                    if($class->class_paket=='0')
+                                                        echo "Satu Sesi";
+                                                    elseif($class->class_paket=='1')
+                                                        echo "Kelas Berseri";
+                                                    elseif($class->class_paket=='2')
+                                                        echo "Paket";?>
                                                 </div>
                                             </div><!-- section-row -->
                                             <div class="section-row">
