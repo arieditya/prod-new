@@ -140,7 +140,8 @@ $this->load->view('vendor/general/header2');
 							</div>
 						</div><!-- description -->
 						<div class="review">
-							<div class="vendor-name">
+							<div class="vendor-name"
+                                data-toggle="tooltip" data-placement="right" title="<?php echo $kelas->vendor['profile']->name;?>" data-original-title="<?php echo $kelas->vendor['profile']->name;?>">
 								<div class="icon tag"><i class="fa fa-user fa-2"></i></div>
 								<a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>">
 									<?php echo character_limiter($kelas->vendor['profile']->name,12);?>
@@ -240,7 +241,9 @@ $this->load->view('vendor/general/header2');
                             <div class="review">
                                 <div class="vendor-name">
                                     <div class="icon tag"><i class="fa fa-user fa-2"></i></div>
-                                    <a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>">
+                                    <a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>"
+                                        data-toggle="tooltip" data-placement="bottom" title="" data-original-title="<?php echo $kelas->vendor['profile']->name;?>"
+                                        >
                                         <?php echo character_limiter($kelas->vendor['profile']->name,12);?>
                                     </a>
                                 </div>
