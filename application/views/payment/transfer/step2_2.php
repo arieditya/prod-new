@@ -309,7 +309,8 @@ if($total > 0):
 							<label>
 								<input type="checkbox" id="iagree" />
 								Data pemesan, murid dan rincian pemesanan sudah sesuai.<br/>
-								Saya menyepakati <a href="http://ruangguru.com/kebijakan" class="blue underline">persyaratan dan ketentuan</a> yang berlaku
+								Saya menyepakati <a href="http://ruangguru.com/kebijakan-pembayaran" class="blue 
+								underline">persyaratan dan ketentuan</a> yang berlaku
 							</label>
 						</div>
 						<div class="agreefirst">

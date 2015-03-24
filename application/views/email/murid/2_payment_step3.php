@@ -80,8 +80,8 @@
 	<ul>
 		<li>
 			Link konfirmasi pembayaran:<br />
-			<a href="<?php echo base_url().'konfirmasi/'.$code?>">
-				<?php echo base_url().'konfirmasi/'.$code?>
+			<a href="http://kelas.ruangguru.com/konfirmasi/'.<?php echo $code?>">
+				http://kelas.ruangguru.com/konfirmasi/'<?php echo $code;?>
 			</a>
 		</li>
 		<li>
@@ -93,6 +93,10 @@
 		</li>
 	</ul>
 
+	<p>
+		Dengan melakukan pembayaran ini, Anda menyepakati <a href="http://ruangguru.com/kebijakan-pembayaran/">syarat 
+			dan ketentuan</a> yang berlaku.
+	</p>
 	<p>
 		Jika Anda memiliki pertanyaan, silakan hubungi Tim Ruangguru melalui email ke <a href="mailto:kelas@ruangguru.com">kelas@ruangguru.com</a> atau
 		menelepon ke <a href="tel:+622192003040">021-9200-3040</a> pada saat jam kerja. Terima kasih.

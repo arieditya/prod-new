@@ -147,7 +147,7 @@ class Vendor_class_model extends MY_Model{
 	
 	public function get_class_sort_by_next_open() {
 		$q = "
-		SELECT DISTINCT
+		SELECT
 			a.id, 
 			MIN(b.class_tanggal) AS tgl
 		FROM 
@@ -165,7 +165,7 @@ class Vendor_class_model extends MY_Model{
 		$result = $query->result();
 		$class = array();
 		foreach($result as $row) {
-			$cls = $this->get_class(array('id'=>$row->id));
+			$cls = $this->get_class(array('id'=>$row->id))->result();
 			if(!empty($cls)) $class[] = $cls;
 		}
 		return $class;
