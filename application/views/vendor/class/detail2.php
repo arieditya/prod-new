@@ -39,28 +39,27 @@ $profile = $vendor['profile'];
                         <?php echo $class->class_nama; ?>
                     </h2>
                     <span class="info">Status:
-                        <i>
                         <?php
                             switch($status->class_status){
                                 case -1:
-                                    echo "rejected";
+                                    echo "<b class='status-rejected'>rejected</b>";
                                     break;
                                 case 0:
-                                    echo "draft";
+                                    echo "<b class='status-draft'>draft</b>";
                                     break;
                                 case 1:
-                                    if($status->active == 0) echo "Unpublished";
-                                    else echo "Published";
+                                    if($status->active == 0) echo "<b class='status-draft'>Unpublished</b>";
+                                    else echo "<b class='status-published'>Published</b>";
                                     break;
                                 case 4: {
-                                    echo "Pending ";
+                                    echo "<b class='status-pending'> Pending ";
                                     if($status->active == 1) echo "Unpublished";
                                     else echo "Published";
+                                    echo "</b>";
                                     break;
                                 }
                             }
                         ?>
-                        </i>
                     </span>
 					<div class="panel-body">
 						<div role="tabpanel" class="sub-vendor manage">
@@ -102,7 +101,19 @@ $profile = $vendor['profile'];
 												<div class="col-sm-4">URL</div>
 												<div class="col-sm-8">http://kelas.ruangguru.com/kelas/<?php echo $class->class_uri;?></div>
 											</div><!-- section-row -->
-											<div class="section-row">
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Tipe Kelas</div>
+                                                <div class="col-sm-8">
+                                                    <?php
+                                                    if($class->class_paket=='0')
+                                                        echo "Satu Sesi";
+                                                    elseif($class->class_paket=='1')
+                                                        echo "Kelas Berseri";
+                                                    elseif($class->class_paket=='2')
+                                                        echo "Paket";?>
+                                                </div>
+                                            </div><!-- section-row -->
+                                            <div class="section-row">
 												<div class="col-sm-4">Deskripsi</div>
 												<div class="col-sm-8"><?php echo $class->class_deskripsi;?></div>
 											</div><!-- section-row -->
@@ -110,49 +121,9 @@ $profile = $vendor['profile'];
 												<div class="col-sm-4">Kategori</div>
 												<div class="col-sm-8"><?php echo $class->category->category_name;?></div>
 											</div><!-- section-row -->
-											<div class="section-row">
-												<div class="col-sm-4">Provinsi</div>
-												<div class="col-sm-8"><?php echo $class->provinsi_title;?></div>
-											</div><!-- section-row -->
-											<div class="section-row">
-												<div class="col-sm-4">Kota / Kabupaten</div>
-												<div class="col-sm-8"><?php echo $class->lokasi_title;?></div>
-											</div><!-- section-row -->
-											<div class="section-row">
-												<div class="col-sm-4">Alamat</div>
-												<div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
-											</div><!-- section-row -->
-<?php
-	if(empty($class->class_peta)) {
-		if(!empty($class->class_lokasi)) {
-			$str_lokasi = preg_replace('/[\s\r\n]/','+',$class->class_lokasi);
-			$str_lokasi = str_replace('++','+', $str_lokasi);
-		} else {
-			$str_lokasi = 'monumen+nasional';
-		}
-		$ll = $str_lokasi;
-		$link = 'https://www.google.com/maps/place/'.$str_lokasi;
-	} else {
-		$peta = explode('||', $class->class_peta);
-		$ll = $peta[0];
-		if(count($peta) == 2) {
-			$link = $peta[1];
-		} else {
-			$link = 'https://www.google.com/maps/place/'.$peta[0];
-		}
-	}
-?>
-											<div class="section-row">
-												<div class="col-sm-4">Peta</div>
-												<div class="col-sm-8">
-													<a target="_blank" href="<?php echo $link;?>">
-														<img src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
-													</a>
-												</div>
-											</div><!-- section-row -->
-										</div><!-- section-content -->
-									</div><!-- section-wrap -->
-									<div class="section-wrap">
+                                        </div><!-- section-content -->
+                                    </div><!-- section-wrap -->
+                                    <div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Info</h3></div>
 										<div class="section-content">
 <?php
@@ -187,8 +158,53 @@ $profile = $vendor['profile'];
 												</div>
 											</div><!-- section-row -->
 										</div><!-- section-content -->
-									</div><!-- section-wrap --> 
-									<div class="section-wrap">
+									</div><!-- section-wrap -->
+                                    <div class="section-wrap">
+                                        <div class="section-heading"><h3 class="section-title">Lokasi</h3></div>
+                                        <div class="section-content">
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Provinsi</div>
+                                                <div class="col-sm-8"><?php echo $class->provinsi_title;?></div>
+                                            </div><!-- section-row -->
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Kota / Kabupaten</div>
+                                                <div class="col-sm-8"><?php echo $class->lokasi_title;?></div>
+                                            </div><!-- section-row -->
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Alamat</div>
+                                                <div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
+                                            </div><!-- section-row -->
+                                            <?php
+                                            if(empty($class->class_peta)) {
+                                                if(!empty($class->class_lokasi)) {
+                                                    $str_lokasi = preg_replace('/[\s\r\n]/','+',$class->class_lokasi);
+                                                    $str_lokasi = str_replace('++','+', $str_lokasi);
+                                                } else {
+                                                    $str_lokasi = 'monumen+nasional';
+                                                }
+                                                $ll = $str_lokasi;
+                                                $link = 'https://www.google.com/maps/place/'.$str_lokasi;
+                                            } else {
+                                                $peta = explode('||', $class->class_peta);
+                                                $ll = $peta[0];
+                                                if(count($peta) == 2) {
+                                                    $link = $peta[1];
+                                                } else {
+                                                    $link = 'https://www.google.com/maps/place/'.$peta[0];
+                                                }
+                                            }
+                                            ?>
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Peta</div>
+                                                <div class="col-sm-8">
+                                                    <a target="_blank" href="<?php echo $link;?>">
+                                                        <img src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
+                                                    </a>
+                                                </div>
+                                            </div><!-- section-row -->
+                                        </div><!-- section-content -->
+                                    </div><!-- section-wrap -->
+                                    <div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Peserta</h3></div>
 										<div class="section-content">
 											<div class="section-row">
@@ -409,7 +425,7 @@ endif;
 														   placeholder="Biarkan terisi secara otomatis bila Anda ragu"
 <?php endif; ?>
 														   value="<?php echo $class->class_uri;?>" />
-                                                    <p>contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></p>
+                                                    <div class="info">contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></div>
 												</div>
 											</div>
 											<div class="form-group">
@@ -735,7 +751,7 @@ endif;
 												   href="#form_peserta"
 												   aria-controls="form_peserta"
 												   aria-expanded="false">
-													Target Peserta
+													Peserta
 												</a>
 											</h3>
 										</div>
@@ -744,8 +760,7 @@ endif;
 												<label for="tentang" class="col-sm-4 control-label">Target Peserta</label>
 												<div class="col-sm-8">
 													<textarea class="form-control" 
-															  placeholder="Masukan target audience kelas ini. Contoh : umum, di atas 25 tahun,
-															  freelancer, dll"
+															  placeholder="Masukan target audience kelas ini. Contoh : umum, di atas 25 tahun, freelancer, dll"
 															  name="class_perserta_target"
 															  rows="3"><?php echo $class->class_perserta_target?></textarea>
 												</div>

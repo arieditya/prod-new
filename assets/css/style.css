@@ -1081,6 +1081,18 @@ a.remove {
   margin-bottom: 10px;
   margin-left: 5px;
 }
+.status-rejected {
+ color: red;
+}
+.status-pending {
+ color: #fcb336;
+}
+.status-draft {
+ color: #3bc4e6;
+}
+.status-published {
+ color: #9da240;
+}
 .manage.icon-circle,
 .unpublish.icon-circle,
 .publish.icon-circle,
