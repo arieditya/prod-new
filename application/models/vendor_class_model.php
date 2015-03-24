@@ -71,7 +71,7 @@ class Vendor_class_model extends MY_Model{
 		return $id;
 	}
 
-	public function get_class($var=null, $page=1, $perpage=5, $time='current') {
+	public function get_class($var=null, $page=1, $perpage=5, $time='all') {
 		$where = array(
 				'class_status >='	=> 1,
 				'active'		=> 1,
