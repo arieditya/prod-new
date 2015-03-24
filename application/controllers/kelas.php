@@ -138,6 +138,8 @@ class Kelas extends MY_Controller {
 			$cla->rating = $this->vendor_class_model->get_class_rating($cla->vendor_id)->row();
 			$cla->vendor = $v;
 		}
+		
+		
 		$this->load->helper('text');
 		$this->data['class'] = $classes;
 		$this->data['vendor'] = empty($data['vendor'])?NULL:$data['vendor'];

@@ -666,7 +666,7 @@ Terima kasih
 		$this->CI->load->model('vendor_class_model');
 		$this->CI->load->model('payment_model');
 		$tix = $this->CI->payment_model->get_ticket_detail($ticket);
-		
+		var_dump($tix);exit;
 		$path1 = substr($ticket, 0,1);
 		$path2 = substr($ticket, 1,1);
 
@@ -686,6 +686,8 @@ Terima kasih
 		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');
 
 		$this->send();
+		
+		
 
 /**
 		$invoice_raw = $this->CI->vendor_class_model->get_new_invoice_data($code);
@@ -768,5 +770,9 @@ Terima kasih
 		$this->subject('Feedback untuk kelas '.$class->class_nama);
 		$this->to($murid->email);
 		$this->send();
+	}
+	
+	public function vendor_student_registered_notification() {
+		
 	}
 }

@@ -171,7 +171,7 @@ class Vendor_class_model extends MY_Model{
 		$result = $query->result();
 		$class = array();
 		foreach($result as $row) {
-			$cls = $this->get_class(array('id'=>$row->id))->result();
+			$cls = $this->get_class(array('id'=>$row->id))->row();
 			if(!empty($cls)) $class[] = $cls;
 		}
 		return $class;
