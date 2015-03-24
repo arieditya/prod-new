@@ -50,7 +50,7 @@ class Profile extends Vendor_Controller{
     public function copy_profile_to_info() {
         $this->profile = $this->vendor_model->get_profile(array('id'=>$this->vendor->id))->row();
         $this->vendor_model->update_info(array('id'=>$this->vendor->id, 'contact_person_email'=>$this->profile->email, 'contact_person_name'=>$this->profile->name, 'contact_person_phone'=>$this->profile->main_phone));
-        redirect("vendor/profile/edit/copied");
+        redirect("vendor/profile/edit/penanggungjawab");
     }
 	
 	public function update_profile(){

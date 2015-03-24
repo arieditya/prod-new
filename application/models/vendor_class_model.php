@@ -147,12 +147,28 @@ class Vendor_class_model extends MY_Model{
 	
 	public function get_class_sort_by_next_open() {
 		$q = "
-		SELECT 
-			* 
+		SELECT DISTINCT
+			a.id, 
+			MIN(b.class_tanggal) AS tgl
 		FROM 
 			vendor_class a
-			LEFT JOIN vendor_class_jadwal b ON 
-		WHERE 1 AND ";
+			LEFT JOIN vendor_class_jadwal b ON
+				b.class_id = a.id
+		WHERE 1 
+				AND a.class_status <= 1
+				AND a.active = 1
+				AND a.id IS NOT NULL
+				AND b.class_id IS NOT NULL
+		GROUP BY b.class_id
+		ORDER BY tgl ASC";
+		$query = $this->db->query($q);
+		$result = $query->result();
+		$class = array();
+		foreach($result as $row) {
+			$cls = $this->get_class(array('id'=>$row->id));
+			if(!empty($cls)) $class[] = $cls;
+		}
+		return $class;
 	}
 	
 	public function get_class_detail($var=null, $page=1, $perpage=5) {
