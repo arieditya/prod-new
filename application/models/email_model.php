@@ -511,9 +511,14 @@ Terima kasih
 		$this->send();
 	}
 	
-	public function vendor_class_published($vendor, $class) {
+	public function vendor_class_published($id) {
+		$this->CI->load->model('vendor_class_model');
+		$this->CI->load->model('vendor_model');
+		$class = $this->CI->vendor_class_model->get_class(array('id'=>$id))->row();
+		$vendor = $this->CI->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+		$vendor_info = $this->CI->vendor_model->get_info(array('vendor_id'=>$class->vendor_id))->row();
 		$data = array(
-			'penanggung_jawab'			=> $vendor->contact_person_name,
+			'penanggung_jawab'			=> $vendor_info->contact_person_name,
 			'penyelenggara'				=> $vendor->name,
 			'class_name'				=> $class->class_nama,
 			'class_id'					=> $class->id,
@@ -522,7 +527,7 @@ Terima kasih
 		$this->html_content('vendor/4_class_published', $data);
 		$this->subject('Kelas anda telah diterbitkan');
 	$this->to($vendor->email);
-		$this->cc($vendor->contact_person_email);
+		$this->cc($vendor_info->contact_person_email);
 		$this->send();
 	}
 

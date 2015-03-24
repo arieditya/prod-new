@@ -145,6 +145,16 @@ class Vendor_class_model extends MY_Model{
 		return $result;
 	}
 	
+	public function get_class_sort_by_next_open() {
+		$q = "
+		SELECT 
+			* 
+		FROM 
+			vendor_class a
+			LEFT JOIN vendor_class_jadwal b ON 
+		WHERE 1 AND ";
+	}
+	
 	public function get_class_detail($var=null, $page=1, $perpage=5) {
 		$class = $this->get_class($var, $page, $perpage)->row();
 		unset($class->count_session);

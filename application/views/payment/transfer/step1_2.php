@@ -267,6 +267,7 @@ $wait = json_decode($wait);
 		endforeach;
 	}
 	else $potongan_diskon = 0;
+	if($total_price < 0) $total_price = 0;
 ?>
                         <h4 class="sum-total">
 							Total yang harus dibayar <span class="pull-right">

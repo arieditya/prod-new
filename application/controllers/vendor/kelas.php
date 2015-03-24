@@ -94,7 +94,7 @@ class Kelas extends Vendor_Controller{
 	public function submit_new(){
 //		var_dump($_POST);exit;
 		$fields = array(
-			'class_uri', 'class_nama', 'class_deskripsi', 'class_lokasi', 
+			'class_nama', 'class_deskripsi', 'class_lokasi', 
 			'class_peserta_max', 'class_peserta_min', 'class_harga', 
 			'class_paket','class_peta',
 		);
@@ -115,6 +115,7 @@ class Kelas extends Vendor_Controller{
 				$data_ext[$key] = $dt;
 			}
 		}
+		$data['class_uri'] = $this->vendor_class_model->check_uri($data['class_nama']);
 		$data['vendor_id'] = $this->vendor->id;
 		$id = $this->vendor_class_model->add_new_class($data, $data_ext);
 		if(is_string($id)) {

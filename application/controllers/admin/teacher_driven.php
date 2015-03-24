@@ -209,9 +209,12 @@ class Teacher_driven extends MY_Controller{
 		$referer = array_pop(explode('/',$_SERVER['HTTP_REFERER']));
 		if( ! method_exists($this, $referer)) show_error('unauthorized call of function!', 401);
 		$status1 = $this->vendor_class_model->set_published_class($id, 1);
+		
 		if($status1) {
 			$status2 = $this->vendor_class_model->set_status_class($id, 1);
 			if($status2) {
+				$this->load->model('email_model');
+				$this->email_model->vendor_class_published($id);
 				$status = array('f_class'	=> 'Class is published!');
 				$class = $this->vendor_class_model->get_class(array('id'=>$id, 
 																	'class_status >=' => NULL, 
@@ -219,7 +222,7 @@ class Teacher_driven extends MY_Controller{
 				$vendor = $this->vendor_model->get_vendor_detail($class->id);
 				$this->email_model->vendor_class_published($vendor, $class);
 			}
-			else $status = array('f_class_error'	=> 'Class unpublished but failed to change status!');
+			else $status = array('f_class_error'	=> 'Class unpublished but status remain.');
 		} else $status = array('f_class_error'	=> 'Class STILL Unpublished!');
 		$this->session->set_flashdata($status);
 		redirect('admin/teacher_driven/'.$referer);

@@ -29,17 +29,6 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="Seo" class="col-sm-4 control-label">SEO Friendly URL</label>
-                                <div class="col-sm-8">
-									<input class="form-control" 
-										   tabindex="-1" 
-										   id="class_uri" 
-										   type="text" 
-										   name="class_uri" 
-										   placeholder="Biarkan terisi secara automatis bila Anda ragu" />
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-sm-4 control-label">Tentang kelas</label>
                                 <div class="col-sm-8">
 									<textarea class="form-control" 
