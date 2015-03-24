@@ -102,7 +102,11 @@ $profile = $vendor['profile'];
 												<div class="col-sm-4">URL</div>
 												<div class="col-sm-8">http://kelas.ruangguru.com/kelas/<?php echo $class->class_uri;?></div>
 											</div><!-- section-row -->
-											<div class="section-row">
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Tipe Kelas</div>
+                                                <div class="col-sm-8"><?php echo $class->class_paket;?></div>
+                                            </div><!-- section-row -->
+                                            <div class="section-row">
 												<div class="col-sm-4">Deskripsi</div>
 												<div class="col-sm-8"><?php echo $class->class_deskripsi;?></div>
 											</div><!-- section-row -->
@@ -110,49 +114,9 @@ $profile = $vendor['profile'];
 												<div class="col-sm-4">Kategori</div>
 												<div class="col-sm-8"><?php echo $class->category->category_name;?></div>
 											</div><!-- section-row -->
-											<div class="section-row">
-												<div class="col-sm-4">Provinsi</div>
-												<div class="col-sm-8"><?php echo $class->provinsi_title;?></div>
-											</div><!-- section-row -->
-											<div class="section-row">
-												<div class="col-sm-4">Kota / Kabupaten</div>
-												<div class="col-sm-8"><?php echo $class->lokasi_title;?></div>
-											</div><!-- section-row -->
-											<div class="section-row">
-												<div class="col-sm-4">Alamat</div>
-												<div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
-											</div><!-- section-row -->
-<?php
-	if(empty($class->class_peta)) {
-		if(!empty($class->class_lokasi)) {
-			$str_lokasi = preg_replace('/[\s\r\n]/','+',$class->class_lokasi);
-			$str_lokasi = str_replace('++','+', $str_lokasi);
-		} else {
-			$str_lokasi = 'monumen+nasional';
-		}
-		$ll = $str_lokasi;
-		$link = 'https://www.google.com/maps/place/'.$str_lokasi;
-	} else {
-		$peta = explode('||', $class->class_peta);
-		$ll = $peta[0];
-		if(count($peta) == 2) {
-			$link = $peta[1];
-		} else {
-			$link = 'https://www.google.com/maps/place/'.$peta[0];
-		}
-	}
-?>
-											<div class="section-row">
-												<div class="col-sm-4">Peta</div>
-												<div class="col-sm-8">
-													<a target="_blank" href="<?php echo $link;?>">
-														<img src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
-													</a>
-												</div>
-											</div><!-- section-row -->
-										</div><!-- section-content -->
-									</div><!-- section-wrap -->
-									<div class="section-wrap">
+                                        </div><!-- section-content -->
+                                    </div><!-- section-wrap -->
+                                    <div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Info</h3></div>
 										<div class="section-content">
 <?php
@@ -187,8 +151,53 @@ $profile = $vendor['profile'];
 												</div>
 											</div><!-- section-row -->
 										</div><!-- section-content -->
-									</div><!-- section-wrap --> 
-									<div class="section-wrap">
+									</div><!-- section-wrap -->
+                                    <div class="section-wrap">
+                                        <div class="section-heading"><h3 class="section-title">Lokasi</h3></div>
+                                        <div class="section-content">
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Provinsi</div>
+                                                <div class="col-sm-8"><?php echo $class->provinsi_title;?></div>
+                                            </div><!-- section-row -->
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Kota / Kabupaten</div>
+                                                <div class="col-sm-8"><?php echo $class->lokasi_title;?></div>
+                                            </div><!-- section-row -->
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Alamat</div>
+                                                <div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
+                                            </div><!-- section-row -->
+                                            <?php
+                                            if(empty($class->class_peta)) {
+                                                if(!empty($class->class_lokasi)) {
+                                                    $str_lokasi = preg_replace('/[\s\r\n]/','+',$class->class_lokasi);
+                                                    $str_lokasi = str_replace('++','+', $str_lokasi);
+                                                } else {
+                                                    $str_lokasi = 'monumen+nasional';
+                                                }
+                                                $ll = $str_lokasi;
+                                                $link = 'https://www.google.com/maps/place/'.$str_lokasi;
+                                            } else {
+                                                $peta = explode('||', $class->class_peta);
+                                                $ll = $peta[0];
+                                                if(count($peta) == 2) {
+                                                    $link = $peta[1];
+                                                } else {
+                                                    $link = 'https://www.google.com/maps/place/'.$peta[0];
+                                                }
+                                            }
+                                            ?>
+                                            <div class="section-row">
+                                                <div class="col-sm-4">Peta</div>
+                                                <div class="col-sm-8">
+                                                    <a target="_blank" href="<?php echo $link;?>">
+                                                        <img src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
+                                                    </a>
+                                                </div>
+                                            </div><!-- section-row -->
+                                        </div><!-- section-content -->
+                                    </div><!-- section-wrap -->
+                                    <div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Peserta</h3></div>
 										<div class="section-content">
 											<div class="section-row">
@@ -735,7 +744,7 @@ endif;
 												   href="#form_peserta"
 												   aria-controls="form_peserta"
 												   aria-expanded="false">
-													Target Peserta
+													Peserta
 												</a>
 											</h3>
 										</div>
