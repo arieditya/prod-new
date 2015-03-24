@@ -89,12 +89,14 @@ if($total > 0):
 							$jml_sesi = count($jadwal);
 							$price_session = $subtotal/$jml_sesi;
 							
-							// Use sandbox account
-							//Veritrans_Config::$isProduction = true;
-							Veritrans_Config::$isProduction = false;
+							// NO LONGER Use sandbox account
+							Veritrans_Config::$isProduction = true;
+							//Veritrans_Config::$isProduction = false;
 				
 							// Set our server key
-							Veritrans_Config::$serverKey = 'VT-server-a-AunKPJMwirR3Woa9ndxVCK'; //---> SANDBOX KEY
+							// Veritrans_Config::$serverKey = 'VT-server-a-AunKPJMwirR3Woa9ndxVCK'; //---> SANDBOX KEY
+							Veritrans_Config::$serverKey = 'VT-server-uOH49Wzel6UwMKYHikpZ5WQE'; //---> PRODUCTION KEY
+							// Production @ImanVeritrans bukan @InfoVeritrans
 							$items_details = $veritrans_items;
 							if($discount > 0) {
 								$disc_items = array(
