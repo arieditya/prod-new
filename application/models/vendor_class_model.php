@@ -71,10 +71,10 @@ class Vendor_class_model extends MY_Model{
 		return $id;
 	}
 
-	public function get_class($var=null, $page=1, $perpage=5) {
+	public function get_class($var=null, $page=1, $perpage=5, $time='current') {
 		$where = array(
 				'class_status >='	=> 1,
-				'active'		=> 1
+				'active'		=> 1,
 			);
 		if($page==0 && $perpage==0){
 			
@@ -117,6 +117,11 @@ class Vendor_class_model extends MY_Model{
 		$this->db->join('vendor_class_jadwal', 'vendor_class_jadwal.class_id=vendor_class.id', 'left');
         $this->db->join('lokasi', 'lokasi.lokasi_id=vendor_class.class_lokasi_id', 'left');
 		$this->db->where($where);
+        if($time == 'current')
+            $this->db->where('class_tanggal >=','CURRENT_DATE()', false);
+        elseif($time == 'past')
+            $this->db->where('class_tanggal <','CURRENT_DATE()', false);
+
 		if(!empty($wherein)) {
 			foreach($wherein as $k=>$v)
 				$this->db->where_in($k, $v);
@@ -130,7 +135,7 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('vendor_level_list.nama');
 		$this->db->select('vendor_class_price.price_per_session');
 		$this->db->select('COUNT(`vendor_class_jadwal`.`jadwal_id`) AS `count_session`', TRUE);
-		$this->db->select('vendor_class_jadwal.class_tanggal');
+		$this->db->select('MIN(`vendor_class_jadwal`.`class_tanggal`) AS `class_tanggal`');
 		$this->db->select('vendor_class_jadwal.class_jam_mulai');
 		$this->db->select('vendor_class_jadwal.class_menit_mulai');
 		$this->db->select('vendor_class_jadwal.class_jam_selesai');
@@ -139,10 +144,11 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('vendor_class_price.price_per_session');
         $this->db->select('lokasi.lokasi_title');
         $this->db->order_by('vendor_class.id','DESC');
+        $this->db->order_by('vendor_class_jadwal.class_tanggal','DESC');
 		$this->db->group_by('vendor_class.id');
 		$result = $this->db->get('vendor_class');
-//		var_dump($this->db->last_query());
-		return $result;
+//		var_dump($this->db->last_query()); exit;
+        return $result;
 	}
 	
 	public function get_class_sort_by_next_open() {
