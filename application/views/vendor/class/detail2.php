@@ -1178,7 +1178,7 @@ endif;
 	});
 </script>
 								</div><!-- profile -->
-								<div role="tabpanel" class="tab-pane" id="murid">
+								<div role="tabpanel" class="tab-pane <?php if($tabs=="murid"){ echo "active"; }?>" id="murid">
 									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Peserta Kelas</h3></div>
 <?php /*

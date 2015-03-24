@@ -33,8 +33,12 @@
 	
 	<p>
 		Detil kontak murid dapat Anda akses melalui link di bawah ini:<br />
-		http://{LINK DETIL MURID}
+		<a href="http://kelas.ruangguru.com/vendor/kelas/detil/<?php echo $class['id'];?>/murid">
+			http://kelas.ruangguru.com/vendor/kelas/detil/<?php echo $class['id'];?>/murid
+		</a><br />
+		Atau dengan mengakses tab "Murid" dari dashboard vendor di <?php krg();?>
 	</p>
+	
 
 	<p>
 		Jumlah murid yang terdaftar melalui <?php krg(); ?> untuk kelas Anda saat ini adalah sebanyak: 

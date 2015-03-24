@@ -666,7 +666,9 @@ Terima kasih
 		$this->CI->load->model('vendor_class_model');
 		$this->CI->load->model('payment_model');
 		$tix = $this->CI->payment_model->get_ticket_detail($ticket);
-		var_dump($tix);exit;
+		$attendance = $this->CI->vendor_class_model->get_class_attendance($tix['class']['id']);
+		$tix['daftar_murid'] = empty($attendance)?0:((int)$attendance);
+		
 		$path1 = substr($ticket, 0,1);
 		$path2 = substr($ticket, 1,1);
 
@@ -680,16 +682,13 @@ Terima kasih
 		create_pdf($content, FCPATH.$docs_path.$ticket, FALSE);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/3_payment_step4',$tix);
-		$this->subject('Tiket Anda');
+		$this->subject('Tiket Anda - '. $tix['class']['class_nama']);
 		$this->to($tix['murid']['email']);
 		$this->bcc('kelas@ruangguru.com');
 
 		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');
 
 		$this->send();
-		
-		$attendance = $this->CI->vendor_class_model->get_class_attendance($tix['class']['id']);
-		$tix['daftar_murid'] = empty($attendance)?0:((int)$attendance);
 		
 		$this->html_content('vendor/9_student_registered_notification',$tix);
 		$this->subject('Kelas.Ruangguru - Pendaftaran terbaru dari '.$tix['murid']['name']);

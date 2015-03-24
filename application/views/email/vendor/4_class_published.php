@@ -33,8 +33,8 @@
 
 	<p>
 		Kelas anda kini dapat diakses di:
-		<a href="<?php echo base_url().'vendor/kelas/detil/'.$class_id;?>">
-			<?php echo base_url().'vendor/kelas/detil/'.$class_id;?>
+		<a href="http://kelas.ruangguru.com/vendor/kelas/detil/<?php echo $class_id;?>">
+			http://kelas.ruangguru.com/vendor/kelas/detil/<?php echo $class_id;?>
 		</a>
 	</p>
 	
