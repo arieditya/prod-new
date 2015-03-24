@@ -342,7 +342,7 @@ class Teacher_driven extends MY_Controller{
 			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
 					->category_name;
 			$cls->level_name = $this->vendor_class_model->get_level_name(array('id'=>$cls->level_id))->row()
-					->name;
+					->nama;
 			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
 					->num_rows();
 			$cls->attendance = $this->vendor_class_model->get_class_participant_full($cls->id, 0);

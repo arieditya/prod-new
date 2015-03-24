@@ -423,11 +423,12 @@ class Vendor_class_model extends MY_Model{
 	}
 	
 	public function get_level_name($var = array()) {
-		$this->db->select('GROUP_CONCAT(name) as name', FALSE);
+		$this->db->select('GROUP_CONCAT(name) as nama', FALSE);
 		$this->db->where($var);
 		$this->db->where(array('status'=>1));
 		$this->db->group_by('name');
-		return $this->db->get('vendor_level_list');
+		$level =  $this->db->get('vendor_level_list');
+		return $level;
 	}
 	
 	public function get_class_multiple_level($class_id) {
