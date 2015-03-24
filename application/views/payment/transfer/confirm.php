@@ -27,7 +27,11 @@ $this->load->view('vendor/general/header2');
 <?php 
 	if($status):
 ?>
-		<div class=""><?php echo $message; ?></div>
+		<div style="height: 25px;background-color: #98FB98;"><?php echo $message; ?></div>
+<?php 
+	elseif($status===FALSE):
+?>
+		<div style="height: 25px;background-color: #FFB6C1;"><?php echo $message; ?></div>
 <?php 
 	endif;
 ?>
@@ -92,7 +96,7 @@ $this->load->view('vendor/general/header2');
 							<div class="form-group">
 								<label class="control-label col-md-4">Upload bukti transfer<br />(Max. 2MB)</label>
 								<div class="col-md-8">
-									<input type="file" name="bukti_transfer" class="form-control" />
+									<input type="file" name="bukti_transfer" class="form-control" required="required" />
 								</div>
 							</div>
 							<div class="col-md-4 col-md-offset-4">

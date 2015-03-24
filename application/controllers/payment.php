@@ -241,7 +241,7 @@ class Payment extends MY_Controller {
 //			$trx = $this->vendor_class_model->get_transaction($dt1['code']);
 			$dt2 = json_decode($this->session->userdata('transaction'));
 			$dt1['jadwal'] = $dt2->jadwal;
-			$this->load->view('payment/transfer/step2', $dt1);
+			$this->load->view('payment/transfer/step2_2', $dt1);
 			return;
 		}
 		
@@ -444,9 +444,9 @@ class Payment extends MY_Controller {
 		
 		$data = array_merge($this->data, $data);
 		$this->session->set_userdata('transaction', json_encode($data));
-		$this->new_design?
-			$this->load->view('payment/transfer/step2_2', $data):
-			$this->load->view('payment/transfer/step2', $data);
+//		$this->new_design?
+			$this->load->view('payment/transfer/step2_2', $data);
+//			$this->load->view('payment/transfer/step2', $data);
 	}
 	
 	public function t_step3free() {
@@ -657,7 +657,7 @@ class Payment extends MY_Controller {
 	public function t_confirm($code=NULL) {
 		ini_set('upload_max_filesize', '2M');
 		$message = '';
-		$status = FALSE;
+		$status = NULL;
 		if($this->input->post('code')) {
 			$code = $this->input->post('code', TRUE);
 			$from = $this->input->post('transfer_from', TRUE);

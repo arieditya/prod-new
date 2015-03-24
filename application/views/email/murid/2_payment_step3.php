@@ -80,8 +80,8 @@
 	<ul>
 		<li>
 			Link konfirmasi pembayaran:<br />
-			<a href="http://kelas.ruangguru.com/konfirmasi/'.<?php echo $code?>">
-				http://kelas.ruangguru.com/konfirmasi/'<?php echo $code;?>
+			<a href="http://kelas.ruangguru.com/konfirmasi/<?php echo $code?>">
+				http://<kelas class="ruangguru com/konfirmasi/"></kelas><?php echo $code;?>
 			</a>
 		</li>
 		<li>

@@ -103,12 +103,22 @@ if ($class->class_paket > 0):?>
 							<p> <?php echo rupiah_format($class->price_per_session*$schedule->num_rows())?></p>
 <?php 
 	else: 
-		$ori_price = $class->price_per_session*$schedule->num_rows();
-		$disc_price = $ori_price - $class->discount;
 ?>
 							<p>
+<?php
+		$ori_price = $class->price_per_session*$schedule->num_rows();
+		$disc_price = $ori_price - $class->discount;
+		if($disc_price == $ori_price):
+?>
+								<?php echo rupiah_format($disc_price);?>
+<?php
+		else:
+?>
 								<span class="strike"><?php echo rupiah_format($ori_price);?></span>
 								<?php echo rupiah_format($disc_price);?>
+<?php
+		endif;
+?>
 							</p>
 <?php 
 	endif;

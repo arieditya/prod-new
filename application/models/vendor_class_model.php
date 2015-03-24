@@ -322,6 +322,16 @@ class Vendor_class_model extends MY_Model{
 		$participant = $this->get_class_schedule_participant(array('jadwal_id'=>$sched_id,'status >'=>0))->num_rows();
 		return $max-$participant;
 	}
+	
+	public function get_class_attendance($class_id) {
+		return @$this->db
+				->distinct()
+				->select('code')
+				->where('class_id',$class_id)
+				->where('status',4)
+				->get('vendor_class_participant')
+				->num_rows();
+	}
 
 	public function add_class_gallery($class_id, $data) {
 		$data['class_id'] = $class_id;

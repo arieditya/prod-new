@@ -19,7 +19,7 @@
 	</p>
 
 	<p>
-		<strong>Halo <?php echo $penanggung_jawab;?>,</strong>
+		<strong>Halo <?php echo $vendor['name'];?>,</strong>
 	</p>
 
 	<p>
@@ -27,8 +27,8 @@
 	</p>
 	
 	<ul>
-		<li>Nama Murid: <?php echo $murid->name?></li>
-		<li>Kelas: <?php echo $class->class_nama?></li>
+		<li>Nama Murid: <?php echo $murid['name']?></li>
+		<li>Kelas: <?php echo $class['class_nama']?></li>
 	</ul>
 	
 	<p>
