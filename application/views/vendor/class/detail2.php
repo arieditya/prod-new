@@ -1079,7 +1079,8 @@ endif;
 													<input type="number" 
 														   class="form-control" 
 														   id="jumlah_sesi" 
-														   value="<?php echo $pertemuan;?>"
+														   value="<?php
+                                                           echo $pertemuan;?>"
 														   readonly="readonly"
 														   placeholder="" />
 												</div>
@@ -1168,6 +1169,9 @@ endif;
 		function check_price() {
 			var harga_per_sesi = parseInt($('#harga_per_sesi').val());
 			var jumlah_sesi = row_jadwal;
+            if(class_type == '0') {
+                var jumlah_sesi = 1;
+            }
 			var total_harga = harga_per_sesi * jumlah_sesi; //parseInt($('#total_harga').val());
 			var harga_diskon = parseInt($('#harga_diskon').val());
 			var total_harga_paket = total_harga - harga_diskon;
