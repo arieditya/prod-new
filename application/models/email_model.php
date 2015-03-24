@@ -474,7 +474,7 @@ Terima kasih
 			'email'					=> $vendor->email
 		);
 		$this->html_content('vendor/1_register_success', $data);
-		$this->subject('Register Vendor Berhasil');
+		$this->subject('Registrasi Vendor Berhasil');
 		$this->from = 'kelas@ruangguru.com';
 		$this->to($vendor->email);
 		$this->send();
@@ -488,7 +488,7 @@ Terima kasih
 			'class_id'					=> $class->id,
 		);
 		$this->html_content('vendor/2_create_class_success', $data);
-		$this->subject('Kelas telah dibuat');
+		$this->subject('Pengajuan kelas Anda sedang dalam proses');
 		$this->from = 'kelas@ruangguru.com';
 		$this->bcc = array('kelas@ruangguru.com');
 		$this->to($vendor->email);
@@ -505,7 +505,7 @@ Terima kasih
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('vendor/3_create_class_rejected', $data);
-		$this->subject('Kelas anda ditolak oleh admin');
+		$this->subject('Pengajuan kelas Anda ditolak');
 		$this->to($vendor->email);
 		$this->cc($vendor->contact_person_email);
 		$this->send();
@@ -525,7 +525,7 @@ Terima kasih
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('vendor/4_class_published', $data);
-		$this->subject('Kelas anda telah diterbitkan');
+		$this->subject('Kelas Anda telah diterbitkan');
 	$this->to($vendor->email);
 		$this->cc($vendor_info->contact_person_email);
 		$this->send();
@@ -540,7 +540,7 @@ Terima kasih
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('vendor/5_class_3day_reminder', $data);
-		$this->subject('Pengingat: Kelas akan mulai');
+		$this->subject('Kelas Anda akan dimulai 3 hari lagi');
 		$this->to($vendor->email);
 		$this->cc($vendor->contact_person_email);
 		$this->send();
@@ -556,7 +556,7 @@ Terima kasih
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('vendor/6_class_soldout', $data);
-		$this->subject('Tiket telah habis terjual!');
+		$this->subject('Tiket kelas Anda telah habis terjual!');
 		$this->to($vendor->email);
 		$this->cc($vendor_info->contact_person_email);
 		$this->send();
@@ -571,7 +571,7 @@ Terima kasih
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('vendor/7_class_feedback', $data);
-		$this->subject('Feedback untuk kelas');
+		$this->subject('Feedback untuk kelas Anda');
 		$this->to($vendor->email);
 		$this->cc($vendor->contact_person_email);
 		$this->send();
@@ -588,7 +588,7 @@ Terima kasih
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('vendor/8_class_admin_update_notification',$data);
-		$this->subject('Pemberitahuan: Admin mengubah data kelas anda');
+		$this->subject('Pemberitahuan: Admin mengubah data kelas Anda');
 		$this->to($vendor->email);
 		$this->cc($vendor->contact_person_email);
 		$this->send();
@@ -654,7 +654,7 @@ Terima kasih
 */
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/2_payment_step3',$email_data);
-		$this->subject('Tagihan Kelas.Ruangguru');
+		$this->subject('Tagihan Anda - '.$class['profile']->class_nama);
 		$this->to($invoice_raw['pemohon']->email);
 		
 		$this->attach(FCPATH.$docs_path.$code.'.pdf');
@@ -680,7 +680,7 @@ Terima kasih
 		create_pdf($content, FCPATH.$docs_path.$ticket, FALSE);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/3_payment_step4',$tix);
-		$this->subject('Tiket Kelas.Ruangguru');
+		$this->subject('Tiket Anda');
 		$this->to($tix['murid']['email']);
 
 		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');

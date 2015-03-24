@@ -39,28 +39,27 @@ $profile = $vendor['profile'];
                         <?php echo $class->class_nama; ?>
                     </h2>
                     <span class="info">Status:
-                        <i>
                         <?php
                             switch($status->class_status){
                                 case -1:
-                                    echo "rejected";
+                                    echo "<b class='status-rejected'>rejected</b>";
                                     break;
                                 case 0:
-                                    echo "draft";
+                                    echo "<b class='status-draft'>draft</b>";
                                     break;
                                 case 1:
-                                    if($status->active == 0) echo "Unpublished";
-                                    else echo "Published";
+                                    if($status->active == 0) echo "<b class='status-draft'>Unpublished</b>";
+                                    else echo "<b class='status-published'>Published</b>";
                                     break;
                                 case 4: {
-                                    echo "Pending ";
+                                    echo "<b class='status-pending'> Pending ";
                                     if($status->active == 1) echo "Unpublished";
                                     else echo "Published";
+                                    echo "</b>";
                                     break;
                                 }
                             }
                         ?>
-                        </i>
                     </span>
 					<div class="panel-body">
 						<div role="tabpanel" class="sub-vendor manage">
@@ -104,7 +103,9 @@ $profile = $vendor['profile'];
 											</div><!-- section-row -->
                                             <div class="section-row">
                                                 <div class="col-sm-4">Tipe Kelas</div>
-                                                <div class="col-sm-8"><?php echo $class->class_paket;?></div>
+                                                <div class="col-sm-8">
+                                                    <?php echo $class->class_paket;?>
+                                                </div>
                                             </div><!-- section-row -->
                                             <div class="section-row">
 												<div class="col-sm-4">Deskripsi</div>
@@ -418,7 +419,7 @@ endif;
 														   placeholder="Biarkan terisi secara otomatis bila Anda ragu"
 <?php endif; ?>
 														   value="<?php echo $class->class_uri;?>" />
-                                                    <p>contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></p>
+                                                    <div class="info">contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></div>
 												</div>
 											</div>
 											<div class="form-group">
@@ -753,8 +754,7 @@ endif;
 												<label for="tentang" class="col-sm-4 control-label">Target Peserta</label>
 												<div class="col-sm-8">
 													<textarea class="form-control" 
-															  placeholder="Masukan target audience kelas ini. Contoh : umum, di atas 25 tahun,
-															  freelancer, dll"
+															  placeholder="Masukan target audience kelas ini. Contoh : umum, di atas 25 tahun, freelancer, dll"
 															  name="class_perserta_target"
 															  rows="3"><?php echo $class->class_perserta_target?></textarea>
 												</div>
