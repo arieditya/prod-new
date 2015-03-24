@@ -428,6 +428,7 @@ class Vendor_class_model extends MY_Model{
 		$this->db->where(array('status'=>1));
 		$this->db->group_by('name');
 		$level =  $this->db->get('vendor_level_list');
+//		var_dump($level->row());exit;
 		return $level;
 	}
 	
