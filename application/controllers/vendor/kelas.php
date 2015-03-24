@@ -22,7 +22,7 @@ class Kelas extends Vendor_Controller{
 	
 	public function daftar() {
 		$list_class = $this->vendor_class_model->get_class(array('vendor_id'=>$this->data['user']['id'],
-																 'class_status >='=>NULL, 'active'=>NULL),1,100,'all')->result();
+																 'class_status >='=>NULL, 'active'=>NULL))->result();
 		foreach($list_class as &$list) {
 			$list->level = $this->vendor_class_model->get_class_level($list->id);
 			$list->category = $this->vendor_class_model->get_class_category($list->id);

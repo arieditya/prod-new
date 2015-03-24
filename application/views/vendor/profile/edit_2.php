@@ -39,17 +39,17 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   value="yes"
 										   <?php echo 
 									$vendor['profile']->show_phone==1?'checked="checked"':'';?>/> 
-									Tampilkan email di halaman profile anda
+									Tampilkan email di halaman profil anda
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
-								<label for="password" class="col-sm-4 control-label">Password Akun</label>
+								<label for="password" class="col-sm-4 control-label">Password Baru</label>
 								<div class="col-sm-8">
 									<input type="password" 
 										   class="form-control" 
 										   id="password" 
 										   name="password"
-										   placeholder="Rewrite Password" />
+										   placeholder="Kosongkan jika Anda tidak ingin mengganti password" />
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -79,7 +79,7 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 										   value="yes"
 										   <?php echo 
 									$vendor['profile']->show_phone==1?'checked="checked"':'';?>/> 
-									Tampilkan nomor telepon di halaman profile anda
+									Tampilkan nomor telepon di halaman profil anda
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
@@ -96,12 +96,12 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 											   value="yes"
 											   <?php echo 
 										$vendor['profile']->show_address==1?'checked="checked"':'';?>/> 
-										Tampilkan alamat di halaman profile anda
+										Tampilkan alamat di halaman profil anda
 									</span>
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
-								<label for="deskipsi" class="col-sm-4 control-label">Deskripsi penyelenggara</label>
+								<label for="deskipsi" class="col-sm-4 control-label">Deskripsi Penyelenggara</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" 
 											  placeholder="Deskripsi Penyelenggara" 
@@ -110,7 +110,7 @@ $img = "images/vendor/{$vendor['info']->vendor_id}/{$vendor['info']->vendor_logo
 								</div>
 							</div><!-- form-group -->
 							<div class="form-group">
-								<label for="logo" class="col-sm-4 control-label">Logo organisasi</label>
+								<label for="logo" class="col-sm-4 control-label">Logo/Foto Penyelenggara</label>
 								<div class="col-sm-8">
 									<img class="img-responsive"
 										 src="<?php echo base_url().(empty($vendor['info']->vendor_logo)?'images/default_profile_image.png':$img);?>" />

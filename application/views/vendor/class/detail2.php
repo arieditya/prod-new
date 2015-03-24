@@ -99,15 +99,15 @@ $profile = $vendor['profile'];
 												<div class="col-sm-8"><?php echo $class->class_nama;?></div>
 											</div><!-- section-row -->
 											<div class="section-row">
-												<div class="col-sm-4">URI</div>
-												<div class="col-sm-8"><?php echo $class->class_uri;?></div>
+												<div class="col-sm-4">URL</div>
+												<div class="col-sm-8">http://kelas.ruangguru.com/kelas/<?php echo $class->class_uri;?></div>
 											</div><!-- section-row -->
 											<div class="section-row">
 												<div class="col-sm-4">Deskripsi</div>
 												<div class="col-sm-8"><?php echo $class->class_deskripsi;?></div>
 											</div><!-- section-row -->
 											<div class="section-row">
-												<div class="col-sm-4">Category</div>
+												<div class="col-sm-4">Kategori</div>
 												<div class="col-sm-8"><?php echo $class->category->category_name;?></div>
 											</div><!-- section-row -->
 											<div class="section-row">
@@ -406,9 +406,10 @@ endif;
 <?php else: ?>
 														   id="class_uri" 
 														   name="class_uri"
-														   placeholder="Biarkan terisi secara automatis bila Anda ragu"
+														   placeholder="Biarkan terisi secara otomatis bila Anda ragu"
 <?php endif; ?>
 														   value="<?php echo $class->class_uri;?>" />
+                                                    <p>contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></p>
 												</div>
 											</div>
 											<div class="form-group">
@@ -515,6 +516,16 @@ endif;
                                             </div>
                                             <div id="form_info" class="collapse <?php if($tabs=="info") { echo "in"; }?>">
                                                 <div class="form-group">
+                                                    <label for="attachment" class="col-sm-4 control-label">Tags</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text"
+                                                               id="class_tags"
+                                                               data-role="tagsinput"
+                                                               class="input-tags"
+                                                               name="class_tags" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="Namakelas" class="col-sm-4 control-label">Video</label>
                                                     <div class="col-sm-8">
                                                         <input type="text"
@@ -540,16 +551,6 @@ endif;
                                                     <div class="row">
                                                         <div class="col-sm-8">
                                                             <?php echo $image;?>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="attachment" class="col-sm-4 control-label">Tags</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text"
-                                                                   id="class_tags"
-                                                                   data-role="tagsinput"
-                                                                   class="input-tags"
-                                                                   name="class_tags" />
                                                         </div>
                                                     </div>
                                                 <?php
@@ -743,7 +744,8 @@ endif;
 												<label for="tentang" class="col-sm-4 control-label">Target Peserta</label>
 												<div class="col-sm-8">
 													<textarea class="form-control" 
-															  placeholder="Masukan target audience kelas ini" 
+															  placeholder="Masukan target audience kelas ini. Contoh : umum, di atas 25 tahun,
+															  freelancer, dll"
 															  name="class_perserta_target"
 															  rows="3"><?php echo $class->class_perserta_target?></textarea>
 												</div>
@@ -1117,7 +1119,7 @@ endif;
 												<div class="col-sm-8">
 													<textarea class="form-control" 
 															  name="class_include"
-															  placeholder="Harga diatas sudah termasuk" 
+															  placeholder="Harga diatas sudah termasuk. Contoh: coffee break, lunch, sertifikat, buku panduan, dll"
 															  rows="3"><?php echo $class->class_include;?></textarea>
 												</div>
 											</div>
