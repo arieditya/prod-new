@@ -173,7 +173,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .content-grid {
   box-shadow: 0 2px 5px #999;
   margin-bottom: 30px;
-  min-height: 340px;
+  min-height: 336px;
   position: relative;
 }
 /*.content-grid.diskon:before {
@@ -284,6 +284,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .grid-bottom {
   position: relative;
+  height: 135px;
 /*  line-height: 1;*/
 }
 
@@ -330,6 +331,15 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   min-height: 60px;
   padding: 10px 15px 0;
 }
+.description .location {
+    float: right;
+    text-align: right;
+}
+.description .tag {
+    color: #e11667;
+    width: 10px;
+    text-align: left;
+}
 .vendor-name {
     overflow: hidden;
     width: 168px;
@@ -340,6 +350,11 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .icon {
   float: left;
   width: 10%;
+}
+.calender-icon {
+   float: left;
+   width: 20px;
+   height: 40px;
 }
 
 .copy-icon {
@@ -410,12 +425,13 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   display: inline-block;
   padding: 10px 15px 0;
   width: 100%;
+  height: 33px;
 }
 .description,
 .review {
   background-color: #fff;
 }
-.rating {
+.review .rating {
   float: right;
   text-align: right;
   line-height: 1.0;
