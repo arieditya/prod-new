@@ -39,7 +39,6 @@
 		Atau dengan mengakses tab "Murid" dari dashboard vendor di <?php krg();?>
 	</p>
 	
-
 	<p>
 		Jumlah murid yang terdaftar melalui <?php krg(); ?> untuk kelas Anda saat ini adalah sebanyak: 
 		<strong><?php echo $daftar_murid;?> orang.</strong>
