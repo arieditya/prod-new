@@ -233,7 +233,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 				<form id="login_form" name="login_form" method="post" action="<?php echo base_url().'vendor/auth/do_login';?>">
 					<p>
 						<label for="login_name">Masuk: </label>
-						<input type="email" class="form-control" id="login_email" name="email" placeholder="emailanda@email.com" />
+						<input type="email" class="form-control" id="login_email" name="email" placeholder="email.vendor@email.com" />
 					</p>
 					<p>
 						<label for="login_pass">Password: </label>
@@ -263,13 +263,13 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 				</form>
 			</div>
 			<div id="inline-reg" class="col-md-4" style="width:500px;display: none;height:100%;overflow-x:hidden;">
-				<p class="text-14 bold">Daftar sebagai Vendor</p>
+				<p class="text-14 bold">Daftar sebagai Vendor (Penyelenggara Kelas)</p>
 				<form class="form-horizontal" role="form" action="<?php echo base_url();?>vendor/auth/do_register" method="POST">
-					<div class="alert alert-danger">* semua field wajib diisi</div>
+					<div class="alert alert-danger" style="padding:5px;">* semua field wajib diisi</div>
 					<div class="form-group">
 						<label for="email" class="col-md-2 control-label">Email</label>
 						<div class="col-md-10">
-							<input type="email" class="form-control" id="register_email" name="email" placeholder="emailanda@email.com" required="required" />
+							<input type="email" class="form-control" id="register_email" name="email" placeholder="email.vendor@email.com" required="required" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -287,7 +287,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					<div class="form-group">
 						<label for="vendor_name" class="col-md-2 control-label">Nama</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" id="register_vendor_name" name="vendor_name" placeholder="Nama Anda atau nama instansi" required="required" />
+							<input type="text" class="form-control" id="register_vendor_name" name="vendor_name" placeholder="Nama Instansi atau Nama Anda" required="required" />
 						</div>
 					</div>
 					<div class="form-group">
