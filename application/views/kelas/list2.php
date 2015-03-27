@@ -112,14 +112,14 @@ $this->load->view('vendor/general/header2');
 						</div><!-- grid-top -->  
 					</a>
 					<div class="grid-bottom">
-						<span class="price"><?php echo $_price; ?></span>
 						<?php if($kelas->available == 1): ?>
-							<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
-								<span class="details">Details</span>
-							</a>
+							<span class="price"><?php echo $_price; ?></span>
 						<?php else : ?>
-							<span class="details">SOLD OUT</span>
+							<span class="price">SOLD OUT</span>
 						<?php endif; ?>
+						<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
+							<span class="details">Details</span>
+						</a>
 						<div class="description">
 							<div class="calender-icon"><i class="fa fa-calendar-o"></i></div>
 							<span class="date"> <?php echo date('d M Y', strtotime($kelas->class_tanggal));?> |
@@ -215,7 +215,11 @@ $this->load->view('vendor/general/header2');
 							</div><!-- grid-top -->
 						</a>
 						<div class="grid-bottom">
-							<span class="price"><?php echo $_price;?></span>
+							<?php if($kelas->available == 1): ?>
+								<span class="price"><?php echo $_price; ?></span>
+							<?php else : ?>
+								<span class="price">SOLD OUT</span>
+							<?php endif; ?>
 							<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 								<span class="details">Details</span>
 							</a>

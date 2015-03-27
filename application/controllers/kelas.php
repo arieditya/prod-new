@@ -72,7 +72,9 @@ class Kelas extends MY_Controller {
 				$set_filter['price'] = $filter['price_range']; 
 			}
 		}
-		
+		if($view=='all') {
+			$set_filter['upcoming'] = TRUE;
+		}
 		$this->data['filter'] = $set_filter;
 		$new_filter = $this->vendor_class_model->get_filtered_class($set_filter);
 //var_dump($new_filter);exit;
@@ -195,6 +197,7 @@ class Kelas extends MY_Controller {
 		$data['class']->review = $this->vendor_class_model->get_class_review(array('class_id'=>$data['class']->vendor_id));
 		$data['class']->rating = $this->vendor_class_model->get_class_rating($data['class']->vendor_id);
 		$data['class']->tag = $this->vendor_class_model->get_tags($hash);
+		$data['class']->available = $this->vendor_class_model->get_class_availability($hash);
 		$data['category'] = $this->vendor_class_model->get_class_category($hash);
 		$this->load->model('discount_model');
 		$data['deals'] = $this->discount_model->get_diskon_code_for_class($hash, 'public');

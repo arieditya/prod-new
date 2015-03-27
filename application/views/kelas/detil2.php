@@ -237,9 +237,15 @@ endif;
 								</table>
 							</div><!-- table-responsive -->
 						</div><!-- #jadwal -->
-						<a href="#" 
-						   class="main-button register text-center register_class"
-								><i class="fa fa-user"></i> Daftar Sekarang</a>
+						<?php if($class->available == 1): ?>
+							<a href="#"
+							   class="main-button register text-center register_class"
+									><i class="fa fa-user"></i> Daftar Sekarang</a>
+						<?php else: ?>
+							<div
+							   class="main-button register text-center register_class"
+								><i class="fa fa-lock"></i> SOLD OUT</div>
+						<?php endif; ?>
 					</div><!-- tab-content -->
 				</div><!-- tabpanel -->
 				<div class="review-wrap">
@@ -319,12 +325,22 @@ endif;
                         ?>
 					</h3>
 				</div><!-- detail-label -->
-				<a href="#" class="register_class">
-				<div class="detail-label label-yellow text-center">
-					<i class="fa fa-user"></i>
-					<h3 class="entry-detail-label text-20">Daftar Sekarang</h3>
-				</div><!-- detail-label -->
-				</a>
+				<?php if($class->available == 1): ?>
+					<a href="#" class="register_class">
+						<div class="detail-label label-yellow text-center">
+							<i class="fa fa-user"></i>
+							<h3 class="entry-detail-label text-20">Daftar Sekarang</h3>
+						</div><!-- detail-label -->
+					</a>
+				<?php else: ?>
+					<div class="register_class">
+						<div class="detail-label label-yellow text-center">
+							<i class="fa fa-lock"></i>
+							<h3 class="entry-detail-label text-20">SOLD OUT</h3>
+						</div><!-- detail-label -->
+					</div>
+				<?php endif; ?>
+
 <?php 
 	if(!empty($next_session)):
 ?>
