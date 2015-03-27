@@ -77,7 +77,7 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 													<td><?php echo $class->jadwal_count; ?></td>
 													<td><?php echo $type;?></td>
 													<td>
-														<a href="#">
+														<a href="<?php echo base_url()."vendor/kelas/detil/{$class->id}"?>/murid">
 															<?php echo $class->participant_count; ?>&nbsp;orang
 														</a>
 													</td>
