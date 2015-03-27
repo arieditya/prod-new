@@ -71,11 +71,12 @@ class Kelas extends MY_Controller {
 				$set_filter['price'] = $filter['price_range']; 
 			}
 		}
-		if($view=='all') {
-			$set_filter['upcoming'] = TRUE;
-		}
 		$this->data['filter'] = $set_filter;
 		$new_filter = $this->vendor_class_model->get_filtered_class($set_filter);
+		$order = array();
+		if($view=='all') {
+			$order=array('vendor_class_jadwal.class_tanggal'=>'ASC');
+		}
 //var_dump($new_filter);exit;
 //		$this->data['filter_query'] = $new_filter;
 		$category = $this->input->get('category', TRUE);
@@ -122,7 +123,7 @@ class Kelas extends MY_Controller {
 		if(count($new_filter) > 0){
 			$where_class['id'] = array_merge($new_filter);
 //			$where_class .= '`vendor_class`.`id` IN ('.implode(',',$new_filter).')';
-			$classes = $this->vendor_class_model->get_class($where_class, 1, 6, 'current')->result();
+			$classes = $this->vendor_class_model->get_class($where_class, 1, 6, 'current', $order)->result();
 //			var_dump($classes);exit;//->result()
 		} else {
 			$classes = array();
