@@ -365,7 +365,7 @@ class Teacher_driven extends MY_Controller{
 		$class = $this->vendor_class_model->get_class(array(
 				'class_status >='	=> NULL,
 				'active'		=> NULL
-		))->result();
+		),0,0)->result();
 		
 		foreach($class as &$cls) {
 			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;

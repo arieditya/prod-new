@@ -57,7 +57,7 @@ if ($this->session->flashdata('f_class_error')): ?>
 		$path1 = substr($bill->code, 0,1);
 		$path2 = substr($bill->code, 1,1);
 		$path = strtolower("images/payment/transfer/{$path1}/{$path2}/{$bill->code}/");
-		$img_link = base_url().$path.$bill->status_3_upload_file;
+		$img_link = 'http://kelas.ruangguru.com/'.$path.$bill->status_3_upload_file;
 ?>
 			<tr class="data-row<?php echo (($i++%2)!=0)?' odd':''?>" 
 				data-page="<?php echo ceil($i/20); ?>">

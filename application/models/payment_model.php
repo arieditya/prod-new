@@ -197,8 +197,8 @@ class Payment_model extends MY_Model {
 			$jadwal[] = array(
 				'topik'	=> $jdwl->class_jadwal_topik,
 				'jadwal'=> date('d M Y', strtotime($jdwl->class_tanggal))
-						.' '.double_digit($jdwl->class_jam_mulai.':'.double_digit($jdwl->class_menit_mulai))
-						.'-'.double_digit($jdwl->class_jam_selesai.':'.double_digit($jdwl->class_menit_selesai)),
+						.' '.double_digit($jdwl->class_jam_mulai).':'.double_digit($jdwl->class_menit_mulai)
+						.'-'.double_digit($jdwl->class_jam_selesai).':'.double_digit($jdwl->class_menit_selesai),
 			);
 		}
 		$data = array(

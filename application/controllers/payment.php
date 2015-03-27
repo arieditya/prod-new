@@ -784,7 +784,18 @@ DETIL TRANSAKSI:
 ";
 				$message = 'Konfirmasi berhasil! Petugas ops kami akan segera memproses transaksi anda! Terima kasih.';
 				$html_message = $this->load->view('email/payment_confirmation', $email_data, TRUE);
-				$this->mail_sender('arie@ruangguru.com','Konfirmasi Transaksi: '.$code,$html_message, array(), TRUE, $email_message, $to_path.$file);
+				$this->mail_sender(
+						'kelas@ruangguru.com',
+						'Konfirmasi Transaksi: '.$code,
+						$html_message, 
+						array(
+							'arie@ruangguru.com',
+							'daniel@ruangguru.com'
+						), 
+						TRUE,
+						$email_message, 
+						$to_path.$file
+				);
 				$code = NULL;
 			} else {
 				$status = FALSE;

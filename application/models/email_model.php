@@ -153,6 +153,7 @@ class Email_model extends MY_Model
 	}
 	
 	public function reset() {
+		$this->email->clear(TRUE);
 		$this->text_content = $this->html_content = $this->subject = '';
 		$this->attachment = $this->to = $this->cc = $this->bcc = array();
 		$this->forceHTML = FALSE;
@@ -614,8 +615,8 @@ Terima kasih
 				$i_class = array(
 					'topik'	=> $jadwal->class_jadwal_topik,
 					'jadwal'=> date('d M Y', strtotime($jadwal->class_tanggal))
-							.' '.double_digit($jadwal->class_jam_mulai.':'.double_digit($jadwal->class_menit_mulai))
-							.'-'.double_digit($jadwal->class_jam_selesai.':'.double_digit($jadwal->class_menit_selesai)),
+							.' '.double_digit($jadwal->class_jam_mulai).':'.double_digit($jadwal->class_menit_mulai)
+							.'-'.double_digit($jadwal->class_jam_selesai).':'.double_digit($jadwal->class_menit_selesai),
 					'harga' => $class['profile']->price_per_session
 				);
 				$invoice_class[] = $i_class;
@@ -669,6 +670,7 @@ Terima kasih
 		$attendance = $this->CI->vendor_class_model->get_class_attendance($tix['class']['id']);
 		$tix['daftar_murid'] = empty($attendance)?0:((int)$attendance);
 		
+// GENERATE TICKET
 		$path1 = substr($ticket, 0,1);
 		$path2 = substr($ticket, 1,1);
 
@@ -680,23 +682,31 @@ Terima kasih
 			mkdir(FCPATH.$docs_path, 0775, TRUE);
 
 		create_pdf($content, FCPATH.$docs_path.$ticket, FALSE);
-		$this->from = 'kelas@ruangguru.com';
-		$this->html_content('murid/3_payment_step4',$tix);
-		$this->subject('Tiket Anda - '. $tix['class']['class_nama']);
-		$this->to($tix['murid']['email']);
-		$this->bcc('kelas@ruangguru.com');
 
-		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');
-
-		$this->send();
+// FOR VENDOR
 		
 		$this->html_content('vendor/9_student_registered_notification',$tix);
 		$this->subject('Kelas.Ruangguru - Pendaftaran terbaru dari '.$tix['murid']['name']);
 		$this->to($tix['vendor']['email']);
 		$this->bcc('kelas@ruangguru.com');
+		$this->bcc('arieditya.prdh@live.com');
 
 		$this->send();
 		
+		$this->reset();
+		$this->attachment = array();
+
+// FOR STUDENT
+		$this->from = 'kelas@ruangguru.com';
+		$this->html_content('murid/3_payment_step4',$tix);
+		$this->subject('Tiket Anda - '. $tix['class']['class_nama']);
+		$this->to($tix['murid']['email']);
+		$this->bcc('kelas@ruangguru.com');
+		$this->bcc('arieditya.prdh@live.com');
+
+		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');
+
+		$this->send();
 		
 
 /**

@@ -67,12 +67,13 @@ $attd_reg = array();
 		$attd_paid[$c->id] = $c->attendance_paid->result();
 ?>
 				<tr>
-					<td><?php echo $c->id?></td>
+					<td><a class="fancybox class" data-attd_type="class" data-class_id="<?php echo $c->id; ?>"
+						href="#class_detail"><?php echo $c->id?></a></td>
 					<td><?php echo $c->class_peserta_min;?></td>
 					<td><?php echo $c->class_peserta_max;?></td>
-					<td><a class="fancybox" data-attd_type="reg" data-class_id="<?php echo $c->id; ?>" 
+					<td><a class="fancybox attendance" data-attd_type="reg" data-class_id="<?php echo $c->id; ?>" 
 						   href="#detail_attendance"><?php echo $c->attendance_register->num_rows();?></a></td>
-					<td><a class="fancybox" data-attd_type="paid" data-class_id="<?php echo $c->id; ?>" 
+					<td><a class="fancybox attendance" data-attd_type="paid" data-class_id="<?php echo $c->id; ?>" 
 						   href="#detail_attendance"><?php echo $c->attendance_paid->num_rows();?></a></td>
 					<td><?php echo $stat;?></td>
 					<td></td>
@@ -90,12 +91,47 @@ $attd_reg = array();
 	<hr />
 	<div id="detail_fill"></div>
 </div>
+<div id="class_detail" style="width: 500px; min-height: 600px; display: none;" >
+	<h3>Detail kelas:</h3>
+	<table>
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+		</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
 <script type="application/javascript">
 	var attd = [];
 	attd['paid'] = <?php echo json_encode($attd_paid);?>;
 	attd['reg'] = <?php echo json_encode($attd_reg);?>;
 	$(document).ready(function(){
-		$('.fancybox').fancybox()
+		$('.fancybox.class').fancybox()
+				.click(function(e){
+					var c_id = $(this).data('class_id');
+					e.preventDefault();
+					$.get(
+							base_url+'admin/teacher_driven/get_class_detail/'+c_id, 
+							function(dt){
+								if(dt.status == 'OK') {
+									var fill = '';
+									$.each(dt.data,function(idx, data){
+										fill += '<tr><td style="font-weight: bolder;">'+idx+'</td>'+
+												'<td>'+ (idx=='class_image'||idx=='vendor_logo'?
+												'<img src="http://kelas.ruangguru.com/images/class/'+c_id+'/'+data+'"' +
+														' style="width: 100%;" />'
+												:data)
+												+ '</td></tr>\n';
+									});
+									$('#class_detail table tbody').html(fill);
+								}
+							}
+					);
+				});
+		$('.fancybox.attendance').fancybox()
 				.click(function(e){
 					e.preventDefault();
 					var dt_type = $(this).data('attd_type');
