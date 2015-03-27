@@ -334,7 +334,7 @@ class Vendor_class_model extends MY_Model{
 		foreach($schedules as $sched_id) {
 			$participant = $this->get_class_schedule_participant(array('jadwal_id'=>$sched_id->jadwal_id,'status >'=>0))->num_rows();
 			$availability = $max-$participant;
-			if($availability != 0){
+			if($availability > 0){
 				return 1;
 			}
 		}
