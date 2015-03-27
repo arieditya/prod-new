@@ -287,7 +287,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					<div class="form-group">
 						<label for="vendor_name" class="col-md-2 control-label">Nama</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" id="register_vendor_name" name="vendor_name" placeholder="Nama Instansi atau Nama Anda" required="required" />
+							<input type="text" class="form-control" id="register_vendor_name" name="vendor_name" placeholder="Nama Instansi/Organisasi atau Nama Anda" required="required" />
 						</div>
 					</div>
 					<div class="form-group">
