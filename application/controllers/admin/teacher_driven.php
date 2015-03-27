@@ -122,8 +122,9 @@ class Teacher_driven extends MY_Controller{
 			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
 			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
 					->category_name;
-			$cls->level_name = $this->vendor_class_model->get_level(array('id'=>$cls->level_id))->row()
-					->name;
+			$cls->level_name = $this->vendor_class_model->get_level_name(array('id'=>$cls->level_id))->row();
+			if(!empty($cls->level_name)) $cls->level_name = $cls->level_name->nama;
+			else $cls->level_name = 'None!';
 			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
 					->num_rows();
 //			var_dump($cls);exit;
@@ -144,6 +145,35 @@ class Teacher_driven extends MY_Controller{
 				array('f_class'=>'Class confirmed!')
 				:array('f_class_error'=>'Class NOT confirmed!'));
 		redirect('admin/teacher_driven/'.$referer);
+	}
+	
+	public function class_featured() {
+		$data['active'] = 521;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Class'=>'teacher_driven/class_list',
+																	 'Featured Class'=> 'class_featured'));
+		$class = $this->vendor_class_model->get_class(array())->result();
+		
+		foreach($class as &$cls) {
+			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
+			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
+					->category_name;
+			$cls->level_name = $this->vendor_class_model->get_level_name(array('id'=>$cls->level_id))->row();
+			if(!empty($cls->level_name)) $cls->level_name = $cls->level_name->nama;
+			else $cls->level_name = 'Belum Terdaftar!';
+			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
+					->num_rows();
+//			var_dump($cls);exit;
+		}
+		$data['class'] = $class;
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/class_list',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
+	}
+	
+	public function set_class_featured() {
+		
 	}
 	
 	public function deactivate_class($id) {
@@ -271,8 +301,8 @@ class Teacher_driven extends MY_Controller{
 			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
 			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
 					->category_name;
-			$lvl = $this->vendor_class_model->get_level(array('id'=>$cls->level_id))->row();
-			if(!empty($lvl))$cls->level_name = $lvl->name;
+			$lvl = $this->vendor_class_model->get_level_name(array('id'=>$cls->level_id))->row();
+			if(!empty($lvl))$cls->level_name = $lvl->nama;
 			else $cls->level_name = 'Level belum terpilih!';
 			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
 					->num_rows();

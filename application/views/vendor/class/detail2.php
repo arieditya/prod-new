@@ -36,31 +36,31 @@ $profile = $vendor['profile'];
 			<div class="col-md-9 col-sm-12">
 				<div class="panel panel-default">
 					<h2 class="block-title text-uppercase">Kelas Anda:
-                        <?php echo $class->class_nama; ?>
-                    </h2>
-                    <span class="info">Status:
-                        <?php
-                            switch($status->class_status){
-                                case -1:
-                                    echo "<b class='status-rejected'>rejected</b>";
-                                    break;
-                                case 0:
-                                    echo "<b class='status-draft'>draft</b>";
-                                    break;
-                                case 1:
-                                    if($status->active == 0) echo "<b class='status-draft'>Unpublished</b>";
-                                    else echo "<b class='status-published'>Published</b>";
-                                    break;
-                                case 4: {
-                                    echo "<b class='status-pending'> Pending ";
-                                    if($status->active == 1) echo "Unpublished";
-                                    else echo "Published";
-                                    echo "</b>";
-                                    break;
-                                }
-                            }
-                        ?>
-                    </span>
+						<?php echo $class->class_nama; ?>
+					</h2>
+					<span class="info">Status:
+						<?php
+							switch($status->class_status){
+								case -1:
+									echo "<b class='status-rejected'>rejected</b>";
+									break;
+								case 0:
+									echo "<b class='status-draft'>draft</b>";
+									break;
+								case 1:
+									if($status->active == 0) echo "<b class='status-draft'>Unpublished</b>";
+									else echo "<b class='status-published'>Published</b>";
+									break;
+								case 4: {
+									echo "<b class='status-pending'> Pending ";
+									if($status->active == 1) echo "Unpublished";
+									else echo "Published";
+									echo "</b>";
+									break;
+								}
+							}
+						?>
+					</span>
 					<div class="panel-body">
 						<div role="tabpanel" class="sub-vendor manage">
 
@@ -69,10 +69,10 @@ $profile = $vendor['profile'];
 								<?php if(	$this->is_admin || (
 											($status->class_status == 0 || $status->class_status == 1 )
 												&& $status->active == 0) ) { ?>
-                                    <li role="presentation" <?php if($tabs=="profile" || $tabs=="info") { echo "class='active'"; }?> >
-                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
-                                    </li>
-                                <?php } ?>
+									<li role="presentation" <?php if($tabs=="profile" || $tabs=="info") { echo "class='active'"; }?> >
+										<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Edit Kelas</a>
+									</li>
+								<?php } ?>
 								<li role="presentation" <?php if($tabs=="preview"){ echo "class='active'"; }?> >
 									<a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a>
 								</li>
@@ -101,19 +101,19 @@ $profile = $vendor['profile'];
 												<div class="col-sm-4">URL</div>
 												<div class="col-sm-8">http://kelas.ruangguru.com/kelas/<?php echo $class->class_uri;?></div>
 											</div><!-- section-row -->
-                                            <div class="section-row">
-                                                <div class="col-sm-4">Tipe Kelas</div>
-                                                <div class="col-sm-8">
-                                                    <?php
-                                                    if($class->class_paket=='0')
-                                                        echo "Satu Sesi";
-                                                    elseif($class->class_paket=='1')
-                                                        echo "Kelas Berseri";
-                                                    elseif($class->class_paket=='2')
-                                                        echo "Paket";?>
-                                                </div>
-                                            </div><!-- section-row -->
-                                            <div class="section-row">
+											<div class="section-row">
+												<div class="col-sm-4">Tipe Kelas</div>
+												<div class="col-sm-8">
+													<?php
+													if($class->class_paket=='0')
+														echo "Satu Sesi";
+													elseif($class->class_paket=='1')
+														echo "Kelas Berseri";
+													elseif($class->class_paket=='2')
+														echo "Paket";?>
+												</div>
+											</div><!-- section-row -->
+											<div class="section-row">
 												<div class="col-sm-4">Deskripsi</div>
 												<div class="col-sm-8"><?php echo $class->class_deskripsi;?></div>
 											</div><!-- section-row -->
@@ -121,9 +121,9 @@ $profile = $vendor['profile'];
 												<div class="col-sm-4">Kategori</div>
 												<div class="col-sm-8"><?php echo $class->category->category_name;?></div>
 											</div><!-- section-row -->
-                                        </div><!-- section-content -->
-                                    </div><!-- section-wrap -->
-                                    <div class="section-wrap">
+										</div><!-- section-content -->
+									</div><!-- section-wrap -->
+									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Info</h3></div>
 										<div class="section-content">
 <?php
@@ -159,52 +159,52 @@ $profile = $vendor['profile'];
 											</div><!-- section-row -->
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
-                                    <div class="section-wrap">
-                                        <div class="section-heading"><h3 class="section-title">Lokasi</h3></div>
-                                        <div class="section-content">
-                                            <div class="section-row">
-                                                <div class="col-sm-4">Provinsi</div>
-                                                <div class="col-sm-8"><?php echo $class->provinsi_title;?></div>
-                                            </div><!-- section-row -->
-                                            <div class="section-row">
-                                                <div class="col-sm-4">Kota / Kabupaten</div>
-                                                <div class="col-sm-8"><?php echo $class->lokasi_title;?></div>
-                                            </div><!-- section-row -->
-                                            <div class="section-row">
-                                                <div class="col-sm-4">Alamat</div>
-                                                <div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
-                                            </div><!-- section-row -->
-                                            <?php
-                                            if(empty($class->class_peta)) {
-                                                if(!empty($class->class_lokasi)) {
-                                                    $str_lokasi = preg_replace('/[\s\r\n]/','+',$class->class_lokasi);
-                                                    $str_lokasi = str_replace('++','+', $str_lokasi);
-                                                } else {
-                                                    $str_lokasi = 'monumen+nasional';
-                                                }
-                                                $ll = $str_lokasi;
-                                                $link = 'https://www.google.com/maps/place/'.$str_lokasi;
-                                            } else {
-                                                $peta = explode('||', $class->class_peta);
-                                                $ll = $peta[0];
-                                                if(count($peta) == 2) {
-                                                    $link = $peta[1];
-                                                } else {
-                                                    $link = 'https://www.google.com/maps/place/'.$peta[0];
-                                                }
-                                            }
-                                            ?>
-                                            <div class="section-row">
-                                                <div class="col-sm-4">Peta</div>
-                                                <div class="col-sm-8">
-                                                    <a target="_blank" href="<?php echo $link;?>">
-                                                        <img src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
-                                                    </a>
-                                                </div>
-                                            </div><!-- section-row -->
-                                        </div><!-- section-content -->
-                                    </div><!-- section-wrap -->
-                                    <div class="section-wrap">
+									<div class="section-wrap">
+										<div class="section-heading"><h3 class="section-title">Lokasi</h3></div>
+										<div class="section-content">
+											<div class="section-row">
+												<div class="col-sm-4">Provinsi</div>
+												<div class="col-sm-8"><?php echo $class->provinsi_title;?></div>
+											</div><!-- section-row -->
+											<div class="section-row">
+												<div class="col-sm-4">Kota / Kabupaten</div>
+												<div class="col-sm-8"><?php echo $class->lokasi_title;?></div>
+											</div><!-- section-row -->
+											<div class="section-row">
+												<div class="col-sm-4">Alamat</div>
+												<div class="col-sm-8"><?php echo nl2br($class->class_lokasi);?></div>
+											</div><!-- section-row -->
+											<?php
+											if(empty($class->class_peta)) {
+												if(!empty($class->class_lokasi)) {
+													$str_lokasi = preg_replace('/[\s\r\n]/','+',$class->class_lokasi);
+													$str_lokasi = str_replace('++','+', $str_lokasi);
+												} else {
+													$str_lokasi = 'monumen+nasional';
+												}
+												$ll = $str_lokasi;
+												$link = 'https://www.google.com/maps/place/'.$str_lokasi;
+											} else {
+												$peta = explode('||', $class->class_peta);
+												$ll = $peta[0];
+												if(count($peta) == 2) {
+													$link = $peta[1];
+												} else {
+													$link = 'https://www.google.com/maps/place/'.$peta[0];
+												}
+											}
+											?>
+											<div class="section-row">
+												<div class="col-sm-4">Peta</div>
+												<div class="col-sm-8">
+													<a target="_blank" href="<?php echo $link;?>">
+														<img src="https://maps.googleapis.com/maps/api/staticmap?size=400x200&maptype=roadmap&markers=color:red%7C<?php echo $ll;?>" />
+													</a>
+												</div>
+											</div><!-- section-row -->
+										</div><!-- section-content -->
+									</div><!-- section-wrap -->
+									<div class="section-wrap">
 										<div class="section-heading"><h3 class="section-title">Peserta</h3></div>
 										<div class="section-content">
 											<div class="section-row">
@@ -356,20 +356,20 @@ $total_bayar = $total_harga - $diskon;
 												<a href="<?php echo base_url()."vendor/kelas/request_publish/{$class->id}";?>"
 												   class="btn btn-default main-button register"
 												   onclick="return confirm('Apakah anda sudah yakin data-data ' +
-													    'yang anda masukan sudah benar? Setelah ini data-data anda ' +
-													    'akan di verifikasi oleh admin dan tidak dapat mengubah lagi' +
-													    ' data-data ini.')">
-                                                        Request To Publish
-                                                    </a>
-                                            </div>
+														'yang anda masukan sudah benar? Setelah ini data-data anda ' +
+														'akan di verifikasi oleh admin dan tidak dapat mengubah lagi' +
+														' data-data ini.')">
+														Request To Publish
+													</a>
+											</div>
 <?php
 elseif ($status->class_status == 1 && $status->active == 1) : ?>
 											<div class="col-sm-offset-4 col-sm-8 submit-form">
 													<a href="<?php echo base_url()."vendor/kelas/request_unpublish/$class->id";?>"
 													   class="btn btn-default main-button register"
 													   onclick="return confirm('Anda akan mengajukan permohonan ' +
-													    'untuk menurunkan kelas ini. Admin akan mengkonfirmasi ' +
-													    'pengajuan anda.')">
+														'untuk menurunkan kelas ini. Admin akan mengkonfirmasi ' +
+														'pengajuan anda.')">
 														Request To Unpublish
 													</a>
 											</div>
@@ -381,14 +381,14 @@ endif;
 									</div><!-- section-wrap -->
 								</div><!-- preview -->
 								<div role="tabpanel" class="tab-pane <?php if($tabs=="profile" || $tabs=="info"){ echo "active"; }?>" id="profile">
-										<form method="post" 
-											  class="form-horizontal" 
-											  enctype="multipart/form-data"
-											  action="<?php echo base_url();?>vendor/kelas/update_profile_2">
-											<input type="hidden" 
-												   value="<?php echo $class->id;?>" 
-												   name="id" 
-												   id="id" />
+									<form method="post" 
+										  class="form-horizontal" 
+										  enctype="multipart/form-data"
+										  action="<?php echo base_url();?>vendor/kelas/update_profile_2">
+										<input type="hidden" 
+											   value="<?php echo $class->id;?>" 
+											   name="id" 
+											   id="id" />
 										<div class="section-heading">
 											<h3 class="section-title">
 												<a data-toggle="collapse" 
@@ -425,7 +425,7 @@ endif;
 														   placeholder="Biarkan terisi secara otomatis bila Anda ragu"
 <?php endif; ?>
 														   value="<?php echo $class->class_uri;?>" />
-                                                    <div class="info">contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></div>
+													<div class="info">contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></div>
 												</div>
 											</div>
 											<div class="form-group">
@@ -519,60 +519,59 @@ endif;
 												</div>
 											</div>
 										</div>
-                                            <div class="section-heading">
-                                                <h3 class="section-title">
-                                                    <a data-toggle="collapse"
-                                                       data-parent="#profile"
-                                                       href="#form_info"
-                                                       aria-controls="form_info"
-                                                       aria-expanded="false">
-                                                        Info
-                                                    </a>
-                                                </h3>
-                                            </div>
-                                            <div id="form_info" class="collapse <?php if($tabs=="info") { echo "in"; }?>">
-                                                <div class="form-group">
-                                                    <label for="attachment" class="col-sm-4 control-label">Tags</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text"
-                                                               id="class_tags"
-                                                               data-role="tagsinput"
-                                                               class="input-tags"
-                                                               name="class_tags" />
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="Namakelas" class="col-sm-4 control-label">Video</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               id="class_video"
-                                                               name="class_video"
-                                                               value="<?php echo $class->class_video;?>"
-                                                               placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds"
-                                                               <?php if($tabs=='info') echo "autofocus"?>
-                                                            >
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="attachment" class="col-sm-4 control-label">Foto / Image</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="file" id="class_image" name="class_image" />
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                if(!empty($class->class_image)) :
-                                                    $image = '<img src="'.base_url().'images/class/'.$class->id.'/'.$class->class_image.'" class="img-responsive" />';
-                                                    ?>
-                                                    <div class="row">
-                                                        <div class="col-sm-8">
-                                                            <?php echo $image;?>
-                                                        </div>
-                                                    </div>
-                                                <?php
-                                                endif;
-                                                ?>
-                                                <?php /*
+										<div class="section-heading">
+											<h3 class="section-title">
+												<a data-toggle="collapse"
+												   data-parent="#profile"
+												   href="#form_info"
+												   aria-controls="form_info"
+												   aria-expanded="false">
+													Info
+												</a>
+											</h3>
+										</div>
+										<div id="form_info" class="collapse <?php if($tabs=="info") { echo "in"; }?>">
+											<div class="form-group">
+												<label for="attachment" class="col-sm-4 control-label">Tags</label>
+												<div class="col-sm-8">
+													<input type="text"
+														   id="class_tags"
+														   data-role="tagsinput"
+														   class="input-tags"
+														   name="class_tags" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="Namakelas" class="col-sm-4 control-label">Video</label>
+												<div class="col-sm-8">
+													<input type="text"
+														   class="form-control"
+														   id="class_video"
+														   name="class_video"
+														   value="<?php echo $class->class_video;?>"
+														   placeholder="Paste video URL disini, mis: http://www.youtube.com/watch?v=dXyQ92SPWds"
+														   <?php if($tabs=='info') echo "autofocus"?>
+														>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="attachment" class="col-sm-4 control-label">Foto / Image</label>
+												<div class="col-sm-8">
+													<input type="file" id="class_image" name="class_image" />
+												</div>
+											</div>
+<?php
+if(!empty($class->class_image)) :
+	$image = '<img src="'.base_url().'images/class/'.$class->id.'/'.$class->class_image.'" class="img-responsive" />';
+?>
+											<div class="row">
+												<div class="col-sm-8">
+													<?php echo $image;?>
+												</div>
+											</div>
+<?php
+endif;
+/*
 											<div class="form-group">
 												<label for="Namakelas" class="col-sm-4 control-label">Tags</label>
 												<div class="col-sm-8">
@@ -587,21 +586,22 @@ endif;
 													<em>* Pisahkan dengan tanda koma diantara tag</em>
 												</div>
 											</div>
-// */ ?>
-                                                <div class="form-group">
-                                                    <div class="col-sm-offset-4 col-sm-8">
-                                                        <a data-toggle="collapse"
-                                                           data-parent="#profile"
-                                                           href="#form_lokasi"
-                                                           class="btn btn-default main-button next-button"
-                                                           aria-controls="form_lokasi"
-                                                           aria-expanded="true">
-                                                            Lanjut
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="section-heading">
+// */ 
+?>
+												<div class="form-group">
+													<div class="col-sm-offset-4 col-sm-8">
+														<a data-toggle="collapse"
+														   data-parent="#profile"
+														   href="#form_lokasi"
+														   class="btn btn-default main-button next-button"
+														   aria-controls="form_lokasi"
+														   aria-expanded="true">
+															Lanjut
+														</a>
+													</div>
+												</div>
+											</div>
+											<div class="section-heading">
 											<h3 class="section-title">
 												<a data-toggle="collapse" 
 												   data-parent="#profile" 
@@ -867,7 +867,11 @@ endif;
 														<td class="text-center">
 															<input type="text" 
 																   class="form-control jadwal_date" 
+<?php if($class->active != '1'): ?>
 																   name="class_tanggal[0]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   data-date-format="DD MMM gggg" 
 																   value="<?php echo $tanggal; ?>"
 																   placeholder="12 Feb 2015" />
@@ -875,7 +879,11 @@ endif;
 														<td class="text-center">
 															<input type="text" 
 																   class="form-control jadwal_time" 
+<?php if($class->active != '1'): ?>
 																   name="class_jam_mulai[0]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   data-date-format="HH:mm" 
 																   value="<?php echo $start; ?>"
 																   placeholder="15:00" />
@@ -883,7 +891,11 @@ endif;
 														<td class="text-center">
 															<input type="text" 
 																   class="form-control jadwal_time" 
+<?php if($class->active != '1'): ?>
 																   name="class_jam_selesai[0]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   data-date-format="HH:mm" 
 																   value="<?php echo $end; ?>"
 																   placeholder="16:30">
@@ -892,7 +904,11 @@ endif;
 															<input type="text" 
 																   class="form-control" 
 																   style="width: 100%"
+<?php if($class->active != '1'): ?>
 																   name="class_topik[0]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   value="<?php echo $topik; ?>"
 																   placeholder="Topik untuk sesi ini">
 														</td>
@@ -915,7 +931,11 @@ endif;
 															<input type="text" 
 																   class="form-control jadwal_date" 
 																   data-date-format="DD MMM gggg" 
+<?php if($class->active != '1'): ?>
 																   name="class_tanggal[<?php echo $i?>]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   value="<?php echo $tanggal; ?>"
 																   placeholder="12 Feb 2015" />
 														</td>
@@ -923,7 +943,11 @@ endif;
 															<input type="text" 
 																   class="form-control jadwal_time" 
 																   data-date-format="HH:mm" 
+<?php if($class->active != '1'): ?>
 																   name="class_jam_mulai[<?php echo $i?>]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   value="<?php echo $start; ?>"
 																   placeholder="15:00" />
 														</td>
@@ -931,7 +955,11 @@ endif;
 															<input type="text" 
 																   class="form-control jadwal_time" 
 																   data-date-format="HH:mm" 
+<?php if($class->active != '1'): ?>
 																   name="class_jam_selesai[<?php echo $i?>]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   value="<?php echo $end; ?>"
 																   placeholder="16:30">
 														</td>
@@ -939,7 +967,11 @@ endif;
 															<input type="text" 
 																   class="form-control" 
 																   style="width: 100%"
+<?php if($class->active != '1'): ?>
 																   name="class_topik[<?php echo $i?>]"
+<?php else: ?>
+																   disabled="disabled"
+<?php endif; ?>
 																   value="<?php echo $topik; ?>"
 																   placeholder="Topik untuk sesi ini">
 														</td>
@@ -951,7 +983,7 @@ endif;
 			endforeach;
 		endif;
 	endif;
-	if($jadwal->num_rows() == 0 || $class->class_paket != 0):
+	if($class->active != '1' && ($jadwal->num_rows() == 0 || $class->class_paket != 0)):
 ?>
 													<tr class="jadwal_next_row jadwal_row">
 														<td class="text-center">NEW</td>
@@ -1080,7 +1112,7 @@ endif;
 														   class="form-control" 
 														   id="jumlah_sesi" 
 														   value="<?php
-                                                           echo $pertemuan;?>"
+														   echo $pertemuan;?>"
 														   readonly="readonly"
 														   placeholder="" />
 												</div>
@@ -1169,9 +1201,9 @@ endif;
 		function check_price() {
 			var harga_per_sesi = parseInt($('#harga_per_sesi').val());
 			var jumlah_sesi = row_jadwal;
-            if(class_type == '0') {
-                var jumlah_sesi = 1;
-            }
+			if(class_type == '0') {
+				var jumlah_sesi = 1;
+			}
 			var total_harga = harga_per_sesi * jumlah_sesi; //parseInt($('#total_harga').val());
 			var harga_diskon = parseInt($('#harga_diskon').val());
 			var total_harga_paket = total_harga - harga_diskon;

@@ -421,6 +421,10 @@ class Kelas extends Vendor_Controller{
 		if(empty($id)) {
 			show_404();
 		}
+		
+		$active = (int)$this->vendor_class_model->get_class(array('id'=>$id, 'active'=>NULL, 'class_status >='=>NULL))
+				->row()->active;
+		
 		$table['vendor_class'] = array(
 			'class_name','class_uri','class_deskripsi','class_paket','class_catatan','class_lokasi',
 				'class_peta','class_provinsi_id','class_lokasi_id',
@@ -455,26 +459,28 @@ class Kelas extends Vendor_Controller{
 					$data[$tbl][$field] = $this->input->post($field);
 			}
 		}
-		$kelas_jadwal = $data['vendor_class_jadwal'];
-		foreach($kelas_jadwal['class_tanggal'] as $jadwal_ke => $kelas_tanggal) {
-			if(!empty($kelas_tanggal) 
-					&& !empty($kelas_jadwal['class_jam_mulai'][$jadwal_ke]) 
-					&& !empty($kelas_jadwal['class_jam_selesai'][$jadwal_ke])
-			){
-				$mulai = explode(':',$kelas_jadwal['class_jam_mulai'][$jadwal_ke]);
-				$tamat = explode(':',$kelas_jadwal['class_jam_selesai'][$jadwal_ke]);
-				$kelas_tanggal = date('Y-m-d', strtotime($kelas_tanggal));
-				$jadwal[] = array(
-					'class_id'				=> $id,
-					'jadwal_id'				=> $jadwal_ke,
-					'class_tanggal'			=> $kelas_tanggal,
-					'class_jam_mulai'		=> $mulai[0],
-					'class_menit_mulai'		=> $mulai[1],
-					'class_jam_selesai'		=> $tamat[0],
-					'class_menit_selesai'	=> $tamat[1],
-					'class_waktu'			=> 1,
-					'class_jadwal_topik'	=> $kelas_jadwal['class_topik'][$jadwal_ke]
-				);
+		if(!$active) {
+			$kelas_jadwal = $data['vendor_class_jadwal'];
+			foreach($kelas_jadwal['class_tanggal'] as $jadwal_ke => $kelas_tanggal) {
+				if(!empty($kelas_tanggal) 
+						&& !empty($kelas_jadwal['class_jam_mulai'][$jadwal_ke]) 
+						&& !empty($kelas_jadwal['class_jam_selesai'][$jadwal_ke])
+				){
+					$mulai = explode(':',$kelas_jadwal['class_jam_mulai'][$jadwal_ke]);
+					$tamat = explode(':',$kelas_jadwal['class_jam_selesai'][$jadwal_ke]);
+					$kelas_tanggal = date('Y-m-d', strtotime($kelas_tanggal));
+					$jadwal[] = array(
+						'class_id'				=> $id,
+						'jadwal_id'				=> $jadwal_ke,
+						'class_tanggal'			=> $kelas_tanggal,
+						'class_jam_mulai'		=> $mulai[0],
+						'class_menit_mulai'		=> $mulai[1],
+						'class_jam_selesai'		=> $tamat[0],
+						'class_menit_selesai'	=> $tamat[1],
+						'class_waktu'			=> 1,
+						'class_jadwal_topik'	=> $kelas_jadwal['class_topik'][$jadwal_ke]
+					);
+				}
 			}
 		}
 		$data['vendor_class']['id'] = $id;
@@ -528,17 +534,22 @@ class Kelas extends Vendor_Controller{
 			$data['vendor_class']['class_uri'] = url_title(strtolower($data['vendor_class']['class_uri']));
 		}
 //var_dump($jadwal);exit;
+
 		$this->vendor_class_model->update_class($data['vendor_class'], array());
+
 		if($this->vendor_class_model->add_class_price($id, $data['vendor_class_price']) === FALSE){
 			$error_status[] = 'harga kelas';
 		}
 //		$this->vendor_class_model->update_class_schedule($id)
-		$this->vendor_class_model->clear_class_schedule($id);
-		foreach($jadwal as $sched) {
-			if($this->vendor_class_model->add_update_class_schedule($sched)===FALSE) {
-				if(!in_array('jadwal kelas', $error_status)) $error_status[] = 'jadwal kelas';
+		if(!$active) {
+			$this->vendor_class_model->clear_class_schedule($id);
+			foreach($jadwal as $sched) {
+				if($this->vendor_class_model->add_update_class_schedule($sched)===FALSE) {
+					if(!in_array('jadwal kelas', $error_status)) $error_status[] = 'jadwal kelas';
+				}
 			}
 		}
+
 		$this->vendor_class_model->clear_class_level($id);
 		$this->vendor_class_model->clear_class_category($id);
 		if(!$this->vendor_class_model->add_class_level($id, $data['vendor_class_level']['level_id'])){

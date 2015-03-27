@@ -426,7 +426,7 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('GROUP_CONCAT(name) as nama', FALSE);
 		$this->db->where($var);
 		$this->db->where(array('status'=>1));
-		$this->db->group_by('name');
+//		$this->db->group_by('name');
 		$level =  $this->db->get('vendor_level_list');
 //		var_dump($level->row());exit;
 		return $level;
@@ -561,14 +561,21 @@ class Vendor_class_model extends MY_Model{
 	}
 
 	public function set_featured_id($id, $sort = 0) {
-		$this->db->insert('vendor_class_featured', array(
-			'class_id'		=> $id,
-			'sort'			=> $sort,
-			'active'		=> 1,
-//			'start_time'	=> $start,
-//			'end_time'		=> $end,
-		));
-		return $this->db->affected_rows();
+		
+		$exists = !!$this->db->where('class_id',$id)->get('vendor_class_featured')->num_rows();
+		if(!$exists){
+			$this->db->insert('vendor_class_featured', array(
+				'class_id'		=> $id,
+				'sort'			=> $sort,
+				'active'		=> 1,
+	//			'start_time'	=> $start,
+	//			'end_time'		=> $end,
+			));
+			return $this->db->affected_rows();
+		} else {
+			return $this->reactivate_featured($id);
+		}
+		
 	}
 
 	public function deactivate_featured($id) {
@@ -583,8 +590,28 @@ class Vendor_class_model extends MY_Model{
 		$this->db->update('vendor_class_featured', array('sort'=>$sort), array('class_id'=>$id));
 		return $this->db->affected_rows();
 	}
+	
+	public function check_participant_class($class_id, $student_id) {
+		return $this->db
+				->select('code')
+				->select('status')
+				->distinct()
+				->where('class_id', $class_id)
+				->where('participant_id', $student_id)
+				->from('vendor_class_participant')
+		->get()->row();
+		;
+	}
 
 	public function add_class_participant($class_id, $jadwal_id, $student_id, $pemesan_id, $code = NULL) {
+		$test_code = $this->check_participant_class($class_id, $student_id);
+		if(!empty($test_code)) {
+			if(!empty($test_code->status) && (int)$test_code->status < 2 ){
+				$code = $test_code->code;
+			} else {
+				return "BAD";
+			}
+		}
 		if(empty($code)) {
 			$hash = hashgenerator(6, 'safe',1);
 			$code = $hash[0];

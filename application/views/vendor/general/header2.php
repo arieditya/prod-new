@@ -174,7 +174,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="<?php echo base_url()?>cari_guru">Belajar Privat</a></li>
 						<li class="active"><a href="http://kelas.ruangguru.com">Kelas Berkelompok</a></li>
-						<li><a href="#FAQ">FAQ</a></li>
+						<li><a href="<?php echo base_url()?>FAQ">FAQ</a></li>
 						<li><a href="#contact">Kontak</a></li>
 					</ul>
 <?php

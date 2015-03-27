@@ -465,10 +465,13 @@ if($total > 0):
 						base_url+'payment/transfer/step3vt',
 						{'code': code, 'method': _vt_method},
 						function(dt) {
-							
+							if(dt.status == 'OK') {
+								window.location.href = _vt_link;
+							} else {
+								alert(dt.message);	
+							}
 						}
 				);
-				window.location.href = _vt_link;
 				return;
 			}
 			$('#curtain').show().css({

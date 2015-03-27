@@ -247,7 +247,7 @@ class Payment extends MY_Controller {
 		
 		if(!empty($dt1)) $this->vendor_class_model->remove_transaction($dt1['code']);
 		
-		$this->load->model('discount_model');
+ 		$this->load->model('discount_model');
 		
 		$pemesan = array(
 			'name'			=> $this->input->post('pemesan_name', TRUE),
@@ -371,7 +371,13 @@ class Payment extends MY_Controller {
 				if(!$this->vendor_class_model->get_class_schedule_availability($j_id)) continue;
 				$i++;
 				$code = $this->vendor_class_model->add_class_participant($c->id, $j_id, $peserta_id, $pemesan_id, $code);
-				if(empty($code)) break;
+				if($code == 'BAD') {
+					$this->session->set_flashdata('status.warning','Email murid dan kelas sudah pernah didaftarkan!'
+					.' Gunakan alamat email lain untuk mendaftar kelas ini.');
+					redirect('payment/transfer/step1');
+					return;
+					exit;
+				}
 				$schedule = $this->vendor_class_model->get_class_schedule(array('jadwal_id'=>$j_id))->row();
 				$schedule->price_per_session = $class->price_per_session;
 				$sched[] = $schedule;
@@ -418,7 +424,7 @@ class Payment extends MY_Controller {
 		}
 		
 		$total = $total_no_discount - $discount;
-		
+		if($total < 0) $total = 0;
 		$data = array(
 			'pemesan'=>$pemesan, 
 			'peserta'=>$peserta, 
@@ -510,19 +516,20 @@ class Payment extends MY_Controller {
 			set_status_header(401);
 			echo json_encode(array(
 				'status'		=> 'KO',
+				'message'		=> 'Transaction is not found!',
 				'data'			=> $trx
 			));
 			return;
 		}
 		$method = $this->input->post('method', TRUE);
 		switch($method) {
-			case 'mandiri'		:
+			case 'payment_mandiri'		:
 				$bank = 'vt-mandiri';
 				break;
-			case 'cimb'			:
+			case 'payment_cimb'			:
 				$bank = 'vt-cimb';
 				break;
-			case 'cc'			:
+			case 'payment_cc'			:
 				$bank = 'vt-cc';
 				break;
 			default:
