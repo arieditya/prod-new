@@ -577,6 +577,10 @@ class Vendor_class_model extends MY_Model{
 		$k = array_fill(0, count($featured), 'class_id');
 		return array_map(array($this, '_get_value'), $k, $featured);
 	}
+	
+	public function get_featured_class() {
+		return $this->db->order_by('sort','asc')->where('active',1)->get('vendor_class_featured');
+	}
 
 	public function set_featured_id($id, $sort = 0) {
 		
@@ -591,7 +595,7 @@ class Vendor_class_model extends MY_Model{
 			));
 			return $this->db->affected_rows();
 		} else {
-			return $this->reactivate_featured($id);
+			return $this->reactivate_featured($id, $sort);
 		}
 		
 	}
@@ -600,8 +604,8 @@ class Vendor_class_model extends MY_Model{
 		$this->db->update('vendor_class_featured', array('active'=>0), array('class_id'=>$id));
 		return $this->db->affected_rows();
 	}
-	public function reactivate_featured($id) {
-		$this->db->update('vendor_class_featured', array('active'=>1), array('class_id'=>$id));
+	public function reactivate_featured($id, $sort) {
+		$this->db->update('vendor_class_featured', array('active'=>1,'sort'=>$sort), array('class_id'=>$id));
 		return $this->db->affected_rows();
 	}
 	public function set_sort_featured($id, $sort) {

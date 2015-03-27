@@ -129,6 +129,7 @@ class Kelas extends MY_Controller {
 		}
 //		var_dump($where_class);
 		//print_r($classes);exit();
+		
 		foreach($classes as &$cla){
 			$cnt = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cla->id))->num_rows();
 			$cla->count_session = $cnt;
@@ -140,9 +141,31 @@ class Kelas extends MY_Controller {
 			$cla->vendor = $v;
 			$cla->available = $this->vendor_class_model->get_class_availability($cla->id);
 		}
+		
+		$featured_class = array();
+		$featured = $this->vendor_class_model->get_featured_class()->result();
+		if(empty($featured) || count($featured) == 0) {
+			$featured_class = $classes;
+		} else {
+			foreach($featured as $feat){
+				$cls = $this->vendor_class_model->get_class(array('id'=>$feat->class_id))->row();
+				if(empty($cls)) continue;
+				$cnt = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))->num_rows();
+				$cls->count_session = $cnt;
+				$v['profile'] = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row();
+				$v['info'] = $this->vendor_model->get_info(array('vendor_id'=>$cls->vendor_id))->row();
+				$data['vendor']['profile'][]= $v['profile'];
+				$data['vendor']['info'][]= $v['info'];
+				$cls->rating = $this->vendor_class_model->get_class_rating($cls->vendor_id)->row();
+				$cls->vendor = $v;
+				$cls->available = $this->vendor_class_model->get_class_availability($cls->id);
+				$featured_class[] = $cls;
+			}
+		}
 
 		$this->load->helper('text');
 		$this->data['class'] = $classes;
+		$this->data['featured'] = $featured_class;
 		$this->data['vendor'] = empty($data['vendor'])?NULL:$data['vendor'];
 		$this->data['show_filter'] = TRUE;
 //		var_dump($classes);exit;

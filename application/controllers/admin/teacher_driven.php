@@ -148,32 +148,43 @@ class Teacher_driven extends MY_Controller{
 	}
 	
 	public function class_featured() {
-		$data['active'] = 521;
+		$data['active'] = 524;
 		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
 																	 'Class'=>'teacher_driven/class_list',
 																	 'Featured Class'=> 'class_featured'));
-		$class = $this->vendor_class_model->get_class(array())->result();
+		// Featured Class must be active published!
+		$class = $this->vendor_class_model->get_class(array(),0,0)->result();
 		
-		foreach($class as &$cls) {
-			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
-			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()
-					->category_name;
-			$cls->level_name = $this->vendor_class_model->get_level_name(array('id'=>$cls->level_id))->row();
-			if(!empty($cls->level_name)) $cls->level_name = $cls->level_name->nama;
-			else $cls->level_name = 'Belum Terdaftar!';
-			$cls->session_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))
-					->num_rows();
-//			var_dump($cls);exit;
+		$featured = $this->vendor_class_model->get_featured_class()->result();
+		$feature_class = array();
+		foreach($featured as $f) {
+			$feature_class[] = $this->vendor_class_model->get_class(array('id'=>$f->class_id),0,0)->row();
 		}
+		
 		$data['class'] = $class;
+		$data['featured'] = $feature_class;
 		
 //		vaR_dump($data['class']->result());exit;
-		$data['content'] = $this->load->view('admin/teacher_driven/class_list',$data,TRUE);
+		$data['content'] = $this->load->view('admin/teacher_driven/featured_class_list',$data,TRUE);
 		$this->load->view('admin/admin_v',$data);
 	}
 	
-	public function set_class_featured() {
-		
+	public function set_class_featured($id) {
+		$this->vendor_class_model->set_featured_id($id, 0);
+		redirect('admin/teacher_driven/class_featured');
+	}
+	
+	public function unset_class_featured($id) {
+		$this->vendor_class_model->deactivate_featured($id);
+		redirect('admin/teacher_driven/class_featured');
+	}
+	
+	public function featured_reorder() {
+		$sort = $_GET['sort'];
+		foreach($sort as $s => $id) {
+			$this->vendor_class_model->set_featured_id($id, $s+1);
+		}
+		redirect('admin/teacher_driven/class_featured');
 	}
 	
 	public function deactivate_class($id) {

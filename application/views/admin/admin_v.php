@@ -96,6 +96,12 @@
 								</a>
 							</li>
 							<li>
+								<a href="<?php echo base_url();?>admin/teacher_driven/class_featured" class="<?php 
+									echo ($active==524)?'active':''?>">
+									Featured Class
+								</a>
+							</li>
+							<li>
 								<a href="<?php echo base_url();?>admin/teacher_driven/class_mail" class="<?php 
 									echo ($active==522)?'active':''?>">
 									Class Mail Blast

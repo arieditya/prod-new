@@ -76,8 +76,8 @@ $this->load->view('vendor/general/header2');
 <?php
 	$i = 0;
 	$j = 0;
-	if(!empty($class)):
-		foreach($class as $kelas):
+	if(!empty($featured)):
+		foreach($featured as $kelas):
 			if($i < 6) :
 				if($i % 3 == 0 && $i > 0):
 					$j++;
@@ -174,19 +174,20 @@ $this->load->view('vendor/general/header2');
 				<div class="col-sm-12">
 					<h3 class="block-title text-center">Kelas Terbaru</h3>
 				</div>
-				<?php
-				$i = 0;
-				$j = 0;
-				if(!empty($class)):
-				foreach($class as $kelas):
-				if($i < 3) :
+<?php
+	$i = 0;
+	$j = 0;
+	$kelas = null;
+	if(!empty($class)):
+		foreach($class as $kelas):
+			if($i < 3) :
 				if($i % 3 == 0 && $i > 0){
-				$j++;
-				?>
+					$j++;
+?>
 			</div> <!-- /row -->
 
 			<div class="row">
-				<?php
+<?php
 				}
 				$imgparts = explode('.',$kelas->class_image);
 				$ext = array_pop($imgparts);
@@ -194,7 +195,6 @@ $this->load->view('vendor/general/header2');
 				$img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'
 					.implode('.', $imgparts));
 				$price = (int)$kelas->price_per_session;
-				$disc = (int)$kelas->discount;
 				$disc = (int)$kelas->discount;
 				if($kelas->class_paket == 2) {
 					$_price = rupiah_format($price * $kelas->count_session).' /paket';
