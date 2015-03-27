@@ -425,7 +425,7 @@ endif;
 														   placeholder="Biarkan terisi secara otomatis bila Anda ragu"
 <?php endif; ?>
 														   value="<?php echo $class->class_uri;?>" />
-													<div class="info">contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></div>
+													<div class="info-contoh">contoh: http://kelas.ruangguru.com/kelas/<b>URL</b></div>
 												</div>
 											</div>
 											<div class="form-group">
@@ -976,7 +976,9 @@ endif;
 																   placeholder="Topik untuk sesi ini">
 														</td>
 														<td class="text-center">
+<?php if($class->active != '1'): ?>
 															<a href="#" class="jadwal_delete">delete</a>
+<?php endif; ?>
 														</td>
 													</tr>
 <?php

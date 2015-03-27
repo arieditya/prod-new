@@ -322,7 +322,25 @@ class Vendor_class_model extends MY_Model{
 		$participant = $this->get_class_schedule_participant(array('jadwal_id'=>$sched_id,'status >'=>0))->num_rows();
 		return $max-$participant;
 	}
-	
+
+    public function get_class_availability($class_id) {
+		$max = $this->get_class(array(
+			'id'=>$class_id,
+			'active'=>NULL,
+			'class_status >='=>NULL))
+			->row()
+			->class_peserta_max;
+		$schedules = $this->get_class_schedule(array('class_id'=>$class_id))->result();
+		foreach($schedules as $sched_id) {
+			$participant = $this->get_class_schedule_participant(array('jadwal_id'=>$sched_id->jadwal_id,'status >'=>0))->num_rows();
+			$availability = $max-$participant;
+			if($availability > 0){
+				return 1;
+			}
+		}
+		return 0;
+	}
+
 	public function get_class_attendance($class_id) {
 		return @$this->db
 				->distinct()

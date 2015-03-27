@@ -133,22 +133,22 @@ class Kelas extends MY_Controller {
 			$cla->count_session = $cnt;
 			$v['profile'] = $this->vendor_model->get_profile(array('id'=>$cla->vendor_id))->row();
 			$v['info'] = $this->vendor_model->get_info(array('vendor_id'=>$cla->vendor_id))->row();
-            $data['vendor']['profile'][]= $v['profile'];
-            $data['vendor']['info'][]= $v['info'];
+			$data['vendor']['profile'][]= $v['profile'];
+			$data['vendor']['info'][]= $v['info'];
 			$cla->rating = $this->vendor_class_model->get_class_rating($cla->vendor_id)->row();
 			$cla->vendor = $v;
+			$cla->available = $this->vendor_class_model->get_class_availability($cla->id);
 		}
-		
-		
+
 		$this->load->helper('text');
 		$this->data['class'] = $classes;
 		$this->data['vendor'] = empty($data['vendor'])?NULL:$data['vendor'];
 		$this->data['show_filter'] = TRUE;
 //		var_dump($classes);exit;
 //        $this->data['vendor']->profile->name = word_limiter($this->data->vendor->profile->name,13);
-        if($view=='all') : $this->load->view('kelas/list_all', $this->data);
-        else :
-            $this->new_design?
+		if($view=='all') : $this->load->view('kelas/list_all', $this->data);
+		else :
+			$this->new_design?
 				$this->load->view('kelas/list2', $this->data):
 				$this->load->view('kelas/list', $this->data);
         endif;
