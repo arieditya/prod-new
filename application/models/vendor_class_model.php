@@ -71,7 +71,7 @@ class Vendor_class_model extends MY_Model{
 		return $id;
 	}
 
-	public function get_class($var=null, $page=1, $perpage=5, $time='all') {
+	public function get_class($var=null, $page=1, $perpage=5, $time='all', $order=array()) {
 		$where = array(
 				'class_status >='	=> 1,
 				'active'		=> 1,
@@ -80,6 +80,9 @@ class Vendor_class_model extends MY_Model{
 			
 		} else {
 			$this->db->limit($perpage, ($page-1)*$perpage);
+		}
+		if(empty($order)){
+			$order = array('vendor_class.id'=>'DESC');
 		}
 		
 //		if(is_string($var)){
@@ -143,9 +146,12 @@ class Vendor_class_model extends MY_Model{
 		$this->db->select('vendor_class_price.discount');
 		$this->db->select('vendor_class_price.price_per_session');
         $this->db->select('lokasi.lokasi_title');
-        $this->db->order_by('vendor_class.id','DESC');
-        $this->db->order_by('vendor_class_jadwal.class_tanggal','DESC');
-		$this->db->group_by('vendor_class.id');
+//		$this->db->order_by('vendor_class_jadwal.class_tanggal','ASC');
+//		$this->db->order_by('vendor_class.id','DESC');
+		foreach($order as $o_k => $o_v){
+			$this->db->order_by($o_k, $o_v);
+		}
+        $this->db->group_by('vendor_class.id');
 		$result = $this->db->get('vendor_class');
 //		var_dump($this->db->last_query()); exit;
         return $result;
@@ -846,6 +852,7 @@ class Vendor_class_model extends MY_Model{
 		}
 		if(!empty($var['upcoming'])){
 			$classes = array_merge($classes, $this->get_upcoming());
+			$order_by = "class_tanggal DESC";
 //			$where .= ' AND a.id IN ( '.implode(',',$classes).' ) ';
 		}elseif(!empty($var['ongoing'])){
 			$classes = array_merge($classes, $this->get_ongoing());
