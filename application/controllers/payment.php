@@ -358,6 +358,21 @@ class Payment extends MY_Controller {
 		$code = NULL;
 		
 		$veritrans = array();
+
+		foreach($cart as $c) {
+			$class = $this->vendor_class_model->get_class(array('id'=>$c->id))->row();
+			$test = $this->vendor_class_model->check_participant_class($c->id, $peserta_id);
+			if(!empty($test)) {
+					$this->session->set_flashdata('status.large', 'TRUE');
+					$this->session->set_flashdata('status.error','Email murid sudah pernah didaftarkan untuk kelas: '
+					.'<strong>'.$class->class_nama.'</strong>.<br />Gunakan alamat email lain untuk mendaftar atau'
+					.' hapus kelas ini dari list.');
+					redirect('payment/transfer/step1');
+					return;
+					exit;
+			}
+		}
+
 		foreach($cart as $c) {
 			$class_total = 0;
 			$class_discount = 0;

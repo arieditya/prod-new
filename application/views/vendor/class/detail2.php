@@ -1515,12 +1515,13 @@ endif;
 										  action="<?php echo base_url()?>vendor/kelas/send_email" 
 										  enctype="multipart/form-data" 
 										  method="post">
+										<input type="hidden" name="id" value="<?php echo $class->id;?>" />
 										<div class="form-group">
 											<label for="penerima" class="col-sm-2 control-label">Jenis Pesan</label>
 											<div class="col-sm-10">
 												<select class="form-control" name="jenis_pesan" id="jenis_pesan">
-													<option value="1">Pengumuman</option>
-													<option value="2">Pengingat</option>
+													<option value="pengumuman">Pengumuman</option>
+													<option value="pengingat">Pengingat</option>
 												</select>
 											</div>
 										</div>

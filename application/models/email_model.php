@@ -2,6 +2,7 @@
 
 /**
 	@property $vendor_class_model Vendor_class_model 
+	@property $CI MY_Controller 
  */
 
 class Email_model extends MY_Model
@@ -24,6 +25,8 @@ class Email_model extends MY_Model
 		error_reporting(E_ALL);
 		$this->CI->load->library('email');
 		$this->email = $this->CI->email;
+		$this->CI->load->model('vendor_class_model');
+		$this->CI->load->model('vendor_model');
 	}
 	
 	protected function initialize($_config) {
@@ -210,7 +213,6 @@ class Email_model extends MY_Model
 			'active'			=> 1
 		))->row();
 		
-
 		switch ($type) {
 			case			'peserta'	:
 				$tos = $this->CI->vendor_class_model->get_class_attendance_full($class->id)->result();
@@ -793,6 +795,74 @@ Terima kasih
 	}
 	
 	public function vendor_student_registered_notification() {
+
+	}
+	
+	public function student_communication_blast($class_id, $id) {
+		$class = $this->CI->vendor_class_model->get_class(array('id'=>$class_id))->row();
+		if(empty($class)) return FALSE;
+		$vendor = $this->CI->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+		$email = $this->CI->vendor_class_model->get_sent_message($class_id, $id);
+		$to_string = $email->to;
+		$reciever = array();
+		$to = array();
+		switch($to_string) {
+			case 'peserta'			: 
+				$peserta = $this->CI->vendor_class_model->get_class_attendance_full($class_id)->result();
+				foreach($peserta as $p) {
+					if(!in_array($p->email_peserta, $reciever)) {
+						$reciever[] = $p->email_peserta;
+						$to[$p->email_peserta] = $p->nama_peserta;
+					}
+				}
+				break;
+			case 'pendaftar'		: 
+				$pendaftar = $this->CI->vendor_class_model->get_class_sponsor_full($class_id)->result();
+				foreach($pendaftar as $p) {
+					if(!in_array($p->email_pemesan, $reciever)) {
+						$reciever[] = $p->email_pemesan;
+						$to[$p->email_pemesan] = $p->nama_pemesan;
+					}
+				}
+				break;
+			case 'semua'			: 
+				$pe = $this->CI->vendor_class_model->get_class_participant_full($class_id)->result();
+				foreach($pe as $p) {
+					if(!in_array($p->email_peserta, $reciever)) {
+						$reciever[] = $p->email_peserta;
+						$to[$p->email_peserta] = $p->nama_peserta;
+					}
+					if(!in_array($p->email_pemesan, $reciever)) {
+						$reciever[] = $p->email_pemesan;
+						$to[$p->email_pemesan] = $p->nama_pemesan;
+					}
+				}
+				break;
+		}
 		
+		$data = array(
+			'type'				=> $email->type,
+			'message'			=> $email->message,
+			'class_nama'		=> $class->class_nama,
+			'vendor_name'		=> $vendor->name,
+			'subject'			=> $email->subject
+		);
+//		var_dump($to);exit;
+		foreach($to as $e => $murid) {
+			if(!empty($email->attachment) && empty($this->attachment)) $this->attach($email->attachment);
+			$s = 'Pesan terkait "'.$class->class_nama.'"';
+			$this->subject($s);
+			$data['murid_name'] = $murid;
+			$this->to = array($e);
+			$this->html_content('murid/6_communication_blast', $data);
+			$this->send();
+		}
+		if(!empty($email->attachment) && empty($this->attachment)) $this->attach($email->attachment);
+		$s = 'Pesan terkait "'.$class->class_nama.'"';
+		$this->subject($s);
+		$data['murid_name'] = 'Admin <strong>Kelas.</strong>ruangguru.com';
+		$this->to = array('kelas@ruangguru.com');
+		$this->html_content('murid/6_communication_blast', $data);
+		$this->send();
 	}
 }

@@ -235,7 +235,6 @@ class Kelas extends Vendor_Controller{
 					'nama'		=> $attendee->nama_pemesan,
 					'email'		=> $attendee->email_pemesan,
 					'phone'		=> $attendee->phone_pemesan,
-					'address'	=> $attendee->alamat_pemesan,
 				),
 				'peserta'	=> array(
 					'nama'		=> $attendee->nama_peserta,
@@ -787,7 +786,8 @@ class Kelas extends Vendor_Controller{
 	}
 	
 	public function send_email() {
-		$reciever_type = $this->input->post('reciever', TRUE);
+		$reciever_type = $this->input->post('penerima', TRUE);
+		$type = $this->input->post('jenis_pesan', TRUE);
 		$subject = $this->input->post('subject', TRUE);
 		$message = $this->input->post('message');
 		$id = (int) $this->input->post('id', TRUE);
@@ -795,38 +795,48 @@ class Kelas extends Vendor_Controller{
 		if(!empty($_FILES['attach'])) {
 			$uploads_dir = FCPATH.'documents/email_attach/kelas/'.$id;
 			if(!is_dir($uploads_dir)) mkdir($uploads_dir, 0775, TRUE);
-			foreach ($_FILES["attach"]["error"] as $key => $error) {
-				if ($error == UPLOAD_ERR_OK) {
-					$tmp_name = $_FILES["attach"]["tmp_name"][$key];
-					$name = microtime(TRUE).'-'.$_FILES["attach"]["name"][$key];
-					$name = preg_replace('^[a-z0-9\-]',' ', strtolower($name));
-					$name = preg_replace('\s\s',' ', $name);
-					$name = str_replace(' ', '-', $name);
-					move_uploaded_file($tmp_name, "$uploads_dir/$name");
-					$attachment = TRUE;
-				}
+			$save_path = NULL;
+			if ($_FILES["attach"]["error"] == UPLOAD_ERR_OK) {
+				$tmp_name = $_FILES["attach"]["tmp_name"];
+				$name = microtime(TRUE).'-'.$_FILES["attach"]["name"];
+				$name = array_shift(str_split(strtolower($name),65));
+				$name = preg_replace('/^[a-z0-9\-]/','-', $name);
+				$name = str_replace('--', '-', $name);
+				$save_path = "$uploads_dir/$name";
+				move_uploaded_file($tmp_name, $save_path);
+				$attachment = TRUE;
 			}
 		}
 		$this->load->model('email_model');
 		$this->load->model('vendor_model');
-		$vendor = $this->vendor_model->get_profile(array('id'=>$this->data['user']['id']))->row();
-		$this->email_model->vendor_send_message_to($vendor, $id, $subject, $message, $reciever_type, $attachment?"{$uploads_dir}/{$name}":NULL);
+		
+		$message_id = $this->vendor_class_model->save_communication(array(
+			'class_id'		=> $id,
+			'to'			=> $reciever_type,
+			'type'			=> $type,
+			'subject'		=> $subject,
+			'message'		=> $message,
+			'attachment'	=> $attachment?$save_path:NULL
+		));
+		
+		$this->email_model->student_communication_blast($id, $message_id);
+		
+//		$vendor = $this->vendor_model->get_profile(array('id'=>$this->data['user']['id']))->row();
+//		$this->email_model->vendor_send_message_to($vendor, $id, $subject, $message, $reciever_type, $attachment?"{$uploads_dir}/{$name}":NULL);
+
 		redirect('vendor/kelas/detil/'.$id.'/email_blast');
 	}
 	
 	public function resend_email() {
 		$class_id = (int)$this->input->get('class_id', TRUE);
 		$email_id = (int)$this->input->get('email_id', TRUE);
-		$email_data = $this->vendor_class_model->get_sent_message($class_id, $email_id);
-		if(!empty($email_data)) {
-			$this->load->model('email_model');
-			$vendor = $this->vendor;
-			$this->email_model->vendor_send_message_to(
-				$vendor,$class_id,
-					'RESEND: '.$email_data->subject,
-				$email_data->message,$email_data->type,$email_data->attachment
-			);
-		}
+		$email_data = (array)$this->vendor_class_model->get_sent_message($class_id, $email_id);
+		
+		$email_data['subject'] = 'Resend: '.$email_data['subject'];
+		unset($email_data['id']);
+		$id = $this->vendor_class_model->save_communication($email_data);
+		$this->email_model->student_communication_blast($class_id, $id);
+		
 		redirect('vendor/kelas/detil/'.$class_id.'/email_blast');
 	}
 

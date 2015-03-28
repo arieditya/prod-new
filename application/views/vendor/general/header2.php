@@ -95,7 +95,8 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 		(strlen($this->session->flashdata('status.warning'))?'warning':
 				(strlen($this->session->flashdata('status.notice'))?'notice':''));
 ?>
-	<div class="notification <?php echo !empty($notice)?'on':''?>">
+	<div class="notification <?php echo !empty($notice)?'on':'';
+	echo $this->session->flashdata('status.large')=='TRUE'?' large':''; ?>">
 		<div class="<?php echo $notice;?>">
 			<div class="message">
 				<div class="row">
@@ -174,7 +175,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="<?php echo base_url()?>cari_guru">Belajar Privat</a></li>
 						<li class="active"><a href="http://kelas.ruangguru.com">Kelas Berkelompok</a></li>
-						<li><a href="<?php echo base_url()?>FAQ">FAQ</a></li>
+						<li><a href="<?php echo base_url()?>faq">FAQ</a></li>
 						<li><a href="#contact">Kontak</a></li>
 					</ul>
 <?php
@@ -363,6 +364,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 					<div class="col-sm-12">
 						<ul class="nav nav-pills text-14">
 							<li class="title-filter">Filter</li>
+<?php /* ?>
 							<li id="cat_list" class="filter-select">
 								<select class="form-control input-sm">
 									<option value="0">Hari</option>
@@ -375,6 +377,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 									<option value="7">Minggu</option>
 								</select>
 							</li>
+<?php // */ ?>
 							<li id="lev_list" class="filter-select">
 								<select class="form-control level input-sm">
 									<option value="*">Level</option>
@@ -420,8 +423,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 								</select>
 							</li>
 						</ul>
-						<ul class="sort nav text-14">
-							
+						<ul class="sort nav text-14" >
 							<li class="title-filter sort-list">Urutan</li>
 							<li id="sort_by_list" class="sort-list">
 								<select class="form-control input-sm">
@@ -431,6 +433,11 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 									<option value="past">Past Class</option>
 								</select>
 							</li>
+<?php /* ?>
+							<li class="sort-list">
+								<button class="btn btn-sm"><i class="fa fa-search"></i></button>
+							</li>
+<?php // */ ?>
 						</ul>
 					</div>
 				</div>

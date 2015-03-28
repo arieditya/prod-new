@@ -1090,14 +1090,11 @@ class Vendor_class_model extends MY_Model{
 			pemesan_id,
 			b.name AS nama_pemesan,
 			b.email AS email_pemesan,
-			b.phone AS phone_pemesan,
-			b.address AS alamat_pemesan
+			b.phone AS phone_pemesan
 		FROM
 			vendor_class_participant a
 			LEFT JOIN vendor_class_pemesan b
 			ON b.id = a.pemesan_id
-			LEFT JOIN vendor_class_student c
-			ON c.id = a.participant_id
 		WHERE 1
 			AND a.class_id = ?
 ";
@@ -1132,7 +1129,6 @@ class Vendor_class_model extends MY_Model{
  			b.name AS nama_pemesan,
  			b.email AS email_pemesan,
  			b.phone AS phone_pemesan,
- 			b.address AS alamat_pemesan,
 			participant_id as peserta_id,
 			c.name AS nama_peserta,
 			c.email AS email_peserta,
@@ -1188,6 +1184,11 @@ class Vendor_class_model extends MY_Model{
 		if(!empty($email_id))
 			return $this->db->where(array('class_id'=>$class_id,'id'=>$email_id))->get('vendor_class_message')->row();
 		return $this->db->where('class_id', $class_id)->get('vendor_class_message')->result();
+	}
+	
+	public function save_communication($data) {
+		$this->db->insert('vendor_class_message', $data);
+		return $this->db->insert_id();
 	}
 	
 	public function get_new_invoice_data($code) {
