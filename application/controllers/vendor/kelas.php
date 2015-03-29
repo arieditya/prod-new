@@ -26,6 +26,7 @@ class Kelas extends Vendor_Controller{
 		$published = array();
 		$past = array();
 		$draft = array();
+		$date_now = '2015-03-30';
 		foreach($list_class as &$list) {
 			$list->level = $this->vendor_class_model->get_class_level($list->id);
 			$list->category = $this->vendor_class_model->get_class_category($list->id);
@@ -38,7 +39,7 @@ class Kelas extends Vendor_Controller{
 			if($list->active == 1) {
 				$list->jadwal = $schedules->result();
 				foreach($list->jadwal as $jadwal) {
-					if(date($jadwal->class_tanggal) >= date('2015-03-30')) {
+					if(date($jadwal->class_tanggal) >= $date_now) {
 						$published[] = $list;
 						//echo $list->class_nama." is published. ";
 						unset($list);
