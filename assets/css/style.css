@@ -1078,12 +1078,7 @@ a.remove {
   width: 30px;
 } 
 .sub-vendor .status {
-  width: 95px;
   text-align: center;
-}
-.sub-vendor .status .icon-circle {
-  margin-bottom: 10px;
-  margin-left: 5px;
 }
 .status-rejected {
  color: red;

@@ -23,16 +23,46 @@ class Kelas extends Vendor_Controller{
 	public function daftar() {
 		$list_class = $this->vendor_class_model->get_class(array('vendor_id'=>$this->data['user']['id'],
 																 'class_status >='=>NULL, 'active'=>NULL),1,100)->result();
+		$published = array();
+		$past = array();
+		$draft = array();
 		foreach($list_class as &$list) {
 			$list->level = $this->vendor_class_model->get_class_level($list->id);
 			$list->category = $this->vendor_class_model->get_class_category($list->id);
-			$list->jadwal_count = $this->vendor_class_model->get_class_schedule(array('class_id'=>$list->id))->num_rows();
 			$participant = $this->vendor_class_model->get_class_participant_full($list->id, 4);
 			$list->participant_count = $participant->num_rows();
 			$list->participant = $participant->result();
+			$schedules = $this->vendor_class_model->get_class_schedule(array('class_id'=>$list->id));
+			$list->jadwal_count = $schedules->num_rows();
+			$is_past=1;
+			if($list->active == 1) {
+				$list->jadwal = $schedules->result();
+				foreach($list->jadwal as $jadwal) {
+					if(date($jadwal->class_tanggal) >= date('2015-03-30')) {
+						$published[] = $list;
+						//echo $list->class_nama." is published. ";
+						unset($list);
+						$is_past=0;
+						break;
+					}
+				}
+			}
+			else {
+				$draft[] = $list;
+				//echo $list->class_nama." is draft. ";
+				unset($list);
+				$is_past=0;
+			}
+			if($is_past==1){
+				$past[] = $list;
+				//echo $list->class_nama." is past. ";
+				unset($list);
+			}
 		}
 		$this->data['sidebar'] = 'daftar_kelas';
-		$this->data['classes'] = $list_class;
+		$this->data['classes_published'] = $published;
+		$this->data['classes_draft'] = $draft;
+		$this->data['classes_past'] = $past;
 		$this->new_design?
 			$this->load->view('vendor/class/list2', $this->data):
 			$this->load->view('vendor/class/list', $this->data);
