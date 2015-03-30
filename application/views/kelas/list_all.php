@@ -129,7 +129,7 @@ $this->load->view('vendor/general/header2');
                         </div><!-- description -->
                         <div class="review">
                             <div class="vendor-name">
-                                <div class="icon tag"><i class="fa fa-shopping-cart"></i></div>
+                                <div class="icon tag"><i class="fa fa-user"></i></div>
                                 <a href="#"><?php echo character_limiter($kelas->vendor['profile']->name,12);?></a>
                             </div>
                             <div class="rating">
