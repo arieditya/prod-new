@@ -229,5 +229,42 @@ class Payment_model extends MY_Model {
 				->where('invoice_code', $invoice_code)
 				->get('vendor_class_ticket')->result();
 	}
-   
+	
+	public function get_today_transaction() {
+		
+	}
+	
+	public function status_1_expire() {
+		$query = "
+SELECT 
+	status_1,
+	TIMEDIFF(status_1, NOW()) AS expire,
+	TIME_TO_SEC(TIMEDIFF(status_1, NOW()))/3600 AS period,
+	code
+FROM vendor_class_transaction 
+WHERE 1
+	AND TIME_TO_SEC(TIMEDIFF(status_1, NOW()))/3600 < -1 
+	AND status_2 IS NULL
+	AND status_3 IS NULL
+	AND status_4 IS NULL
+";
+		$result = $this->db->query($query)->result();
+		foreach($result as $row) {
+			var_dump($row);
+			$query2 = "
+SELECT
+	code, class_id, pemesan_id, participant_id
+FROM vendor_class_participant
+WHERE code = ?";
+			$result2 = $this->db->query($query2, $row->code)->row_array();
+			$result2['expire'] = $row->expire;
+			$result2['status_1'] = $row->status_1;
+			$result2['period'] = $row->status_1;
+			custom_log('status_1_expire', (array)$result2);
+			$this->db->delete('vendor_class_transaction', array('code'=>$row->code));
+			$this->db->delete('vendor_class_participant', array('code'=>$row->code));
+			$this->db->simple_query("DELETE FROM vendor_class_transaction WHERE `code` = '{$row->code}'");
+			$this->db->simple_query("DELETE FROM vendor_class_participant WHERE `code` = '{$row->code}'");
+		}
+	}
 }

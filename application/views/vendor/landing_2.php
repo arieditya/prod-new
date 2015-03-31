@@ -19,10 +19,8 @@ $this->load->view('vendor/general/header2');
 							<h4 class="hero-subtitle">Punya ilmu atau keahlian yang bisa dibagi untuk orang banyak? 
 								<span class="white">Kenapa tidak menyelenggarakan kelas?</span></h4>
 						</div>
-<?php /*
-						<a href="#" class="btn btn-success">Cara Kerja</a>
-						<a href="#" class="btn btn-primary">Daftar kelas pertama gratis !</a>
-*/ ?>
+						<a href="#howto" class="btn btn-success">Cara Kerja</a>
+						<a href="#inline-reg" class="btn btn-primary fancybox">Daftar</a>
 					</div><!-- col-sm-12 -->
 				</div><!-- row -->
 			</div><!-- container -->
@@ -136,11 +134,13 @@ $this->load->view('vendor/general/header2');
 					</div>
 				</div><!-- col-sm-6 -->
 				<div class="col-md-6 col-sm-12 footnote">
+					<a name="howto" id="howto"></a>
 					<p>* Dalam kasus tertentu, Anda dapat memperoleh potongan komisi yang lebih kecil. 
 						Hubungi <a href="mailto:kelas@ruangguru.com">kelas@ruangguru.com</a> untuk informasi lebih lanjut.</p>
 				</div><!-- col-sm-12 -->
 			</div><!-- row -->
 		</div> <!-- /container -->
+<?php /* ?>
 		<div class="testimonial">
 			<div class="container">
 				<div class="row">
@@ -155,56 +155,67 @@ $this->load->view('vendor/general/header2');
 				</div><!-- row -->
 			</div> <!-- /container -->
 		</div><!-- testimonial -->
-		<div class="container how text-center">
-			<div class="row">
-				<div class="col-sm-12">
-					<h2 class="landing-title">Bagaimana Cara Kerjanya?</h2>
-					<h4 class="landing-subtitle">Institusi/ individu dapat menyelenggarakan kelas (untuk pelajaran apapun) dan kemudian mempublikasikannya melalui website Ruangguru.</h4>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="thumbnail">
-						<img src="<?php echo base_url();?>assets/images/howicon-1.png">
-						<div class="caption">
-							<h3>Sign Up</h3>
-							<p>"Penyedia Kelas" <a href="#">mendaftar di sini</a> dan kemudian mendaftarkan kelas baru yang ingin diselenggarakan</p>
+<?php // */ ?>
+		<div class="testimonial">
+			<div class="container how text-center">
+				<div class="row">
+					<div class="col-sm-12">
+						<h2 class="landing-title">Bagaimana Cara Kerjanya?</h2>
+						<h4 class="landing-subtitle">Institusi/ individu dapat menyelenggarakan kelas (untuk pelajaran apapun) dan kemudian mempublikasikannya melalui website Ruangguru.</h4>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="thumbnail" style="background-color: #f6f6f6;">
+							<img src="<?php echo base_url();?>assets/images/howicon-1.png">
+							<div class="caption">
+								<h3>Sign Up</h3>
+								<p>"Penyedia Kelas" <a href="#">mendaftar di sini</a> dan kemudian mendaftarkan kelas baru yang ingin diselenggarakan</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="thumbnail">
-						<img src="<?php echo base_url();?>assets/images/howicon-2.png">
-						<div class="caption">
-							<h3>Review</h3>
-							<p>Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfrmasi dengan "Penyedia Kelas"</p>
+					<div class="col-sm-6 col-md-3">
+						<div class="thumbnail" style="background-color: #f6f6f6;">
+							<img src="<?php echo base_url();?>assets/images/howicon-2.png">
+							<div class="caption">
+								<h3>Review</h3>
+								<p>Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfrmasi dengan "Penyedia Kelas"</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="thumbnail">
-						<img src="<?php echo base_url();?>assets/images/howicon-3.png">
-						<div class="caption">
-							<h3>Publish</h3>
-							<p>Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfrmasi dengan "Penyedia Kelas"</p>
+					<div class="col-sm-6 col-md-3">
+						<div class="thumbnail" style="background-color: #f6f6f6;">
+							<img src="<?php echo base_url();?>assets/images/howicon-3.png">
+							<div class="caption">
+								<h3>Publish</h3>
+								<p>Pihak Ruangguru.com akan mereview pendaftaran kelas baru dan melakukan konfrmasi dengan "Penyedia Kelas"</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<div class="thumbnail">
-						<img src="<?php echo base_url();?>assets/images/howicon-4.png">
-						<div class="caption">
-							<h3>Teach</h3>
-							<p>Setelah kelas terisi, Penyedia Kelas dapat mulai mengajar sesuai dengan jadwal yang ditentukan. Biaya registrasi murid akan dibayar setelah kelas.</p>
+					<div class="col-sm-6 col-md-3">
+						<div class="thumbnail" style="background-color: #f6f6f6;">
+							<img src="<?php echo base_url();?>assets/images/howicon-4.png">
+							<div class="caption">
+								<h3>Teach</h3>
+								<p>Setelah kelas terisi, Penyedia Kelas dapat mulai mengajar sesuai dengan jadwal yang ditentukan. Biaya registrasi murid akan dibayar setelah kelas.</p>
+							</div>
 						</div>
+					</div><!-- col-sm-12 -->
+					<div class="col-sm-12">
+						<h2 class="landing-title text-center">
+							Daftar Sekarang Sebagai Penyedia Kelas&nbsp;&nbsp;&nbsp;
+						</h2>
+						<a href="#inline-reg" 
+						   class="btn btn-lg fancybox" 
+						   style="background-color: #fcb33b;color: white;">&nbsp;&nbsp;Daftar&nbsp;&nbsp;</a>
 					</div>
-				</div><!-- col-sm-12 -->
-			</div><!-- row -->
-		</div> <!-- /container -->
+				</div><!-- row -->
+			</div> <!-- /container -->
+		</div>
 	</div><!-- landing -->
 	<div class="landing-label text-center">
 		<h5 class="label-content">Pelajari mengenai kebijakan harga, komisi dan pengembalian biaya disini</h5>
-		<a href="#" class="btn btn-blue">Kebijakan</a>
+		<a href="<?php echo base_url()?>kebijakan-pembayaran" class="btn btn-blue">Kebijakan</a>
 	</div>
-	<div class="landing-form">
+	<div class="landing-form" style="display:none;">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">

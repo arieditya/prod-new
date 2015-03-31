@@ -183,6 +183,21 @@ class Discount_model extends MY_Model{
 		
 		return $discount;
 	}
+	
+	public function delete_discount($code, $class) {
+		$id =@$this->db->select('id')->where('code', $code)->where('class_id', $class)->get('discount_main')->row()->id;
+		if(empty($id)) return FALSE;
+		$usage = $this->db->get_where('discount_usage', array('discount_id',$id));
+		if(empty($usage) || $usage->num_rows() == 0) {
+			if(TRUE 
+				&& $this->db->delete('discount_value', array('discount_id'=>$id))
+				&& $this->db->delete('discount_main', array('id'=>$id)))
+				return TRUE;
+			else
+				return FALSE;
+		}
+		return FALSE;
+	}
 }
 
 // END OF discount_model.php File

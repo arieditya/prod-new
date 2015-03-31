@@ -1290,6 +1290,7 @@ endif;
 													<td>Start</td>
 													<td>Expire</td>
 													<td>Nilai<br />Diskon</td>
+													<td>Action</td>
 												</tr>
 											</thead>
 											<tbody class="text-center">
@@ -1297,7 +1298,7 @@ endif;
 	if(count($discount) < 1):
 ?>
 												<tr>
-													<td colspan="6">
+													<td colspan="7">
 														Belum ada! <br />
 														Gunakan form dibawah untuk membuat discount!
 													</td>
@@ -1323,6 +1324,13 @@ endif;
 													<td><?php echo $start;?></td>
 													<td><?php echo $end;?></td>
 													<td><?php echo $value;?></td>
+													<td>
+														<a href="<?php echo base_url()
+																.'vendor/kelas/delete_discount/'
+																."{$disc['main']->code}/{$class->id}"?>">
+															delete
+														</a>
+													</td>
 												</tr>
 <?php
 		endforeach;
@@ -1335,6 +1343,7 @@ endif;
 									<div class="section-heading"><h3 class="section-title">Buat Kode Baru</h3></div>
 									<form class="form-horizontal" 
 										  method="post" 
+										  id="add_discount_form"
 										  action="<?php echo base_url()?>vendor/kelas/add_discount" >
 										<input type="hidden" 
 											   value="<?php echo $class->id;?>" 
@@ -1368,6 +1377,7 @@ endif;
 													<div class="radio jumlah">
 														<label>
 															<input type="radio" 
+																   checked="checked" 
 																   name="nominal_type" 
 																   id="nominal_type_idr"
 																   value="idr" />
@@ -1406,6 +1416,7 @@ endif;
 														<label>
 															<input type="radio" 
 																   name="begin" 
+																   checked="checked" 
 																   value="*" >
 															Sejak awal pendaftaran
 														</label> 
@@ -1436,6 +1447,7 @@ endif;
 														<label>
 															<input type="radio" 
 																   name="ended" 
+																   checked="checked" 
 																   value="*" />
 															Sampai akhir pendaftaran
 														</label> 
@@ -1483,6 +1495,7 @@ endif;
 														<label>
 															<input type="radio" 
 																   name="jumlah" 
+																   checked="checked"
 																   value="*" />
 															Tidak terbatas 
 														</label>
@@ -1642,6 +1655,9 @@ endforeach;
 			$('.nominal_value').attr('disabled','disabled');
 			$('#nominal_value_'+$type).removeAttr('disabled');
 			$('#nominal_value_'+$type).attr('name', 'nominal_value');
+		});
+		$('form#add_discount_form').submit(function(e){
+			if($('#code_discount').val() == '') $('#code_discount').val(hashGenerator().toUpperCase());
 		});
 	});
 </script>

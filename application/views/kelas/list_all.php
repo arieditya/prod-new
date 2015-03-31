@@ -95,6 +95,9 @@ $this->load->view('vendor/general/header2');
             } else {
                 $_price = rupiah_format($price).' /sesi';
             }
+				if($price==0) {
+					$_price = "GRATIS";
+				}
             ?>
             <div class="col-sm-4">
                 <div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">

@@ -1246,6 +1246,19 @@ class Vendor_class_model extends MY_Model{
 			'class'			=> $class
 		);
 	}
+	
+	public function is_my_class($class_id) {
+		$user_type = $this->CI->session->userdata('user_type');
+		if($user_type == 'admin') {
+			return TRUE;
+		} elseif($user_type != 'vendor') {
+			return FALSE;
+		}
+		$user_id = $this->CI->session->userdata('user_id');
+		return !! $this->db
+				->query("SELECT 1 FROM vendor_class WHERE vendor_id = '{$user_id}' AND id = '{$class_id}'")
+				->num_rows();
+	}
 }
 
 // END OF vendor_class_model.php File

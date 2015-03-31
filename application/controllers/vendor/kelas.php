@@ -425,7 +425,7 @@ class Kelas extends Vendor_Controller{
 				->row()->active;
 		
 		$table['vendor_class'] = array(
-			'class_name','class_uri','class_deskripsi','class_paket','class_catatan','class_lokasi',
+			'class_nama','class_uri','class_deskripsi','class_paket','class_catatan','class_lokasi',
 				'class_peta','class_provinsi_id','class_lokasi_id',
 			'class_perserta_target','class_peserta_min','class_peserta_max','class_harga','class_alasan',
 			'class_video'
@@ -566,7 +566,7 @@ class Kelas extends Vendor_Controller{
 //		echo '<pre>';
 //		var_dump($data);
 
-		redirect('vendor/kelas/detil/'.$id.'/info');
+		redirect('vendor/kelas/detil/'.$id.'/preview');
 	}
 	
 	public function update_info(){
@@ -782,6 +782,29 @@ class Kelas extends Vendor_Controller{
 			redirect('vendor/kelas/detil/'.$class_id.'/discount');
 		} else {
 			
+		}
+	}
+	
+	public function delete_discount($code_discount, $class_id) {
+		if(!$this->vendor_class_model->is_my_class($class_id)) {
+			$this->session->set_flashdata('status.warning','You are NOT the owner of this class!');
+			redirect('vendor/kelas/detil/'.$class_id.'/discount');
+			return;
+		}
+		$this->load->model('discount_model');
+		if(!$this->discount_model->check_code($class_id, $code_discount)) {
+			$this->session->set_flashdata('status.error','Discount code is not found!');
+			redirect('vendor/kelas/detil/'.$class_id.'/discount');
+			return;
+		}
+		if(!$this->discount_model->delete_discount($code_discount, $class_id)) {
+			redirect('vendor/kelas/detil/'.$class_id.'/discount');
+			$this->session->set_flashdata('status.error','Discount code failed to be deleted!');
+			return;
+		} else {
+			$this->session->set_flashdata('status.notice',"Discount <strong>{$code_discount}</strong> Deleted!");
+			redirect('vendor/kelas/detil/'.$class_id.'/discount');
+			return;
 		}
 	}
 	

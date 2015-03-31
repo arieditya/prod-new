@@ -41,7 +41,6 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                                 <label for="Seo" class="col-sm-4 control-label">Tarif per pertemuan</label>
                                 <div class="col-sm-8">
 									<input type="number" 
-										   min="50000"
 										   step="1000"
 										   class="form-control" 
 										   id="class_harga" 

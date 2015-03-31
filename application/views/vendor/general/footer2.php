@@ -61,6 +61,9 @@
 			</div>
 		</div>
 	</div><!-- footer -->
+<?php 
+	if(strpos($_SERVER['HTTP_HOST'], 'kelas') === FALSE ):
+?>
 	<div class="below-footer">
 		<div class="container-fluid">
 			<div class="row">
@@ -244,7 +247,9 @@
 			</div>
 		</div>
 	</div><!-- below-footer -->
-
+<?php 
+endif;
+?>
 
 	<script>
 	jQuery(document).ready(function($){

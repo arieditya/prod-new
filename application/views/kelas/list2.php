@@ -137,15 +137,15 @@ $this->load->view('vendor/general/header2');
 								<br />
 							<?php endif; ?>
 							<div class="location">
-                                <?php if(!empty($kelas->lokasi_title)): ?>
-                                    <div class="icon tag"><i class="fa fa-map-marker fa-2"></i></div>
-                                    <b><span><?php echo $kelas->lokasi_title;?></span></b>
-                                <?php endif; ?>
+								<?php if(!empty($kelas->lokasi_title)): ?>
+									<div class="icon tag"><i class="fa fa-map-marker fa-2"></i></div>
+									<b><span><?php echo $kelas->lokasi_title;?></span></b>
+								<?php endif; ?>
 							</div>
 						</div><!-- description -->
 						<div class="review">
 							<div class="vendor-name"
-                                data-toggle="tooltip" data-placement="right" title="<?php echo $kelas->vendor['profile']->name;?>" data-original-title="<?php echo $kelas->vendor['profile']->name;?>">
+								data-toggle="tooltip" data-placement="right" title="<?php echo $kelas->vendor['profile']->name;?>" data-original-title="<?php echo $kelas->vendor['profile']->name;?>">
 								<div class="icon tag"><i class="fa fa-user fa-2"></i></div>
 								<a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>">
 									<?php echo character_limiter($kelas->vendor['profile']->name,12);?>
@@ -180,7 +180,7 @@ $this->load->view('vendor/general/header2');
 	$kelas = null;
 	if(!empty($class)):
 		foreach($class as $kelas):
-			if($i < 3) :
+			if($i < 6) :
 				if($i % 3 == 0 && $i > 0){
 					$j++;
 ?>
@@ -204,7 +204,7 @@ $this->load->view('vendor/general/header2');
 				if($price==0) {
 					$_price = "GRATIS";
 				}
-				?>
+?>
 				<div class="col-sm-4">
 					<div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
 						<a href="#">
@@ -215,60 +215,61 @@ $this->load->view('vendor/general/header2');
 							</div><!-- grid-top -->
 						</a>
 						<div class="grid-bottom">
-							<?php if($kelas->available == 1): ?>
+<?php if($kelas->available == 1): ?>
 								<span class="price"><?php echo $_price; ?></span>
-							<?php else : ?>
+<?php else : ?>
 								<span class="price">SOLD OUT</span>
-							<?php endif; ?>
+<?php endif; ?>
 							<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 								<span class="details">Details</span>
 							</a>
-                            <div class="description">
-                                <div class="calender-icon"><i class="fa fa-calendar-o"></i></div>
+							<div class="description">
+								<div class="calender-icon"><i class="fa fa-calendar-o"></i></div>
 							<span class="date"> <?php echo date('d M Y', strtotime($kelas->class_tanggal));?> |
-                                <?php echo double_digit($kelas->class_jam_mulai).'.'.double_digit($kelas->class_menit_mulai)?> -
-                                <?php echo double_digit($kelas->class_jam_selesai).'.'.double_digit($kelas->class_menit_selesai)?> WIB
+								<?php echo double_digit($kelas->class_jam_mulai).'.'.double_digit($kelas->class_menit_mulai)?> -
+								<?php echo double_digit($kelas->class_jam_selesai).'.'.double_digit($kelas->class_menit_selesai)?> WIB
 							</span>
-                                <?php if($kelas->count_session-1 > 0):
-                                    ?>
-                                    dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"
-                                           class="pink">
+<?php 
+	if($kelas->count_session-1 > 0):
+?>
+									dan <a href="<?php echo base_url('kelas/'.$kelas->class_uri)?>"
+										   class="pink">
 												<span class="link-sesi"><?php echo $kelas->count_session-1;?> sesi
 													lainnya</span>
-                                </a>
-                                <?php else: ?>
-                                    <br />
-                                <?php endif; ?>
-                                <div class="location">
-                                    <?php if(!empty($kelas->lokasi_title)): ?>
-                                        <div class="icon tag"><i class="fa fa-map-marker fa-2"></i></div>
-                                        <b><span><?php echo $kelas->lokasi_title;?></span></b>
-                                    <?php endif; ?>
-                                </div>
-                            </div><!-- description -->
-                            <div class="review">
-                                <div class="vendor-name">
-                                    <div class="icon tag"><i class="fa fa-user fa-2"></i></div>
-                                    <a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>"
-                                        data-toggle="tooltip" data-placement="bottom" title="" data-original-title="<?php echo $kelas->vendor['profile']->name;?>"
-                                        >
-                                        <?php echo character_limiter($kelas->vendor['profile']->name,12);?>
-                                    </a>
-                                </div>
-                                <div class="rating">
-                                    <div class="icon tag"><i class="fa fa-star"></i></div>
-                                    <b><?php echo (int)$kelas->rating->rate;?></b> (<?php echo $kelas->rating->counter?> review)
-                                </div>
-                            </div>
+								</a>
+<?php else: ?>
+									<br />
+<?php endif; ?>
+								<div class="location">
+<?php if(!empty($kelas->lokasi_title)): ?>
+										<div class="icon tag"><i class="fa fa-map-marker fa-2"></i></div>
+										<b><span><?php echo $kelas->lokasi_title;?></span></b>
+<?php endif; ?>
+								</div>
+							</div><!-- description -->
+							<div class="review">
+								<div class="vendor-name">
+									<div class="icon tag"><i class="fa fa-user fa-2"></i></div>
+									<a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>"
+										data-toggle="tooltip" data-placement="bottom" title="" data-original-title="<?php echo $kelas->vendor['profile']->name;?>"
+										>
+										<?php echo character_limiter($kelas->vendor['profile']->name,12);?>
+									</a>
+								</div>
+								<div class="rating">
+									<div class="icon tag"><i class="fa fa-star"></i></div>
+									<b><?php echo (int)$kelas->rating->rate;?></b> (<?php echo $kelas->rating->counter?> review)
+								</div>
+							</div>
 						</div><!-- grid-bottom -->
 					</div> <!-- content-grid -->
 				</div><!-- col-sm-4 -->
-				<?php
-				endif;
-				$i++;
-				endforeach;
-				endif;
-				?>
+<?php
+			endif;
+			$i++;
+		endforeach;
+	endif;
+?>
 
 				<div class="col-sm-4 col-sm-offset-4">
 					<a href="<?php echo base_url()?>kelas/index/all" class="main-button text-center">Lihat Semua Kelas</a>

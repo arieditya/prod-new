@@ -189,3 +189,24 @@ function create_pdf($html, $filepath='', $return=TRUE) {
 	}
 	return;
 }
+
+function custom_log($type, $data) {
+	static $_log;
+
+	if(!is_array($data)) $data = (array)$data;
+	$_fields = $_data = array();
+	
+	foreach($data as $k => $v) {
+		$_fields[] = $k;
+		$_data[] = $v;
+	}
+	$_log =& load_class('Log');
+	$_log->custom_log($type, $_fields, $_data);
+}
+
+function get_custom_log($type, $log_time) {
+	static $_log;
+
+	$_log =& load_class('Log');
+	return $_log->get_custom_log($type, $log_time);
+}
