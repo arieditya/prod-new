@@ -56,10 +56,10 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 											<tbody>
 <?php
 	$i = 1;
-	foreach($classes as $class):
+	foreach($classes_published as $class):
         switch($class->class_paket){
             case		'0'		: $type = '<span class="label label-default">Satu Sesi</span>';break;
-            case		'1'		: $type = '<span class="label label-info">Kelas Berseri</span>';break;
+            case		'1'		: $type = '<span class="label label-info">Berseri</span>';break;
             case		'2'		: $type = '<span class="label label-success">Paket</span>';break;
         }
         $manage_class_link = base_url().'vendor/kelas/detil/'.$class->id;
@@ -83,9 +83,10 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
 													</td>
 													<td class="status">
 														<?php if($class->class_status == 1) : ?>
-                                                            <span class="approved icon-circle" title="Approved"><i class="fa fa-check"></i></span>
-                                                        <?php else : ?>
-                                                            <span class="label label-info">Pending</span>
+															<span class="approved icon-circle" title="Approved"><i class="fa fa-check"></i></span>
+														<?php endif; ?>
+														<?php if($class->class_status == 4) : ?>
+                                                        	<span class="pending icon-circle" title="Pending Unpublished"><i class="fa fa-ellipsis-h"></i></span>
                                                         <?php endif;
                                                         /**
                                                         <a href="#" class="unpublish icon-circle" title="Request To Unpublish"><i class="fa fa-download"></i> </a>
@@ -169,15 +170,14 @@ $vendor_logo = base_url()."images/vendor/{$vendor['profile']->id}/{$vendor['info
                                                 <tbody>
 <?php
 $i = 1;
-foreach($classes as $class):
+foreach($classes_draft as $class):
     switch($class->class_paket){
         case		'0'		: $type = '<span class="label label-default">Satu Sesi</span>';break;
-        case		'1'		: $type = '<span class="label label-info">Kelas Berseri</span>';break;
+        case		'1'		: $type = '<span class="label label-info">Berseri</span>';break;
         case		'2'		: $type = '<span class="label label-success">Paket</span>';break;
     }
     $manage_class_link = base_url().'vendor/kelas/detil/'.$class->id;
     $editable = $class->active == 0?TRUE:FALSE;
-    if($class->class_status != -1 && $class->active == 0):
 ?>
                                                         <tr>
                                                             <td><?php echo $i++;?></td>
@@ -195,9 +195,12 @@ foreach($classes as $class):
                                                                 </a>
                                                             </td>
                                                             <td class="status">
-                                                                <?php if($class->class_status == 4) : ?>
-                                                                    <span class="label label-info">Pending</span>
-                                                                <?php endif; ?>
+																<?php if($class->class_status == 1) : ?>
+																	<span class="approved icon-circle" title="Approved"><i class="fa fa-check"></i></span>
+																<?php endif; ?>
+																<?php if($class->class_status == 4) : ?>
+																	<span class="pending icon-circle" title="Pending Published"><i class="fa fa-ellipsis-h"></i></span>
+																<?php endif; ?>
                                                             </td>
                                                             <td class="text-center">
                                                                 <a href="<?php echo $manage_class_link?>"
@@ -216,7 +219,6 @@ foreach($classes as $class):
                                                             </td>
                                                         </tr>
 <?php
-        endif;
     endforeach;
 ?>
                                                 </tbody>
@@ -232,7 +234,88 @@ foreach($classes as $class):
                                             </ol>
                                         </div>
                                     </div><!-- draft -->
-								<div role="tabpanel" class="tab-pane" id="past">Kelas tidak tersedia </div><!-- past -->
+								<div role="tabpanel" class="tab-pane" id="past">
+									<div class="table-responsive">
+										<table class="table table-bordered">
+											<thead>
+											<tr class="text-center">
+												<td>ID</td>
+												<td>Nama Kelas</td>
+												<td>Harga Kelas (Rp)</td>
+												<td>Jumlah Sesi</td>
+												<td>Tipe Kelas</td>
+												<td>Jumlah Murid</td>
+												<td>Status</td>
+												<td>Edit</td>
+												<td>Go to web</td>
+											</tr>
+											</thead>
+											<tbody>
+<?php
+$i = 1;
+foreach($classes_past as $class):
+	switch($class->class_paket){
+		case		'0'		: $type = '<span class="label label-default">Satu Sesi</span>';break;
+		case		'1'		: $type = '<span class="label label-info">Berseri</span>';break;
+		case		'2'		: $type = '<span class="label label-success">Paket</span>';break;
+	}
+	$manage_class_link = base_url().'vendor/kelas/detil/'.$class->id;
+	$editable = $class->active == 0?TRUE:FALSE;
+?>
+													<tr>
+														<td><?php echo $i++;?></td>
+														<td>
+															<a href="<?php echo base_url()."vendor/kelas/detil/{$class->id}"?>">
+																<?php echo $class->class_nama; ?>
+															</a>
+														</td>
+														<td><?php echo number_format($class->class_harga,0,',','.');?></td>
+														<td><?php echo $class->jadwal_count; ?></td>
+														<td><?php echo $type;?></td>
+														<td>
+															<a href="#">
+																<?php echo $class->participant_count; ?>&nbsp;orang
+															</a>
+														</td>
+														<td class="status">
+															<?php if($class->class_status == 1) : ?>
+																<span class="approved icon-circle" title="Approved"><i class="fa fa-check"></i></span>
+															<?php endif; ?>
+															<?php if($class->class_status == 4) : ?>
+																<span class="pending icon-circle" title="Pending"><i class="fa fa-ellipsis-h"></i></span>
+															<?php endif; ?>
+														</td>
+														<td class="text-center">
+															<a href="<?php echo $manage_class_link?>"
+															   class="manage icon-circle"
+															   title="Pengaturan">
+																<i class="fa fa-gears"></i>
+															</a>
+														</td>
+														<td class="text-center">
+															<a href="<?php echo base_url()?>kelas/<?php echo $class->class_uri;?>"
+															   class="link icon-circle"
+															   title="Link"
+															   target="_blank">
+																<i class="fa fa-arrow-right"></i>
+															</a>
+														</td>
+													</tr>
+<?php
+endforeach;
+?>
+											</tbody>
+										</table>
+									</div><!-- table-responsive -->
+									<div id="class-notes">
+										<p> Catatan: </p>
+										<ol>
+											<li>
+												Kelas dalam daftar ini memiliki jadwal yang sudah terlewat semua <a class="blue underline" href="mailto:info@ruangguru.com?Subject=Edit%20Kelas">hubungi kami</a>
+											</li>
+										</ol>
+									</div>
+								</div><!-- past -->
 							</div><!-- tab-content -->
 
 						</div><!-- tabpanel kelas -->
