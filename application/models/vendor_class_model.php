@@ -1259,6 +1259,26 @@ class Vendor_class_model extends MY_Model{
 				->query("SELECT 1 FROM vendor_class WHERE vendor_id = '{$user_id}' AND id = '{$class_id}'")
 				->num_rows();
 	}
+	
+	public function get_attendance_ticket($class_id) {
+		$query = "
+		SELECT DISTINCT
+			c.name AS nama,
+			c.phone AS telephone,
+			c.email AS email,
+			a.ticket_code AS ticket
+		FROM
+			vendor_class_ticket a
+			LEFT JOIN vendor_class_participant b
+				ON b.class_id = a.class_id AND b.code = a.invoice_code
+			LEFT JOIN vendor_class_student c
+				ON c.id = b.participant_id
+		WHERE 1
+			AND a.class_id = ?
+";
+		
+		return $this->db->query($query, array($class_id));
+	}
 }
 
 // END OF vendor_class_model.php File

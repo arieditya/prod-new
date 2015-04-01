@@ -927,6 +927,29 @@ class Kelas extends Vendor_Controller{
 		}
 		redirect('vendor/kelas/detil/'.$id);
     }
+	
+	public function download_attendance_csv($class_id) {
+		if(!$this->vendor_class_model->is_my_class($class_id)) {
+			$this->session->set_flashdata('status.warning','You are NOT the owner of this class!');
+			redirect('vendor/kelas/detil/'.$class_id.'/discount');
+			return;
+		}
+		
+		$tickets = $this->vendor_class_model->get_attendance_ticket($class_id)->result_array();
+		$send_ticket = array();
+		header('Content-type: text/csv');
+		header('Content-disposition: attachment;filename=class_'.$class_id.'_attendance.csv');
+		$out = fopen('php://output', 'w');
+		$first = TRUE;
+		foreach($tickets as $ticket) {
+			if($first) fputcsv($out, array_keys($ticket));
+			$val = array_values($ticket);
+			array_walk($val, create_function('&$item','$item=\'"\'.$item.\'"\';'));
+			fputcsv($out, $val);
+			$first = FALSE;
+		}
+		fclose($out);
+	}
 }
 
 // END OF kelas.php File

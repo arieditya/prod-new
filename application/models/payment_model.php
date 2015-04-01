@@ -71,7 +71,7 @@ class Payment_model extends MY_Model {
 				continue;
 			}
 			//
-			$ticket_code = hashgenerator(12, 'safe', 1);
+			$ticket_code = hashgenerator(8, 'safe', 1);
 			$ticket_code = str_replace(' ','.',$ticket_code[1]);
 			
 			$this->db->insert('vendor_class_ticket', array(

@@ -254,6 +254,12 @@ class Payment extends MY_Controller {
 			'email'			=> $this->input->post('pemesan_email', TRUE),
 			'phone'			=> $this->input->post('pemesan_phone', TRUE),
 		);
+
+		if(empty($pemesan['name']) || empty($pemesan['email']) || empty($pemesan['phone'])) {
+			$this->session->set_flashdata('status.error','Data Pemesan WAJIB diisi!');
+			redirect('payment/transfer/step1');
+			return;
+		}
 		$whostudent = $this->input->post('whostudent',TRUE);
 		if($whostudent == 'me') {
 			$peserta = $pemesan;
@@ -805,7 +811,8 @@ DETIL TRANSAKSI:
 						$html_message, 
 						array(
 							'arie@ruangguru.com',
-							'daniel@ruangguru.com'
+							'daniel@ruangguru.com',
+							'uun@ruangguru.com'
 						), 
 						TRUE,
 						$email_message, 

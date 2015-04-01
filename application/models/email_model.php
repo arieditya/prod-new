@@ -659,6 +659,7 @@ Terima kasih
 		$this->html_content('murid/2_payment_step3',$email_data);
 		$this->subject('Tagihan Anda - '.$class['profile']->class_nama);
 		$this->to($invoice_raw['pemohon']->email);
+		$this->bcc(array('uun@ruangguru.com','daniel@ruangguru.com'));
 		
 		$this->attach(FCPATH.$docs_path.$code.'.pdf');
 		
@@ -705,6 +706,7 @@ Terima kasih
 		$this->to($tix['murid']['email']);
 		$this->bcc('kelas@ruangguru.com');
 		$this->bcc('arieditya.prdh@live.com');
+		$this->bcc(array('uun@ruangguru.com','daniel@ruangguru.com'));
 
 		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');
 

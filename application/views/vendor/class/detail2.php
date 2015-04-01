@@ -1274,7 +1274,12 @@ endif;
 											</div><!-- table-responsive -->
 
 											<div class="col-sm-offset-8 col-sm-4">
-												<button type="submit" class="btn btn-default main-button register">Download</button>
+												<a href="<?php echo base_url()?>vendor/kelas/download_attendance_csv/<?php echo $class->id;?>" 
+												   id="download_attendance">
+													<button type="button" 
+															class="btn btn-default main-button register"
+															>Download</button>
+												</a>
 											</div>
 										</div><!-- section-content -->
 									</div><!-- section-wrap -->
