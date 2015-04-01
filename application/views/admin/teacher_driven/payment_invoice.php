@@ -30,7 +30,7 @@ if ($this->session->flashdata('f_class_error')): ?>
 		<div class="right">
 			<form action="<?php echo base_url();?>admin/teacher_driven/invoice_search" method="post">
 				<label>search invoice by code</label>
-				<input type="text" class="field small-field" name="class_name" placeholder="search all words" />
+				<input type="text" class="field small-field" name="invoice_code" placeholder="search code" />
 				<input type="submit" class="button" value="search" />
 			</form>
 		</div>
@@ -75,7 +75,17 @@ if ($this->session->flashdata('f_class_error')): ?>
 ?>
 			<tr class="data-row<?php echo (($i++%2)!=0)?' odd':''?>" 
 				data-page="<?php echo ceil($i/20); ?>">
-				<td><?php echo $bill->code ?></td>
+				<td>
+<?php 
+if($bill->status >= 2 && $bill->total > 0):
+	$str1 = substr($bill->code,0,1);
+	$str2 = substr($bill->code,1,1);
+echo '<a href="'.base_url().'documents/invoice/'.$str1.'/'.$str2.'/'.$bill->code.'.pdf" target="_blank">'.$bill->code.'</a>';
+else:
+echo $bill->code ;
+endif;
+?>
+				</td>
 				<td><a href="#details" class="fancybox" data-section="pemesan" data-id="<?php echo $bill->pemesan_id ?>">
 						<?php echo $bill->pemesan_id ?>
 					</a>

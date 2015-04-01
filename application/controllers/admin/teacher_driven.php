@@ -408,6 +408,24 @@ class Teacher_driven extends Admin_Controller{
 		
 	}
 	
+	public function invoice_search() {
+		$data['active'] = 541;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Payment'=>'teacher_driven/payment_invoice',
+																	 'Invoice'=>''
+		));
+		$code = $this->input->post('invoice_code', TRUE);
+		$invoice = $this->vendor_class_model->search_invoice($code);
+		
+		$data['invoice'] = $invoice;
+		$data['student'] = $this->vendor_class_model->get_participant_all();
+		$data['pemesan'] = $this->vendor_class_model->get_sponsor_all();
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/payment_invoice',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
+	}
+	
 	public function payment_invoice() {
 		$data['active'] = 541;
 		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',

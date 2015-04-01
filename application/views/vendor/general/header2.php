@@ -9,7 +9,8 @@
  */
 	$logo = 'header-logo.png';
 	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
-		$logo = 'kelas-logo-beta.png';
+		$logo = 'logo-kelas-3a.png';
+//		$logo = 'kelas-logo-beta.png';
 		;
 	$have_bar = FALSE;
 	if(!empty($show_filter) && $show_filter || !empty($show_vendor_menu))

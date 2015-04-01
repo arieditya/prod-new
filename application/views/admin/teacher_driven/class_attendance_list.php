@@ -68,7 +68,9 @@ $attd_reg = array();
 ?>
 				<tr>
 					<td><a class="fancybox class" data-attd_type="class" data-class_id="<?php echo $c->id; ?>"
-						href="#class_detail"><?php echo $c->id?></a></td>
+						href="#class_detail"><?php echo $c->id?></a>
+						(<?php echo $c->class_uri?>)
+					</td>
 					<td><?php echo $c->class_peserta_min;?></td>
 					<td><?php echo $c->class_peserta_max;?></td>
 					<td><a class="fancybox attendance" data-attd_type="reg" data-class_id="<?php echo $c->id; ?>" 

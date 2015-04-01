@@ -682,6 +682,22 @@ class Vendor_class_model extends MY_Model{
 		return $code;
 	}
 	
+	public function search_invoice($code) {
+		$trx = $this->db
+			 ->order_by('status_1','desc')
+			 ->where('code', $code)
+			 ->get('vendor_class_transaction')
+			 ->result();
+		if(count($trx) == 0) return array();
+//		var_dump($trx);exit;
+		foreach($trx as &$t) {
+			$t->student = $this->get_participant($t->student_id);
+			$t->pemesan = $this->get_participant($t->pemesan_id);
+			$t->status = $this->get_invoice_status($t->code);
+		}
+		return $trx;
+	}
+	
 	public function get_class_participant($code) {
 		$this->db->where(array('code'=>$code));
 		return $this->db->get('vendor_class_participant');
@@ -689,7 +705,9 @@ class Vendor_class_model extends MY_Model{
 	
 	public function get_transaction_all() {
 		$trx = $this->db
-			 ->get('vendor_class_transaction')->result();
+			 ->order_by('status_1','desc')
+			 ->get('vendor_class_transaction')
+			 ->result();
 		if(count($trx) == 0) return array();
 		foreach($trx as &$t) {
 			$t->student = $this->get_participant($t->student_id);
