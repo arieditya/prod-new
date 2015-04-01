@@ -129,6 +129,12 @@ $this->load->view('vendor/general/header2');
                             <?php else: ?>
                                 <br />
                             <?php endif; ?>
+							<div class="location">
+								<?php if(!empty($kelas->lokasi_title)): ?>
+									<div class="icon tag"><i class="fa fa-map-marker fa-2"></i></div>
+									<b><span><?php echo $kelas->lokasi_title;?></span></b>
+								<?php endif; ?>
+							</div>
                         </div><!-- description -->
                         <div class="review">
                             <div class="vendor-name">

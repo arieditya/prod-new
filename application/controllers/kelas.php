@@ -75,7 +75,7 @@ class Kelas extends MY_Controller {
 		$new_filter = $this->vendor_class_model->get_filtered_class($set_filter);
 		$order = array();
 		if($view=='all') {
-			$order=array('vendor_class_jadwal.class_tanggal'=>'ASC');
+			$order=array('class_tanggal'=>'ASC');
 		}
 //var_dump($new_filter);exit;
 //		$this->data['filter_query'] = $new_filter;
