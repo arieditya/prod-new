@@ -11,12 +11,16 @@ $this->load->view('vendor/general/header2');
     <script type="application/javascript">
         //	$.parseJSON();
 
-        var set_cookie = function(key, value) {
-            console.log(key+'='+value+';');
-            document.cookie = key+'='+value+';';
-            //if(!wait2second) clearTimeout(wait2second);
-            //wait2second = window.setTimeout('window.location.reload()', 2000);
-        };
+		var delete_cookie = function(key) {
+			document.cookie = key+'=;path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+		};
+
+		var set_cookie = function(key, value) {
+			console.log(key+'='+value+';');
+			document.cookie = key+'='+value+';path=/';
+			//if(!wait2second) clearTimeout(wait2second);
+			//wait2second = window.setTimeout('window.location.reload()', 2000);
+		};
         var get_cookie = function(ckey) {
             var ret;
             document.cookie.split(';').forEach(
@@ -55,8 +59,8 @@ $this->load->view('vendor/general/header2');
 
         var reset_filter = function() {
             set_cookie('filter', '');
-            _filter_ = {};
-            window.location.reload();
+            //_filter_ = {};
+            //window.location.reload();
         };
 
         $(document).ready(function(){

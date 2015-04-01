@@ -13,9 +13,13 @@ $this->load->view('vendor/general/header2');
 <script type="application/javascript">
 //	$.parseJSON();
 
+	var delete_cookie = function(key) {
+		document.cookie = key+'=;path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+	};
+
 	var set_cookie = function(key, value) {
 		console.log(key+'='+value+';');
-		document.cookie = key+'='+value+';';
+		document.cookie = key+'='+value+';path=/';
 		//if(!wait2second) clearTimeout(wait2second);
 		//wait2second = window.setTimeout('window.location.reload()', 2000);
 	};
@@ -57,13 +61,14 @@ $this->load->view('vendor/general/header2');
 
 	var reset_filter = function() {
 		set_cookie('filter', '');
+		delete_cookie('filter');
 		_filter_ = {};
 		//window.location.reload();
 	};
 
 	$(document).ready(function(){
+		$('#filter_container');
 		reset_filter();
-		$('#filter_container')
 	});
 </script>
 
