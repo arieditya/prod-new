@@ -1279,6 +1279,15 @@ class Vendor_class_model extends MY_Model{
 		
 		return $this->db->query($query, array($class_id));
 	}
+	
+	public function class_sold_out($class_id) {
+		$attendance = $this->get_class_attendance($class_id);
+		$this->db->update('vendor_class', 
+				array('class_peserta_max'=>$attendance),
+				array('id'=>$class_id)
+		);
+		return !! $this->db->affected_rows();
+	}
 }
 
 // END OF vendor_class_model.php File

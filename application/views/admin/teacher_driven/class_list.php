@@ -118,7 +118,9 @@ if ($this->session->flashdata('f_class_error')): ?>
 					<td class="center">
 						<a class="ico fancybox" data-sub="class" href="#detail_class" data-id="<?php echo $g->id;
 						?>">Detail</a> 
-<?php if($g->class_status==1):?>
+<?php 
+if($g->class_status==1):
+?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/deactivate_class/<?php
@@ -126,9 +128,18 @@ if ($this->session->flashdata('f_class_error')): ?>
 							onclick="return confirm('WARNING!\nThis action CANNOT BE UNDO!\nAre you sure?');"
 								>BAN!!</a>
 						</span>
-<?php elseif($g->class_status==4):
+<?php 
 	if($g->active==1):
-	?>
+?>
+						<span class="ok">
+							<a class="ico edit" href="<?php echo base_url();
+							?>admin/teacher_driven/do_class_sold_out/<?php echo $g->id;?>">sold out!</a>
+						</span>
+<?php 
+	endif;
+elseif($g->class_status==4):
+	if($g->active==1):
+?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/approve_unpublish_class/<?php echo $g->id;?>">accept</a>
@@ -137,7 +148,9 @@ if ($this->session->flashdata('f_class_error')): ?>
 							<a class="ico delete" href="<?php echo base_url();
 							?>admin/teacher_driven/reject_unpublish_class/<?php echo $g->id;?>">reject</a>
 						</span>
-<?php elseif($g->active==0):?>
+<?php 
+	elseif($g->active==0):
+?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/approve_publish_class/<?php echo $g->id;?>">accept</a>
@@ -146,8 +159,9 @@ if ($this->session->flashdata('f_class_error')): ?>
 							<a class="ico delete" href="<?php echo base_url();
 							?>admin/teacher_driven/reject_publish_class/<?php echo $g->id;?>">reject</a>
 						</span>
-<?php endif;
-	elseif($g->class_status==0):?>
+<?php 
+	endif;
+elseif($g->class_status==0):?>
 						<span class="ok">
 							<a class="ico edit" href="<?php echo base_url();
 							?>admin/teacher_driven/do_class_confirm/<?php echo $g->id;?>">accept</a>
@@ -158,11 +172,15 @@ if ($this->session->flashdata('f_class_error')): ?>
 							   onclick="return confirm('WARNING!\nThis action CANNOT BE UNDO!\nAre you sure?');"
 									>BAN!!</a>
 						</span>
-<?php else:?>
+<?php 
+else:
+?>
 						<span class="no">
 							BANNED!
 						</span>
-<?php endif;?>
+<?php 
+endif;
+?>
 					</td>
 				</tr>
 <?php endforeach;?>

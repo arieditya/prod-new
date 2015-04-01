@@ -7,7 +7,7 @@
  * Time: 10:40 AM
  * Proj: prod-new
  */
-class Teacher_driven extends MY_Controller{
+class Teacher_driven extends Admin_Controller{
 	
 	public function __construct()
 	{
@@ -484,6 +484,14 @@ class Teacher_driven extends MY_Controller{
 	
 	public function reject_payment_confirm() {
 		
+	}
+	
+	public function do_class_sold_out($class_id) {
+		if($this->vendor_class_model->class_sold_out($class_id))
+			$this->session->set_flashdata('f_class', 'Update Class SUCCESS!');
+		else
+			$this->session->set_flashdata('f_class_error', 'Update Class FAILED!');
+		redirect('admin/teacher_driven/class_list');
 	}
 }
 
