@@ -261,7 +261,7 @@ class Teacher_driven extends Admin_Controller{
 																	'class_status >=' => NULL, 
 																	'active'=>NULL))->row();
 				$vendor = $this->vendor_model->get_vendor_detail($class->id);
-				$this->email_model->vendor_class_published($vendor, $class);
+//				$this->email_model->vendor_class_published($vendor, $class);
 			}
 			else $status = array('f_class_error'	=> 'Class unpublished but status remain.');
 		} else $status = array('f_class_error'	=> 'Class STILL Unpublished!');
@@ -304,10 +304,11 @@ class Teacher_driven extends Admin_Controller{
 		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
 																	 'Class'=>'teacher_driven/class_list'
 		));
-		$class = $this->vendor_class_model->get_class(array(
-				'class_status >='	=> NULL,
-				'active'		=> NULL
-		),0,0)->result();
+		$class = $this->vendor_class_model->get_class(
+				array(
+					'class_status >='	=> NULL,
+					'active'		=> NULL
+				),0,0)->result();
 		foreach($class as &$cls) {
 			$cls->vendor_name = $this->vendor_model->get_profile(array('id'=>$cls->vendor_id))->row()->name;
 			$cls->category_name = $this->vendor_class_model->get_category(array('id'=>$cls->category_id))->row()

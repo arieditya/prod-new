@@ -126,6 +126,7 @@
 						</div>
 						<div><span style="font-size: 10pt;">Kode&nbsp;Konfirmasi:&nbsp;<?php echo 
 								$ticket['ticket_code']?></span></div>
+						<div class="text10">Tanggal: <?php echo date('d-m-Y');?></div>
 					</div>
 				</td>
 			</tr>

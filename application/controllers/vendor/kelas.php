@@ -225,7 +225,6 @@ class Kelas extends Vendor_Controller{
 		$where = array(
 				'id'=>$id, 
 				'class_status >='=>NULL,
-				'class_status'=>NULL,
 				'active'=>NULL
 		);
 		if(!$this->is_admin) {

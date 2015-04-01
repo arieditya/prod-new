@@ -91,8 +91,10 @@ class Vendor_class_model extends MY_Model{
 		if(!empty($var)) {
 			$where = $var + $where;
 		}
+		if(empty($var['class_status >='])) unset($where['class_status >=']);
+		if(empty($var['class_status'])) unset($where['class_status']);
+		if(empty($var['active'])) unset($where['active']);
 		
-//		var_dump($where);exit;
 		if(!empty($where['id'])) {
 			if(is_array($where['id'])) {
 				$wherein['vendor_class.id'] = $where['id'];
@@ -110,14 +112,19 @@ class Vendor_class_model extends MY_Model{
 			unset($where['level_id']);
 		}
 //		}
-		foreach($where as &$w) {
-			if(is_array($w)) {
-				foreach($w as &$ww) {
-					if(empty($ww)) unset($ww);
+		$wh = array();
+		foreach($where as $wk => $wv) {
+			if(is_array($wv)) {
+				foreach($wv as $wwk => $wwv) {
+					if(!empty($wwv)) $wh[$wk][$wwk] = $wwv;
 				}
+			} else {
+				if(!empty($wv)) $wh[$wk] = $wv;
 			}
-			if(empty($w)) unset($w);
 		}
+		
+		$where = $wh;
+//		var_dump($where);exit;
 //		$where = array_filter($where, 'strlen');
 //		}
 		$this->db->join('vendor_class_category', 'vendor_class.id=vendor_class_category.class_id', 'left');
@@ -161,7 +168,6 @@ class Vendor_class_model extends MY_Model{
 		}
         $this->db->group_by('vendor_class.id');
 		$result = $this->db->get('vendor_class');
-//		var_dump($this->db->last_query()); exit;
         return $result;
 	}
 	
@@ -332,7 +338,7 @@ class Vendor_class_model extends MY_Model{
 		if(!empty($class)) $class_id = $class->class_id;
 		else return 0;
 //		var_dump($this->get_class(array('vendor_class.id'=>$class_id, 'active'=>NULL, 'class_status'=>NULL))->row());exit;
-		$max = $this->get_class(array('id'=>$class_id,'active'=>NULL, 'class_status'=>NULL))->row()->class_peserta_max;
+		$max = $this->get_class(array('id'=>$class_id,'active'=>NULL))->row()->class_peserta_max;
 		$participant = $this->get_class_schedule_participant(array('jadwal_id'=>$sched_id,'status >'=>0))->num_rows();
 		return $max-$participant;
 	}

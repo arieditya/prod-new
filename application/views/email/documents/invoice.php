@@ -125,6 +125,7 @@
 							<strong>INVOICE</strong>
 						</div>
 						<div><span style="font-size: 10pt;">Kode&nbsp;Pemesanan:&nbsp;<?php echo $code?></span></div>
+						<div class="text10">Tanggal: <?php echo date('d-m-Y');?></div>
 					</div>
 				</td>
 			</tr>
