@@ -245,7 +245,7 @@ endif;
 									><i class="fa fa-user"></i> Daftar Sekarang</a>
 						<?php else: ?>
 							<div
-							   class="main-button register text-center register_class"
+							   class="main-button register text-center sold_out_class"
 								><i class="fa fa-lock"></i> SOLD OUT</div>
 						<?php endif; ?>
 					</div><!-- tab-content -->
@@ -335,7 +335,7 @@ endif;
 						</div><!-- detail-label -->
 					</a>
 				<?php else: ?>
-					<div class="register_class">
+					<div class="sold_out_class">
 						<div class="detail-label label-yellow text-center">
 							<i class="fa fa-lock"></i>
 							<h3 class="entry-detail-label text-20">SOLD OUT</h3>
