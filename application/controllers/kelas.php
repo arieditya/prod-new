@@ -43,7 +43,7 @@ class Kelas extends MY_Controller {
 		$this->load->helper('cookie');
 		$set_filter = array();
 		$filter = FALSE;
-		if($view=='all') {
+		if($view!=FALSE) {
 			$filter = $this->input->cookie('filter', TRUE);
 		}
 		if(!empty($filter)) {
@@ -64,7 +64,7 @@ class Kelas extends MY_Controller {
 						break;
 				}
 			}
-//		var keys = ['day','level','province','type','price_range','category'];
+//			var keys = ['day','level','province','type','price_range','category'];
 			if(!empty($filter['level'])) {
 				$set_filter['level'] = $filter['level']; 
 			}
@@ -84,8 +84,18 @@ class Kelas extends MY_Controller {
 		$this->data['filter'] = $set_filter;
 		$new_filter = $this->vendor_class_model->get_filtered_class($set_filter);
 		$order = array();
-		if($view=='all') {
-			$order=array('class_tanggal'=>'ASC');
+		$this->data['sorting']=FALSE;
+		if($view!=FALSE) {
+			if($view=='all' || $view=='upcoming') {
+				$order=array('class_tanggal'=>'ASC');
+			} elseif($view=='lowest_price') {
+				$order=array('price_per_session'=>'ASC');
+			} elseif($view=='highest_price') {
+				$order=array('price_per_session'=>'DESC');
+			} elseif($view=='newest') {
+				$order=array('vendor_class.id'=>'DESC');
+			}
+			$this->data['sorting']=$view;
 		}
 //var_dump($new_filter);exit;
 //		$this->data['filter_query'] = $new_filter;
@@ -185,7 +195,7 @@ class Kelas extends MY_Controller {
 		$this->data['show_filter'] = TRUE;
 //		var_dump($classes);exit;
 //        $this->data['vendor']->profile->name = word_limiter($this->data->vendor->profile->name,13);
-		if($view=='all') : $this->load->view('kelas/list_all', $this->data);
+		if($view!=FALSE) : $this->load->view('kelas/list_all', $this->data);
 		else :
 			$this->new_design?
 				$this->load->view('kelas/list2', $this->data):
