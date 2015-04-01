@@ -1482,6 +1482,10 @@ a.remove {
 .button.button-yellow:hover,.button.button-yellow:focus,.button.button-yellow:active {
   backgorund: #E39E1F !important;
 }
+.btn-filter {
+  background-color: #fff;
+  height: 30px;
+}
 @media (min-width: 1080px) {
   .navbar > .container {
     width: 1080px;
@@ -1714,7 +1718,7 @@ a.remove {
 	.title-filter {
 	  width: 100%;
 	}
-	.nav-pills .filter-select,
+    .nav-pills .filter-select,
 	.sort .sort-list {
 	  margin: 5px 0;
 	  padding: 0 10px;

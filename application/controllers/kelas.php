@@ -40,8 +40,12 @@ class Kelas extends MY_Controller {
 	
 	
 	public function _new_index($view='home') {
+		$this->load->helper('cookie');
 		$set_filter = array();
-		$filter = $this->input->cookie('filter', TRUE);
+		$filter = FALSE;
+		if($view=='all') {
+			$filter = $this->input->cookie('filter', TRUE);
+		}
 		if(!empty($filter)) {
 			$filter = json_decode($filter, TRUE);
 			$set_filter = array();
@@ -63,6 +67,12 @@ class Kelas extends MY_Controller {
 //		var keys = ['day','level','province','type','price_range','category'];
 			if(!empty($filter['level'])) {
 				$set_filter['level'] = $filter['level']; 
+			}
+			if(!empty($filter['province'])) {
+				$set_filter['province'] = $filter['province'];
+			}
+			if(!empty($filter['type'])) {
+				$set_filter['type'] = $filter['type'];
 			}
 			if(!empty($filter['category'])) {
 				$set_filter['category'] = $filter['category']; 
@@ -192,7 +202,6 @@ class Kelas extends MY_Controller {
 			$this->load->view('vendor/general/footer');
 		}else
 			$this->load->view('kelas/list2',$data);
-
 	}
 
 	public function detil($kode){
