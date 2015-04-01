@@ -857,6 +857,20 @@ class Vendor_class_model extends MY_Model{
 			}
 			$where .= ' AND b.category_id IN ( '.implode(',', $var['category']). ' ) ';
 		}
+		if(!empty($var['province'])) {
+			if(!is_array($var['province'])) {
+				$province = $var['province'];
+				$var['province'] = array($province);
+			}
+			$where .= ' AND a.class_provinsi_id IN ( '.implode(',', $var['province']). ' ) ';
+		}
+		if(!empty($var['type'])) {
+			if(!is_array($var['type'])) {
+				$type = $var['type'];
+				$var['type'] = array($type);
+			}
+			$where .= ' AND a.class_paket IN ( '.implode(',', $var['type']). ' ) ';
+		}
 		if(!empty($var['level'])) {
 			$where .= ' AND c.level_id = ' . (int) $var['level'];
 		}

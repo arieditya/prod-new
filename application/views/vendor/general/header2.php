@@ -392,7 +392,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 								</select>
 							</li>
 							<li id="prov_list" class="filter-select">
-								<select class="form-control propinsi input-sm" onchange="set_filter('province',this.value)>
+								<select class="form-control propinsi input-sm" onchange="set_filter('province',this.value)">
 									<option value="*">Provinsi</option>
 <?php
 	foreach($header_data['provinsi_list'] as $provinsi):
@@ -404,14 +404,14 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 								</select>
 							</li>
 							<li id="tipe_list" class="filter-select">
-								<select class="form-control input-sm" onchange="set_filter('type',this.value)>
+								<select class="form-control input-sm" onchange="set_filter('type',this.value)">
 									<option value="*">Tipe Kelas</option>
 									<option value="1,2">Paket</option>
 									<option value="0">Satu Sesi</option>
 								</select>
 							</li>
 							<li id="kategori_list" class="filter-select">
-								<select class="form-control kategori input-sm" onchange="set_filter('category',this.value)>
+								<select class="form-control kategori input-sm" onchange="set_filter('category',this.value)">
 									<option value="0">Kategori</option>
 <?php
 	foreach($header_data['class_category'] as $category):
