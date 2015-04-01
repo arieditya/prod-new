@@ -42,7 +42,7 @@ class Kelas extends MY_Controller {
 	public function _new_index($view='home') {
 		$set_filter = array();
 		$filter = $this->input->cookie('filter', TRUE);
-		if(!empty($filter)) {
+		if(!empty($filter) && $view!='home') {
 			$filter = json_decode($filter, TRUE);
 			$set_filter = array();
 			if(!empty($filter['type'])) {
@@ -63,6 +63,12 @@ class Kelas extends MY_Controller {
 //		var keys = ['day','level','province','type','price_range','category'];
 			if(!empty($filter['level'])) {
 				$set_filter['level'] = $filter['level']; 
+			}
+			if(!empty($filter['province'])) {
+				$set_filter['province'] = $filter['province'];
+			}
+			if(!empty($filter['type'])) {
+				$set_filter['type'] = $filter['type'];
 			}
 			if(!empty($filter['category'])) {
 				$set_filter['category'] = $filter['category']; 

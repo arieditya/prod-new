@@ -26,7 +26,7 @@ class Kelas extends Vendor_Controller{
 		$published = array();
 		$past = array();
 		$draft = array();
-		$date_now = '2015-03-30';
+		$date_now = date('Y-m-d');
 		foreach($list_class as &$list) {
 			$list->level = $this->vendor_class_model->get_class_level($list->id);
 			$list->category = $this->vendor_class_model->get_class_category($list->id);

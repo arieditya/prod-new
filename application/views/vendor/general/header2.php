@@ -379,7 +379,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 							</li>
 <?php // */ ?>
 							<li id="lev_list" class="filter-select">
-								<select class="form-control level input-sm">
+								<select class="form-control level input-sm" onchange="set_filter('level',this.value)">
 									<option value="*">Level</option>
 <?php
 	foreach($header_data['class_level'] as $level):
@@ -392,7 +392,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 								</select>
 							</li>
 							<li id="prov_list" class="filter-select">
-								<select class="form-control propinsi input-sm">
+								<select class="form-control propinsi input-sm" onchange="set_filter('province',this.value)>
 									<option value="*">Provinsi</option>
 <?php
 	foreach($header_data['provinsi_list'] as $provinsi):
@@ -404,14 +404,14 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 								</select>
 							</li>
 							<li id="tipe_list" class="filter-select">
-								<select class="form-control input-sm">
+								<select class="form-control input-sm" onchange="set_filter('type',this.value)>
 									<option value="*">Tipe Kelas</option>
 									<option value="1,2">Paket</option>
 									<option value="0">Satu Sesi</option>
 								</select>
 							</li>
-							<li id="harga_list" class="filter-select">
-								<select class="form-control kategori input-sm">
+							<li id="kategori_list" class="filter-select">
+								<select class="form-control kategori input-sm" onchange="set_filter('category',this.value)>
 									<option value="0">Kategori</option>
 <?php
 	foreach($header_data['class_category'] as $category):
@@ -422,6 +422,10 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 ?>
 								</select>
 							</li>
+							<button class="btn btn-sm btn-filter"
+									onclick="window.location.href='<?php echo base_url();?>kelas/index/all'">
+								<i class="fa fa-search"></i>
+							</button>
 						</ul>
 						<ul class="sort nav text-14" >
 							<li class="title-filter sort-list">Urutan</li>
