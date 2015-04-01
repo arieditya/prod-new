@@ -110,6 +110,15 @@ class Vendor_class_model extends MY_Model{
 			unset($where['level_id']);
 		}
 //		}
+		foreach($where as &$w) {
+			if(is_array($w)) {
+				foreach($w as &$ww) {
+					if(empty($ww)) unset($ww);
+				}
+			}else {
+				if(empty($w)) unset($w);
+			}
+		}
 		$where = array_filter($where, 'strlen');
 //		}
 		$this->db->join('vendor_class_category', 'vendor_class.id=vendor_class_category.class_id', 'left');
@@ -1283,7 +1292,7 @@ class Vendor_class_model extends MY_Model{
 	public function class_sold_out($class_id) {
 		$attendance = $this->get_class_attendance($class_id);
 		$this->db->update('vendor_class', 
-				array('class_peserta_max'=>$attendance),
+				array('class_peserta_max'=>0),
 				array('id'=>$class_id)
 		);
 		return !! $this->db->affected_rows();
