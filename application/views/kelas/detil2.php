@@ -81,12 +81,14 @@ endif; ?>
 								<span class="content"><?php echo $class->class_perserta_target?></span>
 							</h5>
 <?php endif;?>
-							<h5 class="title-class">
-								<span class="title-label">Kapasitas :</span><br /><br />
-								<span class="content">
-									<?php echo $class->class_peserta_max?> orang 
-								</span>
-							</h5>
+							<?php if($class->available == 1): ?>
+								<h5 class="title-class">
+									<span class="title-label">Kapasitas :</span><br /><br />
+									<span class="content">
+										<?php echo $class->class_peserta_max?> orang
+									</span>
+								</h5>
+							<?php endif; ?>
 						</div><!-- #kelas -->
 						<div role="tabpanel" class="tab-pane" id="harga">
 <?php
