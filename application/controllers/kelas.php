@@ -49,7 +49,7 @@ class Kelas extends MY_Controller {
 		if(!empty($filter)) {
 			$filter = json_decode($filter, TRUE);
 			$set_filter = array();
-			if(!empty($filter['type'])) {
+/*			if(!empty($filter['type'])) {
 				switch($filter['type']) {
 					case		'oneshot':
 						$set_filter['oneshot'] = TRUE;
@@ -64,6 +64,7 @@ class Kelas extends MY_Controller {
 						break;
 				}
 			}
+*/
 //			var keys = ['day','level','province','type','price_range','category'];
 			if(!empty($filter['level'])) {
 				$set_filter['level'] = $filter['level']; 

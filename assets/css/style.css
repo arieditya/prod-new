@@ -146,11 +146,11 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .nav.nav-pills {
   float: left;
-  width: 79%;
+  width: 75%;
 }
 .sort.nav {
   float: right;
-  width: 21%;
+  width: 25%;
 }
 .sort-list {
   float: left;

@@ -11,10 +11,6 @@ $this->load->view('vendor/general/header2');
     <script type="application/javascript">
         //	$.parseJSON();
 
-		var delete_cookie = function(key) {
-			document.cookie = key+'=;path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-		};
-
 		var set_cookie = function(key, value) {
 			console.log(key+'='+value+';');
 			document.cookie = key+'='+value+';path=/';
