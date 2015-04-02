@@ -431,12 +431,14 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 						<ul class="sort nav text-14" >
 							<li class="title-filter sort-list">Urutan</li>
 							<li id="sort_by_list" class="sort-list">
-								<select class="form-control input-sm" onchange="window.location.href='<?php echo base_url();?>kelas/index/'+this.value">
-									<option value=""></option>
-									<option value="upcoming">Upcoming Class</option>
-									<option value="newest_class">Kelas Terbaru</option>
-									<option value="lowest_price">Harga Termurah</option>
-									<option value="highest_price">Harga Termahal</option>
+								<select class="form-control input-sm"
+										value="<?php if($sorting!=FALSE) { echo $sorting; } ?>"
+										onchange="window.location.href='<?php echo base_url();?>kelas/index/'+this.value">
+									<option value="">--Pilih urutan--</option>
+									<option value="upcoming" <?php if($sorting=='upcoming') {echo "selected='selected'";} ?> >Upcoming Class</option>
+									<option value="newest_class" <?php if($sorting=='newest_class') {echo "selected='selected'";} ?> >Kelas Terbaru</option>
+									<option value="lowest_price" <?php if($sorting=='lowest_price') {echo "selected='selected'";} ?> >Harga Termurah</option>
+									<option value="highest_price" <?php if($sorting=='highest_price') {echo "selected='selected'";} ?> >Harga Termahal</option>
 								</select>
 							</li>
 <?php /* ?>
