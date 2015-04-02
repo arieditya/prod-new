@@ -37,6 +37,15 @@ $profile = $vendor['profile'];
 				<div class="panel panel-default">
 					<h2 class="block-title text-uppercase">Kelas Anda:
 						<?php echo $class->class_nama; ?>
+<?php 
+	if($soldout && $class->active == 1 && $class->class_status == 1):
+?>
+						<br /><sub style="font-size: 70%; color: red;">
+							Tiket untuk kelas ini sudah <strong style="font-size: 120%;">Sold Out!</strong>
+						</sub>
+<?php 
+	endif;
+?>
 					</h2>
 					<span class="info">Status:
 						<?php
@@ -222,7 +231,17 @@ $profile = $vendor['profile'];
 											<div class="section-row">
 												<div class="col-sm-4">Jumlah Peserta Maksimal</div>
 												<div class="col-sm-8">
+<?php
+	if($soldout === 1):
+?>
+													SOLD OUT!
+<?php
+	else:
+?>
 													<?php echo $class->class_peserta_max;?>
+<?php
+	endif;
+?>
 												</div>
 											</div><!-- section-row -->
 											<div class="section-row">
@@ -780,12 +799,16 @@ endif;
 											<div class="form-group">
 												<label for="Seo" class="col-sm-4 control-label">Jumlah Maksimal Peserta</label>
 												<div class="col-sm-8">
+<?php if($soldout !== 1): ?>
 													<input type="number" 
 														   class="form-control" 
 														   id="class_peserta_max"
 														   name="class_peserta_max"
 														   value="<?php echo $class->class_peserta_max?>"
 														   placeholder="Maksimal jumlah peserta dalam kelas" />
+<?php else: ?>
+													Forced Sold Out!
+<?php endif;?>
 												</div>
 											</div>
 											<div class="form-group">
@@ -1273,12 +1296,27 @@ endif;
 												</table>
 											</div><!-- table-responsive -->
 
-											<div class="col-sm-offset-8 col-sm-4">
+											<div class="col-sm-offset-4 col-sm-4">
+<?php if(empty($soldout) && $class->active  == 1 && $class->class_status == 1):?>
+												<a href="<?php echo base_url()?>vendor/kelas/sold_me_out/<?php echo $class->id;?>" 
+												   onclick="return confirm('Status kelas Anda akan diubah menjadi ' +
+												    'SOLD OUT dan akses pendaftaran murid akan ditutup secara ' +
+												     'permanen.\nAnda hanya dapat membuka pendaftaran kembali dengan ' +
+												      'menghubungi kelas@ruangguru.com.\nJika Anda yakin dengan ' +
+												       'pengaturan ini, silakan klik OK');"
+												   >
+													<button type="button" 
+															style="margin: 30px auto 15px;"
+															class="btn btn-danger register">Mark as SOLD OUT!</button>
+												</a>
+<?php endif; ?>
+											</div>
+											<div class="col-sm-4">
 												<a href="<?php echo base_url()?>vendor/kelas/download_attendance_csv/<?php echo $class->id;?>" 
 												   id="download_attendance">
 													<button type="button" 
 															class="btn btn-default main-button register"
-															>Download</button>
+															>Download CSV</button>
 												</a>
 											</div>
 										</div><!-- section-content -->

@@ -292,6 +292,7 @@ class Kelas extends Vendor_Controller{
 		$this->data['tags'] = $this->vendor_class_model->get_tags($id);
 		$this->data['tabs'] = $tabs;
 		$this->data['sidebar'] = 'daftar_kelas';
+		$this->data['soldout'] = $this->vendor_class_model->simple_check_soldout($id);
 		$this->data['status'] = $this->vendor_class_model->get_status_class($id);
         $this->new_design?
 			$this->load->view('vendor/class/detail2', $this->data):
@@ -926,6 +927,20 @@ class Kelas extends Vendor_Controller{
 		}
 		redirect('vendor/kelas/detil/'.$id);
     }
+	
+	public function sold_me_out($class_id) {
+		if(!$this->vendor_class_model->is_my_class($class_id)) {
+			$this->session->set_flashdata('status.warning','You are NOT the owner of this class!');
+			redirect('vendor/kelas/detil/'.$class_id.'/murid');
+			return;
+		}
+		if($this->vendor_class_model->class_sold_out($class_id)) {
+			$this->session->set_flashdata('status.notice','Tiket untuk kelas ini telah dihabiskan!');
+		} else {
+			$this->session->set_flashdata('status.warning','Gagal me-reset jumlah tiket! Silahkan coba lagi atau hubungi admin kami.');
+		}
+		redirect('vendor/kelas/detil/'.$class_id.'/preview');
+	}
 	
 	public function download_attendance_csv($class_id) {
 		if(!$this->vendor_class_model->is_my_class($class_id)) {

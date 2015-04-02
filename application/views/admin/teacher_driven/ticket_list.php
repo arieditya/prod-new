@@ -20,6 +20,7 @@ if ($this->session->flashdata('f_class_error')): ?>
 <!-- Box -->
 <script type="application/javascript" src="<?php echo base_url();?>js/jquery.fancybox.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/jquery.fancybox.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/font-awesome.css" media="screen" />
 <script type="application/javascript" src="<?php echo base_url();?>js/jquery.fancybox-media.js?v=1.0.6"></script>
 <script type="application/javascript">
 	var base_url = "<?php echo base_url()?>";
@@ -27,11 +28,21 @@ if ($this->session->flashdata('f_class_error')): ?>
 <div class="box">
 	<!-- Box Head -->
 	<div class="box-head">
-		<h2 class="left">Class Management</h2>
+		<h2 class="left">Ticket Management</h2>
 		<div class="right">
-			<form action="<?php echo base_url();?>admin/teacher_driven/class_search" method="post">
-				<label>search class by name</label>
-				<input type="text" class="field small-field" name="class_name" placeholder="search all words" />
+			<form action="<?php echo base_url();?>admin/teacher_driven/ticket_list" method="get">
+				<label>search ticket by code</label>
+				<input type="text" 
+					   class="field small-field" 
+					   name="ticket_code" 
+<?php
+	if(!empty($code)):
+?>
+					   value="<?php echo $code;?>" 
+<?php
+	endif;
+?>
+					   placeholder="search code" />
 				<input type="submit" class="button" value="search" />
 			</form>
 		</div>
@@ -42,18 +53,219 @@ if ($this->session->flashdata('f_class_error')): ?>
 	<div class="table">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<th>ID</th>
-				<th>Name (URI)</th>
-				<th>Vendor name</th>
-				<th>Peserta (min/max)</th>
-				<th>Category</th>
-				<th>Level</th>
-				<th>Session</th>
-				<th>Status</th>
-				<th>Active</th>
-				<th class="center">Action</th>
+				<th rowspan="2">
+<?php
+	$title = 'Class ID';
+	$order = 'class_id';
+	if(!empty($orderby) && $orderby == $order):
+		if($sort == 'ASC'):
+			$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=DESC';
+			if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-down"></i>
+<?php 
+		elseif($sort == 'DESC'):
+			$link = base_url().'admin/teacher_driven/ticket_list';
+			if(!empty($code)) $link .= '?ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-up"></i>
+<?php 
+		endif;
+	else:
+		$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=ASC';
+		if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+<?php 
+	endif;
+?>
+				</th>
+				<th rowspan="2">
+<?php
+	$title = 'Ticket Code';
+	$order = 'ticket_code';
+	if(!empty($orderby) && $orderby == $order):
+		if($sort == 'ASC'):
+			$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=DESC';
+			if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-down"></i>
+<?php 
+		elseif($sort == 'DESC'):
+			$link = base_url().'admin/teacher_driven/ticket_list';
+			if(!empty($code)) $link .= '?ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-up"></i>
+<?php 
+		endif;
+	else:
+		$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=ASC';
+		if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+<?php 
+	endif;
+?>
+				</th>
+				<th rowspan="2">
+<?php
+	$title = 'Create Date';
+	$order = 'status_4';
+	if(!empty($orderby) && $orderby == $order):
+		if($sort == 'ASC'):
+			$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=DESC';
+			if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-down"></i>
+<?php 
+		elseif($sort == 'DESC'):
+			$link = base_url().'admin/teacher_driven/ticket_list';
+			if(!empty($code)) $link .= '?ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-up"></i>
+<?php 
+		endif;
+	else:
+		$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=ASC';
+		if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+<?php 
+	endif;
+?>
+				</th>
+				<th colspan="3" class="center">Student</th>
+				<th rowspan="2" class="center">Action</th>
+			</tr>
+			<tr>
+				<th>
+<?php
+	$title = 'Name';
+	$order = 'name';
+	if(!empty($orderby) && $orderby == $order):
+		if($sort == 'ASC'):
+			$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=DESC';
+			if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-down"></i>
+<?php 
+		elseif($sort == 'DESC'):
+			$link = base_url().'admin/teacher_driven/ticket_list';
+			if(!empty($code)) $link .= '?ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-up"></i>
+<?php 
+		endif;
+	else:
+		$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=ASC';
+		if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+<?php 
+	endif;
+?>
+				</th>
+				<th>
+<?php
+	$title = 'Email';
+	$order = 'email';
+	if(!empty($orderby) && $orderby == $order):
+		if($sort == 'ASC'):
+			$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=DESC';
+			if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-down"></i>
+<?php 
+		elseif($sort == 'DESC'):
+			$link = base_url().'admin/teacher_driven/ticket_list';
+			if(!empty($code)) $link .= '?ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+					&nbsp;<i class="fa fa-chevron-up"></i>
+<?php 
+		endif;
+	else:
+		$link = base_url().'admin/teacher_driven/ticket_list?orderby='.$order.'&sort=ASC';
+		if(!empty($code)) $link .= '&ticket_code='.$code;
+?>
+					<a href="<?php echo $link; ?>">
+						<?php echo $title;?>
+					</a>
+<?php 
+	endif;
+?>
+				</th>
+				<th>
+					Phone
+				</th>
 			</tr>
 <?php $i=0;?>
+<?php 
+foreach($ticket as $tix): 
+	$str1 = substr($tix->ticket,0,1);
+	$str2 = substr($tix->ticket,1,1);
+	$path = "documents/ticket/{$str1}/{$str2}/{$tix->ticket}.pdf";
+	if(!file_exists(FCPATH."/{$path}")) continue;
+	$tix_link = base_url().$path;
+?>
+			<tr class="data-row<?php echo (($i++%2)!=0)?' odd':''?>" 
+				data-page="<?php echo ceil($i/20); ?>">
+				<td>
+					<a class="fancybox" data-sub="class" href="#detail_class" data-id="<?php echo $tix->class_id;
+					?>"><?php echo $tix->class_id;?></a> 
+					
+				</td>
+				<td><a href="<?php echo $tix_link?>"><?php echo $tix->ticket;?></a></td>
+				<td><?php echo array_shift(explode(' ',$tix->create_date));?></td>
+				<td><?php echo $tix->nama;?></td>
+				<td><?php echo $tix->email;?></td>
+				<td><?php echo $tix->telephone;?></td>
+				<td>
+					<a href="<?php echo base_url()?>admin/teacher_driven/resend_ticket/<?php echo $tix->ticket;?>" class="ico">resend</a> 
+				</td>
+			</tr>
+<?php 
+endforeach;
+?>
+<?php
+/*
 <?php foreach($class as $g):?>
 				<tr class="data-row<?php echo (($i++%2)!=0)?' odd':''?>" data-page="<?php echo ceil
 				($i/20); 
@@ -184,6 +396,8 @@ endif;
 					</td>
 				</tr>
 <?php endforeach;?>
+*/
+?>
 		</table>
 		<!-- Pagging -->
 		<div class="pagination" style="height:20px; padding:8px 10px; line-height:19px; color:#949494;">
@@ -212,7 +426,7 @@ endif;
 	<div id="detail_fill"></div>
 </div>
 <div id="detail_class" class="col-md-4" 
-	 style="max-width:500px;display: none;height:100%;overflow-x:hidden;">
+	 style="min-width:600px;min-height:400px;max-height:400px;display: none;height:100%;overflow-x:hidden;">
 	<h2>Class Detail!</h2>
 	<hr />
 	<div id="detail_fill"></div>

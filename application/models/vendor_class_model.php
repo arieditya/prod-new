@@ -370,6 +370,20 @@ class Vendor_class_model extends MY_Model{
 				->get('vendor_class_participant')
 				->num_rows();
 	}
+	
+	public function simple_check_soldout($class_id) {
+		$max = $this->get_class(array(
+			'id'=>$class_id,
+			'active'=>NULL,
+			'class_status >='=>NULL))
+			->row()
+			->class_peserta_max;
+		$attd = (int)$this->get_class_attendance($class_id);
+		if($max > $attd) return FALSE;
+		if($max == $attd) return TRUE;
+		if($max < $attd) return 1;
+//		return $max <= $attd; // klo $max > $attd maka return false; = dan < berarti TRUE
+	}
 
 	public function add_class_gallery($class_id, $data) {
 		$data['class_id'] = $class_id;
@@ -1324,6 +1338,46 @@ class Vendor_class_model extends MY_Model{
 ";
 		
 		return $this->db->query($query, array($class_id));
+	}
+	
+	public function get_all_ticket($orderby=NULL,$sort='DESC', $code = NULL) {
+		$sort = strtoupper($sort);
+		if(!empty($orderby) && !in_array($orderby, array('class_id','ticket_code','name','email','status_4'))) {
+			$orderby = NULL;
+		}
+		if(!in_array($sort,array('ASC','DESC'))) {
+			$sort = 'DESC';
+		}
+		$query = "
+		SELECT DISTINCT
+			b.class_id,
+			a.ticket_code AS ticket,
+			d.status_4 AS create_date,
+			c.name AS nama,
+			c.phone AS telephone,
+			c.email AS email
+		FROM
+			vendor_class_ticket AS a
+			LEFT JOIN vendor_class_participant AS b
+				ON b.class_id = a.class_id AND b.code = a.invoice_code
+			LEFT JOIN vendor_class_student AS c
+				ON c.id = b.participant_id
+			LEFT JOIN vendor_class_transaction AS d
+				ON d.code = a.invoice_code
+		WHERE 1
+			AND b.class_id IS NOT NULL
+			AND c.id IS NOT NULL
+";
+		if(!empty($code)) {
+			$code = mysql_real_escape_string($code);
+			$query .= "
+			AND a.ticket_code LIKE '%{$code}%'";
+		}
+		if(!empty($orderby)) {
+			$query .= "
+		ORDER BY {$orderby} {$sort}";
+		}
+		return $this->db->query($query)->result();
 	}
 	
 	public function class_sold_out($class_id) {

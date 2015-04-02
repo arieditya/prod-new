@@ -659,14 +659,14 @@ Terima kasih
 		$this->html_content('murid/2_payment_step3',$email_data);
 		$this->subject('Tagihan Anda - '.$class['profile']->class_nama);
 		$this->to($invoice_raw['pemohon']->email);
-		$this->bcc(array('uun@ruangguru.com','daniel@ruangguru.com'));
+		$this->bcc(array('daniel@ruangguru.com'));
 		
 		$this->attach(FCPATH.$docs_path.$code.'.pdf');
 		
 		return $this->send();
 	}
 
-	public function student_payment_step4($ticket) {
+	public function student_payment_step4($ticket, $student_only = FALSE) {
 		$this->CI->load->model('vendor_class_model');
 		$this->CI->load->model('payment_model');
 		$tix = $this->CI->payment_model->get_ticket_detail($ticket);
@@ -687,18 +687,18 @@ Terima kasih
 		create_pdf($content, FCPATH.$docs_path.$ticket, FALSE);
 
 // FOR VENDOR
-		
-		$this->html_content('vendor/9_student_registered_notification',$tix);
-		$this->subject('Kelas.Ruangguru - Pendaftaran terbaru dari '.$tix['murid']['name']);
-		$this->to($tix['vendor']['email']);
-		$this->bcc('kelas@ruangguru.com');
-		$this->bcc('arieditya.prdh@live.com');
-
-		$this->send();
-		
-		$this->reset();
-		$this->attachment = array();
-
+		if(!$student_only) {
+			$this->html_content('vendor/9_student_registered_notification',$tix);
+			$this->subject('Kelas.Ruangguru - Pendaftaran terbaru dari '.$tix['murid']['name']);
+			$this->to($tix['vendor']['email']);
+			$this->bcc('kelas@ruangguru.com');
+			$this->bcc('arieditya.prdh@live.com');
+	
+			$this->send();
+			
+			$this->reset();
+			$this->attachment = array();
+		}
 // FOR STUDENT
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/3_payment_step4',$tix);

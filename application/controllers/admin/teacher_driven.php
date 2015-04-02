@@ -463,6 +463,53 @@ class Teacher_driven extends Admin_Controller{
 		$this->load->view('admin/admin_v',$data);
 	}
 	
+	public function ticket_list() {
+		$data['active'] = 551;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Ticket'=>'teacher_driven/ticket_list'
+		));
+		$orderby = $this->input->get('orderby',TRUE);
+		$sort = $this->input->get('sort',TRUE);
+		$code = $this->input->get('ticket_code', TRUE);
+		$ticket = $this->vendor_class_model->get_all_ticket($orderby, $sort, $code);
+		$data['ticket'] = $ticket;
+		$data['code'] = $code;
+		$data['orderby'] = $orderby;
+		$data['sort'] = $sort;
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/ticket_list',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
+	}
+	
+	public function ticket_search() {
+		$data['active'] = 551;
+		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
+																	 'Ticket'=>'teacher_driven/ticket_list'
+		));
+		$orderby = $this->input->get('orderby',TRUE);
+		$sort = $this->input->get('sort',TRUE);
+		$code = $this->input->get('ticket_code', TRUE);
+		$ticket = $this->vendor_class_model->search_ticket($code);
+		$data['ticket'] = $ticket;
+		$data['orderby'] = $orderby;
+		$data['sort'] = $sort;
+		
+//		vaR_dump($data['class']->result());exit;
+		$data['content'] = $this->load->view('admin/teacher_driven/ticket_list',$data,TRUE);
+		$this->load->view('admin/admin_v',$data);
+	}
+	
+	public function resend_ticket($code) {
+		$referer = array_pop(explode('/',empty($_SERVER['HTTP_REFERER'])?'empty':$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, array_shift(explode('?',$referer)))) 
+			show_error('unauthorized call of function!', 401);
+		$this->email_model->student_payment_step4($code, TRUE);
+		$status = array('f_class'	=> 'Email Sent!');
+		$this->session->set_flashdata($status);
+		redirect('admin/teacher_driven/'.$referer);
+	}
+	
 	public function do_payment_confirm($code) {
 		$this->load->model('email_model');
 		$this->load->model('vendor_class_model');

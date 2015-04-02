@@ -80,7 +80,11 @@ if ($this->session->flashdata('f_class_error')): ?>
 if($bill->status >= 2 && $bill->total > 0):
 	$str1 = substr($bill->code,0,1);
 	$str2 = substr($bill->code,1,1);
+	if(file_exists(FCPATH.'/documents/invoice/'.$str1.'/'.$str2.'/'.$bill->code.'.pdf')):
 echo '<a href="'.base_url().'documents/invoice/'.$str1.'/'.$str2.'/'.$bill->code.'.pdf" target="_blank">'.$bill->code.'</a>';
+	else:
+		echo $bill->code ;
+	endif;
 else:
 echo $bill->code ;
 endif;
@@ -163,7 +167,17 @@ endif;
 			if(page==total_page) $('#data-next').attr({'disabled':'disabled'});
 			$('#data-previous').removeAttr('disabled');
 			data_start += 20;
-			data_end = total_count > data_end+20?total_count:(data_end+20);
+			data_end = total_count > data_end+20?data_end+20:total_count;
+			paging_write();
+		});
+		$('#data-previous').click(function(e){
+			e.preventDefault();
+			page--;
+			if(page==1) $('#data-previous').attr({'disabled':'disabled'});
+			$('#data-next').removeAttr('disabled');
+			var data_range = data_end - data_start +1;
+			data_start = data_start-20 < 1?1:(data_start-20);
+			data_end -= data_range;
 			paging_write();
 		});
 		function paging_write() {
