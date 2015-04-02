@@ -688,16 +688,21 @@ class Payment extends MY_Controller {
 		$status = NULL;
 		if($this->input->post('code')) {
 			$code = $this->input->post('code', TRUE);
-			$from = $this->input->post('transfer_from', TRUE);
-			$tgl_transfer = $this->input->post('transfer_date', TRUE);
-			if($from != '0'){
-				$_from = explode('|',$from);
-				$from_other = $_from[1];
-				$from = (int)$from[0];
+			if($this->payment_model->check_invoice($code)) {
+				$from = $this->input->post('transfer_from', TRUE);
+				$tgl_transfer = $this->input->post('transfer_date', TRUE);
+				if($from != '0'){
+					$_from = explode('|',$from);
+					$from_other = $_from[1];
+					$from = (int)$from[0];
+				} else {
+					$from_other = $this->input->post('transfer_from_other', TRUE);
+				}
+				$to = (int)$this->input->post('transfer_to', TRUE);
 			} else {
-				$from_other = $this->input->post('transfer_from_other', TRUE);
+				$this->session->set_flashdata('status.warning',
+						'Kode invoice tidak ditemukan atau sudah melewati masa berlakunya.');
 			}
-			$to = (int)$this->input->post('transfer_to', TRUE);
 		}
 		if(!empty($code) && !empty($from) && !empty($from_other) && !empty($to)){
 			$code = strtoupper($code);

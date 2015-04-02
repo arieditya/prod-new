@@ -143,10 +143,10 @@ class Kelas extends MY_Controller {
 		if(count($new_filter) > 0){
 			$where_class['id'] = array_merge($new_filter);
 //			$where_class .= '`vendor_class`.`id` IN ('.implode(',',$new_filter).')';
-			if($view == 'all') {
-				$classes = $this->vendor_class_model->get_class($where_class, 0, 0, 'current', $order)->result();
-			} else {
+			if($view == 'home') {
 				$classes = $this->vendor_class_model->get_class($where_class, 1, 6, 'current', $order)->result();
+			} else {
+				$classes = $this->vendor_class_model->get_class($where_class, 0, 0, 'current', $order)->result();
 			}
 //			var_dump($classes);exit;//->result()
 		} else {

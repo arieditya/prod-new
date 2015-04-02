@@ -799,7 +799,7 @@ endif;
 											<div class="form-group">
 												<label for="Seo" class="col-sm-4 control-label">Jumlah Maksimal Peserta</label>
 												<div class="col-sm-8">
-<?php if($soldout !== 1): ?>
+<?php if($soldout !== 1 || $this->is_admin): ?>
 													<input type="number" 
 														   class="form-control" 
 														   id="class_peserta_max"

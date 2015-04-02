@@ -26,6 +26,10 @@ class Cronjob extends MY_Controller{
 		$this->payment_model->status_1_expire();
 	}
 	
+	public function invoice_expire() {
+		$this->payment_model->invoice_expire();
+	}
+	
 	public function get_status_1() {
 		var_dump(get_custom_log('status_1_expire', '2015-03-30'));
 	}

@@ -250,7 +250,6 @@ WHERE 1
 ";
 		$result = $this->db->query($query)->result();
 		foreach($result as $row) {
-			var_dump($row);
 			$query2 = "
 SELECT
 	code, class_id, pemesan_id, participant_id
@@ -259,12 +258,48 @@ WHERE code = ?";
 			$result2 = $this->db->query($query2, $row->code)->row_array();
 			$result2['expire'] = $row->expire;
 			$result2['status_1'] = $row->status_1;
-			$result2['period'] = $row->status_1;
+			$result2['period'] = $row->period;
 			custom_log('status_1_expire', (array)$result2);
 			$this->db->delete('vendor_class_transaction', array('code'=>$row->code));
 			$this->db->delete('vendor_class_participant', array('code'=>$row->code));
 			$this->db->simple_query("DELETE FROM vendor_class_transaction WHERE `code` = '{$row->code}'");
 			$this->db->simple_query("DELETE FROM vendor_class_participant WHERE `code` = '{$row->code}'");
 		}
+	}
+	
+	public function invoice_expire() {
+		$query = "
+SELECT 
+	status_2,
+	DATEDIFF(status_2, NOW()) AS expire,
+	TIME_TO_SEC(TIMEDIFF(status_2, NOW()))/(3600*24) AS period,
+	code
+FROM vendor_class_transaction 
+WHERE 1
+	AND TIME_TO_SEC(TIMEDIFF(status_2, NOW()))/(3600*24) < -2 
+	AND status_3 IS NULL
+	AND status_4 IS NULL
+";
+		$result = $this->db->query($query)->result();
+		foreach($result as $row) {
+			$query2 = "
+SELECT
+	code, class_id, pemesan_id, participant_id
+FROM vendor_class_participant
+WHERE code = ?";
+			$result2 = $this->db->query($query2, $row->code)->row_array();
+			$result2['expire'] = $row->expire;
+			$result2['status_1'] = $row->status_1;
+			$result2['period'] = $row->period;
+			custom_log('invoice_expire', (array)$result2);
+			$this->db->delete('vendor_class_transaction', array('code'=>$row->code));
+			$this->db->delete('vendor_class_participant', array('code'=>$row->code));
+			$this->db->simple_query("DELETE FROM vendor_class_transaction WHERE `code` = '{$row->code}'");
+			$this->db->simple_query("DELETE FROM vendor_class_participant WHERE `code` = '{$row->code}'");
+		}
+	}
+	
+	public function check_invoice($code) {
+		return !! $this->db->where('code', $code)->get('vendor_class_transaction')->num_rows();
 	}
 }
