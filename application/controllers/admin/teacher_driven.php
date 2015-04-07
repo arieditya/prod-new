@@ -570,6 +570,47 @@ class Teacher_driven extends Admin_Controller{
 			$this->session->set_flashdata('f_class_error', 'Update Class FAILED!');
 		redirect('admin/teacher_driven/class_list');
 	}
+	
+	public function expired_invoices($file=NULL) {
+		$this->load->helper('file');
+		$config =& get_config();
+		$_log_path = ($config['log_path'] != '') ? $config['log_path'] : APPPATH.'logs/';
+
+		$log_path = $_log_path.'/invoice_expire/';
+
+		if(empty($file)) {
+			$files = get_filenames($log_path);
+			foreach($files as $file) {
+				echo "{$file}<br />";
+			}
+		} else {
+			$file_path = $log_path.$file;
+			if (($handle = fopen($file_path, "r")) !== FALSE) {
+				$first = TRUE;
+				$key = array();
+				$data = array();
+				$num = 0;
+				while (($datas = fgetcsv($handle, 0, ",")) !== FALSE) {
+					if($first) {
+						$key = $datas;
+						$num = count($key);
+					} else {
+						$dt = array();
+						for($i = 0; $i < $num; $i++) {
+							
+						}
+					}
+					echo "<p> $num fields in line $row: <br /></p>\n";
+					$row++;
+					for ($c=0; $c < $num; $c++) {
+						echo $data[$c] . "<br />\n";
+					}
+					$first = FALSE;
+				}
+				fclose($handle);
+			}			fopen($file_path, 'r');
+		}
+	}
 }
 
 // END OF teacher_driven.php File

@@ -91,11 +91,11 @@ echo $bill->code ;
 endif;
 ?>
 				</td>
+				<td><?php echo $bill->status_2; ?></td>
 				<td><a href="#details" class="fancybox" data-section="pemesan" data-id="<?php echo $bill->pemesan_id ?>">
 						<?php echo $bill->pemesan_id ?>
 					</a>
 				</td>
-				<td><?php echo $bill->status_2; ?></td>
 				<td><a href="#details" class="fancybox" data-section="student" data-id="<?php echo $bill->student_id 
 					?>">
 						<?php echo $bill->student_id ?>
