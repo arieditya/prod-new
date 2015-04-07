@@ -7,6 +7,7 @@
  * Time: 1:56 PM
  * Proj: prod-new
  */
+	$this->load->helper('text');
 	$logo = 'header-logo.png';
 	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
 		$logo = 'logo-kelas-3a.png';
@@ -340,7 +341,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="user-login">
 							Halo, <a href="<?php echo $profile?>">
-								<?php echo $user['name'];?>
+								<?php echo character_limiter($user['name'],16);?>
 							</a>
 						</li>
 						<li class="sign-out">
