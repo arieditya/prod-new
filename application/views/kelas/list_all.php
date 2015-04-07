@@ -29,7 +29,7 @@ $this->load->view('vendor/general/header2');
                 });
             return ret;
         };
-        var c_filter = get_cookie['filter'];
+        var c_filter = get_cookie('filter');
 
         var _filter_ = !c_filter?{}:$.parseJSON(get_cookie('filter'));
         if(!_filter_) _filter_ = {};
@@ -143,7 +143,9 @@ $this->load->view('vendor/general/header2');
                         <div class="review">
                             <div class="vendor-name">
                                 <div class="icon tag"><i class="fa fa-user"></i></div>
-                                <a href="#"><?php echo character_limiter($kelas->vendor['profile']->name,12);?></a>
+                                <a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>">
+									<?php echo character_limiter($kelas->vendor['profile']->name,12);?>
+								</a>
                             </div>
                             <div class="rating">
                                 <div class="icon tag"><i class="fa fa-star"></i></div>
