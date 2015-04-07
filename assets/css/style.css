@@ -63,9 +63,16 @@ body.have-bar {
 .navbar-default .navbar-nav li a:hover, 
 .navbar-default .navbar-nav .active a:focus {
   background: transparent;
-  border-bottom: 3px solid;
   color: #34B9D8;
 }
+
+.navbar-default .navbar-left .active a,
+.navbar-default .navbar-left .active a:hover,
+.navbar-default .navbar-left li a:hover,
+.navbar-default .navbar-left .active a:focus {
+  border-bottom: 3px solid;
+}
+
 .navbar-right .sign-out{
   margin-top: 3px;
 }
@@ -100,8 +107,9 @@ body.have-bar {
 }
 .navbar.navbar-default .navbar-nav .user-login a {
   color: #3bc4e6;
-  margin-right: 20px;
+  margin-right: 10px;
   padding: 0;
+  width: 110px;
 }
 ul.dropdown-menu {
   padding: 0;
@@ -873,7 +881,7 @@ thead {
 .panel-body a {
   display: inline-block;
   margin-top: 10px;
-  width: 100%;
+  /*width: 100%;*/
 }
 .panel-body a.more {
 	margin-top: 0;
