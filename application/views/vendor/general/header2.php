@@ -128,7 +128,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 		<div class="container">
 			<div class="row">
 				<div class="navbar-header">
-					<a class="navbar-brand visible-xs" href="#">
+					<a class="navbar-brand visible-xs" href="http://kelas.ruangguru.com">
 						<img src="<?php echo base_url().'./images/'.$logo;?>" height="60">
 					</a>
 <?php if(!empty($show_filter) && $show_filter): ?>
@@ -162,14 +162,14 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand hidden-xs" href="#">
+					<a class="navbar-brand hidden-xs" href="http://kelas.ruangguru.com">
 						<img src="<?php echo base_url();?>images/<?php echo $logo;?>" height="60">
 					</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<button data-target=".navbar-collapse" 
 							data-toggle="collapse" 
-							class="close-toggle visible-xs" 
+							class="close-toggle visible-xs"
 							type="button">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
