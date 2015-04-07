@@ -1547,6 +1547,9 @@ a.remove {
         width: 188px;
         display: inline;
     }
+    .review {
+        height: 42px;
+    }
   
   /*detail*/
   .price-big-wrap:before {
