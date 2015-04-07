@@ -174,6 +174,8 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 						<span class="icon-bar"></span>
 					</button>
 					<ul class="nav navbar-nav navbar-left">
+						<li class="phone"><i class="glyphicon glyphicon-phone-alt"></i>
+						&nbsp;&nbsp;021-9200-3040</li>
 						<li><a href="<?php echo base_url()?>cari_guru">Belajar Privat</a></li>
 						<li class="active"><a href="http://kelas.ruangguru.com">Kelas Berkelompok</a></li>
 						<li><a href="<?php echo base_url()?>faq">FAQ</a></li>
@@ -381,34 +383,50 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 <?php // */ ?>
 							<li id="lev_list" class="filter-select">
 								<select class="form-control level input-sm" onchange="set_filter('level',this.value)">
-									<option value="*">Level</option>
+									<option value="0">Level</option>
 <?php
 	foreach($header_data['class_level'] as $level):
+		if(!empty($filter) && !empty($filter['level']) && $filter['level'] == $level->id ):
 ?>
 									<option class="level_check" 
+											value="<?php echo $level->id?>" selected="selected"><?php echo $level->name?></option>
+<?php
+		else :
+?>
+									<option class="level_check"
 											value="<?php echo $level->id?>"><?php echo $level->name?></option>
-<?php 
+<?php
+		endif;
 	endforeach;
 ?>
 								</select>
 							</li>
 							<li id="prov_list" class="filter-select">
 								<select class="form-control propinsi input-sm" onchange="set_filter('province',this.value)">
-									<option value="*">Provinsi</option>
+									<option value="0">Provinsi</option>
 <?php
 	foreach($header_data['provinsi_list'] as $provinsi):
+		if(!empty($filter) && !empty($filter['province']) && $filter['province'] == $provinsi->provinsi_id ):
+?>
+									<option value="<?php echo $provinsi->provinsi_id?>" selected="selected">
+										<?php echo $provinsi->provinsi_title?></option>
+<?php
+		else :
 ?>
 									<option value="<?php echo $provinsi->provinsi_id?>"><?php echo $provinsi->provinsi_title?></option>
-<?php 
+<?php
+		endif;
 	endforeach;
 ?>
 								</select>
 							</li>
 							<li id="tipe_list" class="filter-select">
 								<select class="form-control input-sm" onchange="set_filter('type',this.value)">
-									<option value="*">Tipe Kelas</option>
-									<option value="1,2">Paket</option>
-									<option value="0">Satu Sesi</option>
+									<option value="0">Tipe Kelas</option>
+									<option value="1,2" <?php if(!empty($filter) && !empty($filter['type']) && $filter['type']=='1,2') {echo "selected='selected'";} ?> >
+										Paket</option>
+									<option value="satu sesi" <?php if(!empty($filter) && !empty($filter['type']) && $filter['type']=='satu sesi') {echo "selected='selected'";} ?> >
+										Satu Sesi</option>
 								</select>
 							</li>
 							<li id="kategori_list" class="filter-select">
@@ -416,17 +434,27 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 									<option value="0">Kategori</option>
 <?php
 	foreach($header_data['class_category'] as $category):
+		if(!empty($filter) && !empty($filter['category']) && $filter['category'] == $category->id ):
+?>
+									<option value="<?php echo $category->id?>" selected="selected">
+										<?php echo $category->category_name?>
+									</option>
+<?php
+		else:
 ?>
 									<option value="<?php echo $category->id?>"><?php echo $category->category_name?></option>
 <?php
+		endif;
 	endforeach;
 ?>
 								</select>
 							</li>
-							<button class="btn btn-sm btn-filter"
-									onclick="window.location.href='<?php echo base_url();?>kelas/index/all'">
-								<i class="fa fa-search"></i>
-							</button>
+							<li id="filter-submit" class="filter-select">
+								<button class="btn btn-sm btn-filter"
+										onclick="window.location.href='<?php echo base_url();?>kelas/index/all'">
+									<i class="fa fa-search"></i>
+								</button>
+							</li>
 						</ul>
 						<ul class="sort nav text-14" >
 							<li class="title-filter sort-list">Urutan</li>
@@ -434,8 +462,8 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 								<select class="form-control input-sm"
 										value="<?php if($sorting!=FALSE) { echo $sorting; } ?>"
 										onchange="window.location.href='<?php echo base_url();?>kelas/index/'+this.value">
-									<option value="">--Pilih urutan--</option>
-									<option value="upcoming" <?php if($sorting=='upcoming') {echo "selected='selected'";} ?> >Upcoming Class</option>
+									<option value="">--Pilih Urutan--</option>
+									<option value="upcoming" <?php if($sorting=='upcoming') {echo "selected='selected'";} ?> >Kelas yang Akan Datang</option>
 									<option value="newest_class" <?php if($sorting=='newest_class') {echo "selected='selected'";} ?> >Kelas Terbaru</option>
 									<option value="lowest_price" <?php if($sorting=='lowest_price') {echo "selected='selected'";} ?> >Harga Termurah</option>
 									<option value="highest_price" <?php if($sorting=='highest_price') {echo "selected='selected'";} ?> >Harga Termahal</option>

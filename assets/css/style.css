@@ -62,11 +62,9 @@ body.have-bar {
 .navbar-default .navbar-nav .active a:hover, 
 .navbar-default .navbar-nav li a:hover, 
 .navbar-default .navbar-nav .active a:focus {
-  text-decoration: underline;
-  color: #34B9D8;
   background: transparent;
-/*  border-bottom: 3px solid;
-  color: #fcb33b;*/
+  border-bottom: 3px solid;
+  color: #34B9D8;
 }
 .navbar-right .sign-out{
   margin-top: 3px;
@@ -75,6 +73,13 @@ body.have-bar {
 .navbar.navbar-default .navbar-nav .sign-out {
   margin-left: 15px;
   margin-top: 5px;
+}
+
+.navbar-nav .phone {
+    color: #767676 !important;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 13px 12px;
 }
 /*.navbar-right .register .dropdown-menu {
   left: 0;
@@ -141,11 +146,11 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .nav.nav-pills {
   float: left;
-  width: 79%;
+  width: 75%;
 }
 .sort.nav {
   float: right;
-  width: 21%;
+  width: 25%;
 }
 .sort-list {
   float: left;
@@ -304,7 +309,6 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   background-color: #fcb33b;
   border-radius: 0;
   color: #000;
-  height: 42px;
   padding: 10px 20px;
   position: absolute;
   right: 0;

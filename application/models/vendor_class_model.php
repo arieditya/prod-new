@@ -901,6 +901,9 @@ class Vendor_class_model extends MY_Model{
 			$where .= ' AND a.class_provinsi_id IN ( '.implode(',', $var['province']). ' ) ';
 		}
 		if(!empty($var['type'])) {
+			if($var['type']=="satu sesi") {
+				$var['type'] = "0";
+			}
 			if(!is_array($var['type'])) {
 				$type = $var['type'];
 				$var['type'] = array($type);
