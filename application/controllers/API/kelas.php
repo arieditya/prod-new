@@ -29,6 +29,42 @@ class Kelas extends API_Controller{
 		if(empty($page)) $page = 1;
 		$perpage = (int) $this->input->get('row', TRUE);
 		if(empty($perpage)) $perpage = 5;
+//		$classes = $this->vendor_class_model->get_class(array(), $page, $perpage)->result();
+		$featured = $this->vendor_class_model->get_featured_class()->result();
+		$classes = array();
+		$i = 0;
+		foreach($featured as $feat){
+			if($i==3)break;
+			$classes[] = $this->vendor_class_model->get_class(array('id'=>$feat->class_id))->row();
+			$i++;
+		}
+		foreach($classes as &$class) {
+//			var_dump();exit;
+			$class->level = array_merge( $this->vendor_class_model->get_class_multiple_level($class->id) );
+			unset($class->level_id);
+			unset($class->name);
+			unset($class->nama);
+			$class->class_paket = $class->class_paket==0?'single':($class->class_paket==1?'series':'package'); 
+			$class->class_image = !empty($class->class_image)?
+					base_url()."images/class/{$class->id}/{$class->class_image}":
+					'No Image / Foto'
+			;
+			$class->vendor = $this->vendor_model->get_profile(array('id'=>$class->vendor_id))->row();
+			unset($class->vendor->password);
+			unset($class->class_harga);
+			$class->vendor->info = $this->vendor_model->get_info(array('vendor_id'=>$class->vendor_id))->row();
+			$class->vendor->info->vendor_logo = 
+					base_url()."images/vendor/{$class->vendor_id}/{$class->vendor->info->vendor_logo}";
+		}
+		echo json_encode(array('status'=>'ok','data'=>$classes));
+		
+	}
+	
+	public function featured() {
+		$page = (int)$this->input->get('page', TRUE);
+		if(empty($page)) $page = 1;
+		$perpage = (int) $this->input->get('row', TRUE);
+		if(empty($perpage)) $perpage = 5;
 		$classes = $this->vendor_class_model->get_class(array(), $page, $perpage)->result();
 		foreach($classes as &$class) {
 			$class->level = array_merge( $this->vendor_class_model->get_class_multiple_level($class->id));

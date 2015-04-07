@@ -90,6 +90,12 @@ if ($this->session->flashdata('f_class_error')): ?>
 						   onclick="return checkers(this);"
 								>confirm</a>
 					</span>
+					<span class="ok">
+						<a class="ico delete" 
+						   onclick="return confirm('Are you sure you want to delete pament confirmation for:\n<?php echo $bill->code;?>')"
+						   href="<?php echo base_url()?>admin/teacher_driven/reject_payment_confirm/<?php echo $bill->code;?>">
+							reject</a>
+					</span>
 				</td>
 			</tr>
 <?php 

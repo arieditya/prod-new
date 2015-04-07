@@ -91,9 +91,9 @@ class Vendor_class_model extends MY_Model{
 		if(!empty($var)) {
 			$where = $var + $where;
 		}
-		if(empty($var['class_status >='])) unset($where['class_status >=']);
-		if(empty($var['class_status'])) unset($where['class_status']);
-		if(empty($var['active'])) unset($where['active']);
+		if(isset($var['class_status >=']) && empty($var['class_status >='])) unset($where['class_status >=']);
+		if(isset($var['class_status']) && empty($var['class_status'])) unset($where['class_status']);
+		if(isset($var['active']) && empty($var['active'])) unset($where['active']);
 		
 		if(!empty($where['id'])) {
 			if(is_array($where['id'])) {
@@ -716,16 +716,21 @@ class Vendor_class_model extends MY_Model{
 		return $this->db->get('vendor_class_participant');
 	}
 	
-	public function get_transaction_all() {
+	public function get_transaction_all($order_by='status_1', $sort='desc') {
+//		if($order_by == 'status')
 		$trx = $this->db
-			 ->order_by('status_1','desc')
+			 ->select('`vendor_class_transaction`.*, `vendor_class_participant`.`status`', FALSE)
+			 ->join('vendor_class_participant','vendor_class_participant.code = vendor_class_transaction.code','left')
+			 ->order_by($order_by,$sort)
+			 ->group_by('vendor_class_transaction.code')
 			 ->get('vendor_class_transaction')
 			 ->result();
+//		var_dump($this->db->last_query());exit;
 		if(count($trx) == 0) return array();
 		foreach($trx as &$t) {
 			$t->student = $this->get_participant($t->student_id);
 			$t->pemesan = $this->get_participant($t->pemesan_id);
-			$t->status = $this->get_invoice_status($t->code);
+//			$t->status = $this->get_invoice_status($t->code);
 		}
 		return $trx;
 	}
@@ -1069,6 +1074,46 @@ class Vendor_class_model extends MY_Model{
 				'vendor_class_participant',
 				array(
 					'status'	=> 4
+				),
+				array(
+					'code'		=> $code
+				)
+			);
+			return !! $this->db->affected_rows();
+		}
+		return FALSE;
+	}
+	
+	public function reject_payment_confirmation($code) {
+		$admin_id = $this->CI->session->userdata('admin_id');
+		if($admin_id == 1) {
+			show_error('ONLY ADMIN WITH PERSONAL ADMIN ACCOUNT CAN CONFIRM! Ask aried!', 400);
+			return;
+		}
+		$this->db
+			 ->update(
+					'vendor_class_transaction', 
+					array(
+						'status_3'					=> NULL,
+						'status_3_bank_from'		=> NULL,
+						'status_3_bank_from_other'	=> NULL,
+						'status_3_bank_to'			=> NULL,
+						'status_3_upload_file'		=> NULL,
+					),
+					array('code'=>$code)
+				);
+		if(!!$this->db->affected_rows()) {
+			$this->CI->load->helper('file');
+			$path1 = substr($code, 0,1);
+			$path2 = substr($code, 1,1);
+			$path = '/'
+					.trim(str_replace('/administrator','',FCPATH),'/')
+					.strtolower("/images/payment/transfer/{$path1}/{$path2}/{$code}/");
+			delete_files($path);
+			$this->db->update(
+				'vendor_class_participant',
+				array(
+					'status'	=> 2
 				),
 				array(
 					'code'		=> $code

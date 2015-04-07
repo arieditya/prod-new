@@ -139,7 +139,6 @@ class Kelas extends MY_Controller {
 
 //		$classes = $this->vendor_class_model->get_class($where)->result();
 		$where_class = '';
-//		var_dump($new_filter);exit;
 		if(count($new_filter) > 0){
 			$where_class['id'] = array_merge($new_filter);
 //			$where_class .= '`vendor_class`.`id` IN ('.implode(',',$new_filter).')';
@@ -147,6 +146,9 @@ class Kelas extends MY_Controller {
 				$classes = $this->vendor_class_model->get_class($where_class, 1, 6, 'current', $order)->result();
 			} else {
 				$classes = $this->vendor_class_model->get_class($where_class, 0, 0, 'current', $order)->result();
+			}
+			if(isset($_GET['debug_mode']) && $_GET['debug_mode'] == 'wakuhere') {
+				var_dump($this->db->last_query());exit;
 			}
 //			var_dump($classes);exit;//->result()
 		} else {

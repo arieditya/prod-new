@@ -2,6 +2,8 @@
 
 class Guru_model extends CI_Model {
 
+    private $joinedWithMatpel = 0;
+
     function __construct() {
         parent::__construct();
         $this->load->database();
@@ -60,7 +62,7 @@ class Guru_model extends CI_Model {
     
     function get_guru_unggulan(){
         $this->db->join('guru','guru_unggulan.guru_id=guru.guru_id','left outer');
-	   $this->db->order_by('guru.guru_rating','desc');
+        $this->db->order_by('guru.guru_rating','desc');
         return $this->db->get('guru_unggulan');
     }
     
@@ -164,6 +166,20 @@ class Guru_model extends CI_Model {
     }
     
     /*** KELAS ***/
+    public function get_next_kelas($id_guru){
+        date_default_timezone_set("Asia/Jakarta");
+        $now = date('Y-m-d');
+        $query = $this->db->query("SELECT k.*,km.*,m.*,md.murid_nama, md.murid_gender FROM kelas as k 
+                                    LEFT JOIN kelas_pertemuan as km ON km.kelas_id=k.kelas_id
+                                    LEFT JOIN matpel as m ON m.matpel_id=k.matpel_id
+                                    LEFT JOIN murid as md ON md.murid_id=k.murid_id
+                                    WHERE k.guru_id=$id_guru AND km.kelas_pertemuan_date > '$now'
+                                    GROUP BY k.kelas_id
+                                    ORDER BY km.kelas_pertemuan_date ASC");
+
+        return $query;
+    }
+
      function get_kelas($guru_id){
         $this->db->where('guru_id',$guru_id);
         return $this->db->get('kelas');
@@ -192,6 +208,22 @@ class Guru_model extends CI_Model {
             return false;
         }
     }
+
+    public function insert_guru_min($input){
+        $this->db->set('guru_email',$input['email']);
+        $this->db->set('guru_password',md5($input['pass']));
+        $this->db->set('guru_nama',$input['nama']);
+        $this->db->set('guru_gender',$input['gender']);
+        $this->db->set('guru_hp',$input['hp']);
+        $this->db->set('guru_alamat',$input['alamat']);
+        $this->db->set('guru_rating',$input['guru_rating']);
+        $this->db->set('guru_rating_bio',$input['guru_rating_bio']);
+        $this->db->set('guru_active',1,TRUE);
+        $this->db->set('guru_blocked',0,FALSE);
+        $this->db->insert('guru');
+        //$this->email_reg($input['email'], $input['nama']);
+        return $this->db->insert_id();
+    }
     
     function insert_guru($input){
         $this->db->set('guru_email',$input['email']);
@@ -211,7 +243,7 @@ class Guru_model extends CI_Model {
         $this->db->set('guru_alamat_domisili',$input['alamat_domisili']);
         $this->db->set('guru_fb',$input['fb']);
         $this->db->set('guru_twitter',$input['twitter']);
-        $this->db->set('guru_referral',empty($input['referral'])?0:$input['referral']);
+        $this->db->set('guru_referral',$input['referral']);
         $this->db->set('source_info_id',$input['source_info']);
         $this->db->set('guru_metode',$input['metode']);
         $this->db->set('kategori_id',$input['kategori']);
@@ -221,15 +253,7 @@ class Guru_model extends CI_Model {
         $this->db->set('guru_rating_bio',$input['guru_rating_bio']);
         $this->db->set('guru_active',0,FALSE);
         $this->db->set('guru_blocked',0,FALSE);
-        $this->db->set('guru_bio','');
-        $this->db->set('guru_nik_image','');
-        $this->db->set('guru_video','');
-        $this->db->set('guru_jenis_video',0);
-        $this->db->set('guru_review','');
-        $this->db->set('guru_kualifikasi','');
-        $this->db->set('guru_pengalaman','');
         $this->db->insert('guru');
-//        var_dump($this->db->last_query());exit;
         //$this->email_reg($input['email'], $input['nama']);
         return $this->db->insert_id();
     }
@@ -333,10 +357,39 @@ class Guru_model extends CI_Model {
         return $result;
     }
     
-    function find_and($input,$start,$offset){
+    function find_and($input,$start,$offset,$lat=NULL,$lng=NULL){
         $result = array();
 	   //print_r($input['kategori']);exit();
-        $query =   "SELECT * FROM guru AS g ";
+        $query =   "SELECT * 
+                        FROM (SELECT rating_profile.*,(rating_profile.rate_profile+rating_feedback.calcscore) as total_rating FROM
+                                        (SELECT guru.*,(guru_rating_sma+guru_rating_diploma+guru_rating_s1_top+guru_rating_s1
+                                                          +ceil(guru_rating_s1/(pow(guru_rating_s1,0)+guru_rating_s1)*1)+guru_rating_s2_top
+                                                          +guru_rating_s2+ceil(guru_rating_s2/(pow(guru_rating_s2,0)+guru_rating_s2)*2)+guru_rating_s3_top+(guru_rating_s3*6)
+                                                          +guru_rating_beasiswa+(guru_rating_sertifikat*2)+guru_rating_toefl_ibt
+                                                          +guru_rating_toefl_itp+guru_rating_ielts+guru_rating_gre
+                                                          +guru_rating_gmat+guru_rating_cfa+guru_rating_bio
+                                                          +IF(guru_rating_bio = 0 AND char_length(guru_bio) > 1000, 2, IF(guru_rating_bio = 0 AND char_length(guru_bio) > 500, 1, IF(char_length(guru_bio)=0, -1, 0))) ) as rate_profile                  
+                                                FROM guru
+                                                WHERE guru_active = 1
+                                                ORDER BY rate_profile DESC, guru_id DESC) rating_profile
+                                            LEFT JOIN (SELECT k.guru_id, round(avg(k.kelas_total_jam*fa.feedback_answer_score*((fa.feedback_answer_sort-3.5)/(abs(fa.feedback_answer_sort-3.5))) )) as calcscore
+                                                    FROM kelas_feedback as kf 
+                                                    LEFT JOIN feedback_answer as fa ON kf.feedback_answer_id=fa.feedback_answer_id
+                                                    LEFT JOIN kelas as k ON k.kelas_id = kf.kelas_id
+                                                    GROUP BY k.guru_id) rating_feedback ON rating_profile.guru_id=rating_feedback.guru_id
+                                            ORDER BY total_rating DESC, guru_id ASC) AS g
+                        LEFT JOIN pendidikan as pp on pp.pendidikan_id=g.pendidikan_id ";
+        
+        // jumlah jam mengajar
+        $query .= "LEFT JOIN
+                    (SELECT k.guru_id, 
+                        sum((abs(time_to_sec(timediff(kelas_pertemuan_jam_mulai,kelas_pertemuan_jam_selesai))/3600)))
+                         as lama_mengajar 
+                         FROM `kelas_pertemuan` as kp LEFT JOIN kelas as k
+                            ON k.kelas_id=kp.kelas_id GROUP BY k.guru_id) 
+
+                    AS kk ON kk.guru_id=g.guru_id ";
+        
 		 if($input['matpel']>0){
 			if($input['tarif']==1){
 				$tarif = 100000;
@@ -360,8 +413,41 @@ class Guru_model extends CI_Model {
 				$query .= "INNER JOIN guru_matpel AS a ON g.guru_id = a.guru_id 
 						AND a.matpel_id = {$input['matpel']} AND a.guru_matpel_tarif > 0 ";
 			}
-		}else{
-			$query .= " INNER JOIN guru_matpel AS a ON g.guru_id = a.guru_id ";
+            $this->joinedWithMatpel = 1;
+
+            //join with rating
+            if($input['rating']>0) {
+                $q_limit = 'select floor(count(guru_id)/2) as total from guru where guru_active=1';    
+                if($input['rating']==1) {
+                    $q_limit = 'select floor((1/10)*count(guru_id)) as total from guru where guru_active=1';    
+                } else if ($input['rating']==2){
+                    $q_limit = 'select floor((30/100)*count(guru_id)) as total from guru where guru_active=1';
+                }
+                $r_limit = $this->db->query($q_limit);
+                $d_limit = $r_limit->result_array();
+                $limits = $d_limit[0]['total'];
+                $sub_q_rating = "SELECT guru_id 
+                                    FROM (SELECT rating_profile.*,(rating_profile.rate_profile+rating_feedback.calcscore) as total_rating FROM
+                                            (SELECT guru.guru_id,(guru_rating_sma+guru_rating_diploma+guru_rating_s1_top+guru_rating_s1
+                                                          +ceil(guru_rating_s1/(pow(guru_rating_s1,0)+guru_rating_s1)*1)+guru_rating_s2_top
+                                                          +guru_rating_s2+ceil(guru_rating_s2/(pow(guru_rating_s2,0)+guru_rating_s2)*2)+guru_rating_s3_top+(guru_rating_s3*6)
+                                                          +guru_rating_beasiswa+(guru_rating_sertifikat*2)+guru_rating_toefl_ibt
+                                                          +guru_rating_toefl_itp+guru_rating_ielts+guru_rating_gre
+                                                          +guru_rating_gmat+guru_rating_cfa+guru_rating_bio
+                                                          +IF(guru_rating_bio = 0 AND char_length(guru_bio) > 1000, 2, IF(guru_rating_bio = 0 AND char_length(guru_bio) > 500, 1, IF(char_length(guru_bio)=0, -1, 0))) ) as rate_profile                  
+                                                FROM guru
+                                                WHERE guru_active = 1
+                                                ORDER BY rate_profile DESC, guru_id DESC) rating_profile
+                                            LEFT JOIN (SELECT k.guru_id, round(avg(k.kelas_total_jam*fa.feedback_answer_score*((fa.feedback_answer_sort-3.5)/(abs(fa.feedback_answer_sort-3.5))) )) as calcscore
+                                                    FROM kelas_feedback as kf 
+                                                    LEFT JOIN feedback_answer as fa ON kf.feedback_answer_id=fa.feedback_answer_id
+                                                    LEFT JOIN kelas as k ON k.kelas_id = kf.kelas_id
+                                                    GROUP BY k.guru_id) rating_feedback ON rating_profile.guru_id=rating_feedback.guru_id
+                                            ORDER BY total_rating DESC, guru_id ASC
+                                        LIMIT ".$limits.")  guru_rating";
+
+                $query .=" INNER JOIN ($sub_q_rating) as sqrate ON g.guru_id = sqrate.guru_id ";
+            }
 		}
 		
 		if($input['provinsi']>0){
@@ -410,8 +496,16 @@ class Guru_model extends CI_Model {
 						}
 					}
 		
-        $query.="LEFT OUTER JOIN pendidikan AS p ON g.pendidikan_id = p.pendidikan_id
+        if ($this->joinedWithMatpel === 0) {
+            $query.="LEFT OUTER JOIN pendidikan AS p ON g.pendidikan_id = p.pendidikan_id
+                    INNER JOIN guru_matpel AS a ON g.guru_id = a.guru_id
+                    WHERE g.guru_active = 1 AND g.guru_blocked = 0 ";
+            $this->joinedWithMatpel = 1;
+        } else {
+            $query.="LEFT OUTER JOIN pendidikan AS p ON g.pendidikan_id = p.pendidikan_id
                     WHERE g.guru_active = 1 AND g.guru_blocked = 0";
+        }
+        
         //filter by lokasi and matpel
         /*
         $query .= "AND g.guru_id IN (SELECT A.guru_id FROM guru_matpel AS A
@@ -444,21 +538,14 @@ class Guru_model extends CI_Model {
         }
 
 	   if(!empty($input['kategori'])){
-			$query.= " AND (";
-			$i = 0;
-			$n = count($input['kategori']);
-		    foreach($input['kategori'] as $cat){
-				if($i != ($n-1)){
-					$query.= "kategori_id = {$cat} OR ";
-				} else {
-					$query.= "kategori_id = {$cat}";
-				}
-				$i++;
-		     }
-			$query.= ")";
+			$query.= " AND (pp.index >= {$input['kategori'][0]})";
 	   }
         if(!empty($input['nama'])){
             $query.= " AND guru_nama like '{$input['nama']}%'";
+        }
+
+        if ($input['verifiedonly'] == 1) {
+            $query.= " AND guru_pendidikan_verified = 1";
         }
 	   
 	   $query.= " GROUP BY g.guru_id";
@@ -467,25 +554,32 @@ class Guru_model extends CI_Model {
         if($input['urutan']!=null){
             switch($input['urutan']){
                 case 1:
-                    $query.= " ORDER BY guru_rating DESC";
+                    $query.= " ORDER BY g.total_rating DESC,";
                     break;
                 case 2:
-                    $query.= " ORDER BY guru_nama ASC";
+                    $query.= " ORDER BY g.guru_nama ASC,";
                     break;
                 case 3:
-                    $query.= " ORDER BY a.guru_matpel_tarif ASC";
+                    $query.= " ORDER BY a.guru_matpel_tarif ASC,";
                     break;
                 case 4:
-                    $query.= " ORDER BY a.guru_matpel_tarif DESC";
+                    $query.= " ORDER BY a.guru_matpel_tarif DESC,";
+                    break;
+                case 5:
+                    $query.= " ORDER BY g.distance ASC,";
                     break;
                 default:
+                    $query.= " ORDER BY g.total_rating ASC,";
                     break;
             }
+
+            $query .= " g.guru_id ASC";
         }
         $result['total'] = $this->db->query($query)->num_rows();
         if(isset($start) && isset($offset)){
             $query .= " LIMIT {$start},{$offset}";
         }
+
         $result['data'] = $this->db->query($query);
 //        echo print_r($this->db->last_query());
 //        die();
@@ -544,7 +638,7 @@ class Guru_model extends CI_Model {
             }
         }
         if($input['kategori']!=null){
-            $query.= " AND kategori_id = {$input['kategori']}";
+            $query.= " AND pendidikan_id >= {$input['kategori'][0]}";
         }
         if($input['urutan']!=null){
             switch($input['urutan']){
@@ -732,7 +826,6 @@ class Guru_model extends CI_Model {
             //update password
             if(!empty($guru) && $guru->guru_id > 0){
                 $this->db->set('guru_password',md5($new_pass));
-                $this->db->set('guru_active',1);
                 $this->db->where('guru_id',$guru->guru_id);
                 $this->db->update('guru');
             }else{
@@ -748,20 +841,8 @@ class Guru_model extends CI_Model {
     
     function send_reset_password_email($guru,$new_pass){
         $this->load->library('email');
-        $config['useragent'] = 'Ruangguru Web Service';
-	$config['protocol'] = 'smtp';
-	$config['smtp_host'] = 'mail.ruangguru.com';
-	$config['smtp_port'] = 25;
-	$config['smtp_user'] = 'no-reply@ruangguru.com';
-	$config['smtp_pass'] = $this->config->item('smtp_password');
-	$config['priority'] = 1;
-	$config['mailtype'] = 'html';
-	$config['charset'] = 'utf-8';
-	$config['wordwrap'] = TRUE; 
-	$this->email->initialize($config);
 	$this->email->from('no-reply@ruangguru.com', 'Ruangguru.com');
         $this->email->cc('registrasi@ruangguru.com');
-        $this->email->bcc('arie@ruangguru.com');
 	$this->email->to($guru->guru_email);
 
 	$this->email->subject('Reset Password Guru Ruangguru');
@@ -779,7 +860,7 @@ class Guru_model extends CI_Model {
 	$config['useragent'] = 'Ruangguru Web Service';
 	$config['protocol'] = 'smtp';
 	$config['smtp_host'] = 'mail.ruangguru.com';
-	$config['smtp_port'] = 25;
+	$config['smtp_port'] = 26;
 	$config['smtp_user'] = 'no-reply@ruangguru.com';
 	$config['smtp_pass'] = $this->config->item('smtp_password');
 	$config['priority'] = 1;
@@ -819,97 +900,133 @@ class Guru_model extends CI_Model {
     }
     
     /*** RATING ***/
-    function get_calculated_rating($guru_id, $force_update = FALSE){
+    // function get_max_rating(){
+    //     $sql = $this->db->query("SELECT max(total_rating) as max_point
+    //                                 FROM 
+    //                                     (SELECT (guru_rating_sma+guru_rating_diploma+guru_rating_s1_top+guru_rating_s1
+    //                                     +ceil(guru_rating_s1/(pow(guru_rating_s1,0)+guru_rating_s1)*1)+guru_rating_s2_top
+    //                                     +guru_rating_s2+ceil(guru_rating_s2/(pow(guru_rating_s2,0)+guru_rating_s2)*2)+guru_rating_s3_top+(guru_rating_s3*6)
+    //                                     +guru_rating_beasiswa+(guru_rating_sertifikat*2)+guru_rating_toefl_ibt
+    //                                     +guru_rating_toefl_itp+guru_rating_ielts+guru_rating_gre
+    //                                     +guru_rating_gmat+guru_rating_cfa+guru_rating_bio
+    //                                     +IF(guru_rating_bio = 0 AND char_length(guru_bio) > 1000, 2, IF(guru_rating_bio = 0 AND char_length(guru_bio) > 500, 1, IF(char_length(guru_bio)=0, -1, 0))) ) as total_rating FROM guru ORDER BY total_rating DESC) 
+    //                                     as data");
+
+    //     $result = $sql->result_array();
+    //     return $result[0]['max_point'];
+    // }
+
+    //guru_id of top 50% + top 30% + top 10%
+    function ratings($includeRating = null) {
+        $q_limit = $this->db->query('select ceil(count(guru_id)/2) as total from guru where guru_active=1');
+        $limit = $q_limit->result_array();
+        $r = '';
+        if  ($includeRating != null) {
+            $r = ', total_rating';
+        }
+        $query = $this->db->query("SELECT guru_id " . $r . " 
+                                from (SELECT rating_profile.guru_id,(rating_profile.rate_profile+rating_feedback.calcscore) as total_rating FROM
+                                        (SELECT guru_id,(guru_rating_sma+guru_rating_diploma+guru_rating_s1_top+guru_rating_s1
+                                                          +ceil(guru_rating_s1/(pow(guru_rating_s1,0)+guru_rating_s1)*1)+guru_rating_s2_top
+                                                          +guru_rating_s2+ceil(guru_rating_s2/(pow(guru_rating_s2,0)+guru_rating_s2)*2)+guru_rating_s3_top+(guru_rating_s3*6)
+                                                          +guru_rating_beasiswa+(guru_rating_sertifikat*2)+guru_rating_toefl_ibt
+                                                          +guru_rating_toefl_itp+guru_rating_ielts+guru_rating_gre
+                                                          +guru_rating_gmat+guru_rating_cfa+guru_rating_bio
+                                                          +IF(guru_rating_bio = 0 AND char_length(guru_bio) > 1000, 2, IF(guru_rating_bio = 0 AND char_length(guru_bio) > 500, 1, IF(char_length(guru_bio)=0, -1, 0))) ) as rate_profile                  
+                                                FROM guru
+                                                WHERE guru_active = 1
+                                                ORDER BY rate_profile DESC, guru_id DESC) rating_profile
+                                            LEFT JOIN (SELECT k.guru_id, round(avg(k.kelas_total_jam*fa.feedback_answer_score*pow(fa.feedback_answer_sort-3.5,0))) as calcscore
+                                                    FROM kelas_feedback as kf 
+                                                    LEFT JOIN feedback_answer as fa ON kf.feedback_answer_id=fa.feedback_answer_id
+                                                    LEFT JOIN kelas as k ON k.kelas_id = kf.kelas_id
+                                                    GROUP BY k.guru_id) rating_feedback ON rating_profile.guru_id=rating_feedback.guru_id
+                                            ORDER BY total_rating DESC, guru_id ASC)  guru_rating
+                                    LIMIT ".$limit[0]['total']."");
+
+        if ($includeRating != null) {
+            return $query->result_array();
+        }
+
+        $result = [];
+        foreach($query->result_array() as $q){
+            array_push($result, $q['guru_id']);
+        }
+
+        return $result;
+    }
+
+    function get_calculated_rating($guru_id){
         $guru = $this->get_guru_by_id($guru_id);
         $total = 0;
-		$key = 'guru_rating_calculated_'.$guru_id;
         if(!empty($guru)){
-			if($force_update || ($total = $this->get_cache($key)) === FALSE) {
-				if($guru->guru_rating_bio == 0){
-			   //profile based
-					$len = strlen($guru->guru_bio);
-					if($len > 1000){
-						$total += 2;
-					}else if($len > 500){
-						$total += 1;
-					}else if($len > 0){
-						$total += 0;
-					}else{
-						$total -= 1;
-					}
-				}
-				//sertifikat based
-				$total += $guru->guru_rating_sma;
-				$total += $guru->guru_rating_diploma;
-				$total += $guru->guru_rating_s1_top;
-				$total += ($guru->guru_rating_s1>0)?($guru->guru_rating_s1+1):0;
-				$total += $guru->guru_rating_s2_top;
-				$total += ($guru->guru_rating_s2>0)?($guru->guru_rating_s1+2):0;
-				$total += $guru->guru_rating_s3_top;
-				$total += ($guru->guru_rating_s3==1)?6:0;
-				$total += $guru->guru_rating_beasiswa;
-				$total += ($guru->guru_rating_sertifikat==1)?2:0;
-				$total += $guru->guru_rating_toefl_ibt;
-				$total += $guru->guru_rating_toefl_itp;
-				$total += $guru->guru_rating_ielts;
-				$total += $guru->guru_rating_gre;
-				$total += $guru->guru_rating_gmat;
-				$total += $guru->guru_rating_cfa;
-				$total += $guru->guru_rating_bio;
-			}
+    		if($guru->guru_rating_bio == 0){
+    	        //profile based
+                $len = strlen($guru->guru_bio);
+                if($len > 1000){
+                    $total += 2;
+                }else if($len > 500){
+                    $total += 1;
+                }else if($len > 0){
+                    $total += 0;
+                }else{
+                    $total -= 1;
+                }
+    		}
+            //sertifikat based
+            $total += $guru->guru_rating_sma;
+            $total += $guru->guru_rating_diploma;
+            $total += $guru->guru_rating_s1_top;
+            $total += ($guru->guru_rating_s1>0)?($guru->guru_rating_s1+1):0;
+            $total += $guru->guru_rating_s2_top;
+            $total += ($guru->guru_rating_s2>0)?($guru->guru_rating_s2+2):0;
+            $total += $guru->guru_rating_s3_top;
+            $total += ($guru->guru_rating_s3==1)?6:0;
+            $total += $guru->guru_rating_beasiswa;
+            $total += ($guru->guru_rating_sertifikat==1)?2:0;
+            $total += $guru->guru_rating_toefl_ibt;
+            $total += $guru->guru_rating_toefl_itp;
+            $total += $guru->guru_rating_ielts;
+            $total += $guru->guru_rating_gre;
+            $total += $guru->guru_rating_gmat;
+            $total += $guru->guru_rating_cfa;
+            $total += $guru->guru_rating_bio;
         }
         return $total;
     }
     
-    function get_rating_by_feedback($guru_id, $force_update = FALSE){
+    function get_rating_by_feedback($guru_id){
         $this->load->model('kelas_model');
-		$key = 'guru_rating_feedback_'.$guru_id;
-		if($force_update || ($data = $this->get_cache($key)) === FALSE) {
-			$n=array();
-			$total = array();
-			$rate = 0;
-			$kelas = $this->kelas_model->get_kelas_by_guru_id($guru_id);
-			if($kelas->num_rows() > 0){
-				foreach($kelas->result() as $k){
-					if($k->kelas_feedback_status == 1){
-						$feedback = $this->kelas_model->get_feedback_by_kelas_id($k->kelas_id);
-						$n = array();
-							foreach($feedback->result() as $f){
-								if(($f->feedback_answer_sort == 4) || ($f->feedback_answer_sort == 5)){
-									$n[] = $k->kelas_total_jam * $f->feedback_answer_score;
-								}else{
-									$n[] = $k->kelas_total_jam * $f->feedback_answer_score * (-1);
-								}
+		$n=array();
+		$total = array();
+		$rate = 0;
+		$kelas = $this->kelas_model->get_kelas_by_guru_id($guru_id);
+		if($kelas->num_rows() > 0){
+			foreach($kelas->result() as $k){
+				if($k->kelas_feedback_status == 1){
+					$feedback = $this->kelas_model->get_feedback_by_kelas_id($k->kelas_id);
+						foreach($feedback->result() as $f){
+							if(($f->feedback_answer_sort == 4) || ($f->feedback_answer_sort == 5)){
+								$n[] = $k->kelas_total_jam * $f->feedback_answer_score;
+							}else{
+								$n[] = $k->kelas_total_jam * $f->feedback_answer_score * (-1);
 							}
-							$avg1 = ($n[0]+$n[1]+$n[2]+$n[3])/4;
-							$avg2 = ($n[4]+$n[5]+$avg1)/3;
-							$total[] = $avg2;
-					} else {
-						$total[] = $rate;
-					}
+						}
+						$avg1 = ($n[0]+$n[1]+$n[2]+$n[3])/4;
+						$avg2 = ($n[4]+$n[5]+$avg1)/3;
+						$total[] = $avg2;
+				} else {
+					$total[] = $rate;
 				}
-				$total_rate = array_sum($total);
-				$data = round($total_rate, 2);
-				$this->set_cache($key, $data);
 			}
+		$total_rate = array_sum($total);
+		return round($total_rate, 2);
 		}
-		return $data;
     }
-	
-	public function get_full_guru_rating($guru_id, $force_update = FALSE) {
-		$key = 'guru_rating_total_'.$guru_id;
-		if($force_update || ($data = $this->get_cache($key)) === FALSE) {
-			$r1 = $this->get_calculated_rating($guru_id, $force_update);
-			$r2 = $this->get_rating_by_feedback($guru_id, $force_update);
-			$data = $r1 + $r2;
-			$this->set_cache($key, $data);
-		}
-		return $data;
-	}
     
     public function update_current_rating($guru_id){
         //update calculated rating
-        $rating = $this->get_calculated_rating($guru_id, TRUE);
+        $rating = $this->guru_model->get_calculated_rating($guru_id);
         $this->db->set('guru_rating',$rating);
         $this->db->where('guru_id',$guru_id);
         $this->db->update('guru'); 
@@ -988,7 +1105,7 @@ class Guru_model extends CI_Model {
         return $this->db->count_all_results('guru');
     }
     
-    	function convert_month($month_id){
+	function convert_month($month_id){
 		switch ($month_id){
 			case "01":
 				$mm= "Januari";
@@ -1070,10 +1187,13 @@ class Guru_model extends CI_Model {
     function nama_guru($guru_nama){
 		$chunk = explode(" ", $guru_nama);
 		if(count($chunk) >= 2){
-			$nama_baru = array_shift($chunk);
-			$chunk[0] = trim($chunk[0]);
-			if(!empty($chunk[0]))
-				$nama_baru .= ' '.substr($chunk[0],0,1).'.';
+			$nama_baru = $chunk[0];
+			for($i=1; $i<sizeof($chunk); $i++){
+                if($chunk[$i]!=""){
+				    $nama_baru .= " ".$chunk[$i][0].".";
+                    break;
+                }
+			}
 		}else{
 			$nama_baru = $guru_nama;
 		}
@@ -1122,7 +1242,161 @@ class Guru_model extends CI_Model {
 		$this->db->set('status_request',$status);
 		$this->db->update('request_langsung');
 	}
-	
+
+    public function get_total_points($id){
+        $query = $this->db->query("SELECT sum(point) as total FROM guru_points WHERE guru_id=$id");
+
+        $result = $query->result_array();
+        return $result[0]['total'];
+    }
+
+    public function get_today_points($id){
+        date_default_timezone_set("Asia/Jakarta");
+        $query = $this->db->query("SELECT * FROM guru_points 
+                                        WHERE guru_id=$id AND date_created LIKE '%".date('Y-m-d')."%'
+                                        ORDER BY date_created DESC");
+
+        return $query->result();
+    }
+
+    public function get_points($id){
+        $query = $this->db->query("SELECT * FROM guru_points WHERE guru_id=$id ORDER BY date_created DESC");
+        return $query;
+    }
+
+    public function delete_poin($id){
+        $this->db->query("DELETE FROM guru_points WHERE id=$id");
+    }
+
+    public function add_point($id,$point,$asal,$keterangan){
+        date_default_timezone_set("Asia/Jakarta");
+        $isadd = true;
+        if($asal=="login"){
+            $last = $this->db->query("SELECT id FROM guru_points WHERE guru_id=$id AND date_created LIKE '%".date('Y-m-d')."%' AND asal='login'");
+            $data = $last->result_array();
+            if(sizeof($data)>0){
+                $isadd=false;
+            }
+        }
+
+        if($isadd){
+            $this->db->query("INSERT INTO guru_points(guru_id,point,asal,keterangan)
+                                VALUES($id,$point,'$asal','$keterangan')");
+        }
+    }
+
+    public function get_total_jam_mengajar($id){
+        $query = $this->db->query("SELECT sum((abs(time_to_sec(timediff(kelas_pertemuan_jam_mulai,kelas_pertemuan_jam_selesai))/3600))) as lama_mengajar 
+                            FROM `kelas_pertemuan` as kp
+                            LEFT JOIN kelas as k ON k.kelas_id=kp.kelas_id
+                            WHERE k.guru_id=$id");
+
+        $result = $query->result_array();
+
+        return $result[0]['lama_mengajar']+0;
+    }
+
+    public function insert_kualifikasi($id,$kualifikasi){
+        $this->db->query("INSERT INTO guru_kualifikasi(guru_id,kualifikasi) VALUES($id,'$kualifikasi')");
+    }
+
+    public function get_kualifikasi($id){
+        $query = $this->db->query("SELECT * FROM guru_kualifikasi WHERE guru_id=$id");
+
+        return $query->result_array();
+    }
+
+    //lowongan
+    public function get_lowongan_guru($id){
+        $matpel = $this->db->query("SELECT matpel_id FROM guru_matpel WHERE guru_id=$id");
+        $or_matpel = "( matpel_id = NULL";
+        foreach($matpel->result_array() as $m){
+            $or_matpel .= " OR rgh.matpel_id = ".$m['matpel_id']." ";
+        }
+        $or_matpel .= " ) ";
+
+        $lokasi = $this->db->query("SELECT lokasi_id FROM guru_lokasi WHERE guru_id=$id");
+        $or_lokasi = "";
+        foreach($lokasi->result_array() as $m){
+            if($or_lokasi=="") {
+                $or_lokasi .= "( rgh.lokasi_id = ".$m['lokasi_id']." ";
+            } else {
+                $or_lokasi .= " OR rgh.lokasi_id = ".$m['lokasi_id']." ";
+            }
+        }
+
+        if($or_lokasi!=""){
+            $or_lokasi .= " ) ";
+        }        
+
+        $query = $this->db->query("SELECT rgh.*,l.lokasi_title FROM request_guru_home as rgh
+                                    LEFT JOIN lokasi as l ON l.lokasi_id=rgh.lokasi_id
+                                    WHERE $or_lokasi AND $or_lokasi AND request_guru_home_active=1
+                                    ORDER BY rgh.request_guru_home_date DESC");
+
+        return $query->result_array();
+    }
+
+    //only execute this once
+    public function get_all_kualifikasi(){
+        $query = $this->db->query("SELECT guru_id, guru_kualifikasi FROM guru 
+                                    WHERE guru_active=1 ORDER BY guru_id ASC");
+        return $query->result_array();
+    }
+
+    //only execute this once
+    public function get_pendidikan_from_table_guru(){
+        $query = $this->db->query("SELECT guru_id, pendidikan_id, guru_pendidikan_instansi, guru_pendidikan_verified 
+                                    FROM guru WHERE guru_active=1 AND pendidikan_id>0
+                                    ORDER BY guru_id ASC");
+        return $query->result_array();
+    }
+
+    public function get_pengalaman_from_guru_table(){
+        $query = $this->db->query("SELECT guru_id, guru_pengalaman FROM guru
+                                        WHERE guru_active=0  ORDER BY guru_id ASC");
+        return $query->result_array();   
+    }
+
+    //get number of guru
+    public function get_jumlah_guru() {
+        $query = $this->db->query("SELECT COUNT(guru_id) as c FROM guru where guru_active = 1");
+        $count = $query->row()->c;
+        return number_format($count,0,',','.');
+    }
+
+    public function sum_wallet($id){
+        $query = $this->db->query("SELECT sum(nominal) as total FROM guru_wallet WHERE guru_id=$id");
+
+        $result = $query->result_array();
+        return $result[0]['total']+0;
+    }
+
+    public function tukar_point($id,$poin){
+        $nominal = $poin*100;
+        $this->db->query("INSERT INTO guru_wallet(guru_id,aktifitas,nominal) VALUES($id,'Penukaran poin sebanyak $poin poin',$nominal)");
+        $this->db->query("INSERT INTO guru_points(guru_id,point,asal,keterangan) VALUES($id,-$poin,'tukar','penukaran poin ke voucher')");
+    }
+
+    public function input_lamaran($id_lowongan,$id_guru){
+        $this->db->query("INSERT INTO guru_lamaran(guru_id,guru_request_home_id) VALUES ($id_guru,$id_lowongan)");
+
+        return $this->db->affected_rows();
+    }
+
+    public function is_udah_lamar($guru_id,$lowongan_id){
+        $query = $this->db->query("SELECT * FROM guru_lamaran WHERE guru_id=$guru_id AND guru_request_home_id=$lowongan_id");
+
+        $result = $query->result_array();
+        return sizeof($result)>0;
+    }
+
+    public function get_today_pengumuman(){
+        date_default_timezone_set("Asia/Jakarta");
+        $q = $this->db->query("SELECT * FROM admin_pengumuman WHERE date_created LIKE '".date('Y-m-d')."%' AND (tujuan=0 OR tujuan=1) ORDER BY date_created DESC");
+        return $q->result_array();
+    }
+
 	public function search($var,$use_cache=FALSE, $force_update = FALSE) {
 		$q_where = '';
 		
@@ -1299,4 +1573,46 @@ class Guru_model extends CI_Model {
 		}
 		return $data;
 	}
-}
+	
+	public function get_guru_for_csv($force_refresh = FALSE) {
+		$key = 'guru_csv';
+		if($force_refresh || ($gurus = get_cache($key))===FALSE ) {
+			$query = "
+			SELECT
+				a.guru_id AS id,
+				(IF(a.guru_gender=1,'male','female')) AS gender,
+				c.lokasi_title as region,
+				GROUP_CONCAT(CONCAT(e.matpel_title,' - ',h.jenjang_pendidikan_title) SEPARATOR '|') AS mata_pelajaran_ajar,
+				g.pendidikan_title AS pendidikan,
+				a.guru_pendidikan_instansi AS instansi_pendidikan,
+				a.guru_tempatlahir AS tempat_lahir,
+				a.guru_lahir AS tanggal_lahir,
+				f.source_info_title AS source_info
+			FROM
+				guru a
+				LEFT JOIN guru_lokasi b
+					ON b.guru_id = a.guru_id
+				LEFT JOIN lokasi c 
+					ON c.lokasi_id = b.lokasi_id
+				LEFT JOIN guru_matpel d
+					ON d.guru_id = a.guru_id
+				LEFT JOIN matpel e
+					ON e.matpel_id = d.matpel_id
+				LEFT JOIN jenjang_pendidikan h
+					ON h.jenjang_pendidikan_id = e.jenjang_pendidikan_id
+				LEFT JOIN source_info f
+					ON f.source_info_id = a.source_info_id
+				LEFT JOIN pendidikan g
+					ON g.pendidikan_id = a.pendidikan_id
+			WHERE 1
+				AND a.guru_active = 1
+			GROUP BY a.guru_id";
+			$gurus = $this->db->query($query)->result_array();
+			foreach($gurus AS &$guru) {
+				$guru['rating'] = $this->get_calculated_rating($guru['id']);
+			}
+			set_cache($key, $gurus);
+		}
+		return $gurus;
+	}
+	}

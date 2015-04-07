@@ -40,6 +40,7 @@ if ($this->session->flashdata('f_class_error')): ?>
 			<thead>
 			<tr>
 				<th>Code</th>
+				<th>Invoice Date</th>
 				<th>Pemesan ID</th>
 				<th>Peserta ID</th>
 				<th>Subtotal</th>
@@ -94,6 +95,7 @@ endif;
 						<?php echo $bill->pemesan_id ?>
 					</a>
 				</td>
+				<td><?php echo $bill->status_2; ?></td>
 				<td><a href="#details" class="fancybox" data-section="student" data-id="<?php echo $bill->student_id 
 					?>">
 						<?php echo $bill->student_id ?>

@@ -294,8 +294,10 @@ WHERE code = ?";
 			custom_log('invoice_expire', (array)$result2);
 			$this->db->delete('vendor_class_transaction', array('code'=>$row->code));
 			$this->db->delete('vendor_class_participant', array('code'=>$row->code));
+			$this->db->delete('discount_usage', array('invoice_code'=>$row->code));
 			$this->db->simple_query("DELETE FROM vendor_class_transaction WHERE `code` = '{$row->code}'");
 			$this->db->simple_query("DELETE FROM vendor_class_participant WHERE `code` = '{$row->code}'");
+			$this->db->simple_query("DELETE FROM discount_usage WHERE `invoice_code` = '{$row->code}'");
 		}
 	}
 	

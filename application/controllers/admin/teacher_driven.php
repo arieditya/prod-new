@@ -428,13 +428,21 @@ class Teacher_driven extends Admin_Controller{
 	
 	public function payment_invoice() {
 		$data['active'] = 541;
+		$orderby = $this->input->get('orderby', TRUE);
+		$sort = $this->input->get('sort');
 		$data['breadcumb'] = $this->admin_model->get_breadcumb(array('Teacher Driven'=>'teacher_driven',
 																	 'Payment'=>'teacher_driven/payment_invoice',
 																	 'Invoice'=>''
 		));
-		
-		$invoice = $this->vendor_class_model->get_transaction_all();
-		
+		if(empty($orderby) || !in_array($orderby, array('status_2','code','status'))) {
+			$invoice = $this->vendor_class_model->get_transaction_all();
+		} else {
+			$data['orderby'] = $orderby;
+			if(!empty($sort) && in_array(strtoupper($sort), array('ASC','DESC'))) $data['sort'] = strtoupper($sort);
+			else $sort = 'DESC';
+			$invoice = $this->vendor_class_model->get_transaction_all($orderby, $sort);
+		}
+
 		$data['invoice'] = $invoice;
 		$data['student'] = $this->vendor_class_model->get_participant_all();
 		$data['pemesan'] = $this->vendor_class_model->get_sponsor_all();
@@ -548,10 +556,13 @@ class Teacher_driven extends Admin_Controller{
 		redirect('admin/teacher_driven/payment_confirm');
 	}
 	
-	public function reject_payment_confirm() {
-		
+	public function reject_payment_confirm($code) {
+		$this->load->helper('file');
+		$this->vendor_class_model->reject_payment_confirmation($code);
+		// TODO: Send email that you've failed them!
+		redirect('admin/teacher_driven/payment_confirm');
 	}
-	
+
 	public function do_class_sold_out($class_id) {
 		if($this->vendor_class_model->class_sold_out($class_id))
 			$this->session->set_flashdata('f_class', 'Update Class SUCCESS!');

@@ -141,7 +141,17 @@ if ($this->session->flashdata('f_vendor')): ?>
 			if(page==total_page) $('#data-next').attr({'disabled':'disabled'});
 			$('#data-previous').removeAttr('disabled');
 			data_start += 20;
-			data_end = total_count > data_end+20?total_count:(data_end+20);
+			data_end = total_count > data_end+20?data_end+20:total_count;
+			paging_write();
+		});
+		$('#data-previous').click(function(e){
+			e.preventDefault();
+			page--;
+			if(page==1) $('#data-previous').attr({'disabled':'disabled'});
+			$('#data-next').removeAttr('disabled');
+			var data_range = data_end - data_start +1;
+			data_start = data_start-20 < 1?1:(data_start-20);
+			data_end -= data_range;
 			paging_write();
 		});
 		function paging_write() {

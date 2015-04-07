@@ -16,18 +16,39 @@ class Main extends CI_Controller {
         //$data['page'] = 'home';
         //$this->load->view('comingsoon/home',$data);
         //$this->page();
-	   redirect('main/page');
+        if($this->session->userdata('murid_id')){
+            redirect('murid/dashboard');
+        } else if($this->session->userdata('is_logged_in')){
+            redirect('guru/dashboard');
+        } else {
+            redirect('main/page');
+        }
     }
     
-    public function page($page=null){      
+    public function page($page=null){
+        $temp['is_home']  = true;
         $data['guru_unggulan'] = $this->guru_model->get_guru_unggulan();
         $data['request_guru'] = $this->main_model->get_request_guru();
         $data['provinsi'] = $this->main_model->get_table('provinsi');
         $data['jenjang'] = $this->main_model->get_jenjang();
 	    $data['jml_guru'] = $this->guru_model->get_guru_count();
-	
-        $this->load->view('header');
+        
+        $this->load->view('header', $temp);
         $this->load->view('front/home', $data);
+        $this->load->view('footer');
+
+
+        // $temp2['title'] = 'Sedang Dalam Maintenance';
+        // $this->load->view('header_maintenance', $temp2);
+        // $this->load->view('front/home_maintenance');
+
+        
+    }
+
+    public function not_found() {
+        $temp['css'] = array(1=>'tentang');
+        $this->load->view('header', $temp);
+        $this->load->view('front/not_found');
         $this->load->view('footer');
     }
     
@@ -100,12 +121,23 @@ class Main extends CI_Controller {
     }
     
     public function mail(){
-        $this->load->model('csmodel');
-        $this->csmodel->email();
+//        $this->load->model('csmodel');
+//        $this->csmodel->email();
     }
     
     public function get_matpel($pend_id){
         $matpel = $this->main_model->get_matpel($pend_id,TRUE);
         echo json_encode($matpel->result());
+    }
+
+    public function get_provinsi(){
+        $provinsi = $this->main_model->get_provinsi();
+        echo json_encode($provinsi);
+    }
+
+    public function get_kota(){
+        $id = $this->input->post('prov_id');
+        $kota = $this->main_model->get_lokasi($id);
+        echo json_encode($kota->result_array());
     }
 }

@@ -425,7 +425,7 @@ endif;
 	</div> <!-- /container -->
 <script type="application/javascript">
 	var class_id = <?php echo $class->id;?>;
-	var cart = $.cookie('cart');
+	var cart = false;//$.cookie('cart');
 	var dtCart = {
 		'id': class_id,
 		'jadwal': [<?php echo implode(',',$arr);?>]
