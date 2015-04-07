@@ -29,7 +29,7 @@ $this->load->view('vendor/general/header2');
                 });
             return ret;
         };
-        var c_filter = get_cookie['filter'];
+        var c_filter = get_cookie('filter');
 
         var _filter_ = !c_filter?{}:$.parseJSON(get_cookie('filter'));
         if(!_filter_) _filter_ = {};
