@@ -387,7 +387,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 									<option value="0">Level</option>
 <?php
 	foreach($header_data['class_level'] as $level):
-		if(!empty($filter) && !empty($filter['level']) && $filter['level'] == $level->id ):
+		if(!empty($filter['level']) && $filter['level'] == $level->id ):
 ?>
 									<option class="level_check" 
 											value="<?php echo $level->id?>" selected="selected"><?php echo $level->name?></option>
@@ -407,10 +407,10 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 									<option value="0">Provinsi</option>
 <?php
 	foreach($header_data['provinsi_list'] as $provinsi):
-		if(!empty($filter) && !empty($filter['province']) && $filter['province'] == $provinsi->provinsi_id ):
+		if(!empty($filter['province']) && $filter['province'] == $provinsi->provinsi_id ):
 ?>
 									<option value="<?php echo $provinsi->provinsi_id?>" selected="selected">
-										<?php echo $provinsi->provinsi_title?></option>
+										<?php echo $provinsi->provinsi_title; ?></option>
 <?php
 		else :
 ?>
@@ -424,9 +424,9 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 							<li id="tipe_list" class="filter-select">
 								<select class="form-control input-sm" onchange="set_filter('type',this.value)">
 									<option value="0">Tipe Kelas</option>
-									<option value="1,2" <?php if(!empty($filter) && !empty($filter['type']) && $filter['type']=='1,2') {echo "selected='selected'";} ?> >
+									<option value="1,2" <?php if(!empty($filter['type']) && $filter['type']=='1,2') {echo "selected='selected'";} ?> >
 										Paket</option>
-									<option value="satu sesi" <?php if(!empty($filter) && !empty($filter['type']) && $filter['type']=='satu sesi') {echo "selected='selected'";} ?> >
+									<option value="satu sesi" <?php if(!empty($filter['type']) && $filter['type']=='satu sesi') {echo "selected='selected'";} ?> >
 										Satu Sesi</option>
 								</select>
 							</li>
@@ -435,7 +435,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 									<option value="0">Kategori</option>
 <?php
 	foreach($header_data['class_category'] as $category):
-		if(!empty($filter) && !empty($filter['category']) && $filter['category'] == $category->id ):
+		if(!empty($filter['category']) && $filter['category'] == $category->id ):
 ?>
 									<option value="<?php echo $category->id?>" selected="selected">
 										<?php echo $category->category_name?>
@@ -464,7 +464,7 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 										value="<?php if($sorting!=FALSE) { echo $sorting; } ?>"
 										onchange="window.location.href='<?php echo base_url();?>kelas/index/'+this.value">
 									<option value="">--Pilih Urutan--</option>
-									<option value="upcoming" <?php if($sorting=='upcoming') {echo "selected='selected'";} ?> >Kelas yang Akan Datang</option>
+									<option value="upcoming" <?php if($sorting=='upcoming') {echo "selected='selected'";} ?> >Kelas Akan Datang</option>
 									<option value="newest_class" <?php if($sorting=='newest_class') {echo "selected='selected'";} ?> >Kelas Terbaru</option>
 									<option value="lowest_price" <?php if($sorting=='lowest_price') {echo "selected='selected'";} ?> >Harga Termurah</option>
 									<option value="highest_price" <?php if($sorting=='highest_price') {echo "selected='selected'";} ?> >Harga Termahal</option>

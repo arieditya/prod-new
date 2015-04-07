@@ -25,6 +25,7 @@ body.have-bar {
 }
 .filter-select {
   margin-right: 10px;
+  margin-bottom: 2px;
 }
 .navbar-default {
   background-color: #fff;
@@ -138,7 +139,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .nav.nav-pills {
   float: left;
-  width: 75%;
+  width: 72%;
 }
 .sort.nav {
   float: right;
@@ -326,6 +327,11 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   border-bottom: 1px solid #ddd;
   min-height: 60px;
   padding: 10px 15px 0;
+}
+.description .icon {
+  color: #e11667;
+  width: 17px;
+  text-align: left;
 }
 .description .location {
     float: right;
@@ -1492,7 +1498,7 @@ a.remove {
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1079px) {
   body {
     padding-top: 152px;
   }
@@ -1528,12 +1534,14 @@ a.remove {
 	.grid-title-wrap,
 	.price,
 	.description,
-	.review {
+	.review,
+    .details {
 	  padding: 10px;
+      line-height: 1;
+      font-size: 13px;
 	}
 	.rating {
 	  float: none;
-	  margin-top: 10px;
 	}
   
   /*detail*/
