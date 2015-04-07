@@ -1543,6 +1543,10 @@ a.remove {
 	.rating {
 	  float: none;
 	}
+    .description .date {
+        width: 188px;
+        display: inline;
+    }
   
   /*detail*/
   .price-big-wrap:before {
@@ -1748,6 +1752,7 @@ a.remove {
 	  float: right;
 	  margin-top: 0;
 	}
+
   /*detail*/
   .nav-tabs li a {
     font-size: 16px;
