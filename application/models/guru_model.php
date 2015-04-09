@@ -1615,4 +1615,42 @@ class Guru_model extends CI_Model {
 		}
 		return $gurus;
 	}
+	public function get_kelas_for_csv() {
+		$key = 'kelas_csv';
+		$query = "
+		SELECT
+			a.kelas_id,
+			a.request_id,
+			b.guru_id,
+			b.guru_nama,
+			b.guru_email,
+			c.murid_id,
+			c.murid_nama,
+			c.murid_email,
+			CONCAT(d.matpel_title,' - ', e.jenjang_pendidikan_title) AS matpel,
+			CONCAT(f.lokasi_title, ' - ', g.provinsi_title) AS lokasi,
+			a.kelas_frekuensi,
+			a.kelas_durasi,
+			a.kelas_total_jam,
+			a.kelas_harga as harga_per_jam,
+			a.kelas_total_harga as total_harga,
+			a.kelas_pembayaran_murid,
+			a.kelas_feedback_status
+		FROM
+			kelas a
+			LEFT JOIN guru b
+				ON b.guru_id = a.guru_id
+			LEFT JOIN murid c
+				ON c.murid_id = a.murid_id
+			LEFT JOIN matpel d
+				ON d.matpel_id = a.matpel_id
+			LEFT JOIN jenjang_pendidikan e 
+				ON e.jenjang_pendidikan_id = d.jenjang_pendidikan_id 
+			LEFT JOIN lokasi f 
+				ON f.lokasi_id = a.lokasi_id
+			LEFT JOIN provinsi g 
+				ON g.provinsi_id = f.provinsi_id";
+		$gurus = $this->db->query($query)->result_array();
+		return $gurus;
 	}
+}

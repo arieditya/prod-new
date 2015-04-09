@@ -191,6 +191,9 @@ class Payment_model extends MY_Model {
 			return FALSE;
 		}
 		$jadwal = array();
+		$class_date_max = 0;
+		$class_date_min = 0;
+		$class_jadwal = '';
 		foreach($participant as $part) {
 			$this->db->where('jadwal_id', $part->jadwal_id);
 			$jdwl = $this->db->get('vendor_class_jadwal')->row();
@@ -200,6 +203,15 @@ class Payment_model extends MY_Model {
 						.' '.double_digit($jdwl->class_jam_mulai).':'.double_digit($jdwl->class_menit_mulai)
 						.'-'.double_digit($jdwl->class_jam_selesai).':'.double_digit($jdwl->class_menit_selesai),
 			);
+			if(empty($class_date_max) || strtotime($jdwl->class_tanggal) > $class_date_max) $class_date_max = strtotime($jdwl->class_tanggal);
+			if(empty($class_date_min) || strtotime($jdwl->class_tanggal) < $class_date_max) $class_date_min = strtotime($jdwl->class_tanggal);
+			$class_max = date('d M Y', $class_date_max);
+			$class_min = date('d M Y', $class_date_min);
+			if($class_max != $class_min) {
+				$class_jadwal = date('d M Y', $class_date_min).' - '.date('d M Y', $class_date_max);
+			} else {
+				$class_jadwal = date('d M Y', $class_date_max);
+			}
 		}
 		$data = array(
 			'murid'			=> (array)$murid,
@@ -209,6 +221,7 @@ class Payment_model extends MY_Model {
 			'transaction'	=> (array)$transaction,
 			'ticket'		=> (array)$ticket,
 			'jadwal'		=> (array)$jadwal,
+			'jadwal_range'	=> $class_jadwal,
 		);
 		return $data;
 	}

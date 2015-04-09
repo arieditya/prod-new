@@ -29,6 +29,7 @@
 	<ul>
 		<li>Nama kelas		: <?php echo $class['class_nama'];?></li>
 		<li>Penyelenggara	: <?php echo $vendor['name'];?></li>
+		<li>Jadwal			: <?php echo $jadwal_range;?></li>
 	</ul>
 
 	<p>

@@ -307,6 +307,9 @@ class Vendor_class_model extends MY_Model{
 			$this->db->insert('vendor_class_pemesan', $data);
 			return 	$this->db->insert_id();
 		} else {
+			$this->db->where(array('email'=>$data['email']));
+			$this->db->where(array('id'=>$q->row()->id));
+			$this->db->update('vendor_class_pemesan', $data);
 			return $q->row()->id;
 		}
 	}
@@ -323,6 +326,9 @@ class Vendor_class_model extends MY_Model{
 			$this->db->insert('vendor_class_student', $data);
 			return 	$this->db->insert_id();
 		} else {
+			$this->db->where(array('email'=>$data['email']));
+			$this->db->where(array('id'=>$q->row()->id));
+			$this->db->update('vendor_class_student', $data);
 			return $q->row()->id;
 		}
 	}
@@ -1165,7 +1171,7 @@ class Vendor_class_model extends MY_Model{
 	public function get_class_participant_full($class_id=0, $status=4) {
 		$query = "
 		SELECT DISTINCT 
-			pemesan_id,
+			a.pemesan_id,
 			b.name AS nama_pemesan,
 			b.email AS email_pemesan,
 			b.phone AS phone_pemesan,
@@ -1173,14 +1179,20 @@ class Vendor_class_model extends MY_Model{
 			c.name AS nama_peserta,
 			c.email AS email_peserta,
 			c.phone AS phone_peserta,
-			participant_id as peserta_id,
-			a.status
+			a.participant_id as peserta_id,
+			a.status,
+			d.status_4 AS ticket_published,
+			e.ticket_code
 		FROM
 			vendor_class_participant a
 			LEFT JOIN vendor_class_pemesan b
 			ON b.id = a.pemesan_id
 			LEFT JOIN vendor_class_student c
 			ON c.id = a.participant_id
+			LEFT JOIN vendor_class_transaction d
+			ON d.code = a.code
+			LEFT JOIN vendor_class_ticket e
+			ON e.invoice_code = a.code
 		WHERE 1
 ";
 		if(!empty($class_id)) $query .="
@@ -1435,6 +1447,24 @@ class Vendor_class_model extends MY_Model{
 		);
 		return !! $this->db->affected_rows();
 	}
+	
+	public function registration_log($code, $sponsor, $student, $status_1) {
+		$this->CI->load->library('user_agent');
+		$data['invoice_code'] = $code;
+		$data['email_pemesan'] = $sponsor;
+		$data['email_peserta'] = $student;
+		$data['status_1_time'] = $status_1;
+		$data['ip'] = $this->CI->input->ip_address();
+		$data['isp'] = get_my_isp($data['ip']);
+		$data['platform'] = $this->CI->agent->platform();
+		$data['browser'] = $this->CI->agent->browser();
+		$data['browser_ver'] = $this->CI->agent->version();
+		$data['is_mobile'] = $this->CI->agent->is_mobile()?$this->CI->agent->mobile():0;
+		$data['user_agent'] = $this->CI->agent->agent_string();
+		$this->db->insert('vendor_class_registration_log', $data);
+	}
+	
+	
 }
 
 // END OF vendor_class_model.php File

@@ -170,7 +170,7 @@ function kls_url() {
 	if(strpos($_SERVER['HTTP_HOST'],'kelas.') === FALSE) $base_url = 'http:';
 }
 
-function create_pdf($html, $filepath='', $return=TRUE) {
+function create_pdf($html, $filepath='', $return=TRUE, $delete_old=FALSE) {
 	$CI = &get_instance();
 	$CI->load->library('dompdf');
 	$CI->load->helper('file');
@@ -182,6 +182,9 @@ function create_pdf($html, $filepath='', $return=TRUE) {
 	$data = $dompdf->output();
 	if(!empty($filepath)) {
 		$filepath = array_shift(explode('.pdf', $filepath));
+		if(file_exists($filepath.'.pdf') && $delete_old) {
+			@unlink($filepath.'.pdf');
+		}
 		write_file($filepath.'.pdf', $data);
 	}
 	if($return) {
@@ -209,4 +212,14 @@ function get_custom_log($type, $log_time) {
 
 	$_log =& load_class('Log');
 	return $_log->get_custom_log($type, $log_time);
+}
+
+function get_my_isp($ip) {
+	$cu = curl_init('http://www.whoismyisp.org/ip/'.$ip);
+	curl_setopt($cu, CURLOPT_RETURNTRANSFER, TRUE);
+	$page = curl_exec($cu);
+	curl_close($cu);
+	
+	preg_match('/\<h1\>(.*)\<\/h1\>/', $page, $search);
+	return $search[1];
 }

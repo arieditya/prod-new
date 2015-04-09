@@ -574,14 +574,14 @@ class Teacher_driven extends Admin_Controller{
 	public function expired_invoices($file=NULL) {
 		$this->load->helper('file');
 		$config =& get_config();
-		$_log_path = ($config['log_path'] != '') ? $config['log_path'] : APPPATH.'logs/';
+		$_log_path = FCPATH.(($config['log_path'] != '') ? $config['log_path'] : APPPATH.'logs');
 
-		$log_path = $_log_path.'/invoice_expire/';
+		$log_path = str_replace('/administrator','',$_log_path).'/invoice_expire/';
 
 		if(empty($file)) {
 			$files = get_filenames($log_path);
 			foreach($files as $file) {
-				echo "{$file}<br />";
+				echo "<a href='".base_url()."admin/teacher_driven/expired_invoices/{$file}'>{$file}</a><br />";
 			}
 		} else {
 			$file_path = $log_path.$file;
@@ -597,18 +597,15 @@ class Teacher_driven extends Admin_Controller{
 					} else {
 						$dt = array();
 						for($i = 0; $i < $num; $i++) {
-							
+							$dt[$key[$i]] = $datas[$i];
 						}
-					}
-					echo "<p> $num fields in line $row: <br /></p>\n";
-					$row++;
-					for ($c=0; $c < $num; $c++) {
-						echo $data[$c] . "<br />\n";
+						$data[] = $dt;
 					}
 					$first = FALSE;
 				}
 				fclose($handle);
-			}			fopen($file_path, 'r');
+			}
+			print_r($data);
 		}
 	}
 }

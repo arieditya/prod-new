@@ -457,6 +457,7 @@ class Payment extends MY_Controller {
 			'veritrans_items' => $veritrans
 		);
 //		var_dump($data);exit;
+		$status_1 = date('Y-m-d h:i:s');
 		$this->vendor_class_model->add_new_transaction(
 			array(
 				'code'		=> $code,
@@ -465,9 +466,11 @@ class Payment extends MY_Controller {
 				'total'		=> $total,
 				'pemesan_id'=> $pemesan_id,
 				'student_id'=> $peserta_id,
-				'status_1'	=> date('Y-m-d h:i:s')
+				'status_1'	=> $status_1
 			)
 		);
+		
+		$this->vendor_class_model->registration_log($code, $pemesan['email'], $peserta['email'], $status_1);
 		
 		$data = array_merge($this->data, $data);
 		$this->session->set_userdata('transaction', json_encode($data));

@@ -607,12 +607,11 @@ Terima kasih
 			'class'			=> array(),
 			'total_pay'		=> $invoice_raw['transaction']->total,
 			'code'			=> $code,
+			'jadwal'		=> array()
 		);
 		foreach($invoice_raw['class'] as $class) {
-			$email_data['class'][] = array(
-				'class_nama'		=> $class['profile']->class_nama,
-				'vendor_name'		=> $class['vendor']->name
-			);
+			$class_date_max = 0;
+			$class_date_min = 0;
 			foreach($class['jadwal'] as $jadwal) {
 				$i_class = array(
 					'topik'	=> $jadwal->class_jadwal_topik,
@@ -622,7 +621,23 @@ Terima kasih
 					'harga' => $class['profile']->price_per_session
 				);
 				$invoice_class[] = $i_class;
+				if(empty($class_date_max) || strtotime($jadwal->class_tanggal) > $class_date_max) $class_date_max = strtotime($jadwal->class_tanggal);
+				if(empty($class_date_min) || strtotime($jadwal->class_tanggal) < $class_date_max) $class_date_min = strtotime($jadwal->class_tanggal);
+				$class_max = date('d M Y', $class_date_max);
+				$class_min = date('d M Y', $class_date_min);
+				if($class_max != $class_min) {
+					$class_jadwal = date('d M Y', $class_date_min).' - '.date('d M Y', $class_date_max);
+				} else {
+					$class_jadwal = date('d M Y', $class_date_max);
+				}
+
 			}
+			$email_data['class'][] = array(
+				'class_nama'		=> $class['profile']->class_nama,
+				'class_uri'			=> $class['profile']->class_uri,
+				'vendor_name'		=> $class['vendor']->name,
+				'jadwal'			=> $class_jadwal,
+			);
 		}
 		
 		$invoice_data = array(
@@ -692,7 +707,6 @@ Terima kasih
 			$this->subject('Kelas.Ruangguru - Pendaftaran terbaru dari '.$tix['murid']['name']);
 			$this->to($tix['vendor']['email']);
 			$this->bcc('kelas@ruangguru.com');
-			$this->bcc('arieditya.prdh@live.com');
 	
 			$this->send();
 			
@@ -705,7 +719,6 @@ Terima kasih
 		$this->subject('Tiket Anda - '. $tix['class']['class_nama']);
 		$this->to($tix['murid']['email']);
 		$this->bcc('kelas@ruangguru.com');
-		$this->bcc('arieditya.prdh@live.com');
 		$this->bcc(array('uun@ruangguru.com','daniel@ruangguru.com'));
 
 		$this->attach(FCPATH.$docs_path.$ticket.'.pdf');

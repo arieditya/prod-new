@@ -78,7 +78,11 @@ $attd_reg = array();
 					<td><a class="fancybox attendance" data-attd_type="paid" data-class_id="<?php echo $c->id; ?>" 
 						   href="#detail_attendance"><?php echo $c->attendance_paid->num_rows();?></a></td>
 					<td><?php echo $stat;?></td>
-					<td></td>
+					<td>
+						<a href="http://ruangguru.com/admin/donlot/attendance_paid/<?php echo $c->id;?>" >
+							Download!
+						</a>
+					</td>
 				</tr>
 <?php
 	endforeach;

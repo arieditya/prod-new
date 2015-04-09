@@ -9,7 +9,77 @@
  */?><!DOCTYPE html>
 <html>
 <head>
-	
+	<style>
+		body {
+			font-size: 10pt;
+			font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+		}
+		.text16 {
+			font-size: 16pt;
+		}
+		.text14 {
+			font-size: 14pt;
+		}
+		.text12 {
+			font-size: 12pt;
+		}
+		.text10 {
+			font-size: 10pt;
+		}
+		.small-font {
+			font-size: 8pt;
+		}
+		table tr td {
+			vertical-align: top;
+		}
+		table {
+			min-width: 100%;
+			border-spacing: 0;
+		}
+		tr.line td {
+			border: 0;
+			border-bottom-color: #777;
+			border-bottom-style: solid;
+			border-bottom-width: 1px;
+			border-spacing: 0;
+			padding: 0;
+		}
+		.bluebar {
+			background-color: #7fffd4;
+		}
+		.red-font, a {
+			color: rgb(192,80,77);
+		}
+		.red-font {
+			font-size: 8pt;
+		}
+		table#content > tr > td {
+			width: 80%;
+		}
+		table#content > tr:first-child ,
+		table#content > tr:last-child {
+			width: 10%;
+			content: '&nbsp;';
+		}
+		table.listPrice tr td:nth-child(4) {
+			text-align: right;
+		}
+		.footer { 
+			position: fixed; 
+			left: 0px; 
+			bottom: -20px; 
+			right: 0px; 
+			height: 2cm; 
+			text-align: center;
+		}
+		.header { 
+			position: fixed; 
+			left: 0px; 
+			top: -20px; 
+			right: 0px; 
+			height: 50cm; 
+		}
+	</style>
 </head>
 <!-- Insert Initial/Loader JS here -->
 <body>
@@ -28,8 +98,13 @@
 
 	<ul>
 <?php foreach($class as $cls): ?>
-		<li>Nama kelas		: <?php echo $cls['class_nama'];?></li>
-		<li>Penyelenggara	: <?php echo $cls['vendor_name'];?></li>
+		<li>Nama kelas			: 
+			<a href="http://kelas.ruangguru.com/<?php echo $cls['class_uri'];?>">
+				<?php echo $cls['class_nama'];?>
+			</a>
+		</li>
+		<li>Penyelenggara		: <?php echo $cls['vendor_name'];?></li>
+		<li>Jadwal 				: <?echo $cls['jadwal'];?></li>
 <?php endforeach; ?>
 		<li>Biaya pendaftaran	: <?php echo rupiah_format($total_pay);?></li>
 	</ul>
