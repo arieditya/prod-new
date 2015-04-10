@@ -174,6 +174,22 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   min-height: 336px;
   position: relative;
 }
+.btn-orange {
+  background-color: #fcb33b;
+  color: #fff;
+  border-color: #fcb33b;
+}
+.btn-orange:hover {
+  background-color: #fff;
+  color: #3bc4e6;
+  border-color: #3bc4e6;
+}
+.btn-orange:hover >.fa{
+  color: #3bc4e6;
+}
+.block-title.no-margin-top {
+  margin-top: 0;
+}
 /*.content-grid.diskon:before {
   background-color: #e43;
   color: #fff;
@@ -451,7 +467,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .main-button {
   background-color: #fcb33b;
   border-radius: 5px;
-  color: #333;
+  color: #fff;
   display: inline-block;
   font-size: 16px;
   margin-top: 10px;
@@ -1020,6 +1036,12 @@ a.remove {
   font-size: 16px;
   padding: 10px;
   width: 200px;
+}
+.btn-left {
+  float: left;
+}
+.btn-right {
+  float: right;
 }
 
 /*kelas-anda*/

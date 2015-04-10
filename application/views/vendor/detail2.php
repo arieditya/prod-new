@@ -274,9 +274,10 @@ if(!empty($vendor_socmed->pinterest)):
 <?php
 	endforeach;
 ?>
-					<div class="btn kelas-vendor">
-						<a href="<?php echo base_url()?>kelas/index/all" class="main-button text-center">Lihat Semua Kelas</a>
-					</div>
+					<a href="<?php echo base_url().'vendor/detail/'.$vendor_data->uri.'/kelas'?>" class="btn btn-orange btn-right">
+						Kelas lain &nbsp;
+						<i class="fa fa-forward"></i>
+					</a>
 <?php
 	endif;
 ?>

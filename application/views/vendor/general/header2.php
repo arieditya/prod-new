@@ -178,7 +178,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 						<li class="phone"><i class="glyphicon glyphicon-phone-alt"></i>
 						&nbsp;&nbsp;021-9200-3040</li>
 						<li><a href="<?php echo base_url()?>cari_guru">Belajar Privat</a></li>
-						<li class="active"><a href="http://kelas.ruangguru.com">Kelas Berkelompok</a></li>
+						<li><a href="http://kelas.ruangguru.com">Kelas Berkelompok</a></li>
 						<li><a href="<?php echo base_url()?>faq">FAQ</a></li>
 						<li><a href="#contact">Kontak</a></li>
 					</ul>
@@ -461,9 +461,10 @@ Tebet - Jakarta Pusat" required="required" ></textarea>
 							<li class="title-filter sort-list">Urutan</li>
 							<li id="sort_by_list" class="sort-list">
 								<select class="form-control input-sm"
-										value="<?php if($sorting!=FALSE) { echo $sorting; } ?>"
 										onchange="window.location.href='<?php echo base_url();?>kelas/index/'+this.value">
-									<option value="">--Pilih Urutan--</option>
+									<?php if($sorting==FALSE): ?>
+										<option value="">--Pilih Urutan--</option>
+									<?php endif; ?>
 									<option value="upcoming" <?php if($sorting=='upcoming') {echo "selected='selected'";} ?> >Kelas Akan Datang</option>
 									<option value="newest_class" <?php if($sorting=='newest_class') {echo "selected='selected'";} ?> >Kelas Terbaru</option>
 									<option value="lowest_price" <?php if($sorting=='lowest_price') {echo "selected='selected'";} ?> >Harga Termurah</option>
