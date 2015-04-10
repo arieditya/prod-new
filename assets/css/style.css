@@ -1049,6 +1049,13 @@ a.remove {
 .sub-vendor .tab-content {
   box-shadow: none !important;
 }
+.vendor-detail .kelas-vendor {
+  padding: 0;
+  float: right;
+}
+.vendor-detail .content-grid {
+ margin-bottom: 10px;
+}
 .kelas #published td {
   color: #333;
 }

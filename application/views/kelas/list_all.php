@@ -159,6 +159,8 @@ $this->load->view('vendor/general/header2');
             <?php
             $i++;
             endforeach;
+			else:
+				echo "</div>";
             endif;
             ?>
 

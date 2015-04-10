@@ -37,6 +37,22 @@ class Main extends MY_Controller{
 		$this->data['vendor_data'] = $vendor;
 		$this->data['vendor_info'] = $this->vendor_model->get_info(array('vendor_id'=>$vendor->id))->row();
 		$this->data['vendor_socmed'] = $this->vendor_model->get_socmed($vendor->id);
+
+		$list_classes = $this->vendor_class_model->get_class(array('vendor_id'=>$vendor->id,
+			'active'=>1, 'class_tanggal >='=>'DATE(NOW())'),1,2)->result();
+		foreach($list_classes as &$cla){
+			$cnt = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cla->id))->num_rows();
+			$cla->count_session = $cnt;
+			$v['profile'] = $this->vendor_model->get_profile(array('id'=>$cla->vendor_id))->row();
+			$v['info'] = $this->vendor_model->get_info(array('vendor_id'=>$cla->vendor_id))->row();
+			$data['vendor']['profile'][]= $v['profile'];
+			$data['vendor']['info'][]= $v['info'];
+			$cla->rating = $this->vendor_class_model->get_class_rating($cla->vendor_id)->row();
+			$cla->vendor = $v;
+			$cla->available = $this->vendor_class_model->get_class_availability($cla->id);
+		}
+		$this->data['list_classes'] = $list_classes;
+
 		$this->load->view('vendor/detail2', $this->data);
 	}
 	
