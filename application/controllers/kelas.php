@@ -136,17 +136,16 @@ class Kelas extends MY_Controller {
 			if(in_array($event, array('ongoing','upcoming','past')))
 				$where[$event] = TRUE;
 		}
-		
 
 //		$classes = $this->vendor_class_model->get_class($where)->result();
 		$where_class = '';
 		if(count($new_filter) > 0){
 			$where_class['id'] = array_merge($new_filter);
 //			$where_class .= '`vendor_class`.`id` IN ('.implode(',',$new_filter).')';
-			if($view == 'home') {
+			if($view == FALSE) {
 				$classes = $this->vendor_class_model->get_class($where_class, 1, 6, 'current', $order)->result();
 			} else {
-				$classes = $this->vendor_class_model->get_class($where_class, 0, 0, 'current', $order)->result();
+				$classes = $this->vendor_class_model->get_class($where_class, 1, 100, 'current', $order)->result();
 			}
 			if(isset($_GET['debug_mode']) && $_GET['debug_mode'] == 'wakuhere') {
 				var_dump($this->db->last_query());exit;
@@ -203,7 +202,7 @@ class Kelas extends MY_Controller {
 			$this->new_design?
 				$this->load->view('kelas/list2', $this->data):
 				$this->load->view('kelas/list', $this->data);
-        endif;
+		endif;
 	}
 	
 	public function index(){

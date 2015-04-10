@@ -136,9 +136,9 @@ class Vendor_class_model extends MY_Model{
         $this->db->join('lokasi', 'lokasi.lokasi_id=vendor_class.class_lokasi_id', 'left');
 		$this->db->where($where);
         if($time == 'current')
-            $this->db->where('class_tanggal >=','CURRENT_DATE()', false);
+            $this->db->where('class_tanggal >=','DATE(NOW())', false);
         elseif($time == 'past')
-            $this->db->where('class_tanggal <','CURRENT_DATE()', false);
+            $this->db->where('class_tanggal <','DATE(NOW())', false);
 
 		if(!empty($wherein)) {
 			foreach($wherein as $k=>$v)

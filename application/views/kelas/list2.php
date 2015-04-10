@@ -278,7 +278,10 @@ $this->load->view('vendor/general/header2');
 ?>
 
 				<div class="col-sm-4 col-sm-offset-4">
-					<a href="<?php echo base_url()?>kelas/index/all" class="main-button text-center">Lihat Semua Kelas</a>
+					<a href="<?php echo base_url()?>kelas/index/all" class="btn main-button text-center btn-orange">
+						<i class="fa fa-list-ul"></i>
+						Lihat Semua Kelas
+					</a>
 				</div>
 			</div> <!-- /row -->
 		</div> <!-- /container -->

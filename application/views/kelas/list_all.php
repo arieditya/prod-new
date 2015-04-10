@@ -64,10 +64,23 @@ $this->load->view('vendor/general/header2');
         });
     </script>
 
-    <div class="container content">
+    <div class="container content daftar-kelas">
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="block-title text-center">Daftar Seluruh Kelas</h3>
+				<?php if(empty($vendor_data)): ?>
+					<h3 class='block-title text-center'>Daftar Seluruh Kelas</h3>
+				<?php else : ?>
+					<div>
+						<a href="<?php echo base_url().'vendor/detail/'.$vendor_data->uri; ?>"
+						   class="btn btn-sm btn-orange">
+							<i class="fa fa-backward"></i>
+							&nbsp; Vendor detail
+						</a>
+					</div>
+					<h3 class="block-title text-center no-margin-top">
+						Daftar Kelas | <?php echo $vendor_data->name; ?>
+					</h3>
+				<?php endif; ?>
             </div>
         </div>
         <div class="row">
@@ -159,6 +172,8 @@ $this->load->view('vendor/general/header2');
             <?php
             $i++;
             endforeach;
+			else:
+				echo "</div>";
             endif;
             ?>
 
