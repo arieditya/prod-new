@@ -273,11 +273,13 @@ if(!empty($vendor_socmed->pinterest)):
 					</div> <!-- content-grid -->
 <?php
 	endforeach;
-	endif;
 ?>
 					<div class="btn kelas-vendor">
 						<a href="<?php echo base_url()?>kelas/index/all" class="main-button text-center">Lihat Semua Kelas</a>
 					</div>
+<?php
+	endif;
+?>
 				</div><!-- panel-kelas -->
 			</div><!-- col-md-4 -->
 <?php /* ?>
