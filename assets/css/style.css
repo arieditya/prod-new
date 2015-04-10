@@ -318,7 +318,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   color: #e11667;
 }
 .review .tag {
-  color: #e11667;
+  color: #3bc4e6;
   text-decoration: underline;
   width: 17px;
   text-align: left;
@@ -329,7 +329,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   padding: 10px 15px 0;
 }
 .description .icon {
-  color: #e11667;
+  color: #3bc4e6;
   width: 17px;
   text-align: left;
 }
@@ -338,7 +338,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
     text-align: right;
 }
 .description .tag {
-    color: #e11667;
+    color: #3bc4e6;
     width: 10px;
     text-align: left;
 }
@@ -439,7 +439,7 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
   line-height: 1.0;
 }
 .rating .fa-star {
-  color: #e11667;
+  color: #3bc4e6;
 }
 .rating-info i {
   margin-right: 3px;
