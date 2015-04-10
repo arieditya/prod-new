@@ -118,7 +118,7 @@ $this->load->view('vendor/general/header2');
                             <span class="details">Details</span>
                         </a>
                         <div class="description">
-                            <div class="icon"><i class="fa fa-calendar-o"></i></div>
+                            <div class="calender-icon icon"><i class="fa fa-calendar-o"></i></div>
 							<span class="date"> <?php echo date('d M Y', strtotime($kelas->class_tanggal));?> |
                                 <?php echo double_digit($kelas->class_jam_mulai).'.'.double_digit($kelas->class_menit_mulai)?> -
                                 <?php echo double_digit($kelas->class_jam_selesai).'.'.double_digit($kelas->class_menit_selesai)?> WIB
@@ -141,12 +141,13 @@ $this->load->view('vendor/general/header2');
 							</div>
                         </div><!-- description -->
                         <div class="review">
-                            <div class="vendor-name">
-                                <div class="icon tag"><i class="fa fa-user"></i></div>
-                                <a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>">
+							<div class="vendor-name"
+								 data-toggle="tooltip" data-placement="right" title="<?php echo $kelas->vendor['profile']->name;?>" data-original-title="<?php echo $kelas->vendor['profile']->name;?>">
+								<div class="icon tag"><i class="fa fa-user fa-2"></i></div>
+								<a href="<?php echo base_url()."vendor/detail/{$kelas->vendor['profile']->uri}"?>">
 									<?php echo character_limiter($kelas->vendor['profile']->name,12);?>
 								</a>
-                            </div>
+							</div>
                             <div class="rating">
                                 <div class="icon tag"><i class="fa fa-star"></i></div>
                                 <b><?php echo (int)$kelas->rating->rate;?></b> (<?php echo $kelas->rating->counter?> review)
