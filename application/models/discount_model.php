@@ -187,14 +187,19 @@ class Discount_model extends MY_Model{
 	public function delete_discount($code, $class) {
 		$id =@$this->db->select('id')->where('code', $code)->where('class_id', $class)->get('discount_main')->row()->id;
 		if(empty($id)) return FALSE;
-		$usage = $this->db->get_where('discount_usage', array('discount_id',$id));
-		if(empty($usage) || $usage->num_rows() == 0) {
-			if(TRUE 
-				&& $this->db->delete('discount_value', array('discount_id'=>$id))
-				&& $this->db->delete('discount_main', array('id'=>$id)))
-				return TRUE;
-			else
+		$usage = $this->db->get_where('discount_usage', array('discount_id'=>$id));
+		if($usage->num_rows() == 0) {
+			$this->db->trans_begin();
+			$this->db->query('DELETE FROM discount_value WHERE discount_id = ?', $id);
+			$this->db->query('DELETE FROM discount_main WHERE id = ?', $id);
+			
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
 				return FALSE;
+			} else {
+				$this->db->trans_commit();
+				return TRUE;
+			}
 		}
 		return FALSE;
 	}

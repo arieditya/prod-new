@@ -41,7 +41,7 @@
 		pengalaman Anda mengikuti kelas bersama <?php krg()?> melalui link di bawah ini:
 	</p>
 	
-	<p><a href="">Feedback link</a></p>
+	<p><a href="<?php echo $link?>">Feedback link</a></p>
 	
 	<p>
 		Atau Anda juga dapat membalas langsung email ini dengan menuliskan hal-hal yang Anda sukai dari mengikuti kelas 

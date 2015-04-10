@@ -213,6 +213,19 @@ class Payment_model extends MY_Model {
 				$class_jadwal = date('d M Y', $class_date_max);
 			}
 		}
+		$q_lok = "
+		SELECT
+			CONCAT(a.lokasi_title,', ', b.provinsi_title) as lokasi
+		FROM 
+			lokasi a
+			LEFT JOIN provinsi b 
+			ON b.provinsi_id = a.provinsi_id
+		WHERE 1
+			AND a.lokasi_id = ?
+			AND b.provinsi_id = ?
+		";
+		$lokasi = $this->db->query($q_lok, array($class->class_lokasi_id, $class->class_provinsi_id))->row()->lokasi;
+		$class->class_lokasi .= "\n{$lokasi}";
 		$data = array(
 			'murid'			=> (array)$murid,
 			'pemohon' 		=> (array)$pemesan,

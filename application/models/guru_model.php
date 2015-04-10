@@ -1653,4 +1653,37 @@ class Guru_model extends CI_Model {
 		$gurus = $this->db->query($query)->result_array();
 		return $gurus;
 	}
+	/*nebeng!*/
+	public function get_murid_for_csv($force_refresh = FALSE) {
+		$key = 'murid_csv';
+		if($force_refresh || ($gurus = get_cache($key))===FALSE ) {
+			$query = "
+			SELECT
+				a.murid_id AS id,
+				a.murid_nama AS nama,
+				a.murid_email AS email,
+				a.murid_alamat AS alamat,
+				a.murid_alamat_domisili AS domisili,
+				c.lokasi_title AS lokasi,
+				a.murid_lahir AS lahir,
+				IF(a.murid_gender=1,'pria','wanita') AS gender ,
+				f.source_info_title AS source_info,
+				a.murid_daftar AS tanggal_daftar,
+				a.murid_call_status AS call_status,
+				a.murid_call_progress AS call_progress,
+				a.murid_handle_by AS handle_by
+			FROM
+				murid a
+				LEFT JOIN lokasi c 
+					ON c.lokasi_id = a.murid_kota
+				LEFT JOIN source_info f
+					ON f.source_info_id = a.source_info_id
+			WHERE 1
+				AND a.murid_active = 1
+			GROUP BY a.murid_id";
+			$gurus = $this->db->query($query)->result_array();
+			set_cache($key, $gurus);
+		}
+		return $gurus;
+	}
 }

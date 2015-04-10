@@ -192,6 +192,19 @@
 				</td>
 			</tr>
 		</table>
+		<p class="text14" style="padding-top: 1cm;">INFORMASI KELAS</p>
+		<div class="dontBreak">
+			<table style="width:75%;">
+				<tr>
+					<th style="vertical-align: top;text-align: left;">Nama</th>
+					<td><?php echo $class['class_nama'];?></td>
+				</tr>
+				<tr style="margin-top: 20pt;padding: 20pt;">
+					<th style="vertical-align: top;text-align: left;">Alamat</th>
+					<td><?php echo nl2br($class['class_lokasi']);?></td>
+				</tr>
+			</table>
+		</div>
 		<p class="text14" style="padding-top: 1cm;">RINCIAN PEMESANAN</p>
 		<div class="dontBreak">
 			<table style="width:100%;" class="listPrice">
@@ -206,7 +219,8 @@
 				<tr style="" class="line">
 					<td style="text-align: center;"><?php echo ++$i;?></td>
 					<td>
-						<span class="text10"><?php echo $sesi['jadwal']?></span>
+						<?php echo empty($sesi['topik'])?'':($sesi['topik'].'<br />');?> 
+						<span class="small-font"><?php echo $sesi['jadwal']?></span>
 					</td>
 				</tr>
 <?php

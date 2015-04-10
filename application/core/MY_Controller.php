@@ -14,6 +14,7 @@
  * @property Duta_guru_model $duta_guru_model
  * @property Email_model $email_model
  * @property Event_model $event_model
+ * @property Feedback_model $feedback_model
  * @property Guru_model $guru_model
  * @property Kelas_model $kelas_model
  * @property Main_model $main_model

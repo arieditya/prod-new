@@ -797,10 +797,12 @@ Terima kasih
 	}
 
 	public function student_class_feedback($murid, $class, $vendor) {
+		
 		$data = array(
 			'murid_name'		=> $murid->name,
 			'class_name'		=> $class->class_nama,
 			'vendor_name'		=> $vendor->name,
+			'link'				=> '#',
 		);
 		$this->from = 'kelas@ruangguru.com';
 		$this->html_content('murid/5_class_feedback',$data);

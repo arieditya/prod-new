@@ -266,10 +266,11 @@ $wait = json_decode($wait);
 							<h5><?php echo $price_code;?></h5>
 							<h5>Rp <?php echo rupiah_format($price);?></h5>
 <?php
-			$total_price -= $price;
+//			$total_price -= $price;
 		endforeach;
 	}
 	else $potongan_diskon = 0;
+
 	if($total_price < 0) $total_price = 0;
 ?>
                         <h4 class="sum-total">

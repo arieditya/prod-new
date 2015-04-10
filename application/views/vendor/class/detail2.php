@@ -1548,8 +1548,7 @@ endif;
 													<div class="radio">
 														<label>
 															<input type="radio" 
-																   name="optionsRadios" 
-																   id="optionsRadios1" 
+																   name="jumlah" 
 																   value="limited" />
 															<input type="number" name="usage_qty" />  Penggunaan
 														</label>

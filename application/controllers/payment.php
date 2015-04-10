@@ -524,6 +524,7 @@ class Payment extends MY_Controller {
 		set_cookie('cart', NULL, '', '', '/');
 		//$this->email_model->send_ticket($trx['pemesan']['email'], $code);
 		$this->session->unset_userdata('transaction');
+		$this->session->unset_userdata('kode_diskon');
 		set_status_header(200);
 		echo json_encode(array(
 			'status'		=> 'OK',

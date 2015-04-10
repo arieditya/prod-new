@@ -206,6 +206,7 @@
 				<tr style="" class="line">
 					<td style="text-align: center;"><?php echo ++$i;?></td>
 					<td>
+						<?php echo empty($sesi['topik'])?'':($sesi['topik'].'<br />');?> 
 						<span class="small-font"><?php echo $sesi['jadwal']?></span>
 					</td>
 					<td>Rp.</td>
