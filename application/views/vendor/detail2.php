@@ -112,10 +112,10 @@ $logo = base_url().(empty($vendor_info->vendor_logo)
 ?>
 				<div class="panel panel-default">
 					<div class="panel-heading heading-label text-center"><i class="fa fa-map-marker"></i> Kontak</div>
-					<div class="panel-body">
+					<div class="panel-body support">
 <?php if($vendor_data->show_address==1 && !empty($vendor_data->address)): ?>
 						<p>
-							<i class="fa fa-map-marker"></i>&nbsp;<?php echo nl2br($vendor_data->address);?>
+							<i class="fa fa-map-marker"></i><?php echo nl2br($vendor_data->address);?>
 						</p> 
 <?php
 	endif;
@@ -190,9 +190,7 @@ if(!empty($vendor_socmed->pinterest)):
 						<h5 class="support">
 							<a href="mailto:kelas@ruangguru.com?Subject=Vendor%20Landing%20<?php echo 
 							rawurlencode($vendor_data->name)?>">
-								<i class="fa fa-envelope"></i>
-								kelas@ruangguru.com
-							</a>
+								<i class="fa fa-envelope"></i>kelas@ruangguru.com</a>
 						</h5>
 					</div>
 				</div><!-- panel -->

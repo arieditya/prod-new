@@ -241,7 +241,7 @@ endif;
 						</div><!-- #jadwal -->
 						<?php if($class->available == 1): ?>
 							<a href="#"
-							   class="main-button register text-center register_class"
+							   class="main-button register text-center register_class btn btn-orange"
 									><i class="fa fa-user"></i> Daftar Sekarang</a>
 						<?php else: ?>
 							<div

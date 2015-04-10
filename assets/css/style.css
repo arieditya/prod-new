@@ -177,8 +177,13 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 .btn-orange {
   background-color: #fcb33b;
   color: #fff;
-  border-color: #fcb33b;
+/*  border-color: #fcb33b;*/
 }
+.btn-orange:hover {
+  background: #E39E1F !important;
+  color: #fff !important;
+}
+/*
 .btn-orange:hover {
   background-color: #fff;
   color: #3bc4e6;
@@ -186,6 +191,15 @@ ul.nav li.dropdown:hover ul.dropdown-menu {
 }
 .btn-orange:hover >.fa{
   color: #3bc4e6;
+}
+*/
+.btn-blue {
+  background-color: #34B9D8 !important;
+  color: #fff;
+}
+.btn-blue:hover {
+  background-color: #02bfec !important;
+  color: #FFF;
 }
 .block-title.no-margin-top {
   margin-top: 0;
@@ -923,6 +937,7 @@ h5.support {
   color: #3a3a3a;
   font-size: 24px;
   vertical-align: sub;
+  width: 23px;
 }
 .logo-vendor {
   border-bottom: 1px solid #3bc4e6;

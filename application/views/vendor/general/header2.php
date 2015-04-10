@@ -187,7 +187,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 ?>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown sign-in">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Masuk</a>
+							<a href="#" class="dropdown-toggle btn-blue" data-toggle="dropdown" role="button" aria-expanded="false">Masuk</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
 									<a class="fancybox" href="#inline1">sbg Murid</a>
@@ -201,7 +201,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 							</ul>
 						</li>
 						<li class="dropdown register">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Daftar</a>
+							<a href="#" class="dropdown-toggle btn-orange" data-toggle="dropdown" role="button" aria-expanded="false">Daftar</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
 									<a href="<?php echo base_url()?>murid/registrasi">sbg Murid</a>
