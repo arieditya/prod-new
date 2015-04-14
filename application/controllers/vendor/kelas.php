@@ -898,9 +898,9 @@ class Kelas extends Vendor_Controller{
 		$status = $this->vendor_class_model->get_status_class($id);
 		if($status->active == 0 && $status->class_status != 4) {
 			$this->vendor_class_model->set_status_class($id,4);
-			$vendor = $this->vendor_model->get_vendor_detail($this->vendor->id);
 			$class = $this->vendor_class_model->get_class(array('id'=>$id,'class_status >=' => NULL,
 																'active'=>NULL))->row();
+			$vendor = $this->vendor_model->get_vendor_detail($class->vendor_id);
 			$this->email_model->vendor_create_class_success($vendor, $class);
 			$this->session->set_flashdata('status.notice', 'Kelas anda akan melewati proses verifikasi admin. Terima kasih');
 		} else {

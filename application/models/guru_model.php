@@ -1686,4 +1686,28 @@ class Guru_model extends CI_Model {
 		}
 		return $gurus;
 	}
+	
+	public function kualifikasi_check() {
+		$query = "
+		SELECT
+			*
+		FROM
+			guru_kualifikasi
+		WHERE sertifikat IS NOT NULL
+		";
+		$result = $this->db->query($query)->result();
+		$data = array();
+		foreach($result as $row) {
+			$data[$row->guru_id][$row->sertifikat] = array('text'=>$row->kualifikasi,'id'=>$row->id);
+		}
+		return $data;
+	}
+	
+	public function update_kualifikasi($data, $id) {
+		$this->db->update('guru_kualifikasi', $data, array('id'=>$id));
+	}
+	public function insert_kualifikasi_2($data) {
+		$this->db->insert('guru_kualifikasi', $data);
+		return $this->db->insert_id();
+	}
 }

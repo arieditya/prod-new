@@ -14,6 +14,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors', 		items: [ 'TextColor','BGColor' ] },
 		{ name: 'paragraph', 	items: ['NumberedList','BulletedList','-','Outdent','Indent','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
 		{ name: 'insert', 		items: ['Image','Table','HorizontalRule','PageBreak'] },
+		{ name: 'links',		items: [ 'Link', 'Unlink', 'Anchor' ]},
 		{ name: 'styles',		items: [ 'Format','Font','FontSize' ] }
 	];
 };

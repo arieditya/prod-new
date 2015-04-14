@@ -14,7 +14,23 @@ class Feedback_model extends MY_Model{
 		parent::__construct();
 	}
 	
-	public function get_question($code) {
+	public function get_questions() {
+		$query = "
+		SELECT
+			COUNT(*) AS cnt,
+			from_type,
+			to_type
+		FROM
+			feedback_question_new
+		WHERE 1
+		GROUP BY from_type, to_type";
+		return $this->db->query($query)->result();
+	}
+	
+	public function get_question($code = NULL) {
+		$where = '';
+		if(!empty($code))
+			$where = "			AND a.code = ?";
 		$query = "
 		SELECT
 			*
@@ -23,10 +39,27 @@ class Feedback_model extends MY_Model{
 			LEFT JOIN feedback_question_new b
 				ON b.from_type = a.from_type AND b.to_type = a.to_type
 		WHERE 1
-			AND a.code = ?
+{$where}
 		ORDER BY b.sort ASC
 		";
 		return $this->db->query($query, $code)->result();
+	}
+	
+	public function get_detail_question($from, $to) {
+		$where = 
+"			AND from_type = ?
+			AND to_type = ?
+";
+		$query = "
+		SELECT
+			*
+		FROM
+			feedback_question_new
+		WHERE 1
+{$where}
+		ORDER BY sort ASC
+		";
+		return $this->db->query($query, array($from, $to))->result();
 	}
 	
 	public function create_feedback($from_type, $from_id, $to_type, $to_id, $code = NULL) {
@@ -67,6 +100,10 @@ class Feedback_model extends MY_Model{
 			'question'			=> $question,
 			'sort'				=> $sort
 		));
+		return $this->db->insert_id();
+	}
+	
+	public function update_question($id, $type, $title, $question, $sort = NULL) {
 		
 	}
 	

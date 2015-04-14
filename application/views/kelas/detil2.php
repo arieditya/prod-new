@@ -101,14 +101,10 @@ endif;
 if ($class->class_paket > 0):?>
 							<h5 class="title-label">Harga paket</h5>
 <?php 
+	$ori_price = $class->price_per_session*$schedule->num_rows();
 	if(!empty($class->discount)):?>
-							<p> <?php echo rupiah_format($class->price_per_session*$schedule->num_rows())?></p>
-<?php 
-	else: 
-?>
 							<p>
 <?php
-		$ori_price = $class->price_per_session*$schedule->num_rows();
 		$disc_price = $ori_price - $class->discount;
 		if($disc_price == $ori_price):
 ?>
@@ -122,6 +118,10 @@ if ($class->class_paket > 0):?>
 		endif;
 ?>
 							</p>
+<?php 
+	else: 
+?>
+							<p> <?php echo rupiah_format($ori_price)?></p>
 <?php 
 	endif;
 endif;

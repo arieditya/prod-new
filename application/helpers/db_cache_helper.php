@@ -14,8 +14,8 @@ function get_cache($key){
 	return $CI->cache_model->get_cache($key);
 }
 
-function set_cache($key, $data) {
+function set_cache($key, $data, $interval = NULL) {
 	$CI = &get_instance();
 	$CI->load->model('cache_model');
-	return $CI->cache_model->set_cache($key, $data);
+	return $CI->cache_model->set_cache($key, $data, $interval);
 }

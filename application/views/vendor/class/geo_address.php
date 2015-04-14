@@ -40,6 +40,7 @@
 		}
 		.selectable {
 			padding-top: 10px;
+			cursor: pointer;
 		}
 		.selectable:hover {
 			background-color: #ccc;
