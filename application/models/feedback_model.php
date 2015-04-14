@@ -45,6 +45,23 @@ class Feedback_model extends MY_Model{
 		return $this->db->query($query, $code)->result();
 	}
 	
+	public function get_detail_question($from, $to) {
+		$where = 
+"			AND from_type = ?
+			AND to_type = ?
+";
+		$query = "
+		SELECT
+			*
+		FROM
+			feedback_question_new
+		WHERE 1
+{$where}
+		ORDER BY sort ASC
+		";
+		return $this->db->query($query, array($from, $to))->result();
+	}
+	
 	public function create_feedback($from_type, $from_id, $to_type, $to_id, $code = NULL) {
 		if(empty($code) || strlen($code) < 40)
 			$code = hashgenerator(40);
@@ -83,6 +100,10 @@ class Feedback_model extends MY_Model{
 			'question'			=> $question,
 			'sort'				=> $sort
 		));
+		return $this->db->insert_id();
+	}
+	
+	public function update_question($id, $type, $title, $question, $sort = NULL) {
 		
 	}
 	

@@ -3,15 +3,10 @@
  * Created by :
  * 
  * User: AndrewMalachel
- * Date: 4/10/15
- * Time: 10:25 AM
+ * Date: 4/13/15
+ * Time: 5:21 PM
  * Proj: prod-new
  */
-$user = array();
-foreach($usertype as $usr) {
-	$user[$usr->id] = (array) $usr;
-}
-
 if ($this->session->flashdata('f_class')): ?>
 	<div class="msg msg-ok boxwidth">
 		<p><strong><?php echo $this->session->flashdata('f_class'); ?></strong></p>
@@ -35,11 +30,11 @@ if ($this->session->flashdata('f_class_error')): ?>
 <div class="box">
 	<!-- Box Head -->
 	<div class="box-head">
-		<h2 class="left">Feedback Management - Question</h2>
+		<h2 class="left">Hacking : Sertifikasi</h2>
 		<div class="right">
-			<form action="<?php echo base_url();?>admin/teacher_driven/class_search" method="post">
-				<label>search class by name</label>
-				<input type="text" class="field small-field" name="class_name" placeholder="search all words" />
+			<form action="<?php echo base_url();?>admin/hacked/sertifikat" method="get">
+				<label>search sertifikat by guru id</label>
+				<input type="text" class="field small-field" name="key" placeholder="guru id" />
 				<input type="submit" class="button" value="search" />
 			</form>
 		</div>
@@ -51,40 +46,88 @@ if ($this->session->flashdata('f_class_error')): ?>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<thead>
 			<tr>
-				<th>Title</th>
-				<th>Question</th>
-				<th>Type</th>
+				<th>ID Guru</th>
+				<th>ID File</th>
+				<th>File</th>
+				<th>Kualifikasi</th>
 				<th>Action</th>
 			</tr>
 			</thead>
-			<tbody id="sortme">
+			<tbody>
 <?php $i=0;?>
-<?php foreach($questions as $question):
-	
+<?php 
+$check_id = array();
+foreach($data as $id => $user):
+	if(!is_numeric($id)) {
+		echo $id;continue;
+	}
+	$id=(int)$id;
+	if(empty($check_id[$id])) {
+		$check_id[$id] = array();
+	}
+	foreach($user as $file => $kualifikasi):
+		$kualifikasi_id = $kualifikasi['id'];
+		while(in_array($kualifikasi_id,$check_id[$id])) {
+			$kualifikasi_id++;
+		}
+		$check_id[$id][] = $kualifikasi_id;
+		if(empty($kualifikasi['id'])) $kualifikasi['id'] = '';
 ?>
 			<tr class="data-row<?php echo (($i++%2)!=0)?' odd':''?>" 
 				data-page="<?php echo ceil($i/20); ?>"
-				id="sort[]_<?php echo $question->id; ?>">
+				>
+				<form id="form_<?php echo "{$id}_{$kualifikasi_id}";?>">
+				<input type="hidden" name="file" value="<?php echo $file;?>" />
+				<input type="hidden" name="guru_id" value="<?php echo $id;?>" />
+				<input type="hidden" name="kualifikasi_id" value="<?php echo $kualifikasi_id;?>" />
+				<input type="hidden" name="form_id" value="<?php echo "{$id}_{$kualifikasi_id}";?>" />
 				<td>
-					<span><?php echo $question->title;?></span>
+					<span id="guruid_<?php echo "{$id}_{$kualifikasi_id}";?>"><?php echo $id?></span>
 				</td>
 				<td>
-					<span><?php echo $question->question;?></span>
+					<span id="kualifikasiid_<?php echo "{$id}_{$kualifikasi_id}";?>"><?php echo $kualifikasi['id']?></span>
 				</td>
-				<td><?php echo $question->type?></td>
 				<td>
-					<span class="ok">
-						<a class="ico edit fancybox" 
-						   href="#edit_question"
-						   data-id="<?php echo $question->id?>"
-						   data-title="<?php echo $question->title;?>"
-						   data-question="<?php echo $question->question;?>"
-						   data-type="<?php echo $question->type;?>">
-							edit
+					<span id="file_<?php echo "{$id}_{$kualifikasi_id}";?>">
+						<a id="filelink_<?php echo "{$id}_{$kualifikasi_id}";?>" 
+						   href="http://ruangguru.com/files/sertifikat/<?php echo $file;?>" 
+						   target="_blank">
+							<?php echo strlen($file)>30?substr($file, 0,27).'...':$file;?>
 						</a>
 					</span>
 				</td>
+				<td><input type="text" 
+						   style="width: 100%" 
+						   id="kualifikasi_<?php echo "{$id}_{$kualifikasi_id}";?>"
+						   name="kualifikasi" 
+						   placeholder="Cnth: Sertifikasi Kemahiran menanam jagung"
+						   value="<?php echo $kualifikasi['text']?>" />
+				</td>
+				<td>
+<?php 
+	if(!empty($kualifikasi['id']) && $kualifikasi['id'] > 0):
+?>
+					<span class="ok">
+						<a href="#" class="update_form"
+						   data-id="<?php echo "{$id}_{$kualifikasi_id}"?>">
+							Update
+					   </a>
+					</span>
+<?php 
+	else:
+?>
+					<span class="ok">
+						<a href="#" class="copy_form"
+						   data-id="<?php echo "{$id}_{$kualifikasi_id}"?>">
+							Copy
+						</a>
+					</span>
+<?php endif; ?>
+					<br />
+				</td>
+				</form>
 			</tr>
+<?php endforeach;?>
 <?php endforeach;?>
 			</tbody>
 		</table>
@@ -97,8 +140,6 @@ if ($this->session->flashdata('f_class_error')): ?>
 				</div>
 			</div>
 			<div class="right">
-				<a href="#edit_question" class="fancybox add_new" >[ Add new Question ]</a>
-				<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<button disabled="disabled" id="data-previous">Previous</button>
 				<button disabled="disabled" id="data-next">Next</button>
 			</div>
@@ -110,40 +151,6 @@ if ($this->session->flashdata('f_class_error')): ?>
 
 </div>
 <!-- End Box -->
-<div id="edit_question" class="col-md-4" 
-	 style="min-width:500px;display: none;height:500px;overflow-x:hidden;">
-	<h2>Question Editor</h2>
-	<hr />
-	<div id="detail_fill">
-		<form id="q_editor" action="<?php echo base_url()?>admin/feedback/submit_question">
-			<input type="hidden" name="id" id="qid" value="" />
-			<input type="hidden" name="to" value="<?php echo $to;?>" />
-			<input type="hidden" name="from" value="<?php echo $from;?>" />
-			<table>
-				<tr>
-					<td>Type</td>
-					<td style="width: 50%">
-						<select name="type" id="qtype" style="width: 50%">
-							<option value="text" id="qtype_text">Text</option>
-							<option value="rate" id="qtype_rate">Rate</option>
-							<option value="both" id="qtype_both" selected="selected">Both</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Title</td>
-					<td style="width: 80%"><input type="text" name="title" style="width: 100%" id="qtitle" /></td>
-				</tr>
-				<tr>
-					<td>Question</td>
-					<td style="width: 100%"><textarea name="question" style="width: 100%" id="qquestion" rows="7" ></textarea></td>
-				</tr>
-			</table>
-			<button type="submit">Submit</button>
-			<button type="button" id="btnClose">Cancel</button>
-		</form>
-	</div>
-</div>
 <script type="application/javascript">
 	var page=1;
 	var total_page=<?php echo ceil($i/20);?>;
@@ -151,15 +158,6 @@ if ($this->session->flashdata('f_class_error')): ?>
 	var data_start=1;
 	var data_end=<?php echo $i>20?'20':$i;?>;
 	$(document).ready(function(){
-
-		$('#sortme').sortable({
-			'update': function(e, ui) {
-				var sort_data = $(this).sortable('serialize', {key: 'sort[]'});
-				console.log(sort_data);
-				window.setTimeout("window.location" +
-						".href=base_url+'admin/teacher_driven/featured_reorder?"+sort_data+"'",5);
-			}
-		});
 
 		if(total_page > 1) $('#data-next').removeAttr('disabled');
 		$('#data-next').click(function(e){
@@ -190,31 +188,51 @@ if ($this->session->flashdata('f_class_error')): ?>
 		}
 		paging_write();
 		var cl1 = 0;
+
+		$('.update_form').click(function(e) {
+			e.preventDefault();
+			var $id = $(this).data('id');
+			var $dt = $('form#form_'+$id).serialize();
+			console.log($dt);
+			$.get(base_url+'admin/hacked/sertifikat_update?'+$dt,function(a,b) {
+				if(a.status == 'OK') {
+				} else {
+					console.log('error');
+				}
+				console.log(a);
+			});
+			return false;
+		});
+
+		$('.copy_form').click(function(e) {
+			e.preventDefault();
+			var $id = $(this).data('id');
+			var $dt = $('form#form_'+$id).serialize();
+			console.log($dt);
+			$.get(base_url+'admin/hacked/sertifikat_copy?'+$dt,function(a,b) {
+				if(a.status == 'OK') {
+					$('a#filelink_'+$id)
+							.attr('href', 'http://ruangguru.com/files/sertifikat/'+ a.data.file_to)
+							.text(a.data.file_to);
+					$('#kualifikasi_'+$id).val(a.data.kualifikasi);
+					$('#kualifikasiid_'+$id).text(a.data.kualifikasi_id);
+					$('form#form_'+$id+' span.ok a.copy_form')
+							.addClass('update_form')
+							.removeClass('copy_form')
+							.text('Update');
+				} else {
+					console.log('error');
+				}
+				console.log(a);
+			});
+			return false;
+		});
+
 		$('#btnClose').click(function(e){
 			e.preventDefault()
 			$.fancybox.close();
 			return false;
-		})
-		$('.fancybox')
-				.fancybox()
-				.click(function(e) {
-					if($(this).hasClass('add_new')) {
-						$('#qid').val('');
-						$('#qtitle').val('');
-						$('#qquestion').val('');
-						$('#qtype option').removeAttr('selected');
-						$('#qtype').val('both');
-//						$('#qtype_both').attr({'selected':null})
-					} else if($(this).hasClass('edit')) {
-						console.log($(this).data('type'));
-						$('#qid').val($(this).data('id'));
-						$('#qtitle').val($(this).data('title'));
-						$('#qquestion').val($(this).data('question'));
-						$('#qtype option').removeAttr('selected');
-						$('#qtype').val($(this).data('type'));
-//						$('#qtype_'+$(this).data('type')).attr({'selected':null});
-					}
-				});
+		});
 /*
 		$('.add_new')
 				.fancybox()

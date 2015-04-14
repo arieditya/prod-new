@@ -41,9 +41,35 @@ class Feedback extends ADMIN_Controller{
 		$this->data['breadcrumb'] 	= $this->admin_model->get_breadcumb(array('Feedback'=>'feedback',
 																			  'Question'=>'feedback/menage_question',
 																			  'Detail'=>''));
-		$this->data['questions'] = $this->feedback_model->get_question();
+		$this->data['questions'] = $this->feedback_model->get_detail_question($from_type, $to_type);
+		$this->data['from'] = $from_type;
+		$this->data['to'] = $to_type;
 		$this->data['content'] = $this->load->view('admin/feedback/detail_question', $this->data, TRUE);
 		$this->load->view('admin/admin_v',$this->data);
+	}
+	
+	public function submit_question() {
+		$referer = array_pop(explode('/',empty($_SERVER['HTTP_REFERER'])?'empty':$_SERVER['HTTP_REFERER']));
+		if( ! method_exists($this, array_shift(explode('?',$referer)))) 
+			show_error('unauthorized call of function!', 401);
+
+		$id = (int)$this->input->get('id', TRUE);
+		$type = $this->input->post('type', TRUE);
+		$title = $this->input->post('title', TRUE);
+		$question = $this->input->post('question', TRUE);
+
+		if(empty($id)) {
+			$from_type = (int)$this->input->get('from', TRUE);
+			$to_type = (int)$this->input->get('to', TRUE);
+			if($this->feedback_model->create_question($from_type, $to_type, $type, $title, $question)) {
+				$this->session->set_flashdata(array('f_class'=>'Question Added!'));
+			} else {
+				$this->session->set_flashdata(array('f_class_error'=>'Question Failed to be Added!'));
+			}
+		} else {
+			
+		}
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 	
 	public function detail_answer() {
