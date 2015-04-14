@@ -213,7 +213,7 @@ $this->load->view('vendor/general/header2');
 ?>
 				<div class="col-sm-4">
 					<div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
-						<a href="#">
+						<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 							<div class="grid-top" style="background-image: url('<?php echo base_url().$img;?>');">
 								<div class="grid-title-wrap" style="width: 100%">
 									<h3 class="grid-title"><?php echo $kelas->class_nama?></h3>
