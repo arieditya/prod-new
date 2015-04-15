@@ -329,7 +329,7 @@ endif;
 				</div><!-- detail-label -->
 				<?php if($class->available == 1): ?>
 					<a href="#" class="register_class">
-						<div class="detail-label label-yellow text-center">
+						<div class="detail-label btn-orange text-center">
 							<i class="fa fa-user"></i>
 							<h3 class="entry-detail-label text-20">Daftar Sekarang</h3>
 						</div><!-- detail-label -->

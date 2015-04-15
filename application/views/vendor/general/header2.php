@@ -180,7 +180,7 @@ $notice = strlen($this->session->flashdata('status.error'))?'error':
 						<li><a href="<?php echo base_url()?>cari_guru">Belajar Privat</a></li>
 						<li><a href="http://kelas.ruangguru.com">Kelas Berkelompok</a></li>
 						<li><a href="<?php echo base_url()?>faq">FAQ</a></li>
-						<li><a href="#contact">Kontak</a></li>
+						<li><a href="<?php echo base_url()?>kontak-kami">Kontak</a></li>
 					</ul>
 <?php
 	if(empty($is_logged_in) || empty($user['id'])): // Not logged in
