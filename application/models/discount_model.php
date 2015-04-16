@@ -203,6 +203,24 @@ class Discount_model extends MY_Model{
 		}
 		return FALSE;
 	}
+	
+	public function check_discount_usage_by_invoice_class($class_id, $invoice_code) {
+		$query = "
+		SELECT
+			IF(ISNULL(a.nominal_value), '0', a.nominal_value) AS val
+		FROM
+			discount_usage a
+			RIGHT JOIN discount_main b
+				ON a.discount_id = b.id
+		WHERE 1
+			AND b.class_id = ?
+			AND a.invoice_code = ?
+		";
+		$data = $this->db->query($query,array($class_id, $invoice_code))->row();
+		if(!empty($data))
+			return $data->val;
+		else return 0;
+	}
 }
 
 // END OF discount_model.php File

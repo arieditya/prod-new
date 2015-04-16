@@ -41,11 +41,29 @@ class Vendor_model extends MY_Model{
 		if(!empty($vendor)) {
 			if(!empty($vendor->vendor_logo)) 
 				$vendor->vendor_logo = base_url()."images/vendor/{$id}/{$vendor->vendor_logo}";
+
 			$vendor->class_count = $this->db
 					->select('COUNT(*) as cnt')
 					->from('vendor_class')
 					->where('vendor_id', $id)
 					->get()->row()->cnt;
+			
+			$bank = $this->db
+					->select('bank.bank_title')
+					->select('vendor_rekening.cabang')
+					->select('vendor_rekening.no_rek')
+					->select('vendor_rekening.atasnama')
+					->from('vendor_rekening')
+					->join('bank', 'bank.bank_id = vendor_rekening.bank_id', 'LEFT')
+					->where('vendor_rekening.vendor_id', $id)
+					->get()->row();
+			if(empty($bank)) {
+				$bank = array('no_bank'=>'This Account has no bank account!');
+			}
+			foreach($bank as $key => $value) {
+				$k = 'account_'.$key;
+				$vendor->{$k} = $value;
+			}
 			return $vendor;
 		}
 		return FALSE;

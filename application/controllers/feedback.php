@@ -88,13 +88,11 @@ class Feedback extends MY_Controller{
 			'name'		=> $from_data->name,
 			'type' 		=> 'Peserta Kelas.Ruangguru'
 		);
-		$data = array(
-			'from'		=> $from,
-			'to'		=> $to,
-			'type'		=> $type,
-			'question'	=> $q
-		);
-		$this->load->view('feedback', $data);
+		$this->data['from']		= $from;
+		$this->data['to']		= $to;
+		$this->data['type']		= $type;
+		$this->data['question']	= $q;
+		$this->load->view('feedback', $this->data);
 	}
 }
 

@@ -206,13 +206,13 @@ endif;
 </div>
 <!-- End Box -->
 <div id="detail_vendor" class="col-md-4" 
-	 style="max-width:500px;display: none;height:100%;overflow-x:hidden;">
+	 style="width:500px;display: none;height:100%;overflow-x:hidden;">
 	<h2>Vendor Detail!</h2>
 	<hr />
 	<div id="detail_fill"></div>
 </div>
 <div id="detail_class" class="col-md-4" 
-	 style="max-width:500px;display: none;height:100%;overflow-x:hidden;">
+	 style="width:500px;display: none;height:100%;overflow-x:hidden;">
 	<h2>Class Detail!</h2>
 	<hr />
 	<div id="detail_fill"></div>

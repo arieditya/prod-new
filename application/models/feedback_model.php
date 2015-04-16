@@ -88,7 +88,7 @@ class Feedback_model extends MY_Model{
 				MAX(sort) as srt 
 			FROM feedback_question_new 
 			WHERE from_type = ? AND to_type = ?',
-			array($from_type, $to_type))->row();
+			array($from_type, $to_type))->row()->srt;
 			if(empty($max)) $max = 0;
 			$sort = ((int) $max)+1;
 		}
@@ -103,8 +103,21 @@ class Feedback_model extends MY_Model{
 		return $this->db->insert_id();
 	}
 	
+	public function delete_question($id) {
+		$this->db->delete('feedback_question_new', array('id'=>$id));
+	}
+	
 	public function update_question($id, $type, $title, $question, $sort = NULL) {
-		
+		$data = array(
+			'type'				=> $type,
+			'title'				=> $title,
+			'question'			=> $question,
+		);
+		if(!empty($sort) && is_int($sort)) $data['sort'] = $sort;
+		$this->db->update('feedback_question_new', $data, array(
+			'id'				=> $id
+		));
+		return !! $this->db->affected_rows();
 	}
 	
 	public function answer_question($data) {
