@@ -508,9 +508,7 @@ if($total > 0):
 					var container_1 = ($('<div class="fancybox-skin" style="padding: 15px; width: auto; height: auto;"></div>'));
 					var container_2 = ($('<div class="fancybox-outer"></div>'));
 					var container_3 = ($('<div class="fancybox-inner" style="overflow: auto; width: 400px; height: auto;"></div>'));
-					container_3.append($('<img src="/images/payment/customer-service-icon-3.png" style="height: 120px;" />'));
-					container_3.append($('<h4>Terima kasih telah melakukan pembayaran bersama <span class="pinkfont">Ruangguru.com</span></h4>'));
-					//container_3.append($('<p class="text-18 text-center"><b>Transaksi Gagal<b></p>'));
+					container_3.append($('<p class="text-18 text-center"><b>Transaksi Gagal<b></p>'));
 					container_3.append($('<p>Transaksi anda mengalami kegagalan, silahkan mencoba lagi beberapa saat lagi, atau hubungi customer service kami di:<br /><span class="pinkfont">021.9200.3040</span></p>'));
 					container_3.append($('<p>Terima kasih.</p>'));
 					container_2.append(container_3);
