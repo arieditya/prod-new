@@ -885,6 +885,9 @@ thead {
   margin: 0;
   padding-top: 5px;
 }
+.register_class:hover {
+  text-decoration: none;
+}
 .price-big-wrap .entry-detail-label {
   font-size: 24px;
   /*padding-right: 20px;*/
@@ -946,6 +949,9 @@ h5.support {
   border-bottom: 1px solid #3bc4e6;
   margin-bottom: 10px;
   padding-bottom: 20px;
+}
+.logo-vendor-mini {
+
 }
 .panel-body .more {
   /*font-family: Roboto Bold;*/
@@ -1564,7 +1570,7 @@ a.remove {
 	  margin-top: 0px;
 	  height: auto;
 	}
-	.navbar-right .register .dropdown-menu {
+    .navbar-right .register .dropdown-menu {
 	  left: auto;
 	}
 	.nav-pills .pull-right {

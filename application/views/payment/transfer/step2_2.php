@@ -500,48 +500,42 @@ if($total > 0):
 				'dataType': 'json',
 				'error': function() {
 					var cssOpt = {
-						'top'				: Math.floor(window.screen.height/2)-(90)+'px',
-						'left'				: Math.floor(window.screen.width/2)-(233)+'px',
-						'position'			: 'absolute',
-						'color'				: '#fff'
+						'top'				: Math.floor(window.screen.height/2)-(20)+'px',
+						'left'				: Math.floor(window.screen.width/2)-(233)+'px'
 					};
-					var result_container = $('<div id="result_container"></div>');
+					var result_container = $('<div class="fancybox-wrap fancybox-mobile fancybox-type-inline fancybox-opened" tabindex="-1" style="width: 430px; height: auto; position: absolute; opacity: 1; overflow: visible;"></div>');
 					result_container.css(cssOpt);
-					result_container.css({
-						'height'		: '250px',
-						'width'			: '465px',
-						'backgroundColor': '#eee',
-						'text-align'	: 'left',
-						'padding'		: 0
-					});
-					result_container.append($('<h5 class="pinkfont">Transaksi gagal</h5>'));
-					result_container.append($('<p>Transaksi anda mengalami kegagalan, silahkan mencoba lagi beberapa saat lagi, atau hubungi customer service kami di:<br /><span class="pinkfont">021.9200.3040</span></p>'));
-					result_container.append($('<p>Terima kasih.</p>'));
+					var container_1 = ($('<div class="fancybox-skin" style="padding: 15px; width: auto; height: auto;"></div>'));
+					var container_2 = ($('<div class="fancybox-outer"></div>'));
+					var container_3 = ($('<div class="fancybox-inner" style="overflow: auto; width: 400px; height: auto;"></div>'));
+					container_3.append($('<p class="text-18 text-center"><b>Transaksi Gagal<b></p>'));
+					container_3.append($('<p>Transaksi anda mengalami kegagalan, silahkan mencoba lagi beberapa saat lagi, atau hubungi customer service kami di:<br /><span class="pinkfont">021.9200.3040</span></p>'));
+					container_3.append($('<p>Terima kasih.</p>'));
+					container_2.append(container_3);
+					container_1.append(container_2);
+					result_container.append(container_1);
+					result_container.append($('<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>'));
 					$('#roller').remove();
 					$('#curtain').append(result_container);
 				},
 				'success': function(dt){
 					var cssOpt = {
-						'top'				: Math.floor(window.screen.height/2)-(90)+'px',
-						'left'				: Math.floor(window.screen.width/2)-(233)+'px',
-						'position'			: 'absolute',
-						'color'				: '#fff'
+						'top'				: Math.floor(window.screen.height/2)-(20)+'px',
+						'left'				: Math.floor(window.screen.width/2)-(233)+'px'
 					};
-					var result_container = $('<div id="result_container"></div>');
+					var result_container = $('<div class="fancybox-wrap fancybox-mobile fancybox-type-inline fancybox-opened" tabindex="-1" style="width: 430px; height: auto; position: absolute; opacity: 1; overflow: visible;"></div>');
 					result_container.css(cssOpt);
-					result_container.css({
-						'height'		: '250px',
-						'width'			: '500px',
-						'backgroundColor': '#eee',
-						'color'			: '#333',
-						'text-align'	: 'left',
-						'padding'		: 0
-					});
-					
-					result_container.append($('<img src="/images/payment/customer-service-icon-3.png" style="height: 120px;" />'));
-					result_container.append($('<h4>Terima kasih telah melakukan pembayaran bersama <span class="pinkfont">Ruangguru.com</span></h4>'));
-					result_container.append($('<p>Pembayaran Anda saat ini sedang diproses dan anda akan menerima email berisi invoice yang kami kirim ke: <span class="pinkfont">'+dt.data.email+'</span></p>'));
-					result_container.append($('<p>Kode transaksi anda adalah: <span class="pinkfont">'+dt.data.code+'</span></p>'));
+					var container_1 = ($('<div class="fancybox-skin" style="padding: 15px; width: auto; height: auto;"></div>'));
+					var container_2 = ($('<div class="fancybox-outer"></div>'));
+					var container_3 = ($('<div class="fancybox-inner" style="overflow: auto; width: 400px; height: auto;"></div>'));
+					container_3.append($('<img src="/images/payment/customer-service-icon-3.png" style="height: 120px;" />'));
+					container_3.append($('<h4>Terima kasih telah melakukan pembayaran bersama <span class="pinkfont">Ruangguru.com</span></h4>'));
+					container_3.append($('<p>Pembayaran Anda saat ini sedang diproses dan anda akan menerima email berisi invoice yang kami kirim ke: <span class="pinkfont">'+dt.data.email+'</span></p>'));
+					container_3.append($('<p>Kode transaksi anda adalah: <span class="pinkfont">'+dt.data.code+'</span></p>'));
+					container_2.append(container_3);
+					container_1.append(container_2);
+					result_container.append(container_1);
+					result_container.append($('<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"></a>'));
 					$('#roller').remove();
 					$('#curtain').append(result_container);
 					$.removeCookie('cart', {'path':'/'});
