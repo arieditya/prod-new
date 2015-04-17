@@ -77,7 +77,7 @@ foreach($data as $id => $user):
 				data-page="<?php echo ceil($i/20); ?>"
 				>
 				<form id="form_<?php echo "{$id}_{$kualifikasi_id}";?>">
-				<input type="hidden" name="file" value="<?php echo $file;?>" />
+				<input type="hidden" name="file" value="<?php echo rawurlencode($file);?>" />
 				<input type="hidden" name="guru_id" value="<?php echo $id;?>" />
 				<input type="hidden" name="kualifikasi_id" value="<?php echo $kualifikasi_id;?>" />
 				<input type="hidden" name="form_id" value="<?php echo "{$id}_{$kualifikasi_id}";?>" />
@@ -90,7 +90,7 @@ foreach($data as $id => $user):
 				<td>
 					<span id="file_<?php echo "{$id}_{$kualifikasi_id}";?>">
 						<a id="filelink_<?php echo "{$id}_{$kualifikasi_id}";?>" 
-						   href="http://ruangguru.com/files/sertifikat/<?php echo $file;?>" 
+						   href="http://ruangguru.com/files/sertifikat/<?php echo rawurlencode($file);?>" 
 						   target="_blank">
 							<?php echo strlen($file)>30?substr($file, 0,27).'...':$file;?>
 						</a>

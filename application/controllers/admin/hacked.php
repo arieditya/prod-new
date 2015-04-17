@@ -64,8 +64,9 @@ class Hacked extends ADMIN_Controller{
 		$guru_id = $this->input->get('guru_id', TRUE);
 		$kualifikasi = $this->input->get('kualifikasi', TRUE);
 		
-		$file = $this->input->get('file', TRUE);
-		$new_file = $this->check_sertifikat($guru_id);
+		$file = rawurldecode($this->input->get('file', TRUE));
+		$ext = array_pop(explode('.',$file));
+		$new_file = $this->check_sertifikat($guru_id).'.'.$ext;
 		$path = str_replace('/administrator','',FCPATH.'files/sertifikat/');
 		copy($path.$file, $path.$new_file);
 		$data = array(
@@ -103,26 +104,34 @@ class Hacked extends ADMIN_Controller{
 			));
 		}
 	}
-	protected function check_sertifikat($id) {
+	public function check_sertifikat($id, $printout = FALSE) {
+		if($printout)echo "<pre>";
 		$path = str_replace('/administrator','',FCPATH.'files/sertifikat');
 		$data = glob($path."/{$id}-*");
 		$counter = 1;
+		if($printout)var_dump($data);
 		foreach($data as $dt) {
 			$ext = array_pop(explode('.',$dt));
 			$dt = str_replace('.'.$ext, '', $dt);
 			$explode = explode('-',$dt);
+			if($printout)var_dump($explode);
 			if(count($explode) == 2) {
 				preg_match('/[^0-9]/', $explode[1],$match);
+				if($printout)var_dump($match);
 				if(empty($match)) {
 					$cnt = (int) $explode[1];
-					if($counter < $cnt) {
+					//echo "EXPLODE[1]: {$cnt}\n";
+					if($counter <= $cnt) {
 						$counter = $cnt+1;
 					}
 				}
 				
 			}
 		}
-		return "{$id}-{$counter}.{$ext}";
+		if(!$printout)
+			return "{$id}-{$counter}";
+		else
+			echo "{$id}-{$counter}";
 	}
 	public function sertifikat_update() {
 		header('Content-type: application/json');
