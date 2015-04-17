@@ -134,6 +134,14 @@ class Kelas extends Vendor_Controller{
 			'class_level', 'class_category'
 		);
 		
+		$nama_kelas = $this->input->post('class_nama', TRUE);
+		$test_nama = trim(preg_replace('/[^a-z]/', '', $nama_kelas));
+		if(empty($test_nama) || strlen($test_nama) < 5) {
+			$this->session->set_flashdata('status.error','Nama kelas yang anda gunakan tidak valid.');
+			redirect('vendor/kelas/baru/');
+			exit;
+		}
+		
 		$data = array();
 		$data_ext = array();
 		foreach($_POST as $key => $value) {

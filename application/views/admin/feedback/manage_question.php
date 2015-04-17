@@ -71,6 +71,11 @@ if ($this->session->flashdata('f_class_error')): ?>
 						<a class="ico edit" 
 						   href="<?php echo base_url()."admin/feedback/detail_question/{$question->from_type}/{$question->to_type}"?>">
 						detail</a>
+					</span><br />
+					<span class="ok">
+						<a class="ico" 
+						   href="<?php echo base_url()."admin/feedback/trigger_blast_question/{$question->from_type}/{$question->to_type}"?>">
+						blast</a>
 					</span>
 				</td>
 			</tr>

@@ -32,6 +32,18 @@ class Feedback extends ADMIN_Controller{
 		$this->load->view('admin/admin_v',$this->data);
 	}
 	
+	public function trigger_blast_question($from, $to) {
+		if($from == 6 and $to == 9) {
+			
+		} else {
+			redirect('admin/feedback/manage_question');
+		}
+	}
+	
+	public function blast_question() {
+		
+	}
+	
 	public function manage_answer() {
 		$this->data['active'] = 620;
 	}

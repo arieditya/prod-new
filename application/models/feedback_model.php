@@ -27,10 +27,18 @@ class Feedback_model extends MY_Model{
 		return $this->db->query($query)->result();
 	}
 	
-	public function get_question($code = NULL) {
+	public function get_question($code = NULL, $taken = FALSE) {
+		
 		$where = '';
 		if(!empty($code))
-			$where = "			AND a.code = ?";
+			$where .= "			AND a.code = ?
+";
+		if($taken === FALSE)
+			$where .= "			AND a.taken IS NULL
+";
+		if(strtoupper($taken) === 'ONLY')
+			$where .= "			AND a.taken IS NOT NULL
+";
 		$query = "
 		SELECT
 			*
@@ -133,6 +141,10 @@ class Feedback_model extends MY_Model{
 		}
 		$this->db->insert('feedback_value', $data);
 		return TRUE;
+	}
+	
+	public function mark_done($code) {
+		$this->db->update('feedback', array('taken'=>date('Y-m-d H:i:s')), array('code'=>$code));
 	}
 }
 
