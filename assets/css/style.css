@@ -950,8 +950,18 @@ h5.support {
   margin-bottom: 10px;
   padding-bottom: 20px;
 }
+.logo-vendor-mini-container {
+  padding: 4px;
+}
 .logo-vendor-mini {
-
+  background-color: #fff;
+  width: 40px;
+  height: 42px;
+  text-align: center;
+  border-bottom: 2px solid #fcb33b;
+}
+.logo-vendor-mini img{
+  margin: auto;
 }
 .panel-body .more {
   /*font-family: Roboto Bold;*/
