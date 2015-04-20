@@ -175,7 +175,7 @@ class Kelas extends MY_Controller {
 			$featured_class = $classes;
 		} else {
 			foreach($featured as $feat){
-				$cls = $this->vendor_class_model->get_class(array('id'=>$feat->class_id))->row();
+				$cls = $this->vendor_class_model->get_class(array('id'=>$feat->class_id),1,6,'current')->row();
 				if(empty($cls)) continue;
 				$cnt = $this->vendor_class_model->get_class_schedule(array('class_id'=>$cls->id))->num_rows();
 				$cls->count_session = $cnt;

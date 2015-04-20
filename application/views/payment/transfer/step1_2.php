@@ -102,7 +102,7 @@ $wait = json_decode($wait);
 								</div>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-default main-button register">Submit Pesanan</button>
+						<button type="submit" class="btn btn-orange main-button register">Submit Pesanan</button>
 					</form>
                 </div><!-- panel -->
             </div><!-- col-sm-7 -->
@@ -255,7 +255,7 @@ $wait = json_decode($wait);
                             <div class="form-group">
                                 <input type="text" class="form-control" id="kode_diskon" placeholder="( jika ada )" />
                             </div>
-                            <button type="button" id="cek_diskon" class="btn btn-default cek-button">Cek</button>
+                            <button type="button" id="cek_diskon" class="btn btn-orange cek-button">Cek</button>
                         </div>
 <?php
 //	$potongan_diskon = 250000;

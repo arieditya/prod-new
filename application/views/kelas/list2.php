@@ -144,7 +144,7 @@ $this->load->view('vendor/general/header2');
 							<span class="price">SOLD OUT</span>
 						<?php endif; ?>
 						<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
-							<span class="details">Details</span>
+							<span class="details btn-orange">Details</span>
 						</a>
 						<div class="description">
 							<div class="calender-icon icon"><i class="fa fa-calendar-o"></i></div>
@@ -267,7 +267,7 @@ $this->load->view('vendor/general/header2');
 								<span class="price">SOLD OUT</span>
 <?php endif; ?>
 							<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
-								<span class="details">Details</span>
+								<span class="details btn-orange">Details</span>
 							</a>
 							<div class="description">
 								<div class="calender-icon icon"><i class="fa fa-calendar-o"></i></div>
