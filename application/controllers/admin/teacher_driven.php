@@ -398,6 +398,7 @@ class Teacher_driven extends Admin_Controller{
 			$cls->attendance = $this->vendor_class_model->get_class_participant_full($cls->id, 0);
 			$cls->attendance_register = $this->vendor_class_model->get_class_participant_full($cls->id, '<= 3');
 			$cls->attendance_paid = $this->vendor_class_model->get_class_participant_full($cls->id, 4);
+			$cls->registration_days = $this->vendor_class_model->get_latest_date_of_class($cls->id);
 //			var_dump($cls);exit;
 		}
 		$data['class'] = $class;

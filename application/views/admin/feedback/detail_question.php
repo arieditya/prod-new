@@ -159,7 +159,7 @@ if ($this->session->flashdata('f_class_error')): ?>
 	var data_end=<?php echo $i>20?'20':$i;?>;
 
 	function checkers(elm) {
-		$elm = $(elm);
+		var $elm = $(elm);
 		var test_seg = hashGenerator(8);
 		var test = prompt('Confirm by entering this code:\n'+test_seg);
 		if(test.toUpperCase()==test_seg.toUpperCase()){

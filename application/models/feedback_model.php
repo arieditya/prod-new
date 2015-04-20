@@ -72,7 +72,7 @@ class Feedback_model extends MY_Model{
 	
 	public function create_feedback($from_type, $from_id, $to_type, $to_id, $code = NULL) {
 		if(empty($code) || strlen($code) < 40)
-			$code = hashgenerator(40);
+			$code = hashgenerator(40)[0];
 		$insert = array(
 			'code'			=> $code,
 			'from_type'		=> $from_type,
@@ -145,6 +145,17 @@ class Feedback_model extends MY_Model{
 	
 	public function mark_done($code) {
 		$this->db->update('feedback', array('taken'=>date('Y-m-d H:i:s')), array('code'=>$code));
+	}
+	
+	public function get_feedback_response($from_type, $to_type, $from_id = NULL, $to_id = NULL ) {
+		if(!empty($from_id)) $this->db->where('from_id', $from_id);
+		if(!empty($to_id)) $this->db->where('to_id', $to_id);
+
+		return $this->db
+				->from('feedback')
+				->where('from_type', $from_type)
+				->where('to_type', $to_type)
+				->get()->result();
 	}
 }
 

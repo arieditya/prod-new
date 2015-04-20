@@ -1502,6 +1502,27 @@ class Vendor_class_model extends MY_Model{
 		";
 		return $this->db->query($query,array($class_id))->row()->cnt;
 	}
+	
+	public function get_latest_date_of_class($class_id) {
+		$query = "
+		SELECT 
+			MAX(class_tanggal) AS max_date,
+			DATEDIFF(MAX(class_tanggal), NOW()) AS days_left
+		FROM vendor_class_jadwal
+		WHERE class_id = ?
+		";
+		$data = $this->db->query($query, $class_id)->row_array();
+		if(empty($data) || empty($data['max_date'])) 
+			return array(
+				'max_date'	=> '1970-01-01',
+				'days_left'	=> -9999
+			);
+		else return $data;
+	}
+	
+	public function get_last_registration_date($class_id) {
+		
+	}
 }
 
 // END OF vendor_class_model.php File
