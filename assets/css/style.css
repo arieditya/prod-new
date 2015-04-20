@@ -1699,6 +1699,9 @@ a.remove, a.remove_cart {
   .navbar-default {
     padding: 0;
   }
+  .description {
+    line-height: 1.6;
+  }
   body {
     padding-top: 90px;
   }
