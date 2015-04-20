@@ -36,9 +36,6 @@ $this->load->view('vendor/general/header2');
 			<p>
 				Silahkan isi data berikut untuk konfirmasi pembayaran yang sudah Anda lakukan. Proses konfirmasi akan memakan waktu maksimal 1 hari kerja. Jika konfirmasi Anda telah diverifikasi, Anda akan memperolah email notifikasi dari kami.
 			</p>
-			<p>
-				Jika anda ada pertanyaan, Anda dapat menghubungi kami melalui <a href="mailto:bayar@ruangguru.com" class="pinkfont">bayar@ruangguru.com</a> atau telepon ke <span class="pinkfont">021-9200-3040</span>
-			</p>
 			<form role="form" class="form-horizontal" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label class="control-label col-md-4">Kode pemesanan</label>
@@ -87,13 +84,17 @@ $this->load->view('vendor/general/header2');
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-4">Upload bukti transfer<br />(Max. 2MB)</label>
+					<label class="control-label col-md-4">Upload bukti transfer</label>
 					<div class="col-md-8">
 						<input type="file" name="bukti_transfer" class="form-control" required="required" />
+						<i>(Max. 2MB)</i>
 					</div>
 				</div>
 				<div class="col-md-4 col-md-offset-4">
-					<button type="submit" id="btn_kirim" class="btn-orange" style="color: #333;">Kirim</button>
+					<button type="submit" id="btn_kirim" class="btn-orange">
+						<i class="fa fa-upload"></i>
+						Kirim
+					</button>
 				</div>
 			</form>
 			</div> <!-- end panel-body -->
@@ -106,15 +107,17 @@ $this->load->view('vendor/general/header2');
 					Butuh Bantuan ?
 				</div>
 				<div class="panel-body">
-					<p>Peroleh informasi dan bantuan terkait kelas dari tim layanan konsumen kami! </p>
+					<p>
+						Jika anda ada pertanyaan tentang pembayaran, Anda dapat menghubungi kami melalui
+					</p>
 					<h5 class="support">
 						<a href="tel:+622192003040">
 							<i class="fa fa-phone-square"></i>021-9200-3040
 						</a>
 					</h5>
 					<h5 class="support">
-						<a href="mailto:kelas@ruangguru.com">
-							<i class="fa fa-envelope"></i>kelas@ruangguru.com
+						<a href="mailto:bayar@ruangguru.com">
+							<i class="fa fa-envelope"></i>bayar@ruangguru.com
 						</a>
 					</h5>
 				</div>
