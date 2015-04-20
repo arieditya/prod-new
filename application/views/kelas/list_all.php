@@ -101,12 +101,21 @@ $this->load->view('vendor/general/header2');
             array_push($imgparts, $ext);
             $img = empty($kelas->class_image)?'images/default_profile_image.png':('images/class/'.$kelas->id.'/'
                 .implode('.', $imgparts));
-			$vendor_img = explode('.',$kelas->vendor['info']->vendor_logo);
-			$ext_vendor_img = array_pop($vendor_img);
-			array_push($vendor_img, '40x40');
-			array_push($vendor_img, $ext_vendor_img);
-			$vendor_icon = implode('.',$vendor_img);
-			$price = (int)$kelas->price_per_session;
+			
+            //vendor image icon
+            $v_img_url = 'images/vendor/'.$kelas->vendor['profile']->id.'/'.$kelas->vendor['info']->vendor_logo;
+            $v_img_arr = explode('.',$v_img_url);
+            $v_img_ext = array_pop($v_img_arr);
+            list ($v_img_width, $v_img_height, $v_img_type, $v_img_attr) = getimagesize($v_img_url);
+            $ratio = $v_img_height / $v_img_width;
+            $v_img_height = ($ratio >= 0) ? 40 : floor(40 * $ratio);
+            $v_img_width = ($ratio >= 0) ? floor(40 / $ratio) : 40;
+            $v_img_size = $v_img_width.'x'.$v_img_height;
+            array_push($v_img_arr, $v_img_size);
+            array_push($v_img_arr, $v_img_ext);
+            $vendor_icon = implode('.',$v_img_arr);
+
+            $price = (int)$kelas->price_per_session;
             $disc = (int)$kelas->discount;
             if($kelas->class_paket == 2) {
                 $_price = rupiah_format($price * $kelas->count_session).' /paket';
@@ -121,9 +130,13 @@ $this->load->view('vendor/general/header2');
                 <div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
                     <a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
                         <div class="grid-top" style="background-image: url('<?php echo base_url().$img;?>');">
-							<img src="<?php echo base_url("images/vendor/{$kelas->vendor['profile']->id}/{$vendor_icon}")?>"
-								 class="img-responsive logo-vendor-mini" alt="">
-							<div class="grid-title-wrap" style="width: 100%">
+							<div class="logo-vendor-mini-container">
+                                <div class="logo-vendor-mini">
+                                    <img src="<?php echo base_url("{$vendor_icon}")?>"
+                                     class="img-responsive" alt="">
+                                </div>
+                            </div>
+                            <div class="grid-title-wrap" style="width: 100%">
                                 <h3 class="grid-title"><?php echo $kelas->class_nama?></h3>
                             </div><!-- grid-title-wrap -->
                         </div><!-- grid-top -->
