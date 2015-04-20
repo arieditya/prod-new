@@ -1554,6 +1554,21 @@ a.remove, a.remove_cart {
   background-color: #fff;
   height: 30px;
 }
+/*payment*/
+.message-status {
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.message-status.true {
+  background-color: rgba(180,220,180,0.7);
+  color: darkgreen;
+}
+.message-status.false {
+  background-color: rgba(230,5,5,0.7);
+  color: #FFFFFF;
+}
+
 @media (min-width: 1080px) {
   .navbar > .container {
     width: 1080px;
