@@ -1008,7 +1008,10 @@ textarea.form-control {
 a.add, a.remove {
   margin: 0;
 }
-a.remove {
+a.add {
+  color: green;
+}
+a.remove, a.remove_cart {
   color: #f75252;
 }
 .sum-label {
