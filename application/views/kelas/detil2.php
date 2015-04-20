@@ -111,8 +111,12 @@ if ($class->class_paket > 0):?>
 								<?php echo rupiah_format($disc_price);?>
 <?php
 		else:
+			if($class->class_paket != 2):
 ?>
 								<span class="strike"><?php echo rupiah_format($ori_price);?></span>
+<?php
+			endif;
+?>
 								<?php echo rupiah_format($disc_price);?>
 <?php
 		endif;
@@ -322,7 +326,7 @@ endif;
                             echo "GRATIS";
                         }
                         else {
-                            echo rupiah_format($class->price_per_session*$schedule->num_rows());
+                            echo rupiah_format(($class->price_per_session*$schedule->num_rows())-$class->discount);
                         }
                         ?>
 					</h3>

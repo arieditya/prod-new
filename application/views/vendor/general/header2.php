@@ -37,6 +37,20 @@
 		<link href="<?php echo base_url().'.'?>/assets/css/style.css" rel="stylesheet">
 
 	</head>
+	<!-- KISSmetrics tracking snippet -->
+	<script type="text/javascript">var _kmq = _kmq || [];
+	var _kmk = _kmk || 'bd68c8a5c2fc996a64d7e609282d3dd6c72b7d30';
+	function _kms(u){
+	 setTimeout(function(){
+	   var d = document, f = d.getElementsByTagName('script')[0],
+	   s = d.createElement('script');
+	   s.type = 'text/javascript'; s.async = true; s.src = u;
+	   f.parentNode.insertBefore(s, f);
+	 }, 1);
+	}
+	_kms('//i.kissmetrics.com/i.js');
+	_kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+	</script>
 <!--  -->
 	<script type="application/javascript" src="<?php echo base_url().'.'?>/assets/js/jquery-2.1.1.min.js"></script>
 	<script type="application/javascript" src="<?php echo base_url().'.'?>/assets/js/bootstrap.min.js"></script>

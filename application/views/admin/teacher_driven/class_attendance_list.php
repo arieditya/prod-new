@@ -44,15 +44,17 @@ if ($this->session->flashdata('f_class_error')): ?>
 			<thead>
 			<tr>
 				<th>Class ID</th>
-				<th>Min Attendance</th>
-				<th>Max Attendance</th>
+				<th>Min<br />Attd.</th>
+				<th>Max<br />Attd.</th>
 				<th>Register</th>
 				<th>Paid</th>
 				<th>Status</th>
 				<th class="center">Action</th>
+				<th class="center">Feedback</th>
 			</tr>
 			</thead>
 			<tbody>
+<?php $i=0;?>
 <?php
 $attd_reg = array();
 	foreach($class as $c):
@@ -65,11 +67,35 @@ $attd_reg = array();
 		else $stat = 'Registration Open';
 		$attd_reg[$c->id] = $c->attendance_register->result();
 		$attd_paid[$c->id] = $c->attendance_paid->result();
+		
+		if($c->registration_days['max_date'] == '1970-01-01' && $c->registration_days['days_left'] == -9999) {
+			$stat .= ' (Not Available)';
+		}else{
+			if($c->registration_days['days_left'] <= 0) {
+				$stat = 'Registration CLOSED';
+			}
+			$stat .= ' ('.$c->registration_days['max_date'].')';
+		}
+		$stat = str_replace(' ', '&nbsp;', $stat);
+		if(strlen($c->class_uri) > 30) {
+			$part1 = substr($c->class_uri, 0, 12);
+			$part2 = substr($c->class_uri, -12);
+			$uri = $part1.'...'.$part2;
+		} else {
+			$uri = $c->class_uri;
+		}
 ?>
-				<tr>
-					<td><a class="fancybox class" data-attd_type="class" data-class_id="<?php echo $c->id; ?>"
-						href="#class_detail"><?php echo $c->id?></a>
-						(<?php echo $c->class_uri?>)
+				<tr title="<?php echo $c->class_nama?>">
+					<td>
+						<span title="<?php echo $c->class_nama?>">
+							<a class="fancybox class" 
+							   data-attd_type="class" 
+							   data-class_id="<?php echo $c->id; ?>"
+							   href="#class_detail">
+								<?php echo $c->id?>
+							</a>
+							(<?php echo $uri?>)
+						</span>
 					</td>
 					<td><?php echo $c->class_peserta_min;?></td>
 					<td><?php echo $c->class_peserta_max;?></td>
@@ -83,6 +109,11 @@ $attd_reg = array();
 							Download!
 						</a>
 					</td>
+					<td>
+						| <a href="<?php echo base_url()?>admin/feedback/class_attendance/<?php echo $c->id;?>" >p@k.rg</a> 
+						| <a href="<?php echo base_url()?>admin/feedback/class_vendor/<?php echo $c->id;?>" >v@k.rg</a> 
+						|
+					</td>
 				</tr>
 <?php
 	endforeach;
@@ -91,6 +122,7 @@ $attd_reg = array();
 		</table>
 	</div>
 </div>
+
 <div id="detail_attendance" class="col-md-4" 
 	 style="max-width:500px;display: none;height:100%;overflow-x:hidden;">
 	<h2>Details!</h2>

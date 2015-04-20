@@ -118,7 +118,7 @@ $this->load->view('vendor/general/header2');
             $price = (int)$kelas->price_per_session;
             $disc = (int)$kelas->discount;
             if($kelas->class_paket == 2) {
-                $_price = rupiah_format($price * $kelas->count_session).' /paket';
+					$_price = rupiah_format(($price * $kelas->count_session)-$disc).' /paket';
             } else {
                 $_price = rupiah_format($price).' /sesi';
             }

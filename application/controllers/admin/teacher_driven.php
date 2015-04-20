@@ -91,6 +91,9 @@ class Teacher_driven extends Admin_Controller{
 		$vendor = $this->vendor_model->get_vendor_detail($id);
 		if($vendor) {
 			header('HTTP/1.1 200 OK');
+			header('Cache-Control: no-cache, no-store, must-revalidate'); // HTTP 1.1.
+			header('Pragma: no-cache'); // HTTP 1.0.
+			header('Expires: 0'); // Proxies.			
 			header('Content-type: application/json');
 			echo json_encode(array(
 				'status'	=> 'OK',
@@ -395,6 +398,7 @@ class Teacher_driven extends Admin_Controller{
 			$cls->attendance = $this->vendor_class_model->get_class_participant_full($cls->id, 0);
 			$cls->attendance_register = $this->vendor_class_model->get_class_participant_full($cls->id, '<= 3');
 			$cls->attendance_paid = $this->vendor_class_model->get_class_participant_full($cls->id, 4);
+			$cls->registration_days = $this->vendor_class_model->get_latest_date_of_class($cls->id);
 //			var_dump($cls);exit;
 		}
 		$data['class'] = $class;

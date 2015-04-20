@@ -1464,7 +1464,65 @@ class Vendor_class_model extends MY_Model{
 		$this->db->insert('vendor_class_registration_log', $data);
 	}
 	
+	public function get_class_price($class_id) {
+		return $this->db->get_where('vendor_class_price', array('class_id'=>$class_id))->row()->price_per_session;
+	}
+	public function get_class_discount($class_id) {
+		return $this->db->get_where('vendor_class_price', array('class_id'=>$class_id))->row()->discount;
+	}
+	public function get_invoice_of_ticket($ticket_code) {
+		$data = $this->db
+				->select('invoice_code')
+				->from('vendor_class_ticket')
+				->where('ticket_code', $ticket_code)
+				->get()->row();
+		if(empty($data)) return NULL;
+		return $data->invoice_code;
+	}
+	public function get_class_attendancy_per_invoice($class_id, $invoice_code) {
+		$query = "
+		SELECT
+			COUNT(*) as cnt
+		FROM 
+			vendor_class_participant
+		WHERE 1
+			AND code = ?
+			AND class_id = ?
+		";
+		return $this->db->query($query,array($invoice_code,$class_id))->row()->cnt;
+	}
+	public function get_total_session_per_class($class_id) {
+		$query = "
+		SELECT
+			COUNT(*) as cnt
+		FROM 
+			vendor_class_jadwal
+		WHERE 1
+			AND class_id = ?
+		";
+		return $this->db->query($query,array($class_id))->row()->cnt;
+	}
 	
+	public function get_latest_date_of_class($class_id) {
+		$query = "
+		SELECT 
+			MAX(class_tanggal) AS max_date,
+			DATEDIFF(MAX(class_tanggal), NOW()) AS days_left
+		FROM vendor_class_jadwal
+		WHERE class_id = ?
+		";
+		$data = $this->db->query($query, $class_id)->row_array();
+		if(empty($data) || empty($data['max_date'])) 
+			return array(
+				'max_date'	=> '1970-01-01',
+				'days_left'	=> -9999
+			);
+		else return $data;
+	}
+	
+	public function get_last_registration_date($class_id) {
+		
+	}
 }
 
 // END OF vendor_class_model.php File

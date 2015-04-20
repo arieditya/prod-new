@@ -139,6 +139,26 @@
 							</li>
 						</ul>
 					</li>
+				    <li>
+						<a href="<?php echo base_url();?>admin/feedback" <?php echo ($active==600)
+								?'class="active"':'';?>>
+							<span>Feedback</span>
+						</a>
+						<ul>
+							<li>
+								<a href="<?php echo base_url();?>admin/feedback/manage_question" class="<?php 
+									echo ($active==610)?'active':''?>">
+									Questions
+								</a>
+							</li>
+							<li>
+								<a href="<?php echo base_url();?>admin/feedback/manage_answer" class="<?php 
+									echo ($active==610)?'active':''?>">
+									Answers
+								</a>
+							</li>
+						</ul>
+					</li>
 				    <li><a href="<?php echo base_url();?>admin/blog" <?php echo ($active==94)?'class="active"':'';?>><span>Blog</span></a></li>
                         <li><a href="http://www.google.com/analytics/"><span>GA</span></a></li>
                     </ul>

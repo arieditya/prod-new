@@ -111,6 +111,7 @@ class Admin_Controller extends MY_Controller {
 	var $admin_id;
 	public function __construct(){
 		parent::__construct();
+		$this->load->model('admin/admin_model');
 		$this->is_admin = TRUE;
 	}
 }

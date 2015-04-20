@@ -27,10 +27,18 @@ class Feedback_model extends MY_Model{
 		return $this->db->query($query)->result();
 	}
 	
-	public function get_question($code = NULL) {
+	public function get_question($code = NULL, $taken = FALSE) {
+		
 		$where = '';
 		if(!empty($code))
-			$where = "			AND a.code = ?";
+			$where .= "			AND a.code = ?
+";
+		if($taken === FALSE)
+			$where .= "			AND a.taken IS NULL
+";
+		if(strtoupper($taken) === 'ONLY')
+			$where .= "			AND a.taken IS NOT NULL
+";
 		$query = "
 		SELECT
 			*
@@ -64,7 +72,7 @@ class Feedback_model extends MY_Model{
 	
 	public function create_feedback($from_type, $from_id, $to_type, $to_id, $code = NULL) {
 		if(empty($code) || strlen($code) < 40)
-			$code = hashgenerator(40);
+			$code = hashgenerator(40)[0];
 		$insert = array(
 			'code'			=> $code,
 			'from_type'		=> $from_type,
@@ -88,7 +96,7 @@ class Feedback_model extends MY_Model{
 				MAX(sort) as srt 
 			FROM feedback_question_new 
 			WHERE from_type = ? AND to_type = ?',
-			array($from_type, $to_type))->row();
+			array($from_type, $to_type))->row()->srt;
 			if(empty($max)) $max = 0;
 			$sort = ((int) $max)+1;
 		}
@@ -103,8 +111,21 @@ class Feedback_model extends MY_Model{
 		return $this->db->insert_id();
 	}
 	
+	public function delete_question($id) {
+		$this->db->delete('feedback_question_new', array('id'=>$id));
+	}
+	
 	public function update_question($id, $type, $title, $question, $sort = NULL) {
-		
+		$data = array(
+			'type'				=> $type,
+			'title'				=> $title,
+			'question'			=> $question,
+		);
+		if(!empty($sort) && is_int($sort)) $data['sort'] = $sort;
+		$this->db->update('feedback_question_new', $data, array(
+			'id'				=> $id
+		));
+		return !! $this->db->affected_rows();
 	}
 	
 	public function answer_question($data) {
@@ -120,6 +141,21 @@ class Feedback_model extends MY_Model{
 		}
 		$this->db->insert('feedback_value', $data);
 		return TRUE;
+	}
+	
+	public function mark_done($code) {
+		$this->db->update('feedback', array('taken'=>date('Y-m-d H:i:s')), array('code'=>$code));
+	}
+	
+	public function get_feedback_response($from_type, $to_type, $from_id = NULL, $to_id = NULL ) {
+		if(!empty($from_id)) $this->db->where('from_id', $from_id);
+		if(!empty($to_id)) $this->db->where('to_id', $to_id);
+
+		return $this->db
+				->from('feedback')
+				->where('from_type', $from_type)
+				->where('to_type', $to_type)
+				->get()->result();
 	}
 }
 

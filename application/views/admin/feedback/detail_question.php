@@ -23,15 +23,17 @@ if ($this->session->flashdata('f_class_error')): ?>
 	</div>
 <?php endif; ?>
 <!-- Box -->
-<script type="application/javascript" src="<?php echo base_url();?>js/jquery.fancybox.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/jquery.fancybox.css" media="screen" />
-<script type="application/javascript" src="<?php echo base_url();?>js/jquery.fancybox-media.js?v=1.0.6"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script type="application/javascript" src="<?php echo base_url();?>js/jquery.fancybox.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>css/jquery.fancybox.css" media="screen" />
+<script type="application/javascript" src="<?php echo base_url();?>js/jquery.fancybox-media.js?v=1.0.6"></script>
 <script type="application/javascript">
 	var base_url = "<?php echo base_url()?>";
 </script>
+<script type="application/javascript" src="<?php echo base_url();?>assets/js/utility.js"></script>
 <div class="box">
 	<!-- Box Head -->
 	<div class="box-head">
@@ -81,6 +83,11 @@ if ($this->session->flashdata('f_class_error')): ?>
 						   data-question="<?php echo $question->question;?>"
 						   data-type="<?php echo $question->type;?>">
 							edit
+						</a><br />
+						<a class="ico delete"
+						   onclick="return checkers(this);"
+						   data-id="<?php echo $question->id?>">
+							delete
 						</a>
 					</span>
 				</td>
@@ -150,6 +157,20 @@ if ($this->session->flashdata('f_class_error')): ?>
 	var total_count=<?php echo $i;?>;
 	var data_start=1;
 	var data_end=<?php echo $i>20?'20':$i;?>;
+
+	function checkers(elm) {
+		var $elm = $(elm);
+		var test_seg = hashGenerator(8);
+		var test = prompt('Confirm by entering this code:\n'+test_seg);
+		if(test.toUpperCase()==test_seg.toUpperCase()){
+			elm.href = base_url+'admin/feedback/delete_question/'+$elm.data('id');
+			return true;
+		} else {
+			alert('FAILED!');
+			return false;
+		}
+	}
+	
 	$(document).ready(function(){
 
 		$('#sortme').sortable({
@@ -160,7 +181,7 @@ if ($this->session->flashdata('f_class_error')): ?>
 						".href=base_url+'admin/teacher_driven/featured_reorder?"+sort_data+"'",5);
 			}
 		});
-
+		
 		if(total_page > 1) $('#data-next').removeAttr('disabled');
 		$('#data-next').click(function(e){
 			e.preventDefault();
@@ -190,13 +211,16 @@ if ($this->session->flashdata('f_class_error')): ?>
 		}
 		paging_write();
 		var cl1 = 0;
+//*
 		$('#btnClose').click(function(e){
 			e.preventDefault()
 			$.fancybox.close();
 			return false;
-		})
+		});
+// */
 		$('.fancybox')
 				.fancybox()
+//*
 				.click(function(e) {
 					if($(this).hasClass('add_new')) {
 						$('#qid').val('');
@@ -204,7 +228,6 @@ if ($this->session->flashdata('f_class_error')): ?>
 						$('#qquestion').val('');
 						$('#qtype option').removeAttr('selected');
 						$('#qtype').val('both');
-//						$('#qtype_both').attr({'selected':null})
 					} else if($(this).hasClass('edit')) {
 						console.log($(this).data('type'));
 						$('#qid').val($(this).data('id'));
@@ -214,26 +237,6 @@ if ($this->session->flashdata('f_class_error')): ?>
 						$('#qtype').val($(this).data('type'));
 //						$('#qtype_'+$(this).data('type')).attr({'selected':null});
 					}
-				});
-/*
-		$('.add_new')
-				.fancybox()
-				.click(function(e){
-					$('#qtitle').val('');
-					$('#qquestion').val('');
-					$('#qtype option').removeAttr('selected');
-					$('#qtype_both').attr({'selected':'selected'})
-					return false;
-				});
-/*
-		$('.edit')
-				.fancybox()
-				.click(function(e){
-					$('#qtitle').val($(this).data('title'));
-					$('#qquestion').val($(this).data('question'));
-					$('#qtype option').removeAttr('selected');
-					$('#qtype_'+$(this).data('type')).attr({'selected':'selected'})
-					return false;
 				});
 // */
 	});
