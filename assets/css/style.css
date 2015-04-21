@@ -30,6 +30,7 @@ body.have-bar {
 .navbar-default {
   background-color: #fff;
   border-bottom: 3px solid #fcb33b;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.26);
 }
 .navbar-brand {
   height: auto;
@@ -950,8 +951,18 @@ h5.support {
   margin-bottom: 10px;
   padding-bottom: 20px;
 }
+.logo-vendor-mini-container {
+  padding: 4px;
+}
 .logo-vendor-mini {
-
+  background-color: #fff;
+  width: 40px;
+  height: 42px;
+  text-align: center;
+  border-bottom: 2px solid #fcb33b;
+}
+.logo-vendor-mini img{
+  margin: auto;
 }
 .panel-body .more {
   /*font-family: Roboto Bold;*/
@@ -998,7 +1009,10 @@ textarea.form-control {
 a.add, a.remove {
   margin: 0;
 }
-a.remove {
+a.add {
+  color: green;
+}
+a.remove, a.remove_cart {
   color: #f75252;
 }
 .sum-label {
@@ -1541,6 +1555,21 @@ a.remove {
   background-color: #fff;
   height: 30px;
 }
+/*payment*/
+.message-status {
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.message-status.true {
+  background-color: rgba(180,220,180,0.7);
+  color: darkgreen;
+}
+.message-status.false {
+  background-color: rgba(230,5,5,0.7);
+  color: #FFFFFF;
+}
+
 @media (min-width: 1080px) {
   .navbar > .container {
     width: 1080px;
@@ -1669,6 +1698,9 @@ a.remove {
   }
   .navbar-default {
     padding: 0;
+  }
+  .description {
+    line-height: 1.6;
   }
   body {
     padding-top: 90px;
