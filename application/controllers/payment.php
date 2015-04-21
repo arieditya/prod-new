@@ -13,6 +13,7 @@ class Payment extends MY_Controller {
 	   $this->load->helper('veritrans');
 	   $this->load->model('payment_model');
 		$this->load->model('vendor_class_model'); 
+		$this->load->library('user_agent'); 
 	}
 	
 	public function _remap($method = NULL, $parameter = NULL){
@@ -288,16 +289,6 @@ class Payment extends MY_Controller {
 			$class_ids[] = $c->id;
 		}
 
-/*
-		$kode = trim($this->input->cookie('kode_diskon', TRUE), '"');
-		$discount = 0;
-		if(!empty($kode))
-			if($kode == 'lima puluh')
-				$discount = 50000;
-			elseif($kode == 'dua ratus lima puluh')
-				$discount = 250000;
-// */
-
 		$discount = 0;
 		$kode = array();
 		$kode_diskon = $this->session->userdata('kode_diskon');
@@ -385,7 +376,6 @@ class Payment extends MY_Controller {
 			$schedules = $this->vendor_class_model->get_class_schedule(array('class_id'=>$c->id))->num_rows();
 			$class = $this->vendor_class_model->get_class(array('id'=>$c->id))->row();
 			if(empty($class)) continue;
-			$full_session_discount = (int)$class->discount;
 			$i = 0;
 			$vt_qty = 0;
 			foreach($c->jadwal as $j_id) {
@@ -416,9 +406,13 @@ class Payment extends MY_Controller {
 				array_push($veritrans,$veritrans_data) ;
 			}
 //			var_dump($sched);
-			if($i == $schedules && $full_session_discount > 0) {
+			$full_session_discount = $i == $schedules?(int)$class->discount:0;
+
+			if($full_session_discount > 0) {
 				$this->discount_model->use_general_discount('FULL_SESSION', $code, $pemesan_id, $full_session_discount, 'CLASS: '.$c->id);
 				$class_total -= $full_session_discount;
+				// note: berarti sudah di kurangin!
+				$full_session_discount = 0;
 			}
 			
 			if( ! empty ($percent_class[$c->id])) {
@@ -446,6 +440,9 @@ class Payment extends MY_Controller {
 		
 		$total = $total_no_discount - $discount;
 		if($total < 0) $total = 0;
+		if($total == 0) {
+			$code_free = hashgenerator(48)[0];
+		}
 		$data = array(
 			'pemesan'=>$pemesan, 
 			'peserta'=>$peserta, 
@@ -456,7 +453,16 @@ class Payment extends MY_Controller {
 			'code'=>$code,
 			'veritrans_items' => $veritrans
 		);
-//		var_dump($data);exit;
+		if(	FALSE
+				&& $pemesan['name'] == 'arie' 
+				&& $pemesan['email'] == 'arieditya.prdh@live.com') {
+			echo "<pre>";
+			var_dump($i);
+			var_dump($schedules);
+			var_dump($class_discount);
+			var_dump($full_session_discount);
+			var_dump($data);exit;
+		}
 		$status_1 = date('Y-m-d h:i:s');
 		$this->vendor_class_model->add_new_transaction(
 			array(
@@ -477,6 +483,10 @@ class Payment extends MY_Controller {
 //		$this->new_design?
 			$this->load->view('payment/transfer/step2_2', $data);
 //			$this->load->view('payment/transfer/step2', $data);
+	}
+	
+	public function get_free_ticket($code) {
+		
 	}
 	
 	public function t_step3free() {
@@ -687,12 +697,12 @@ class Payment extends MY_Controller {
 	}
 	
 	public function t_confirm($code=NULL) {
-		ini_set('upload_max_filesize', '2M');
+		ini_set('upload_max_filesize', '4M');
 		$message = '';
 		$status = NULL;
 		if($this->input->post('code')) {
-			$code = $this->input->post('code', TRUE);
-			if($this->payment_model->check_invoice($code)) {
+			$kode = $this->input->post('code', TRUE);
+			if($this->payment_model->check_invoice($kode)) {
 				$from = $this->input->post('transfer_from', TRUE);
 				$tgl_transfer = $this->input->post('transfer_date', TRUE);
 				if($from != '0'){
@@ -708,14 +718,15 @@ class Payment extends MY_Controller {
 						'Kode invoice tidak ditemukan atau sudah melewati masa berlakunya.');
 			}
 		}
-		if(!empty($code) && !empty($from) && !empty($from_other) && !empty($to)){
+		if(!empty($kode) && !empty($from) && !empty($from_other) && !empty($to)){
+			$code = $kode;
 			$code = strtoupper($code);
 			if(!empty($_FILES['bukti_transfer'])) {
 				if( TRUE
 						&& empty($_FILES['bukti_transfer']['error']) // no error
 						&& is_uploaded_file($_FILES['bukti_transfer']['tmp_name']) // is uploaded correctly
-						&& filesize($_FILES['bukti_transfer']['tmp_name']) <= 2097152 // file size bellow 2MB
-						&& @getimagesize($_FILES['bukti_transfer']['tmp_name'])
+						&& filesize($_FILES['bukti_transfer']['tmp_name']) <= (2097152*2) // file size bellow 4MB
+						&& @getimagesize($_FILES['bukti_transfer']['tmp_name'] )
 				){
 				 	$frst_letter = substr($code, 0, 1);
 					$scnd_letter = substr($code, 1, 1);
@@ -731,14 +742,8 @@ class Payment extends MY_Controller {
 					$img_source = 'data:'.$mime.';base64,'.$img_data;
 					$img_path = base_url().$path.$file;
 				} else {
-					/*
-					var_dump(array(
-						$_FILES['bukti_transfer']['error'],
-						is_uploaded_file($_FILES['bukti_transfer']['tmp_name']),
-						filesize($_FILES['bukti_transfer']['tmp_name']),
-						getimagesize($_FILES['bukti_transfer']['tmp_name'])
-					));
-					// */
+				$this->session->set_flashdata('status.warning',
+						'Bukti pembayaran gagal di upload!');
 				}
 			}
 			if($this->vendor_class_model->set_participant_status($code, 3)){

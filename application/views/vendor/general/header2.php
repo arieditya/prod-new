@@ -9,24 +9,37 @@
  */
 	$this->load->helper('text');
 	$logo = 'header-logo.png';
-	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE )
+	$is_kelas = FALSE;
+	if(strpos($_SERVER['HTTP_HOST'], 'kelas') !== FALSE ) {
 		$logo = 'logo-kelas-3a.png';
 //		$logo = 'kelas-logo-beta.png';
-		;
+		$is_kelas = TRUE;
+	}
 	$have_bar = FALSE;
 	if(!empty($show_filter) && $show_filter || !empty($show_vendor_menu))
 		$have_bar = TRUE;
 ?><!DOCTYPE html>
 <html lang="en">
-	<head>
+	<head<?php echo !empty($og)?' prefix="og: http://ogp.me/ns#"':'';?>>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<link rel="icon" href="/images/favicon.png">
+<?php
+	if(!empty($og)):
+		foreach($og as $t => $v) :
+?>
+		<meta property="og:<?php echo $t;?>" content="<?php echo $v;?>" />
+<?php
+		endforeach;
+	endif;
+	$title = ($is_kelas?'Kelas.':'').'RuangGuru';
+	if(!empty($og['title'])) $title .= $og['title'].' - '.$title;
+?>
 
-		<title>Ruang Guru</title>
+		<title><?php echo $title?></title>
 
 	<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url().'.'?>/assets/css/bootstrap.new.min.css">

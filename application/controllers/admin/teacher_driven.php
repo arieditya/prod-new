@@ -161,7 +161,12 @@ class Teacher_driven extends Admin_Controller{
 		$featured = $this->vendor_class_model->get_featured_class()->result();
 		$feature_class = array();
 		foreach($featured as $f) {
-			$feature_class[] = $this->vendor_class_model->get_class(array('id'=>$f->class_id),0,0)->row();
+			$f_class = $this->vendor_class_model->get_class(array('id'=>$f->class_id),0,0)->row();
+			if( ! empty($f_class)) {
+				$feature_class[] = $f_class;
+			} else {
+				$this->vendor_class_model->deactivate_featured($f->class_id);
+			}
 		}
 		
 		$data['class'] = $class;

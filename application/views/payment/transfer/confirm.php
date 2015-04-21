@@ -57,7 +57,7 @@ $this->load->view('vendor/general/header2');
 								<label class="control-label col-md-4">Rekening Bank Anda</label>
 								<div class="col-md-8">
 									<select class="form-control" name="transfer_from" id="transfer_from" required="required" >
-										<option value="">- PILIH BANK -</option>
+										<option value="0">- PILIH BANK -</option>
 <?php 
 	foreach($bank_list as $bank):
 ?>

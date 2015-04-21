@@ -249,6 +249,19 @@ class Kelas extends MY_Controller {
 		$data['category'] = $this->vendor_class_model->get_class_category($hash);
 		$this->load->model('discount_model');
 		$data['deals'] = $this->discount_model->get_diskon_code_for_class($hash, 'public');
+
+		$this->load->helper('text');
+		if(!empty($data['class']->class_image))
+			$logo = 'images/class/'.$hash.'/'.$data['class']->class_image;
+		else
+			$logo = 'images/logo-kelas-3a.png';
+		
+		$data['og'] = array(
+			'title'			=> $data['class']->class_nama,
+			'description'	=> word_limiter(strip_tags($data['class']->class_deskripsi), 50),
+			'image'			=> 'http://ruangguru.com/'.$logo
+		);
+
 //		var_dump($data);exit;
 		$this->new_design?
 				$this->load->view('kelas/detil2', $data):
