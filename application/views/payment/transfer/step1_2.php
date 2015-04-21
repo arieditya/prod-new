@@ -351,26 +351,33 @@ $wait = json_decode($wait);
 			$text .= (!empty($text)?'<br />':'');
 ?>
                                     <tr>
-                                        <td><?php echo $i;?></td>
+<?php 
+	if($cart_list['class']->class_paket == 1):
+		if($followed):
+?>
+										<td><?php echo $i;?></td>
                                         <td>
 											<?php echo $text;?> 
 											<?php echo "{$date}, {$start}-{$end}";?> WIB
 										</td>
                                         <td><?php echo rupiah_format((int)$cart_list['class']->price_per_session)?> </td>
                                         <td>
-<?php 
-	if($cart_list['class']->class_paket == 1):
-		if($followed):
-?>
 											<a href="#" class="remove rmv_schd" title="Remove from schedule" data-id="<?php echo $sched->class_id.'|'.$sched->jadwal_id; ?>">
 												<i class="fa fa-times"></i>
 											</a>
 <?php 
 		else:
 ?>
+										<td><del><?php echo $i;?></del></td>
+                                        <td><del>
+											<?php echo $text;?> 
+											<?php echo "{$date}, {$start}-{$end}";?> WIB
+										</del></td>
+                                        <td><del><?php echo rupiah_format((int)$cart_list['class']->price_per_session)?></del></td>
+                                        <td>
 											<a href="#" class="add add_schd" title="Add to schedule" data-id="<?php 
 											echo $sched->class_id.'|'.$sched->jadwal_id; ?>">
-												<i class="fa fa-check-circle"></i>
+												<i class="fa fa-plus-circle"></i>
 											</a>
 <?php 
 		endif;
@@ -443,7 +450,7 @@ $wait = json_decode($wait);
                             <div class="form-group">
                                 <input type="text" class="form-control" id="kode_diskon" placeholder="( jika ada )" />
                             </div>
-                            <button type="button" id="cek_diskon" class="btn btn-default cek-button">Cek</button>
+                            <button type="button" id="cek_diskon" class="btn btn-orange cek-button">Cek</button>
                         </div>
 <?php
 //	$potongan_diskon = 250000;
@@ -553,7 +560,7 @@ $wait = json_decode($wait);
 								</div>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-default main-button register">Submit Pesanan</button>
+						<button type="submit" class="btn btn-orange main-button register">Submit Pesanan</button>
 					</form>
                 </div><!-- panel -->
             </div><!-- col-sm-7 -->
