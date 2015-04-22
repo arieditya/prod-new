@@ -99,17 +99,20 @@ $this->load->view('vendor/general/header2');
 						.implode('.', $imgparts));
 
 				//vendor image icon
-				$v_img_url = 'images/vendor/'.$kelas->vendor['profile']->id.'/'.$kelas->vendor['info']->vendor_logo;
-				$v_img_arr = explode('.',$v_img_url);
-				$v_img_ext = array_pop($v_img_arr);
-				list ($v_img_width, $v_img_height, $v_img_type, $v_img_attr) = getimagesize($v_img_url);
-				$ratio = $v_img_height / $v_img_width;
-				$v_img_height = ($ratio >= 1) ? 40 : floor(40 * $ratio);
-            	$v_img_width = ($ratio >= 1) ? floor(40 / $ratio) : 40;
-				$v_img_size = $v_img_width.'x'.$v_img_height;
-				array_push($v_img_arr, $v_img_size);
-				array_push($v_img_arr, $v_img_ext);
-				$vendor_icon = implode('.',$v_img_arr);
+				$vendor_logo_url = $kelas->vendor['info']->vendor_logo;
+				if(!empty($vendor_logo_url)) {
+					$v_img_url = 'images/vendor/'.$kelas->vendor['profile']->id.'/'.$vendor_logo_url;
+					$v_img_arr = explode('.',$v_img_url);
+					$v_img_ext = array_pop($v_img_arr);
+					list ($v_img_width, $v_img_height, $v_img_type, $v_img_attr) = getimagesize($v_img_url);
+					$ratio = $v_img_height / $v_img_width;
+					$v_img_height = ($ratio >= 1) ? 40 : floor(40 * $ratio);
+	            	$v_img_width = ($ratio >= 1) ? floor(40 / $ratio) : 40;
+					$v_img_size = $v_img_width.'x'.$v_img_height;
+					array_push($v_img_arr, $v_img_size);
+					array_push($v_img_arr, $v_img_ext);
+					$vendor_icon = implode('.',$v_img_arr);
+				}
 
 				$price = (int)$kelas->price_per_session;
 				$disc = (int)$kelas->discount;
@@ -126,12 +129,14 @@ $this->load->view('vendor/general/header2');
 				<div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
 					<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 						<div class="grid-top" style="background-image: url('<?php echo base_url().$img;?>');">
-							<div class="logo-vendor-mini-container">
-								<div class="logo-vendor-mini">
-									<img src="<?php echo base_url("{$vendor_icon}")?>"
-									style="padding-top: <?php echo (40-$v_img_height)/2 ?>px;" class="img-responsive" alt="">
+							<?php if($vendor_logo_url) : ?>
+								<div class="logo-vendor-mini-container">
+									<div class="logo-vendor-mini">
+										<img src="<?php echo base_url("{$vendor_icon}")?>"
+										 style="padding-top: <?php echo (40-$v_img_height)/2 ?>px;" class="img-responsive" alt="">
+									</div>
 								</div>
-							</div>
+							<?php endif; ?>
 							<div class="grid-title-wrap" style="width: 100%">
 								<h3 class="grid-title"><?php echo $kelas->class_nama?></h3>
 							</div><!-- grid-title-wrap -->
@@ -222,17 +227,20 @@ $this->load->view('vendor/general/header2');
 					.implode('.', $imgparts));
 				
 				//vendor image icon
-				$v_img_url = 'images/vendor/'.$kelas->vendor['profile']->id.'/'.$kelas->vendor['info']->vendor_logo;
-				$v_img_arr = explode('.',$v_img_url);
-				$v_img_ext = array_pop($v_img_arr);
-				list ($v_img_width, $v_img_height, $v_img_type, $v_img_attr) = getimagesize($v_img_url);
-				$ratio = $v_img_height / $v_img_width;
-				$v_img_height = ($ratio >= 1) ? 40 : floor(40 * $ratio);
-            	$v_img_width = ($ratio >= 1) ? floor(40 / $ratio) : 40;
-				$v_img_size = $v_img_width.'x'.$v_img_height;
-				array_push($v_img_arr, $v_img_size);
-				array_push($v_img_arr, $v_img_ext);
-				$vendor_icon = implode('.',$v_img_arr);
+				$vendor_logo_url = $kelas->vendor['info']->vendor_logo;
+				if(!empty($vendor_logo_url)) {
+					$v_img_url = 'images/vendor/'.$kelas->vendor['profile']->id.'/'.$vendor_logo_url;
+					$v_img_arr = explode('.',$v_img_url);
+					$v_img_ext = array_pop($v_img_arr);
+					list ($v_img_width, $v_img_height, $v_img_type, $v_img_attr) = getimagesize($v_img_url);
+					$ratio = $v_img_height / $v_img_width;
+					$v_img_height = ($ratio >= 1) ? 40 : floor(40 * $ratio);
+	            	$v_img_width = ($ratio >= 1) ? floor(40 / $ratio) : 40;
+					$v_img_size = $v_img_width.'x'.$v_img_height;
+					array_push($v_img_arr, $v_img_size);
+					array_push($v_img_arr, $v_img_ext);
+					$vendor_icon = implode('.',$v_img_arr);
+				}
 
 				$price = (int)$kelas->price_per_session;
 				$disc = (int)$kelas->discount;
@@ -249,12 +257,14 @@ $this->load->view('vendor/general/header2');
 					<div class="content-grid <?php if($disc>0){ echo 'diskon';} ?>">
 						<a href="<?php echo base_url().'kelas/'.$kelas->class_uri?>">
 							<div class="grid-top" style="background-image: url('<?php echo base_url().$img;?>');">
-								<div class="logo-vendor-mini-container">
-									<div class="logo-vendor-mini">
-										<img src="<?php echo base_url("{$vendor_icon}")?>"
-										 style="padding-top: <?php echo (40-$v_img_height)/2 ?>px;" class="img-responsive" alt="">
+								<?php if($vendor_logo_url) : ?>
+									<div class="logo-vendor-mini-container">
+										<div class="logo-vendor-mini">
+											<img src="<?php echo base_url("{$vendor_icon}")?>"
+											 style="padding-top: <?php echo (40-$v_img_height)/2 ?>px;" class="img-responsive" alt="">
+										</div>
 									</div>
-								</div>
+								<?php endif; ?>
 								<div class="grid-title-wrap" style="width: 100%">
 									<h3 class="grid-title"><?php echo $kelas->class_nama?></h3>
 								</div><!-- grid-title-wrap -->
